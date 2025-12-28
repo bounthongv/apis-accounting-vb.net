@@ -1,0 +1,14 @@
+
+select Last_Action from ap_loan where  
+DATEDIFF(month, Last_Action,  getdate()) =2
+
+-- and (DATEDIFF(month, Last_Action,  getdate()) >3) 
+-- and day(Last_Action)<day(getdate()) 
+--and year(Last_Action)<=year( getdate()) 
+
+
+
+
+--select * from ap_loan
+
+--update   ap_loan set Last_Action ='1-1-2010'

@@ -1,0 +1,479 @@
+E:\Work Today\Ap_Acc_XYBL\bin\Release\APBank10.exe
+E:\Work Today\Ap_Acc_XYBL\bin\Release\APBank10.pdb
+E:\Work Today\Ap_Acc_XYBL\bin\Release\APBank10.xml
+E:\Work Today\Ap_Acc_XYBL\bin\Release\Interop.VSFlex8U.dll
+E:\Work Today\Ap_Acc_XYBL\bin\Release\AxInterop.VSFlex8U.dll
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ResolveAssemblyReference.cache
+E:\Work Today\Ap_Acc_XYBL\obj\Release\Interop.VSFlex8U.dll
+E:\Work Today\Ap_Acc_XYBL\obj\Release\AxInterop.VSFlex8U.dll
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApBank10.vbproj.ResolveComReference.cache
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.Form1.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmBLS.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmLoanPaymentTeble.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmRepayfinace.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmReportRepayfinace.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmRpt_Income.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmLocKey.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmAccountBook.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmImgSize.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmLock.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmLogOut.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.Fmdelete.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmRpt_BLS.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmSub_Treasury.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmTreasury.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FrmUser.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.Conection_To_Servee.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmPartition.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmRestorData.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmMain.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmOffice_AP.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.Office_AP.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmLogin.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.Resources.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmCustomer.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmCustomerDataList.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmJeneralJournal_List.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmLoanClosing.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmLoanData.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmLoanData_List.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmNewOpen_jn.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmNsewJeneralJournal.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmOpen_jn_List.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmPostedLedgers.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmPreview.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmRateStatus.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmReceipt.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmReceipt_List.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.fmShartOfAcc.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.fmShartOfAccDetail.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmShow.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmtreasuryIn_Out.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmTrialBalanceReport.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmCalcu.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.Fm_Image.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FrmBackup_Data.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FrmReport.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FrmSerial_For_Registration.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FrNewAcc.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmVill.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.ProgramRepay.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApBank10.vbproj.GenerateResource.Cache
+E:\Work Today\Ap_Acc_XYBL\obj\Release\APBank10.exe
+E:\Work Today\Ap_Acc_XYBL\obj\Release\APBank10.xml
+E:\Work Today\Ap_Acc_XYBL\obj\Release\APBank10.pdb
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmInCome.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmSaving.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmRate.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.Set_date_working.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmLoanRegisAll.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmOpenLoan.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmRepayfinace2.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmRepayfinace32.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmRepaySpecial.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmReportRepayfinace1.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmReportRepayfinace2.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmReportRepayfinace3.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FmRptPostedLedgers.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.Form2.resources
+E:\Work Today\Ap_Acc_XYBL\obj\Release\ApPBank10.FormVill.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\bin\Release\APBank10.exe
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\bin\Release\APBank10.pdb
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\bin\Release\APBank10.xml
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\bin\Release\Interop.VSFlex8U.dll
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\bin\Release\AxInterop.VSFlex8U.dll
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ResolveAssemblyReference.cache
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\Interop.VSFlex8U.dll
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\AxInterop.VSFlex8U.dll
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApBank10.vbproj.ResolveComReference.cache
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.Form1.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmRpt_BLS.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmCaculate_Rpt.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmClosing.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.Fmfind.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmInCome.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmLangaugeSeting.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmOff_User.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmOpen_jn_List.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmTrialBalanceReport.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmLogin.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmRate.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmRpt_Income_BankSty.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmRpt_JeneralJournal.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmRpt_Income.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmLocKey.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmAccountBook.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmImgSize.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmLock.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmLogOut.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.Fmdelete.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmCashflow_statement.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.Set_date_working.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FrmUser.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.Conection_To_Servee.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmPartition.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmRestorData.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmMain.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmOffice_AP.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.Office_AP.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.Resources.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmJeneralJournal_List.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmLoanClosing.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmNewOpen_jn.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmNsewJeneralJournal.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmPostedLedgers.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmPreview.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmRateStatus.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmReceipt.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmReceipt_List.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.fmShartOfAcc.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.fmShartOfAccDetail.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmShow.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmCalcu.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.Fm_Image.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FrmBackup_Data.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FrmSerial_For_Registration.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FrNewAcc.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApBank10.vbproj.GenerateResource.Cache
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\APBank10.exe
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\APBank10.xml
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\APBank10.pdb
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmCashflow_Item1.resources
+E:\WorkToday\Ap_Account(Sonexay)LUCSUB\obj\Release\ApPBank10.FmLBS_Item.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ResolveAssemblyReference.cache
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApBank10.vbproj.ResolveComReference.cache
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.Form1.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.Form3.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmAmtStatus_Item.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmCashflow_Item1.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmClosing.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmJeneralJournal_List.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmRpt_BLS.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmLBS_Item.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmCaculate_Rpt.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.Fmfind.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmInCome.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmLangaugeSeting.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmOff_User.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmOpen_jn_List.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmTrialBalanceReport.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmAmtStatus.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmLogin.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmRate.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmRpt_Income_BankSty.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmMessageBox.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmRpt_JeneralJournal.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmVw.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.Form2.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmRpt_Income.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmLocKey.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmAccountBook.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmImgSize.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmLock.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmLogOut.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.Fmdelete.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmRpt_BLS8.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.Set_date_working.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FrmUser.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.Conection_To_Servee.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmPartition.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmRestorData.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmMain.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmOffice_AP.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.Office_AP.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.Resources.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmLoanClosing.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmNewOpen_jn.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmNsewJeneralJournal.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmPostedLedgers.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmPreview.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmRateStatus.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmReceipt.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmReceipt_List.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.fmShartOfAcc.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.fmShartOfAccDetail.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmShow.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FmCalcu.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.Fm_Image.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FrmBackup_Data.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FrmSerial_For_Registration.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApPBank10.FrNewAcc.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\ApBank10.vbproj.GenerateResource.Cache
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\RdlCompile.cache
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\RdlCompile.compiled
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\APBank10.exe
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\APBank10.xml
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Release\APBank10.pdb
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ResolveAssemblyReference.cache
+F:\ACC\Ap_Account(Krongsri)\obj\Release\Interop.MSDATASRC.dll
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApBank10.vbproj.ResolveComReference.cache
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmImport_Rate.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.frmImportExcel.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel_KS_DG.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel_KS.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_F08Edit.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel_AR.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F08.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F07.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F06.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F05.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F04.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Form1111.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS_BOL.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS_BOL_Item.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income_BOL.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income_Item_BOL.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_F01Edit.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_progress.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F01.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Form1.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmData_server.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Form3.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmAmtStatus_Item.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmCashflow_Item1.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmClosing.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmJeneralJournal_List.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLBS_Item.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmCaculate_Rpt.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Fmfind.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmInCome.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLangaugeSeting.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmOff_User.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmOpen_jn_List.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmTrialBalanceReport.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmAmtStatus.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLogin.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRate.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income_BankSty.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmMessageBox.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_JeneralJournal.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.frmBackup_Restore.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLocKey.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmAccountBook.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmImgSize.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLock.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLogOut.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Fmdelete.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS8.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Set_date_working.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmUser.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Conection_To_Servee.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmPartition.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRestorData.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmMain.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmOffice_AP.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Office_AP.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Resources.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLoanClosing.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmNewOpen_jn.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmNsewJeneralJournal.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmPostedLedgers.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmPreview.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRateStatus.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmReceipt.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmReceipt_List.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.fmShartOfAcc.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.fmShartOfAccDetail.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmShow.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmCalcu.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Fm_Image.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmBackup_Data.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmSerial_For_Registration.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrNewAcc.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Release\ApBank10.vbproj.GenerateResource.Cache
+F:\ACC\Ap_Account(Krongsri)\obj\Release\RdlCompile.cache
+F:\ACC\Ap_Account(Krongsri)\obj\Release\RdlCompile.compiled
+C:\New folder\Ap_Account(Krongsri)\bin\Release\APBank10.exe.config
+C:\New folder\Ap_Account(Krongsri)\obj\Release\Interop.MSDATASRC.dll
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApBank10.vbproj.ResolveComReference.cache
+C:\New folder\Ap_Account(Krongsri)\bin\Release\APBank10.exe
+C:\New folder\Ap_Account(Krongsri)\bin\Release\APBank10.pdb
+C:\New folder\Ap_Account(Krongsri)\bin\Release\APBank10.xml
+C:\New folder\Ap_Account(Krongsri)\bin\Release\AxInterop.VSFlex8U.dll
+C:\New folder\Ap_Account(Krongsri)\bin\Release\Interop.VSFlex8U.dll
+C:\New folder\Ap_Account(Krongsri)\bin\Release\Interop.MSDATASRC.dll
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ResolveAssemblyReference.cache
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmImport_Rate.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.frmImportExcel.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel_KS_DG.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel_KS.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_F08Edit.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel_AR.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F08.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F07.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F06.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F05.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F04.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Form1111.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS_BOL.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS_BOL_Item.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income_BOL.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income_Item_BOL.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_F01Edit.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_progress.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F01.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Form1.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmData_server.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Form3.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmAmtStatus_Item.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmCashflow_Item1.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmClosing.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmJeneralJournal_List.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLBS_Item.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmCaculate_Rpt.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Fmfind.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmInCome.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLangaugeSeting.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmOff_User.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmOpen_jn_List.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmTrialBalanceReport.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmAmtStatus.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLogin.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRate.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income_BankSty.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmMessageBox.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_JeneralJournal.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.frmBackup_Restore.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLocKey.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmAccountBook.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmImgSize.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLock.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLogOut.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Fmdelete.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS8.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Set_date_working.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmUser.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Conection_To_Servee.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmPartition.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRestorData.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmMain.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmOffice_AP.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Office_AP.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Resources.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLoanClosing.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmNewOpen_jn.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmNsewJeneralJournal.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmPostedLedgers.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmPreview.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRateStatus.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmReceipt.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmReceipt_List.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.fmShartOfAcc.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.fmShartOfAccDetail.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmShow.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmCalcu.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.Fm_Image.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmBackup_Data.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmSerial_For_Registration.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrNewAcc.resources
+C:\New folder\Ap_Account(Krongsri)\obj\Release\ApBank10.vbproj.GenerateResource.Cache
+C:\New folder\Ap_Account(Krongsri)\obj\Release\RdlCompile.cache
+C:\New folder\Ap_Account(Krongsri)\obj\Release\RdlCompile.compiled
+C:\New folder\Ap_Account(Krongsri)\obj\Release\APBank10.exe
+C:\New folder\Ap_Account(Krongsri)\obj\Release\APBank10.xml
+C:\New folder\Ap_Account(Krongsri)\obj\Release\APBank10.pdb
+C:\New folder\Ap_Account(Krongsri)\bin\APBank10.exe.config
+C:\New folder\Ap_Account(Krongsri)\bin\Debug\APBank10.exe.config
+C:\New folder\Ap_Account(Krongsri)\bin\Debug\APBank10.exe
+C:\New folder\Ap_Account(Krongsri)\bin\Debug\APBank10.pdb
+C:\New folder\Ap_Account(Krongsri)\bin\Debug\APBank10.xml
+C:\New folder\Ap_Account(Krongsri)\bin\Debug\AxInterop.VSFlex8U.dll
+C:\New folder\Ap_Account(Krongsri)\bin\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.exe.config
+C:\ACC\Ap_Account(Krongsri)\obj\Release\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApBank10.vbproj.ResolveComReference.cache
+C:\ACC\Ap_Account(Krongsri)\obj\Release\APBank10.exe
+C:\ACC\Ap_Account(Krongsri)\obj\Release\APBank10.xml
+C:\ACC\Ap_Account(Krongsri)\obj\Release\APBank10.pdb
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.exe
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.pdb
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.xml
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\AxInterop.VSFlex8U.dll
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ResolveAssemblyReference.cache
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmImport_Rate.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.frmImportExcel.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel_KS_DG.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel_KS.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_F08Edit.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel_AR.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F08.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F07.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F06.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F05.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F04.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Form1111.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS_BOL.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS_BOL_Item.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income_BOL.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income_Item_BOL.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_F01Edit.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_progress.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmRpt_F01.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Form1.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmData_server.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Form3.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmAmtStatus_Item.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmCashflow_Item1.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmClosing.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmJeneralJournal_List.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLBS_Item.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmCaculate_Rpt.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Fmfind.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmInCome.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLangaugeSeting.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmOff_User.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmOpen_jn_List.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmTrialBalanceReport.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmAmtStatus.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLogin.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRate.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income_BankSty.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmMessageBox.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_JeneralJournal.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.frmBackup_Restore.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_Income.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLocKey.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmAccountBook.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmImgSize.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLock.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLogOut.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Fmdelete.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRpt_BLS8.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Set_date_working.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmUser.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Conection_To_Servee.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmPartition.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRestorData.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmMain.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmOffice_AP.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Office_AP.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Resources.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmLoanClosing.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmNewOpen_jn.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmNsewJeneralJournal.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmPostedLedgers.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmPreview.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmRateStatus.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmReceipt.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmReceipt_List.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.fmShartOfAcc.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.fmShartOfAccDetail.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmShow.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FmCalcu.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Fm_Image.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmBackup_Data.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrmSerial_For_Registration.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.FrNewAcc.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApBank10.vbproj.GenerateResource.Cache
+C:\ACC\Ap_Account(Krongsri)\obj\Release\RdlCompile.cache
+C:\ACC\Ap_Account(Krongsri)\obj\Release\RdlCompile.compiled
+C:\ACC\Ap_Account(Krongsri)\obj\Release\ApPBank10.Frm_import_exel_KS_BL.resources

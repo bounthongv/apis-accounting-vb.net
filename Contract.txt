@@ -1,0 +1,15 @@
+SELECT     Last_Date  ,Paid_Amt , Saving , Inte ,  Paid_Amt+Saving + inte as Total , 
+ Ap_Loan.Bnk_Ac_Code ,
+Vill ,
+Dist , 
+Grp ,
+Phone , 
+
+Start_Dates , 
+Loan_Amt ,
+Month_Cnt , 
+Inte_Rate ,
+Inte_Total ,
+Saving_Amt ,
+FirtSaving , 
+RementSaving 

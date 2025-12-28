@@ -1,0 +1,2010 @@
+E:\WorkToday\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.exe.config
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\Interop.VSFlex8U.dll
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\AxInterop.VSFlex8U.dll
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.exe
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.xml
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.pdb
+E:\WorkToday\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.exe
+E:\WorkToday\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.pdb
+E:\WorkToday\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.xml
+E:\WorkToday\Ap_Account(Sonexay)BCEL\bin\Debug\Interop.VSFlex8U.dll
+E:\WorkToday\Ap_Account(Sonexay)BCEL\bin\Debug\AxInterop.VSFlex8U.dll
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ResolveAssemblyReference.cache
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form1.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form3.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmClosing.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_BLS.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLBS_Item.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fmfind.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmInCome.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOff_User.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAmtStatus.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLogin.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRate.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmMessageBox.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmVw.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form2.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_Income.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLocKey.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAccountBook.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmImgSize.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLock.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLogOut.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fmdelete.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Set_date_working.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmUser.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Conection_To_Servee.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPartition.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRestorData.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmMain.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOffice_AP.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Office_AP.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Resources.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLoanClosing.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPostedLedgers.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPreview.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRateStatus.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmReceipt.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmReceipt_List.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.fmShartOfAcc.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmShow.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCalcu.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fm_Image.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmBackup_Data.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrNewAcc.resources
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\RdlCompile.cache
+E:\WorkToday\Ap_Account(Sonexay)BCEL\obj\Debug\RdlCompile.compiled
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.exe.config
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\Interop.VSFlex8U.dll
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\AxInterop.VSFlex8U.dll
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.exe
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.xml
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.pdb
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.exe
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.pdb
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.xml
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\bin\Debug\Interop.VSFlex8U.dll
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\bin\Debug\AxInterop.VSFlex8U.dll
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ResolveAssemblyReference.cache
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form1.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form3.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmClosing.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_BLS.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLBS_Item.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmInCome.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOff_User.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAmtStatus.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLogin.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRate.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_Income.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAccountBook.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmImgSize.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLogOut.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fmdelete.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Set_date_working.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmUser.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Conection_To_Servee.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPartition.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmMain.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOffice_AP.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Office_AP.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Resources.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLoanClosing.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPostedLedgers.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPreview.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRateStatus.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.fmShartOfAcc.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmShow.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCalcu.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fm_Image.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmBackup_Data.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrNewAcc.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\RdlCompile.cache
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\RdlCompile.compiled
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRptPro.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRptProItem.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmAccSearch.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAutoAdd.resources
+E:\WorkToday\Project4\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCaculate_Pro.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.exe.config
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.exe
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.xml
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.pdb
+E:\APIS\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.exe
+E:\APIS\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.pdb
+E:\APIS\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.xml
+E:\APIS\Ap_Account(Sonexay)BCEL\bin\Debug\AxInterop.VSFlex8U.dll
+E:\APIS\Ap_Account(Sonexay)BCEL\bin\Debug\Interop.MSDATASRC.dll
+E:\APIS\Ap_Account(Sonexay)BCEL\bin\Debug\Interop.VSFlex8U.dll
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ResolveAssemblyReference.cache
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form1.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form3.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAutoAdd.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCaculate_Pro.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRptPro.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRptProItem.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmAccSearch.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmClosing.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_BLS.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLBS_Item.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmInCome.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOff_User.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAmtStatus.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLogin.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRate.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_Income.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAccountBook.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmImgSize.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLogOut.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fmdelete.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Set_date_working.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmUser.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Conection_To_Servee.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPartition.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmMain.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOffice_AP.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Office_AP.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Resources.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLoanClosing.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPostedLedgers.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPreview.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRateStatus.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.fmShartOfAcc.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmShow.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCalcu.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fm_Image.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmBackup_Data.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrNewAcc.resources
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\RdlCompile.cache
+E:\APIS\Ap_Account(Sonexay)BCEL\obj\Debug\RdlCompile.compiled
+D:\Accounts\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.exe.config
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.exe
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.xml
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.pdb
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ResolveAssemblyReference.cache
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form1.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form3.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmClosing.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_BLS.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLBS_Item.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fmfind.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmInCome.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOff_User.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAmtStatus.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLogin.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRate.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmMessageBox.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmVw.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form2.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_Income.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLocKey.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAccountBook.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmImgSize.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLock.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLogOut.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fmdelete.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Set_date_working.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmUser.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Conection_To_Servee.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPartition.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRestorData.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmMain.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOffice_AP.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Office_AP.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Resources.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLoanClosing.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPostedLedgers.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPreview.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRateStatus.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmReceipt.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmReceipt_List.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.fmShartOfAcc.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmShow.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCalcu.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fm_Image.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmBackup_Data.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrNewAcc.resources
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\RdlCompile.cache
+D:\Accounts\Ap_Account(Sonexay)BCEL\obj\Debug\RdlCompile.compiled
+D:\Accounts\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.exe
+D:\Accounts\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.pdb
+D:\Accounts\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.xml
+E:\AP_General\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.exe.config
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.exe
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.xml
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\APBank10.pdb
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ResolveAssemblyReference.cache
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form1.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form3.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmClosing.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_BLS.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLBS_Item.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fmfind.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmInCome.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOff_User.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAmtStatus.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLogin.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRate.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmMessageBox.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_Income.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLocKey.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmAccountBook.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmImgSize.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLock.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLogOut.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fmdelete.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Set_date_working.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmUser.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Conection_To_Servee.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPartition.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRestorData.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmMain.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmOffice_AP.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Office_AP.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Resources.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmLoanClosing.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPostedLedgers.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmPreview.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmRateStatus.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmReceipt.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmReceipt_List.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.fmShartOfAcc.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmShow.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FmCalcu.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Fm_Image.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmBackup_Data.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.FrNewAcc.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\RdlCompile.cache
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\RdlCompile.compiled
+E:\AP_General\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.exe
+E:\AP_General\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.pdb
+E:\AP_General\Ap_Account(Sonexay)BCEL\bin\Debug\APBank10.xml
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.frmBackup_Restore.resources
+E:\AP_General\Ap_Account(Sonexay)BCEL\obj\Debug\ApPBank10.Form1111.resources
+E:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.exe.config
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\APBank10.exe
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\APBank10.xml
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\APBank10.pdb
+E:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.exe
+E:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.pdb
+E:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.xml
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ResolveAssemblyReference.cache
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form1111.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form1.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form3.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmClosing.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLBS_Item.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fmfind.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmInCome.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOff_User.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAmtStatus.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLogin.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRate.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmMessageBox.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.frmBackup_Restore.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLocKey.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAccountBook.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmImgSize.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLock.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLogOut.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fmdelete.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Set_date_working.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmUser.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Conection_To_Servee.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPartition.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRestorData.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmMain.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOffice_AP.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Office_AP.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Resources.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLoanClosing.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPostedLedgers.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPreview.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRateStatus.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmReceipt.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmReceipt_List.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.fmShartOfAcc.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmShow.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCalcu.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fm_Image.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmBackup_Data.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrNewAcc.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\RdlCompile.cache
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\RdlCompile.compiled
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_progress.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F01.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_F01Edit.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F04.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F05.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F06.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F07.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F08.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\Interop.MSDATASRC.dll
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_F08Edit.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmData_server.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+E:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.frmImportExcel.resources
+F:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.exe.config
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\Interop.MSDATASRC.dll
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\APBank10.exe
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\APBank10.xml
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\APBank10.pdb
+F:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.exe
+F:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.pdb
+F:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.xml
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ResolveAssemblyReference.cache
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.frmImportExcel.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_F08Edit.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F08.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F07.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F06.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F05.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F04.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form1111.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_F01Edit.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_progress.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F01.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form1.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmData_server.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form3.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmClosing.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLBS_Item.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fmfind.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmInCome.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOff_User.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAmtStatus.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLogin.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRate.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmMessageBox.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.frmBackup_Restore.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLocKey.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAccountBook.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmImgSize.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLock.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLogOut.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fmdelete.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Set_date_working.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmUser.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Conection_To_Servee.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPartition.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRestorData.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmMain.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOffice_AP.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Office_AP.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Resources.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLoanClosing.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPostedLedgers.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPreview.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRateStatus.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmReceipt.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmReceipt_List.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.fmShartOfAcc.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmShow.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCalcu.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fm_Image.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmBackup_Data.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrNewAcc.resources
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\RdlCompile.cache
+F:\ACC\Ap_Account(Krongsri)\obj\Debug\RdlCompile.compiled
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.exe.config
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\APBank10.exe
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\APBank10.xml
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\APBank10.pdb
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.exe
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.pdb
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\APBank10.xml
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\AxInterop.VSFlex8U.dll
+C:\ACC\Ap_Account(Krongsri)\bin\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ResolveAssemblyReference.cache
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmImport_Rate.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.frmImportExcel.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_F08Edit.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F08.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F07.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F06.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F05.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F04.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form1111.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_F01Edit.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_progress.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F01.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form1.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmData_server.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form3.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmClosing.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLBS_Item.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fmfind.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmInCome.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOff_User.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAmtStatus.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLogin.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRate.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmMessageBox.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.frmBackup_Restore.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLocKey.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAccountBook.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmImgSize.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLock.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLogOut.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fmdelete.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Set_date_working.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmUser.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Conection_To_Servee.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPartition.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRestorData.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmMain.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOffice_AP.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Office_AP.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Resources.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLoanClosing.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPostedLedgers.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPreview.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRateStatus.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmReceipt.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmReceipt_List.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.fmShartOfAcc.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmShow.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCalcu.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fm_Image.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmBackup_Data.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrNewAcc.resources
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\RdlCompile.cache
+C:\ACC\Ap_Account(Krongsri)\obj\Debug\RdlCompile.compiled
+D:\Project\NewProject\Ap_Account(Krongsri)\bin\Debug\APBank10.exe.config
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\Interop.MSDATASRC.dll
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\APBank10.xml
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\APBank10.pdb
+D:\Project\NewProject\Ap_Account(Krongsri)\bin\Debug\APBank10.exe
+D:\Project\NewProject\Ap_Account(Krongsri)\bin\Debug\APBank10.pdb
+D:\Project\NewProject\Ap_Account(Krongsri)\bin\Debug\APBank10.xml
+D:\Project\NewProject\Ap_Account(Krongsri)\bin\Debug\Interop.MSDATASRC.dll
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ResolveAssemblyReference.cache
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmImport_Rate.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.frmImportExcel.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_F08Edit.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F08.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F07.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F06.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F05.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F04.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form1111.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_F01Edit.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_exel.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Frm_import_progress.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmRpt_F01.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form1.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmData_server.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Form3.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmClosing.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLBS_Item.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fmfind.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmInCome.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOff_User.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAmtStatus.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLogin.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRate.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmMessageBox.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.frmBackup_Restore.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_Income.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLocKey.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmAccountBook.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmImgSize.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLock.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLogOut.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fmdelete.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Set_date_working.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmUser.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Conection_To_Servee.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPartition.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRestorData.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmMain.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmOffice_AP.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Office_AP.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Resources.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmLoanClosing.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPostedLedgers.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmPreview.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmRateStatus.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmReceipt.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmReceipt_List.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.fmShartOfAcc.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmShow.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FmCalcu.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.Fm_Image.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmBackup_Data.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApPBank10.FrNewAcc.resources
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\RdlCompile.cache
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\RdlCompile.compiled
+D:\Project\NewProject\Ap_Account(Krongsri)\obj\Debug\APBank10.exe
+C:\ACC\Ap_Account(BNK)\obj\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+C:\ACC\Ap_Account(BNK)\bin\Debug\AxInterop.VSFlex8U.dll
+C:\ACC\Ap_Account(BNK)\bin\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(BNK)\obj\Debug\ResolveAssemblyReference.cache
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmImport_Rate.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.frmImportExcel.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Frm_F08Edit.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmRpt_F08.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmRpt_F07.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmRpt_F06.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmRpt_F05.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmRpt_F04.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Form1111.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Frm_F01Edit.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Frm_import_exel.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Frm_import_progress.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmRpt_F01.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Form1.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmData_server.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Form3.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmClosing.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRpt_BLS.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmLBS_Item.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Fmfind.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmInCome.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmOff_User.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmAmtStatus.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmLogin.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRate.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmMessageBox.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.frmBackup_Restore.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRpt_Income.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmLocKey.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmAccountBook.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmImgSize.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmLock.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmLogOut.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Fmdelete.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Set_date_working.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmUser.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Conection_To_Servee.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmPartition.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRestorData.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmMain.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmOffice_AP.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Office_AP.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Resources.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmLoanClosing.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmPostedLedgers.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmPreview.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmRateStatus.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmReceipt.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmReceipt_List.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.fmShartOfAcc.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmShow.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FmCalcu.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Fm_Image.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmBackup_Data.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrNewAcc.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+C:\ACC\Ap_Account(BNK)\obj\Debug\RdlCompile.cache
+C:\ACC\Ap_Account(BNK)\obj\Debug\RdlCompile.compiled
+C:\ACC\Ap_Account(BNK)\bin\Debug\APBank10_BNK.exe.config
+C:\ACC\Ap_Account(BNK)\bin\Debug\APBank10_BNK.exe
+C:\ACC\Ap_Account(BNK)\bin\Debug\APBank10_BNK.pdb
+C:\ACC\Ap_Account(BNK)\bin\Debug\APBank10_BNK.xml
+C:\ACC\Ap_Account(BNK)\obj\Debug\APBank10_BNK.exe
+C:\ACC\Ap_Account(BNK)\obj\Debug\APBank10_BNK.xml
+C:\ACC\Ap_Account(BNK)\obj\Debug\APBank10_BNK.pdb
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.FrmRpt_F011.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Frm_import_exel_AR_D20.resources
+C:\ACC\Ap_Account(BNK)\obj\Debug\ApPBank10.Frm_import_exel_New.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+C:\ACC\Ap_Account(MHT)\bin\Debug\AxInterop.VSFlex8U.dll
+C:\ACC\Ap_Account(MHT)\bin\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(MHT)\obj\Debug\ResolveAssemblyReference.cache
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Frm_import_exel_New.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Frm_import_exel_AR_D20.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmRpt_F01.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmImport_Rate.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.frmImportExcel.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Frm_F08Edit.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmRpt_F08.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmRpt_F07.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmRpt_F06.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmRpt_F05.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmRpt_F04.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Form1111.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Frm_F01Edit.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Frm_import_exel.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Frm_import_progress.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmRpt_F011.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Form1.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmData_server.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Form3.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmClosing.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRpt_BLS.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmLBS_Item.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Fmfind.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmInCome.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmOff_User.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmAmtStatus.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmLogin.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRate.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmMessageBox.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.frmBackup_Restore.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRpt_Income.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmLocKey.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmAccountBook.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmImgSize.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmLock.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmLogOut.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Fmdelete.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Set_date_working.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmUser.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Conection_To_Servee.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmPartition.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRestorData.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmMain.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmOffice_AP.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Office_AP.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Resources.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmLoanClosing.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmPostedLedgers.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmPreview.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmRateStatus.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmReceipt.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmReceipt_List.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.fmShartOfAcc.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmShow.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FmCalcu.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.Fm_Image.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmBackup_Data.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApPBank10.FrNewAcc.resources
+C:\ACC\Ap_Account(MHT)\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+C:\ACC\Ap_Account(MHT)\obj\Debug\RdlCompile.cache
+C:\ACC\Ap_Account(MHT)\obj\Debug\RdlCompile.compiled
+C:\ACC\Ap_Account(MHT)\bin\Debug\APBank10_MHT.exe.config
+C:\ACC\Ap_Account(MHT)\bin\Debug\APBank10_MHT.exe
+C:\ACC\Ap_Account(MHT)\bin\Debug\APBank10_MHT.pdb
+C:\ACC\Ap_Account(MHT)\bin\Debug\APBank10_MHT.xml
+C:\ACC\Ap_Account(MHT)\obj\Debug\APBank10_MHT.exe
+C:\ACC\Ap_Account(MHT)\obj\Debug\APBank10_MHT.xml
+C:\ACC\Ap_Account(MHT)\obj\Debug\APBank10_MHT.pdb
+C:\ACC\Ap_Account(LukSub)\obj\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+C:\ACC\Ap_Account(LukSub)\bin\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ResolveAssemblyReference.cache
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_import_exel_New.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_import_exel_AR_D20.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmRpt_F01.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmImport_Rate.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.frmImportExcel.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_F08Edit.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmRpt_F08.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmRpt_F07.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmRpt_F06.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmRpt_F05.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmRpt_F04.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Form1111.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_F01Edit.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_import_exel.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_import_progress.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmRpt_F011.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Form1.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmData_server.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Form3.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmClosing.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRpt_BLS.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmLBS_Item.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Fmfind.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmInCome.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmOff_User.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmAmtStatus.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmLogin.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRate.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmMessageBox.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.frmBackup_Restore.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRpt_Income.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmLocKey.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmAccountBook.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmImgSize.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmLock.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmLogOut.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Fmdelete.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Set_date_working.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmUser.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Conection_To_Servee.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmPartition.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRestorData.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmMain.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmOffice_AP.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Office_AP.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Resources.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmLoanClosing.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmPostedLedgers.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmPreview.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRateStatus.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmReceipt.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmReceipt_List.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.fmShartOfAcc.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmShow.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmCalcu.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Fm_Image.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmBackup_Data.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrNewAcc.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+C:\ACC\Ap_Account(LukSub)\obj\Debug\RdlCompile.cache
+C:\ACC\Ap_Account(LukSub)\obj\Debug\RdlCompile.compiled
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Atuset.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmAutoAdd.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmCaculate_Pro.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRptPro.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRptProItem.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmAccSearch.resources
+C:\ACC\Ap_Account(LukSub)\bin\Debug\APBank10_LSX.exe.config
+C:\ACC\Ap_Account(LukSub)\bin\Debug\APBank10_LSX.exe
+C:\ACC\Ap_Account(LukSub)\bin\Debug\APBank10_LSX.pdb
+C:\ACC\Ap_Account(LukSub)\bin\Debug\APBank10_LSX.xml
+C:\ACC\Ap_Account(LukSub)\obj\Debug\APBank10_LSX.exe
+C:\ACC\Ap_Account(LukSub)\obj\Debug\APBank10_LSX.xml
+C:\ACC\Ap_Account(LukSub)\obj\Debug\APBank10_LSX.pdb
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRpt_BLS_BCEL.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmBLS_Item_Old.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmIncome_Old.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRpt_Income_Old.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Rate_setting.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Rate_settingb.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_Group_accode.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_mformat.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_Acc_Adjust_Curr.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmJeneralJournal_Adjust_List.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmNsewJeneralJournal_Adjust.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRptPro_New.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmCustomer.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmSupplier.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.Frm_Statement.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmAsset_Grp.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmGrpNew.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmDepartmentNew.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmDepartment_List.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmUser_DDC.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmAssetNew.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmAsset_List.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmRpt_Group.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FmRptPro_01.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmAdjustment_List.resources
+C:\ACC\Ap_Account(LukSub)\obj\Debug\ApPBank10.FrmAdjustment_App.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+C:\ACC\Ap_Account(LukSub) 4-7\bin\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ResolveAssemblyReference.cache
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmAdjustment_App.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmAdjustment_List.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRptPro_01.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_Statement.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmSupplier.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmJeneralJournal_Adjust_List.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmNsewJeneralJournal_Adjust.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRptPro_New.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmCustomer.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_Acc_Adjust_Curr.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Rate_setting.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_Group_accode.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_import_exel_New.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_import_exel_AR_D20.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmRpt_F01.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmImport_Rate.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.frmImportExcel.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_F08Edit.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmRpt_F08.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmRpt_F07.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmRpt_F06.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmRpt_F05.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmRpt_F04.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Form1111.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_F01Edit.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_import_exel.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_import_progress.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmRpt_F011.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Frm_mformat.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Rate_settingb.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmAssetNew.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmAsset_Grp.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmAsset_List.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmDepartmentNew.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmDepartment_List.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmGrpNew.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmRpt_Group.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Form1.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmData_server.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmBLS_Item_Old.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmIncome_Old.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRpt_BLS_BCEL.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRpt_Income_Old.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Form3.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Atuset.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmAutoAdd.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmCaculate_Pro.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRptPro.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRptProItem.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmAccSearch.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmClosing.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRpt_BLS.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmLBS_Item.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Fmfind.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmIncome.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmOff_User.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmAmtStatus.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmLogin.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRate.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmMessageBox.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.frmBackup_Restore.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmUser_DDC.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRpt_Income.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmLocKey.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmAccountBook.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmImgSize.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmLock.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmLogOut.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Fmdelete.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Set_date_working.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmUser.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Conection_To_Servee.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmPartition.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRestorData.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmMain.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmOffice_AP.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Office_AP.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Resources.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmLoanClosing.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmPostedLedgers.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmPreview.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmRateStatus.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmReceipt.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmReceipt_List.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.fmShartOfAcc.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmShow.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FmCalcu.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.Fm_Image.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmBackup_Data.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApPBank10.FrNewAcc.resources
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\RdlCompile.cache
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\RdlCompile.compiled
+C:\ACC\Ap_Account(LukSub) 4-7\bin\Debug\APBank10_LSX_04.exe.config
+C:\ACC\Ap_Account(LukSub) 4-7\bin\Debug\APBank10_LSX_04.exe
+C:\ACC\Ap_Account(LukSub) 4-7\bin\Debug\APBank10_LSX_04.pdb
+C:\ACC\Ap_Account(LukSub) 4-7\bin\Debug\APBank10_LSX_04.xml
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\APBank10_LSX_04.exe
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\APBank10_LSX_04.xml
+C:\ACC\Ap_Account(LukSub) 4-7\obj\Debug\APBank10_LSX_04.pdb
+C:\ACC\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.exe.config
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.exe
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.xml
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.pdb
+C:\ACC\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.exe
+C:\ACC\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.pdb
+C:\ACC\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.xml
+C:\ACC\Ap_Account(LukSub) 4\bin\Debug\Interop.MSDATASRC.dll
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ResolveAssemblyReference.cache
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_App.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_List.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_01.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Statement.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSupplier.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_Adjust_List.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal_Adjust.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_New.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmCustomer.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Acc_Adjust_Curr.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_setting.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Group_accode.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_New.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR_D20.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F01.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmImport_Rate.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmImportExcel.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F08Edit.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F08.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F07.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F06.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F05.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F04.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1111.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F01Edit.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_progress.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F011.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_mformat.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_settingb.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAssetNew.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Grp.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartmentNew.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartment_List.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Group.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmData_server.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmBLS_Item_Old.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome_Old.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BCEL.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Old.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form3.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Atuset.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAutoAdd.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Pro.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAccSearch.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmClosing.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLBS_Item.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmfind.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOff_User.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogin.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRate.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMessageBox.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmBackup_Restore.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser_DDC.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLocKey.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAccountBook.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmImgSize.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLock.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogOut.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmdelete.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Set_date_working.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Conection_To_Servee.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPartition.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRestorData.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMain.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOffice_AP.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Office_AP.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Resources.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLoanClosing.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPostedLedgers.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPreview.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRateStatus.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt_List.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAcc.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmShow.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCalcu.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fm_Image.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBackup_Data.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrNewAcc.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.cache
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.compiled
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus123.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus1234.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem_O6.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_StatementOld.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetAdd.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetList.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List_LSNEW.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew_LS.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Broke.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBrokeNew.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmList_ASST.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets_NEW.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatusNEW.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_CashNew.resources
+C:\ACC\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_NEW.resources
+E:\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.exe.config
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\Interop.MSDATASRC.dll
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.xml
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.pdb
+E:\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.exe
+E:\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.pdb
+E:\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.xml
+E:\LukSub\Ap_Account(LukSub) 4\bin\Debug\Interop.MSDATASRC.dll
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ResolveAssemblyReference.cache
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_NEW.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_CashNew.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets_NEW.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetAdd.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetList.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_StatementOld.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus1234.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_App.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_List.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_01.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Statement.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSupplier.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_Adjust_List.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal_Adjust.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_New.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmCustomer.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Acc_Adjust_Curr.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_setting.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Group_accode.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_New.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR_D20.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F01.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmImport_Rate.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmImportExcel.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F08Edit.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F08.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F07.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F06.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F05.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F04.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1111.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F01Edit.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_progress.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F011.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_mformat.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_settingb.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatusNEW.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List_LSNEW.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew_LS.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAssetNew.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Broke.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Grp.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBrokeNew.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartmentNew.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartment_List.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmList_ASST.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Group.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmData_server.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmBLS_Item_Old.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome_Old.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BCEL.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Old.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form3.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Atuset.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem_O6.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAutoAdd.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Pro.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAccSearch.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmClosing.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLBS_Item.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmfind.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOff_User.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus123.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogin.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRate.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMessageBox.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmBackup_Restore.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser_DDC.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLocKey.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAccountBook.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmImgSize.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLock.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogOut.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmdelete.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Set_date_working.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Conection_To_Servee.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPartition.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRestorData.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMain.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOffice_AP.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Office_AP.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Resources.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLoanClosing.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPostedLedgers.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPreview.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRateStatus.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt_List.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAcc.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmShow.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCalcu.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fm_Image.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBackup_Data.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrNewAcc.resources
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.cache
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.compiled
+E:\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.exe
+D:\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.exe.config
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\Interop.MSDATASRC.dll
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.exe
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.xml
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.pdb
+D:\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.exe
+D:\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.pdb
+D:\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.xml
+D:\LukSub\Ap_Account(LukSub) 4\bin\Debug\Interop.MSDATASRC.dll
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ResolveAssemblyReference.cache
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_NEW.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_CashNew.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets_NEW.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetAdd.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetList.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_StatementOld.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus1234.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_App.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_List.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_01.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Statement.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSupplier.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_Adjust_List.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal_Adjust.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_New.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmCustomer.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Acc_Adjust_Curr.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_setting.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Group_accode.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_New.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR_D20.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F01.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmImport_Rate.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmImportExcel.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F08Edit.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F08.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F07.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F06.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F05.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F04.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1111.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F01Edit.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_progress.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F011.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_mformat.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_settingb.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatusNEW.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List_LSNEW.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew_LS.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAssetNew.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Broke.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Grp.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBrokeNew.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartmentNew.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartment_List.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmList_ASST.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Group.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmData_server.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmBLS_Item_Old.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome_Old.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BCEL.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Old.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form3.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Atuset.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem_O6.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAutoAdd.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Pro.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAccSearch.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmClosing.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLBS_Item.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmfind.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOff_User.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus123.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogin.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRate.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMessageBox.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmBackup_Restore.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser_DDC.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLocKey.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAccountBook.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmImgSize.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLock.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogOut.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmdelete.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Set_date_working.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Conection_To_Servee.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPartition.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRestorData.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMain.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOffice_AP.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Office_AP.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Resources.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLoanClosing.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPostedLedgers.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPreview.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRateStatus.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt_List.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAcc.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmShow.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCalcu.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fm_Image.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBackup_Data.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrNewAcc.resources
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.cache
+D:\LukSub\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.compiled
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.exe.config
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\Interop.MSDATASRC.dll
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.exe
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.xml
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.pdb
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.exe
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\bin\Debug\Interop.MSDATASRC.dll
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ResolveAssemblyReference.cache
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_NEW.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_CashNew.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets_NEW.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetAdd.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetList.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_StatementOld.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus1234.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_App.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_List.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_01.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Statement.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSupplier.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_Adjust_List.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal_Adjust.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_New.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmCustomer.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Acc_Adjust_Curr.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_setting.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Group_accode.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_New.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR_D20.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F01.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmImport_Rate.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmImportExcel.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F08Edit.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F08.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F07.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F06.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F05.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F04.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1111.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F01Edit.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_progress.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F011.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_mformat.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_settingb.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatusNEW.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List_LSNEW.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew_LS.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAssetNew.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Broke.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Grp.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBrokeNew.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartmentNew.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartment_List.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmList_ASST.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Group.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmData_server.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmBLS_Item_Old.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome_Old.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BCEL.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Old.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form3.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Atuset.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem_O6.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAutoAdd.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Pro.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAccSearch.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmClosing.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLBS_Item.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmfind.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOff_User.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus123.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogin.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRate.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMessageBox.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmBackup_Restore.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser_DDC.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLocKey.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAccountBook.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmImgSize.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLock.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogOut.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmdelete.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Set_date_working.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Conection_To_Servee.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPartition.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRestorData.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMain.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOffice_AP.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Office_AP.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Resources.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLoanClosing.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPostedLedgers.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPreview.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRateStatus.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt_List.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAcc.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmShow.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCalcu.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fm_Image.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBackup_Data.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrNewAcc.resources
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.cache
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.compiled
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.pdb
+E:\File_20102022\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.xml
+H:\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.exe.config
+H:\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\Interop.MSDATASRC.dll
+H:\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+H:\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.exe
+H:\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.xml
+H:\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.pdb
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.exe.config
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\Interop.MSDATASRC.dll
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.exe
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.xml
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\APBank10_LSX_04.pdb
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.exe
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.pdb
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\bin\Debug\APBank10_LSX_04.xml
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\bin\Debug\Interop.MSDATASRC.dll
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ResolveAssemblyReference.cache
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_NEW.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_CashNew.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets_NEW.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetAdd.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetList.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_StatementOld.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus1234.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_App.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_List.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_01.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Statement.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSupplier.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_Adjust_List.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal_Adjust.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_New.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmCustomer.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Acc_Adjust_Curr.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_setting.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Group_accode.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_New.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR_D20.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F01.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmImport_Rate.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmImportExcel.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F08Edit.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F08.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F07.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F06.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F05.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F04.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1111.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F01Edit.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_progress.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F011.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_mformat.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_settingb.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatusNEW.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List_LSNEW.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew_LS.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAssetNew.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Broke.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Grp.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBrokeNew.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartmentNew.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartment_List.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmList_ASST.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Group.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmData_server.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmBLS_Item_Old.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome_Old.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BCEL.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Old.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form3.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Atuset.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem_O6.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAutoAdd.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Pro.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAccSearch.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmClosing.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLBS_Item.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmfind.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOff_User.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus123.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogin.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRate.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMessageBox.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmBackup_Restore.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser_DDC.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLocKey.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAccountBook.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmImgSize.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLock.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogOut.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmdelete.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Set_date_working.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Conection_To_Servee.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPartition.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRestorData.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMain.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOffice_AP.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Office_AP.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Resources.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLoanClosing.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPostedLedgers.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPreview.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRateStatus.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt_List.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAcc.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmShow.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCalcu.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fm_Image.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBackup_Data.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrNewAcc.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.cache
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.compiled
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmTrialBalanceReport2022.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Depreciation.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Old2.resources
+D:\AYin\AIR_File\26012024\LukSub\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPostedLedgers_From2.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\Interop.MSDATASRC.dll
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.ResolveComReference.cache
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\bin\Debug\Interop.MSDATASRC.dll
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ResolveAssemblyReference.cache
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_NEW.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_CashNew.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets_NEW.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Fixed_Assets.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetAdd.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_AssetList.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_StatementOld.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus1234.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_App.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAdjustment_List.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_01.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Statement.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSupplier.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_Adjust_List.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal_Adjust.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro_New.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmCustomer.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Acc_Adjust_Curr.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_setting.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_Group_accode.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_New.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR_D20.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F01.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_BL.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmImport_Rate.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmImportExcel.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS_DG.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_KS.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F08Edit.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel_AR.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F08.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F07.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F06.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F05.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F04.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1111.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BOL_Item.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BOL.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Item_BOL.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_F01Edit.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_exel.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_import_progress.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_F011.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Frm_mformat.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Rate_settingb.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatusNEW.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List_LSNEW.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew_LS.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAssetNew.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Broke.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_Grp.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAsset_List.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBrokeNew.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartmentNew.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmDepartment_List.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmGrpNew.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmList_ASST.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmRpt_Group.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form1.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmData_server.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Old2.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmBLS_Item_Old.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome_Old.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS_BCEL.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_Old.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Form3.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmTrialBalanceReport2022.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Atuset.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Depreciation.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem_O6.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAutoAdd.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Pro.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptPro.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRptProItem.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmAccSearch.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPostedLedgers_From2.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus_Item.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCashflow_Item1.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmClosing.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmJeneralJournal_List.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLBS_Item.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCaculate_Rpt.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmfind.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmIncome.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLangaugeSeting.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOff_User.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOpen_jn_List.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmTrialBalanceReport.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAmtStatus123.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogin.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRate.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income_BankSty.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMessageBox.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_JeneralJournal.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.frmBackup_Restore.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser_DDC.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_Income.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLocKey.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmAccountBook.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmImgSize.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLock.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLogOut.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fmdelete.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRpt_BLS8.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Set_date_working.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmUser.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Conection_To_Servee.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPartition.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRestorData.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmMain.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmOffice_AP.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Office_AP.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Resources.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmLoanClosing.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNewOpen_jn.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmNsewJeneralJournal.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPostedLedgers.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPreview.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmRateStatus.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmReceipt_List.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAcc.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.fmShartOfAccDetail.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmShow.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmCalcu.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.Fm_Image.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmBackup_Data.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrmSerial_For_Registration.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FrNewAcc.resources
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApBank10.vbproj.GenerateResource.Cache
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.cache
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\RdlCompile.compiled
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\bin\Debug\APBank10_APB.exe.config
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\bin\Debug\APBank10_APB.exe
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\bin\Debug\APBank10_APB.pdb
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\bin\Debug\APBank10_APB.xml
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\APBank10_APB.exe
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\APBank10_APB.xml
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\APBank10_APB.pdb
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\bin\Debug\Newtonsoft.Json.dll
+D:\AYin\AIR_File\26012024\LukSub_APB\Ap_Account(LukSub) 4\obj\Debug\ApPBank10.FmPostedLedgers_From3.resources

@@ -1,0 +1,31 @@
+
+--//Bank
+drop table Acc_Code
+drop table Ap_Rpt_BLS
+drop table Ap_Rpt_BLS_Detail
+drop table Ap_Rpt_BLS_Item
+drop table Ap_Rpt_Income
+drop table Ap_Rpt_Income_Item
+drop table Ap_Rpt_Incon_Detail
+Select* into Acc_Code  from Acc_Code_Bank
+Select* into Ap_Rpt_BLS  from Ap_Rpt_BLS_Bank
+Select* into Ap_Rpt_BLS_Detail  from Ap_Rpt_BLS_Detail_Bank
+Select* into Ap_Rpt_BLS_Item  from Ap_Rpt_BLS_Item_Bank
+Select* into Ap_Rpt_Income  from Ap_Rpt_Income_Bank 
+Select* into Ap_Rpt_Income_Item  from Ap_Rpt_Income_Item_Bank
+Select* into dbo.Ap_Rpt_Incon_Detail  from Ap_Rpt_Incon_Detail_Bank
+--//Personal
+drop table Acc_Code
+drop table Ap_Rpt_BLS
+drop table Ap_Rpt_BLS_Detail
+drop table Ap_Rpt_BLS_Item
+drop table Ap_Rpt_Income
+drop table Ap_Rpt_Income_Item
+drop table Ap_Rpt_Incon_Detail
+Select* into Acc_Code  from Acc_Code_Personal
+Select* into Ap_Rpt_BLS  from Ap_Rpt_BLS_Personal
+Select* into Ap_Rpt_BLS_Detail  from Ap_Rpt_BLS_Detail_Personal
+Select* into Ap_Rpt_BLS_Item  from Ap_Rpt_BLS_Item_Personal
+Select* into Ap_Rpt_Income  from Ap_Rpt_Income_Personal 
+Select* into Ap_Rpt_Income_Item  from Ap_Rpt_Income_Item_Personal
+Select* into dbo.Ap_Rpt_Incon_Detail  from Ap_Rpt_Incon_Detail_Personal
