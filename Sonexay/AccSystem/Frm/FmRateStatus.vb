@@ -1,4 +1,4 @@
-﻿Public Class FmRateStatus
+Public Class FmRateStatus
     Dim sql As String
     Dim DT As New Date
     Dim mNum As String
@@ -10,18 +10,21 @@
         sql = ""
       
         sql = " AND Ap_RateStatus.In_Date   BETWEEN '" & Format(DateTimePicker4.Value, "yyyy-MM-dd") & "' AND '" & Format(DateTimePicker3.Value, "yyyy-MM-dd") & "' "
-        FG.Rows = 1
+        FG.Rows.Clear()
         With RSC
             Call LoadSqlData("SELECT * FROM  Ap_RateStatus where Curr <>''" & sql & "  order by in_date asc", RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("In_Date").Value)) & _
-                                 "" & vbTab & Trim(CStr(.Fields("Curr").Value)) & _
-                                 "" & vbTab & ((.Fields("Curr_Name").Value)) & _
-                                 "" & vbTab & Trim(Format(CDbl(.Fields("Rate").Value), "##,##0.00")))
+                    FG.Rows.Add(.AbsolutePosition, _
+                                Trim(CStr(.Fields("In_Date").Value)), _
+                                Trim(CStr(.Fields("Curr").Value)), _
+                                .Fields("Curr_Name").Value, _
+                                Trim(Format(CDbl(.Fields("Rate").Value), "##,##0.00")))
                     .MoveNext()
                 End While
-                Label1.Text = "ອັດຕາແລກປ່ຽນໃນວັນທີ : " & Format(CDate(FG.get_TextMatrix(1, 1)), "dd/MM/yyyy") & " ຫາວັນທີ " & Format(CDate(FG.get_TextMatrix(FG.Rows - 1, 1)), "dd/MM/yyyy")
+                If FG.Rows.Count > 0 Then
+                    Label1.Text = "ອັດຕາແລກປ່ຽນໃນວັນທີ : " & Format(CDate(FG.Rows(0).Cells(1).Value), "dd/MM/yyyy") & " ຫາວັນທີ " & Format(CDate(FG.Rows(FG.Rows.Count - 1).Cells(1).Value), "dd/MM/yyyy")
+                End If
             Else
                 '===========
 
@@ -42,13 +45,16 @@
                 Call LoadSqlData("SELECT * FROM  Ap_RateStatus where Curr <>''" & sql & "   order by in_date asc", RSC)
                 If .RecordCount > 0 Then
                     While Not .EOF
-                        FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("In_Date").Value)) & _
-                                     "" & vbTab & Trim(CStr(.Fields("Curr").Value)) & _
-                                     "" & vbTab & ((.Fields("Curr_Name").Value)) & _
-                                     "" & vbTab & Trim(Format(CDbl(.Fields("Rate").Value), "##,##0.00")))
+                        FG.Rows.Add(.AbsolutePosition, _
+                                    Trim(CStr(.Fields("In_Date").Value)), _
+                                    Trim(CStr(.Fields("Curr").Value)), _
+                                    .Fields("Curr_Name").Value, _
+                                    Trim(Format(CDbl(.Fields("Rate").Value), "##,##0.00")))
                         .MoveNext()
                     End While
-                    Label1.Text = "ອັດຕາແລກປ່ຽນໃນວັນທີ : " & Format(DT, "dd/MM/yyyy") & " ຫາວັນທີ " & Format(CDate(FG.get_TextMatrix(FG.Rows - 1, 1)), "dd/MM/yyyy")
+                    If FG.Rows.Count > 0 Then
+                        Label1.Text = "ອັດຕາແລກປ່ຽນໃນວັນທີ : " & Format(DT, "dd/MM/yyyy") & " ຫາວັນທີ " & Format(CDate(FG.Rows(FG.Rows.Count - 1).Cells(1).Value), "dd/MM/yyyy")
+                    End If
                 End If
 
 
@@ -88,8 +94,39 @@
 
     Private Sub FmRateStatus_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         LoadCurr()
-        FG.FormatString = "^ລ/ດ  |ວັນທີ               |^ ສະກຸນເງິນ        | ສະກຸນເງິນ (ຊື່ເຕັມ)                                     <| ອັດຕາແລກປ່ຽນ                          "
+        SetupGrid()
     End Sub
+
+    Private Sub SetupGrid()
+        FG.Columns.Clear()
+        FG.Columns.Add("No", "ລ/ດ")
+        FG.Columns.Add("Date", "ວັນທີ")
+        FG.Columns.Add("Currency", "ສະກຸນເງິນ")
+        FG.Columns.Add("CurrencyName", "ສະກຸນເງິນ (ຊື່ເຕັມ)")
+        FG.Columns.Add("Rate", "ອັດຕາແລກປ່ຽນ")
+
+        ' Formatting based on FormatString = "^ລ/ດ  |ວັນທີ               |^ ສະກຸນເງິນ        | ສະກຸນເງິນ (ຊື່ເຕັມ)                                     <| ອັດຕາແລກປ່ຽນ                          "
+        
+        FG.Columns(0).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+        FG.Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        FG.Columns(0).Width = 50
+
+        FG.Columns(1).Width = 100
+
+        FG.Columns(2).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+        FG.Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        FG.Columns(2).Width = 80
+
+        FG.Columns(3).Width = 250
+
+        FG.Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        FG.Columns(4).Width = 150
+
+        FG.AllowUserToAddRows = False
+        FG.ReadOnly = True
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+    End Sub
+
     Private Sub LoadCurr()
         Dim Comm As ADODB.Command
         Dim rsat As New ADODB.Recordset

@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmRateStatus
     Inherits System.Windows.Forms.Form
 
@@ -23,7 +23,7 @@ Partial Class FmRateStatus
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FmRateStatus))
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Label26 = New System.Windows.Forms.Label
         Me.Label28 = New System.Windows.Forms.Label
         Me.DateTimePicker3 = New System.Windows.Forms.DateTimePicker
@@ -42,10 +42,9 @@ Partial Class FmRateStatus
         Me.FG.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG.DataSource = Nothing
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(5, 46)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(991, 320)
         Me.FG.TabIndex = 0
         '
@@ -178,7 +177,7 @@ Partial Class FmRateStatus
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents BtnRefresh As System.Windows.Forms.Button
     Friend WithEvents Label26 As System.Windows.Forms.Label
     Friend WithEvents Label28 As System.Windows.Forms.Label
