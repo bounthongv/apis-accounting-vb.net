@@ -690,23 +690,23 @@
                                     'kkkkkkkkkkk
 
 
-                                    If Microsoft.VisualBasic.Left(ACCode, 3) = "110" Or Microsoft.VisualBasic.Left(ACCode, 3) = "112" Or Microsoft.VisualBasic.Left(ACCode, 3) = "113" Then
-                                        Call Load_Gen_Jn()
-                                        Remain = CDbl(CDbl(Open_jn) + CDbl(SumDr)) - CDbl(SumCr)
+                                    'If Microsoft.VisualBasic.Left(ACCode, 3) = "110" Or Microsoft.VisualBasic.Left(ACCode, 3) = "112" Or Microsoft.VisualBasic.Left(ACCode, 3) = "113" Then
+                                    '    Call Load_Gen_Jn()
+                                    '    Remain = CDbl(CDbl(Open_jn) + CDbl(SumDr)) - CDbl(SumCr)
 
-                                        If Remain >= 0 Then
-                                            Remain = Format(CDbl(Remain), "##,##0.00")
-                                        Else
-                                            Remain = "(" & Format(CDbl(Remain * (-1)), "##,##0.00") & ")"
-                                        End If
-                                        SumDr = CDbl(FG.get_TextMatrix(FG.Row, 13))
-                                        If CDbl(SumDr) > CDbl(Remain) Then
+                                    '    If Remain >= 0 Then
+                                    '        Remain = Format(CDbl(Remain), "##,##0.00")
+                                    '    Else
+                                    '        Remain = "(" & Format(CDbl(Remain * (-1)), "##,##0.00") & ")"
+                                    '    End If
+                                    '    SumDr = CDbl(FG.get_TextMatrix(FG.Row, 13))
+                                    '    If CDbl(SumDr) > CDbl(Remain) Then
+                                    '        FG.set_TextMatrix(FG.Row, 13, Format(CDbl(Remain), "#,##0.00"))
+                                    '        FG.set_TextMatrix(FG.Row, 6, Format(CDbl(Remain) / CDbl(txtRate.Text), "#,##0.00"))
+                                    '    Else
+                                    '    End If
 
-                                        Else
-                                            FG.set_TextMatrix(FG.Row, 13, Format(CDbl(Remain), "#,##0.00"))
-                                        End If
-
-                                    End If
+                                    'End If
 
 
 

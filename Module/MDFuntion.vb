@@ -96,6 +96,7 @@ Module MDFuntion
             .CursorLocation = ADODB.CursorLocationEnum.adUseClient
             .LockType = ADODB.LockTypeEnum.adLockOptimistic
             .Open(sql)
+
         End With
 
         While Not Rsgf.EOF

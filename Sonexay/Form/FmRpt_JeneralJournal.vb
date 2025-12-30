@@ -117,6 +117,36 @@
         If cmbBook.Items.Count > 0 Then
             cmbBook.SelectedIndex = 0
         End If
+        CMB_Curr.Items.Clear()
+        CMB_Curr.Items.Add("EQVL")
+        Call load_Cmb(" SELECT Curr  FROM Curr_For_Rate WHERE (Curr='LAK' Or Curr='THB' Or Curr='USD')  ORDER BY cnt ", "Curr", CMB_Curr)
+        If CMB_Curr.Items.Count > 0 Then
+            CMB_Curr.SelectedIndex = 0
+        End If
+        If MuLng = "L" Then
+            'Button2.Text = "ທຽບບັນຊີ"
+            CheckBox4.Text = "ທຽບເທົ່າເງິນ"
+            If CMB_Curr.Text = "LAK" Then
+                CheckBox4.Text = "ທຽບເທົ່າໂດລາ"
+            ElseIf CMB_Curr.Text = "USD" Then
+                CheckBox4.Text = "ທຽບເທົ່າກີບ"
+            Else
+                CheckBox4.Text = "ທຽບເທົ່າໂດລາ"
+            End If
+
+        Else
+            'Button2.Text = "EQVL ACC"
+            CheckBox4.Text = "EQVL Money"
+            If CMB_Curr.Text = "LAK" Then
+                CheckBox4.Text = "EQVL USD"
+            ElseIf CMB_Curr.Text = "USD" Then
+                CheckBox4.Text = "EQVL LAK"
+            Else
+                CheckBox4.Text = "EQVL USD"
+            End If
+
+        End If
+
 
         If MuLng = "L" Then
 
@@ -345,11 +375,10 @@
 
         Dim mformat As String = 0
 
-        CNN.Execute("update gen_jn set gen_jn.ac_name=Acc_Code.name_L,gen_jn.ac_namee=Acc_Code.name_e from Acc_Code,gen_jn where gen_jn.ac_code=gen_jn.ac_code and gen_jn.ac_name is null ")
-        'SLF = "SELECT " & MuLngRpt & "   *  ,  Acc_Code.Name_L  As AcNmeEx_L , Acc_Code.Name_E  As AcNmeEx_E FROM  gen_jn       INNER JOIN Acc_Code ON gen_jn.ac_code = Acc_Code.Ac_Code WHERE Book <>'' And gen_jn.date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  "
+        ' CNN.Execute("update gen_jn set gen_jn.ac_name=Acc_Code.name_L,gen_jn.ac_namee=Acc_Code.name_e from Acc_Code,gen_jn where gen_jn.ac_code=gen_jn.ac_code and gen_jn.ac_name is null ")
         SLF = "SELECT  " & mformat & "  as mformat  , " & MuLngRpt & "   *  ,  gen_jn.ac_name  As AcNmeEx_L , gen_jn.ac_name  As AcNmeEx_E FROM  gen_jn      WHERE Book <>'' And gen_jn.date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  "
 
-        'MsgBox(SLF)
+
 
         Call LoadLoGO()
 

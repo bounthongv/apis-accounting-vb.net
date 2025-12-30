@@ -121,7 +121,7 @@
         Call loadOffice_User()
         CMB_Curr.Items.Clear()
         CMB_Curr.Items.Add("EQVL")
-        Call load_Cmb(" SELECT Curr  FROM Curr_For_Rate WHERE (Curr='LAK' Or Curr='USD')  ORDER BY cnt ", "Curr", CMB_Curr)
+        Call load_Cmb(" SELECT Curr  FROM Curr_For_Rate WHERE (Curr='LAK' Or Curr='THB Or Curr='USD')  ORDER BY cnt ", "Curr", CMB_Curr)
         If CMB_Curr.Items.Count > 0 Then
             CMB_Curr.SelectedIndex = 0
         End If

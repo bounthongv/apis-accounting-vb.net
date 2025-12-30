@@ -1326,6 +1326,22 @@ hang:
                 'SUSID = CStr((.Fields("SaveUserID").Value.ToString))
             End If
         End With
+
+        'Dim rsProj2 As New ADODB.Recordset
+        'Call LoadAcData("Select * from Conect where SvID='002' ", rsProj2)
+        'With rsProj2
+        '    If .RecordCount <> 0 Then
+        '        MDServerName2 = (.Fields("ServerName").Value.ToString)
+        '        'MDDatabaName = (.Fields("DatabaseName").Value.ToString)
+        '        'MDServerUser = (.Fields("UserName").Value.ToString)
+        '        'MDServerPassword = (.Fields("UserPassword").Value.ToString)
+        '        'MDSeriaAccess = (.Fields("PartitionSeria").Value.ToString)
+        '        'SPW = CStr((.Fields("SavePassword").Value.ToString))
+        '        'SUSID = CStr((.Fields("SaveUserID").Value.ToString))
+        '    End If
+        'End With
+
+
         Call ConnectSQL()
         If VSysError = True Then
 

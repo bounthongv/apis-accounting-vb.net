@@ -1,0 +1,3001 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F0262E98-F94A-4F0F-972A-B0E33169CE56}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>ApPBank10.My.MyApplication</StartupObject>
+    <RootNamespace>ApPBank10</RootNamespace>
+    <AssemblyName>APBank10_APB</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <ApplicationIcon>ApAccount.ico</ApplicationIcon>
+    <TargetZone>LocalIntranet</TargetZone>
+    <GenerateManifests>false</GenerateManifests>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>APBank10_APB.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>APBank10_APB.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Program Files (x86)\Microsoft.NET\Primary Interop Assemblies\adodb.dll</HintPath>
+    </Reference>
+    <Reference Include="AxInterop.VSFlex8U, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Enterprise.Framework, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Enterprise.InfoStore, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="Interop.VSFlex8U, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="MySql.Data, Version=6.7.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Update25112022\APACC21s_TAX_LinkAcc_A5\APACC21s_TAX_SN_LinkAcc_FN_A5\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\WINDOWS\assembly\GAC_MSIL\System.Web.Services\2.0.0.0__b03f5f7f11d50a3a\System.Web.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AAA\FmRpt_BLS_NEW.Designer.vb">
+      <DependentUpon>FmRpt_BLS_NEW.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FmRpt_BLS_NEW.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\FmRpt_CashNew.Designer.vb">
+      <DependentUpon>FmRpt_CashNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FmRpt_CashNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\FrmRpt_Fixed_Assets_NEW.Designer.vb">
+      <DependentUpon>FrmRpt_Fixed_Assets_NEW.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FrmRpt_Fixed_Assets_NEW.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\FrmRpt_Fixed_Assets.Designer.vb">
+      <DependentUpon>FrmRpt_Fixed_Assets.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FrmRpt_Fixed_Assets.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\Frm_AssetAdd.Designer.vb">
+      <DependentUpon>Frm_AssetAdd.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\Frm_AssetAdd.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\Frm_AssetList.Designer.vb">
+      <DependentUpon>Frm_AssetList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\Frm_AssetList.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\Frm_StatementOld.Designer.vb">
+      <DependentUpon>Frm_StatementOld.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\Frm_StatementOld.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\CryInvoiceTAX.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryInvoiceTAX.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AAA\FmAmtStatus123.designer.vb">
+      <DependentUpon>FmAmtStatus123.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FmAmtStatus123.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\FrmAdjustment_App.Designer.vb">
+      <DependentUpon>FrmAdjustment_App.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FrmAdjustment_App.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\FrmAdjustment_List.Designer.vb">
+      <DependentUpon>FrmAdjustment_List.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FrmAdjustment_List.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\FmRptPro_01.designer.vb">
+      <DependentUpon>FmRptPro_01.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FmRptPro_01.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\Frm_Statement.Designer.vb">
+      <DependentUpon>Frm_Statement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\Frm_Statement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\FrmSupplier.Designer.vb">
+      <DependentUpon>FrmSupplier.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FrmSupplier.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\FmJeneralJournal_Adjust_List.designer.vb">
+      <DependentUpon>FmJeneralJournal_Adjust_List.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FmJeneralJournal_Adjust_List.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\FmNsewJeneralJournal_Adjust.designer.vb">
+      <DependentUpon>FmNsewJeneralJournal_Adjust.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FmNsewJeneralJournal_Adjust.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\FmRptPro_New.designer.vb">
+      <DependentUpon>FmRptPro_New.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FmRptPro_New.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\FrmCustomer.Designer.vb">
+      <DependentUpon>FrmCustomer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\FrmCustomer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AAA\Frm_Acc_Adjust_Curr.designer.vb">
+      <DependentUpon>Frm_Acc_Adjust_Curr.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AAA\Frm_Acc_Adjust_Curr.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\BNK_Customer.vb">
+      <DependentUpon>BNK_Customer.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\Acc_Statement.vb">
+      <DependentUpon>Acc_Statement.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\Acc_Statement_Ac_Code.vb">
+      <DependentUpon>Acc_Statement_Ac_Code.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\CrystalReport_General_Jurnal_Curr_List_P_Curr.vb">
+      <DependentUpon>CrystalReport_General_Jurnal_Curr_List_P_Curr.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\CrystalReport_General_Jurnal_Curr_List_PO.vb">
+      <DependentUpon>CrystalReport_General_Jurnal_Curr_List_PO.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\CrystalReport_General_Jurnal_Curr_List_P.vb">
+      <DependentUpon>CrystalReport_General_Jurnal_Curr_List_P.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\CryRpt_BLSM_M.vb">
+      <DependentUpon>CryRpt_BLSM_M.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\CrystalReport_General_Jurnal_Curr_List_Lans.vb">
+      <DependentUpon>CrystalReport_General_Jurnal_Curr_List_Lans.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\CrystalReport_General_Jurnal_Curr_List.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport_General_Jurnal_Curr_List.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRate setting.designer.vb">
+      <DependentUpon>FrmRate setting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRate setting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_Group_accode.designer.vb">
+      <DependentUpon>Frm_Group_accode.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_Group_accode.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_New.designer.vb">
+      <DependentUpon>Frm_import_exel_New.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_New.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_AR_D20.designer.vb">
+      <DependentUpon>Frm_import_exel_AR_D20.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_AR_D20.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F01.designer.vb">
+      <DependentUpon>FrmRpt_F01.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F01.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_KS_BL.designer.vb">
+      <DependentUpon>Frm_import_exel_KS_BL.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_KS_BL.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmImport_Rate.designer.vb">
+      <DependentUpon>FrmImport_Rate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmImport_Rate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\frmImportExcel.designer.vb">
+      <DependentUpon>frmImportExcel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\frmImportExcel.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_KS_DG.designer.vb">
+      <DependentUpon>Frm_import_exel_KS_DG.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_KS_DG.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_KS.designer.vb">
+      <DependentUpon>Frm_import_exel_KS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_KS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_F08Edit.Designer.vb">
+      <DependentUpon>Frm_F08Edit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_F08Edit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_AR.designer.vb">
+      <DependentUpon>Frm_import_exel_AR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel_AR.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\F08.vb">
+      <DependentUpon>F08.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F08.designer.vb">
+      <DependentUpon>FrmRpt_F08.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F08.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F07.designer.vb">
+      <DependentUpon>FrmRpt_F07.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F07.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F06.designer.vb">
+      <DependentUpon>FrmRpt_F06.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F06.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\F05.vb">
+      <DependentUpon>F05.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F05.designer.vb">
+      <DependentUpon>FrmRpt_F05.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F05.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F04.designer.vb">
+      <DependentUpon>FrmRpt_F04.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F04.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\F011.vb">
+      <DependentUpon>F011.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\F01.vb">
+      <DependentUpon>F01.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\F04.vb">
+      <DependentUpon>F04.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\F07.vb">
+      <DependentUpon>F07.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ACC_NEW\F06.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>F06.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Form1111.designer.vb">
+      <DependentUpon>Form1111.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Form1111.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\CryRpt_BLS_BOL.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_BLS_BOL.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\CryRpt_BLS_BOL_Item.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_BLS_BOL_Item.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\CryRpt_Income_BOL.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_Income_BOL.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\CryRpt_Income_BOL_Item.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_Income_BOL_Item.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\FmRpt_BLS_BOL.designer.vb">
+      <DependentUpon>FmRpt_BLS_BOL.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\FmRpt_BLS_BOL.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\FmRpt_BLS_BOL_Item.designer.vb">
+      <DependentUpon>FmRpt_BLS_BOL_Item.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\FmRpt_BLS_BOL_Item.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\FmRpt_Income_BOL.Designer.vb">
+      <DependentUpon>FmRpt_Income_BOL.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\FmRpt_Income_BOL.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\FmRpt_Income_Item_BOL.designer.vb">
+      <DependentUpon>FmRpt_Income_Item_BOL.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_BOL\FmRpt_Income_Item_BOL.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_F01Edit.Designer.vb">
+      <DependentUpon>Frm_F01Edit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_F01Edit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel.designer.vb">
+      <DependentUpon>Frm_import_exel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_exel.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_progress.Designer.vb">
+      <DependentUpon>Frm_import_progress.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_import_progress.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F011.designer.vb">
+      <DependentUpon>FrmRpt_F011.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\FrmRpt_F011.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_mformat.designer.vb">
+      <DependentUpon>Frm_mformat.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Frm_mformat.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACC_NEW\Rate_settingb.designer.vb">
+      <DependentUpon>Rate_settingb.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ACC_NEW\Rate_settingb.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AP_NEW\FmAmtStatusNEW.designer.vb">
+      <DependentUpon>FmAmtStatusNEW.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AP_NEW\FmAmtStatusNEW.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AP_NEW\FrmAsset_List_LSNEW.designer.vb">
+      <DependentUpon>FrmAsset_List_LSNEW.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AP_NEW\FrmAsset_List_LSNEW.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AP_NEW\FrmGrpNew_LS.designer.vb">
+      <DependentUpon>FrmGrpNew_LS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AP_NEW\FrmGrpNew_LS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Asset\Cry_Fixed_Assets_Register_All_New_L.vb">
+      <DependentUpon>Cry_Fixed_Assets_Register_All_New_L.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Asset\Cry_Fixed_Assets_Register_All_New.vb">
+      <DependentUpon>Cry_Fixed_Assets_Register_All_New.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Asset\CryAss_Broke.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryAss_Broke.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryAss_BrokeEng.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryAss_BrokeEng.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\Cry_Fixed_Assets_Register_All.vb">
+      <DependentUpon>Cry_Fixed_Assets_Register_All.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Asset\Cry_Fixed_Assets_Register.vb">
+      <DependentUpon>Cry_Fixed_Assets_Register.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Asset\Cry Asset Department.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Cry Asset Department.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\Cry Asset DepartmentE.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Cry Asset DepartmentE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\Cry Asset Group.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Cry Asset Group.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\Cry Asset GroupE.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Cry Asset GroupE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryAssetItem.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryAssetItem.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryAss_List.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryAss_List.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryAss_ListEng.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryAss_ListEng.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryAss_ListLand.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryAss_ListLand.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_Grp.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_Grp.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_GrpEng.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_GrpEng.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_GrpLong.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_GrpLong.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_GrpLongEng.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_GrpLongEng.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_GrpLongNoBr.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_GrpLongNoBr.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_GrpLongNoBrEng.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_GrpLongNoBrEng.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_GrpLongPost.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_GrpLongPost.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_GrpLongPostEng.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_GrpLongPostEng.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_GrpSum.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_GrpSum.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_GrpSumEng.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_GrpSumEng.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_GrpSumLong.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_GrpSumLong.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\CryRpt_GrpSumLongEng.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_GrpSumLongEng.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\Crystal_Asset_VTE_Detaill.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Crystal_Asset_VTE_Detaill.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\Crystal_SummaryALL_GrpNEW.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Crystal_SummaryALL_GrpNEW.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\Crystal_SummaryDetaill.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Crystal_SummaryDetaill.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Asset\FrmAssetNew.designer.vb">
+      <DependentUpon>FrmAssetNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset\FrmAssetNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Asset\FrmAsset_Broke.designer.vb">
+      <DependentUpon>FrmAsset_Broke.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset\FrmAsset_Broke.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Asset\FrmAsset_Grp.designer.vb">
+      <DependentUpon>FrmAsset_Grp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset\FrmAsset_Grp.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Asset\FrmAsset_List.designer.vb">
+      <DependentUpon>FrmAsset_List.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset\FrmAsset_List.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Asset\FrmBrokeNew.Designer.vb">
+      <DependentUpon>FrmBrokeNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset\FrmBrokeNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Asset\FrmDepartmentNew.designer.vb">
+      <DependentUpon>FrmDepartmentNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset\FrmDepartmentNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Asset\FrmDepartment_List.designer.vb">
+      <DependentUpon>FrmDepartment_List.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset\FrmDepartment_List.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Asset\FrmGrpNew.designer.vb">
+      <DependentUpon>FrmGrpNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset\FrmGrpNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Asset\FrmList_ASST.designer.vb">
+      <DependentUpon>FrmList_ASST.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset\FrmList_ASST.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Asset\FrmRpt_Group.designer.vb">
+      <DependentUpon>FrmRpt_Group.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Asset\FrmRpt_Group.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApiClient.vb" />
+    <Compile Include="DataSet1.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmData server.Designer.vb">
+      <DependentUpon>FrmData server.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmData server.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Old\FmRpt_Income_Old2.designer.vb">
+      <DependentUpon>FmRpt_Income_Old2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_Old\FmRpt_Income_Old2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Old\FmBLS_Item_Old.designer.vb">
+      <DependentUpon>FmBLS_Item_Old.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_Old\FmBLS_Item_Old.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Old\FmIncome_Old.designer.vb">
+      <DependentUpon>FmIncome_Old.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_Old\FmIncome_Old.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Old\FmRpt_BLS_BCEL.designer.vb">
+      <DependentUpon>FmRpt_BLS_BCEL.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_Old\FmRpt_BLS_BCEL.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Old\FmRpt_Income_Old.designer.vb">
+      <DependentUpon>FmRpt_Income_Old.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_Old\FmRpt_Income_Old.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module\Form3.Designer.vb">
+      <DependentUpon>Form3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Module\Form3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module\MDRateSetting.vb" />
+    <Compile Include="Module\MuChangBalance.vb" />
+    <Compile Include="Module\MuHideMenu.vb" />
+    <Compile Include="Module\MySqlModule.vb" />
+    <Compile Include="RPT2022\CryTrialBalanceReport_6_Incom2022.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryTrialBalanceReport_6_Incom2022.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT2022\CryTrialBalanceReport_6_Incom2022_3_5.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryTrialBalanceReport_6_Incom2022_3_5.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT2022\CryTrialBalanceReport_6_Incom2022_3_5_BType.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryTrialBalanceReport_6_Incom2022_3_5_BType.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT2022\CryTrialBalanceReport_6_Incom2022_3_5_G.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryTrialBalanceReport_6_Incom2022_3_5_G.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT2022\CryTrialBalanceReport_6_Incom2022_3_5_G_BType.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryTrialBalanceReport_6_Incom2022_3_5_G_BType.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT2022\CryTrialBalanceReport_6_Incom2022_3_5_New.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryTrialBalanceReport_6_Incom2022_3_5_New.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT2022\CryTrialBalanceReport_6_Incom2022_BType.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryTrialBalanceReport_6_Incom2022_BType.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT2022\FmTrialBalanceReport2022.designer.vb">
+      <DependentUpon>FmTrialBalanceReport2022.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RPT2022\FmTrialBalanceReport2022.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\ConnectClientServer.vb" />
+    <Compile Include="RPT_NEW\CryRpt_Depreciation1.vb">
+      <DependentUpon>CryRpt_Depreciation1.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="RPT_NEW\CryRpt_Depreciation2.vb">
+      <DependentUpon>CryRpt_Depreciation2.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="RPT_NEW\CryRpt_Depreciation3.vb">
+      <DependentUpon>CryRpt_Depreciation3.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="RPT_NEW\CryRpt_Depreciation4.vb">
+      <DependentUpon>CryRpt_Depreciation4.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="RPT_NEW\CryRpt_Depreciation.vb">
+      <DependentUpon>CryRpt_Depreciation.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="RPT_NEW\FmRpt_Depreciation.designer.vb">
+      <DependentUpon>FmRpt_Depreciation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RPT_NEW\FmRpt_Depreciation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\FmRptProItem_O6.Designer.vb">
+      <DependentUpon>FmRptProItem_O6.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RPT_NEW\FmRptProItem_O6.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\CryRpt_Pro6.vb">
+      <DependentUpon>CryRpt_Pro6.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="RPT_NEW\CryRpt_liabilities.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_liabilities.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\CryRpt_Pro1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_Pro1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\CryRpt_Prodetail.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_Prodetail.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\CryRpt_Risk_rate.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_Risk_rate.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\CryRpt_Total_Assets.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_Total_Assets.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\FmAutoAdd.Designer.vb">
+      <DependentUpon>FmAutoAdd.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RPT_NEW\FmAutoAdd.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\FmCaculate_Pro.Designer.vb">
+      <DependentUpon>FmCaculate_Pro.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RPT_NEW\FmCaculate_Pro.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\FmRptPro.designer.vb">
+      <DependentUpon>FmRptPro.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RPT_NEW\FmRptPro.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\FmRptProItem.Designer.vb">
+      <DependentUpon>FmRptProItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RPT_NEW\FmRptProItem.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RPT_NEW\FrmAccSearch.designer.vb">
+      <DependentUpon>FrmAccSearch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RPT_NEW\FrmAccSearch.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmPostedLedgers_From2.Designer.vb">
+      <DependentUpon>FmPostedLedgers_From2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmPostedLedgers_From2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmAmtStatus_Item.Designer.vb">
+      <DependentUpon>FmAmtStatus_Item.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmAmtStatus_Item.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmCashflow_Item.designer.vb">
+      <DependentUpon>FmCashflow_Item.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmCashflow_Item.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmClosing.designer.vb">
+      <DependentUpon>FmClosing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmClosing.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmJeneralJournal_List.designer.vb">
+      <DependentUpon>FmJeneralJournal_List.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmJeneralJournal_List.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmPostedLedgers_From3.Designer.vb">
+      <DependentUpon>FmPostedLedgers_From3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmPostedLedgers_From3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRpt_BLS3.Designer.vb">
+      <DependentUpon>FmRpt_BLS3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRpt_BLS3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\CryLOGO.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryLOGO.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\CryRpt_Income_Itemxx.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRpt_Income_Itemxx.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmBLS.designer.vb">
+      <DependentUpon>FmBLS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmBLS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmCaculate_Rpt.Designer.vb">
+      <DependentUpon>FmCaculate_Rpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmCaculate_Rpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\Fmfind.Designer.vb">
+      <DependentUpon>Fmfind.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\Fmfind.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmIncome.designer.vb">
+      <DependentUpon>FmIncome.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmIncome.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmLangaugeSeting.Designer.vb">
+      <DependentUpon>FmLangaugeSeting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmLangaugeSeting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmOff_User.Designer.vb">
+      <DependentUpon>FmOff_User.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmOff_User.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmOpen_jn_List.designer.vb">
+      <DependentUpon>FmOpen_jn_List.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmOpen_jn_List.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmTrialBalanceReport.designer.vb">
+      <DependentUpon>FmTrialBalanceReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmTrialBalanceReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryPostedLedgers3.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryPostedLedgers3.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryPostedLedgersCurr3.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryPostedLedgersCurr3.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryPostedLedgersCurr_From2.vb">
+      <DependentUpon>CryPostedLedgersCurr_From2.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryPostedLedgers_Eng_From2.vb">
+      <DependentUpon>CryPostedLedgers_Eng_From2.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryPostedLedgers_From2.vb">
+      <DependentUpon>CryPostedLedgers_From2.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryCashflow_statement2.vb">
+      <DependentUpon>CryCashflow_statement2.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_BLS_Exp.vb">
+      <DependentUpon>CryRpt_BLS_Exp.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_BLS_M_Exp.vb">
+      <DependentUpon>CryRpt_BLS_M_Exp.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryPostedLedgers_Eng.vb">
+      <DependentUpon>CryPostedLedgers_Eng.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom_NEW_Mae_3_5.vb">
+      <DependentUpon>CryTrialBalanceReport_6_Incom_NEW_Mae_3_5.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryGeneralLedgersUserO.vb">
+      <DependentUpon>CryGeneralLedgersUserO.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryNewsJerneralJournal.vb">
+      <DependentUpon>CryNewsJerneralJournal.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryNewsJerneralJournal_Old.vb">
+      <DependentUpon>CryNewsJerneralJournal_Old.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_Income_Old_M.vb">
+      <DependentUpon>CryRpt_Income_Old_M.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_BLS_M.vb">
+      <DependentUpon>CryRpt_BLS_M.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CrystalReport_posted_ledgers_ALL.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport_posted_ledgers_ALL.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom_NEW_Mae.vb">
+      <DependentUpon>CryTrialBalanceReport_6_Incom_NEW_Mae.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom_NEW_Acc.vb">
+      <DependentUpon>CryTrialBalanceReport_6_Incom_NEW_Acc.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom_NEW.vb">
+      <DependentUpon>CryTrialBalanceReport_6_Incom_NEW.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_BLS_NNN.vb">
+      <DependentUpon>CryRpt_BLS_NNN.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_BLSg.vb">
+      <DependentUpon>CryRpt_BLSg.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_Income11.vb">
+      <DependentUpon>CryRpt_Income1.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_BLS1.vb">
+      <DependentUpon>CryRpt_BLS1.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_BLS_Old.vb">
+      <DependentUpon>CryRpt_BLS_Old.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_Income_Old.vb">
+      <DependentUpon>CryRpt_Income_Old.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryAmt_Status.vb">
+      <DependentUpon>CryAmt_Status.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\Copy of CryTrialBalanceReport_6_Detail.vb">
+      <DependentUpon>Copy of CryTrialBalanceReport_6_Detail.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_Cashflow_Item.vb">
+      <DependentUpon>CryRpt_Cashflow_Item.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_BLS.vb">
+      <DependentUpon>CryRpt_BLS.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryShartOfAcc2.vb">
+      <DependentUpon>CryShartOfAcc2.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\Crybandon_year.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Crybandon_year.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryOpen_yearAllSty.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryOpen_yearAllSty.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryTrialBalanceReport_6.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryTrialBalanceReport_6_Incom.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom2.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryTrialBalanceReport_6_Incom2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\FmAmtStatus.designer.vb">
+      <DependentUpon>FmAmtStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\FmAmtStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\FmAmtStatus123.Designer.vb">
+      <DependentUpon>FmAmtStatus123.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\FmAmtStatus123.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmLogin.designer.vb">
+      <DependentUpon>FmLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmLogin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRate.designer.vb">
+      <DependentUpon>FmRate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRpt_Income_BankSty.Designer.vb">
+      <DependentUpon>FmRpt_Income_BankSty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRpt_Income_BankSty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FrmSet date working.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_Incomexxy.vb">
+      <DependentUpon>CryRpt_Incomexxy.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmMessageBox.designer.vb">
+      <DependentUpon>FmMessageBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmMessageBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmRpt_JeneralJournal.Designer.vb">
+      <DependentUpon>FmRpt_JeneralJournal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmRpt_JeneralJournal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\frmBackup_Restore.designer.vb">
+      <DependentUpon>frmBackup_Restore.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\frmBackup_Restore.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FrmUser_DDC.designer.vb">
+      <DependentUpon>FrmUser_DDC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FrmUser_DDC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\Copy of CryPostedLedgers.vb">
+      <DependentUpon>Copy of CryPostedLedgers.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\Report\Copy of CryRpt_Income_Item.vb">
+      <DependentUpon>Copy of CryRpt_Income_Item.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_Income_Y.vb">
+      <DependentUpon>CryRpt_Income_Y.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_Income_Q.vb">
+      <DependentUpon>CryRpt_Income_Q.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRpt_Income.Designer.vb">
+      <DependentUpon>FmRpt_Income.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRpt_Income.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmLocKey.Designer.vb">
+      <DependentUpon>FmLocKey.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmLocKey.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module\MuSecurity.vb" />
+    <Compile Include="Sonexay\AccSystem\Frm\FmAccountBook.designer.vb">
+      <DependentUpon>FmAccountBook.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmAccountBook.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmImgSize.Designer.vb">
+      <DependentUpon>FmImgSize.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmImgSize.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmLock.Designer.vb">
+      <DependentUpon>FmLock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmLock.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmLogOut.designer.vb">
+      <DependentUpon>FmLogOut.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmLogOut.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\Fmdelete.Designer.vb">
+      <DependentUpon>Fmdelete.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\Fmdelete.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRpt_BLS.Designer.vb">
+      <DependentUpon>FmRpt_BLS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRpt_BLS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FrmSet date working.designer.vb">
+      <DependentUpon>FrmSet date working.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FrmUser.designer.vb">
+      <DependentUpon>FrmUser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FrmUser.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module\MdLswin.vb" />
+    <Compile Include="Module\MDPartitionSeria.vb" />
+    <Compile Include="Module\MdiContainer.vb" />
+    <Compile Include="Module\SaveImageToSQL.vb" />
+    <Compile Include="Sonexay\Form\Conection_To_Servee.designer.vb">
+      <DependentUpon>Conection_To_Servee.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\Conection_To_Servee.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module\MuLangauge.vb" />
+    <Compile Include="Sonexay\Form\FmPartition.designer.vb">
+      <DependentUpon>FmPartition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmPartition.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmRestorData.Designer.vb">
+      <DependentUpon>FmRestorData.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmRestorData.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmMain.designer.vb">
+      <DependentUpon>FmMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmOffice_AP.designer.vb">
+      <DependentUpon>FmOffice_AP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmOffice_AP.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\Office_AP.designer.vb">
+      <DependentUpon>Office_AP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\Office_AP.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module\MDDeclareLation.vb" />
+    <Compile Include="Module\MDFuntion.vb" />
+    <Compile Include="Module\MDNum_String.vb" />
+    <Compile Include="Module\MDAccessConnection.vb" />
+    <Compile Include="Module\MDOffice.vb" />
+    <Compile Include="Module\MDSQLConnection.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmLoanClosing.designer.vb">
+      <DependentUpon>FmLoanClosing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmLoanClosing.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmNewOpen_jn.designer.vb">
+      <DependentUpon>FmNewOpen_jn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmNewOpen_jn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmNsewJeneralJournal.designer.vb">
+      <DependentUpon>FmNsewJeneralJournal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmNsewJeneralJournal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmPostedLedgers.Designer.vb">
+      <DependentUpon>FmPostedLedgers.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmPostedLedgers.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmPreview.Designer.vb">
+      <DependentUpon>FmPreview.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmPreview.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRateStatus.designer.vb">
+      <DependentUpon>FmRateStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmRateStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmReceipt.designer.vb">
+      <DependentUpon>FmReceipt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmReceipt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmReceipt_List.designer.vb">
+      <DependentUpon>FmReceipt_List.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmReceipt_List.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\fmShartOfAcc.designer.vb">
+      <DependentUpon>fmShartOfAcc.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\fmShartOfAcc.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\fmShartOfAccDetail.designer.vb">
+      <DependentUpon>fmShartOfAccDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\fmShartOfAccDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmShow.designer.vb">
+      <DependentUpon>FmShow.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FmShow.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmCalcu.designer.vb">
+      <DependentUpon>FmCalcu.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FmCalcu.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\Fm_Image.Designer.vb">
+      <DependentUpon>Fm_Image.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\Fm_Image.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FrmBackup Data.designer.vb">
+      <DependentUpon>FrmBackup Data.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FrmBackup Data.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Form\FrmSerial_For_Registration.designer.vb">
+      <DependentUpon>FrmSerial_For_Registration.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\Form\FrmSerial_For_Registration.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FrNewAcc.designer.vb">
+      <DependentUpon>FrNewAcc.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Frm\FrNewAcc.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module\MdCvConsonant.vb" />
+    <Compile Include="Sonexay\Report\CryProgramRepay.vb">
+      <DependentUpon>CryProgramRepay.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\Report\CryLoanPaymentTebleAll.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryLoanPaymentTebleAll.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\CryLoanRePayTeble.vb">
+      <DependentUpon>CryLoanRePayTeble.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\Report\CrySy.vb">
+      <DependentUpon>CrySy.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryGeneralLedgers.vb">
+      <DependentUpon>CryGeneralLedgers.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryGeneralLedgersUser.vb">
+      <DependentUpon>CryGeneralLedgersUser.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\Report\CryKamhong.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryKamhong.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_Income_Item.vb">
+      <DependentUpon>CryRpt_Income_Item.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_BLSItem.vb">
+      <DependentUpon>CryRpt_BLSItem.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryRpt_Income.vb">
+      <DependentUpon>CryRpt_Income.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryNewsJerneralJournal1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryNewsJerneralJournal1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryPostedLedgersCurr.vb">
+      <DependentUpon>CryPostedLedgersCurr.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Sonexay\Report\CryBreadownOfDepositsE1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryBreadownOfDepositsE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\CryExcludingRelatedPartiesE1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryExcludingRelatedPartiesE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\CryInComeStaementE1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryInComeStaementE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\CryListOfLoansToRelaetdPartiesE1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryListOfLoansToRelaetdPartiesE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\CryLoanBreadownByCategoryE1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryLoanBreadownByCategoryE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\CryLoanClassificaionAndProVisioningE1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryLoanClassificaionAndProVisioningE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\Cryloanpayment1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Cryloanpayment.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\Cryloan_Receipt1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Cryloan_Receipt.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\CryOpen_jn.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryOpen_jn.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryPostedLedgers.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryPostedLedgers.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\CryRateService_list.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryRateService_list.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryCashflow_statement.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryCashflow_statement.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\AccSystem\Rpt\CryShartOfAcc1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CryShartOfAcc.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sonexay\Report\Imgee.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Imgee.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AAA\FmRpt_BLS_NEW.resx">
+      <DependentUpon>FmRpt_BLS_NEW.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FmRpt_CashNew.resx">
+      <DependentUpon>FmRpt_CashNew.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FrmRpt_Fixed_Assets_NEW.resx">
+      <DependentUpon>FrmRpt_Fixed_Assets_NEW.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FrmRpt_Fixed_Assets.resx">
+      <DependentUpon>FrmRpt_Fixed_Assets.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\Frm_AssetAdd.resx">
+      <DependentUpon>Frm_AssetAdd.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\Frm_AssetList.resx">
+      <DependentUpon>Frm_AssetList.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\Frm_StatementOld.resx">
+      <DependentUpon>Frm_StatementOld.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\CryInvoiceTAX.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryInvoiceTAX.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FmAmtStatus123.resx">
+      <DependentUpon>FmAmtStatus123.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FrmAdjustment_App.resx">
+      <DependentUpon>FrmAdjustment_App.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FrmAdjustment_List.resx">
+      <DependentUpon>FrmAdjustment_List.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FmRptPro_01.resx">
+      <DependentUpon>FmRptPro_01.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\Frm_Statement.resx">
+      <DependentUpon>Frm_Statement.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FrmSupplier.resx">
+      <DependentUpon>FrmSupplier.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FmJeneralJournal_Adjust_List.resx">
+      <DependentUpon>FmJeneralJournal_Adjust_List.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FmNsewJeneralJournal_Adjust.resx">
+      <DependentUpon>FmNsewJeneralJournal_Adjust.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FmRptPro_New.resx">
+      <DependentUpon>FmRptPro_New.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\FrmCustomer.resx">
+      <DependentUpon>FrmCustomer.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AAA\Frm_Acc_Adjust_Curr.resx">
+      <DependentUpon>Frm_Acc_Adjust_Curr.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\BNK_Customer.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BNK_Customer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Acc_Statement.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Acc_Statement.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Acc_Statement_Ac_Code.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Acc_Statement_Ac_Code.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\CrystalReport_General_Jurnal_Curr_List_P_Curr.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport_General_Jurnal_Curr_List_P_Curr.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\CrystalReport_General_Jurnal_Curr_List_PO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport_General_Jurnal_Curr_List_PO.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\CrystalReport_General_Jurnal_Curr_List_P.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport_General_Jurnal_Curr_List_P.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\CryRpt_BLSM_M.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLSM_M.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\CrystalReport_General_Jurnal_Curr_List_Lans.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport_General_Jurnal_Curr_List_Lans.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\CrystalReport_General_Jurnal_Curr_List.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport_General_Jurnal_Curr_List.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\FrmRate setting.resx">
+      <DependentUpon>FrmRate setting.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_Group_accode.resx">
+      <DependentUpon>Frm_Group_accode.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_import_exel_New.resx">
+      <DependentUpon>Frm_import_exel_New.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_import_exel_AR_D20.resx">
+      <DependentUpon>Frm_import_exel_AR_D20.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\FrmRpt_F01.resx">
+      <DependentUpon>FrmRpt_F01.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_import_exel_KS_BL.resx">
+      <DependentUpon>Frm_import_exel_KS_BL.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\FrmImport_Rate.resx">
+      <DependentUpon>FrmImport_Rate.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\frmImportExcel.resx">
+      <DependentUpon>frmImportExcel.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_import_exel_KS_DG.resx">
+      <DependentUpon>Frm_import_exel_KS_DG.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_import_exel_KS.resx">
+      <DependentUpon>Frm_import_exel_KS.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_F08Edit.resx">
+      <DependentUpon>Frm_F08Edit.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_import_exel_AR.resx">
+      <DependentUpon>Frm_import_exel_AR.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\F08.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>F08.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\FrmRpt_F08.resx">
+      <DependentUpon>FrmRpt_F08.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\FrmRpt_F07.resx">
+      <DependentUpon>FrmRpt_F07.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\FrmRpt_F06.resx">
+      <DependentUpon>FrmRpt_F06.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\F05.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>F05.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\FrmRpt_F05.resx">
+      <DependentUpon>FrmRpt_F05.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\FrmRpt_F04.resx">
+      <DependentUpon>FrmRpt_F04.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\F011.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>F011.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\F01.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>F01.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\F04.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>F04.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\F07.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>F07.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\F06.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>F06.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Form1111.resx">
+      <DependentUpon>Form1111.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_BOL\CryRpt_BLS_BOL.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLS_BOL.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_BOL\CryRpt_BLS_BOL_Item.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLS_BOL_Item.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_BOL\CryRpt_Income_BOL.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Income_BOL.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_BOL\CryRpt_Income_BOL_Item.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Income_BOL_Item.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_BOL\FmRpt_BLS_BOL.resx">
+      <DependentUpon>FmRpt_BLS_BOL.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_BOL\FmRpt_BLS_BOL_Item.resx">
+      <DependentUpon>FmRpt_BLS_BOL_Item.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_BOL\FmRpt_Income_BOL.resx">
+      <DependentUpon>FmRpt_Income_BOL.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_BOL\FmRpt_Income_Item_BOL.resx">
+      <DependentUpon>FmRpt_Income_Item_BOL.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_F01Edit.resx">
+      <DependentUpon>Frm_F01Edit.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_import_exel.resx">
+      <DependentUpon>Frm_import_exel.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_import_progress.resx">
+      <DependentUpon>Frm_import_progress.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\FrmRpt_F011.resx">
+      <DependentUpon>FrmRpt_F011.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Frm_mformat.resx">
+      <DependentUpon>Frm_mformat.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACC_NEW\Rate_settingb.resx">
+      <DependentUpon>Rate_settingb.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP_NEW\FmAmtStatusNEW.resx">
+      <DependentUpon>FmAmtStatusNEW.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP_NEW\FrmAsset_List_LSNEW.resx">
+      <DependentUpon>FrmAsset_List_LSNEW.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP_NEW\FrmGrpNew_LS.resx">
+      <DependentUpon>FrmGrpNew_LS.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\Cry_Fixed_Assets_Register_All_New_L.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Cry_Fixed_Assets_Register_All_New_L.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\Cry_Fixed_Assets_Register_All_New.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Cry_Fixed_Assets_Register_All_New.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryAss_Broke.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryAss_Broke.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryAss_BrokeEng.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryAss_BrokeEng.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\Cry_Fixed_Assets_Register_All.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Cry_Fixed_Assets_Register_All.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\Cry_Fixed_Assets_Register.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Cry_Fixed_Assets_Register.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\Cry Asset Department.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Cry Asset Department.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\Cry Asset DepartmentE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Cry Asset DepartmentE.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\Cry Asset Group.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Cry Asset Group.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\Cry Asset GroupE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Cry Asset GroupE.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryAssetItem.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryAssetItem.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryAss_List.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryAss_List.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryAss_ListEng.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryAss_ListEng.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryAss_ListLand.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryAss_ListLand.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_Grp.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Grp.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_GrpEng.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_GrpEng.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_GrpLong.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_GrpLong.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_GrpLongEng.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_GrpLongEng.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_GrpLongNoBr.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_GrpLongNoBr.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_GrpLongNoBrEng.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_GrpLongNoBrEng.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_GrpLongPost.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_GrpLongPost.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_GrpLongPostEng.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_GrpLongPostEng.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_GrpSum.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_GrpSum.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_GrpSumEng.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_GrpSumEng.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_GrpSumLong.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_GrpSumLong.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\CryRpt_GrpSumLongEng.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_GrpSumLongEng.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\Crystal_Asset_VTE_Detaill.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Crystal_Asset_VTE_Detaill.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\Crystal_SummaryALL_GrpNEW.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Crystal_SummaryALL_GrpNEW.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\Crystal_SummaryDetaill.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Crystal_SummaryDetaill.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\FrmAssetNew.resx">
+      <DependentUpon>FrmAssetNew.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\FrmAsset_Broke.resx">
+      <DependentUpon>FrmAsset_Broke.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\FrmAsset_Grp.resx">
+      <DependentUpon>FrmAsset_Grp.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\FrmAsset_List.resx">
+      <DependentUpon>FrmAsset_List.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\FrmBrokeNew.resx">
+      <DependentUpon>FrmBrokeNew.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\FrmDepartmentNew.resx">
+      <DependentUpon>FrmDepartmentNew.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\FrmDepartment_List.resx">
+      <DependentUpon>FrmDepartment_List.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\FrmGrpNew.resx">
+      <DependentUpon>FrmGrpNew.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\FrmList_ASST.resx">
+      <DependentUpon>FrmList_ASST.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\FrmRpt_Group.resx">
+      <DependentUpon>FrmRpt_Group.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmData server.resx">
+      <DependentUpon>FrmData server.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Old\FmRpt_Income_Old2.resx">
+      <DependentUpon>FmRpt_Income_Old2.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Old\FmBLS_Item_Old.resx">
+      <DependentUpon>FmBLS_Item_Old.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Old\FmIncome_Old.resx">
+      <DependentUpon>FmIncome_Old.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Old\FmRpt_BLS_BCEL.resx">
+      <DependentUpon>FmRpt_BLS_BCEL.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Old\FmRpt_Income_Old.resx">
+      <DependentUpon>FmRpt_Income_Old.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Module\Form3.resx">
+      <DependentUpon>Form3.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Module\Report1.rdlc" />
+    <EmbeddedResource Include="RPT2022\CryTrialBalanceReport_6_Incom2022.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom2022.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT2022\CryTrialBalanceReport_6_Incom2022_3_5.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom2022_3_5.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT2022\CryTrialBalanceReport_6_Incom2022_3_5_BType.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom2022_3_5_BType.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT2022\CryTrialBalanceReport_6_Incom2022_3_5_G.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom2022_3_5_G.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT2022\CryTrialBalanceReport_6_Incom2022_3_5_G_BType.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom2022_3_5_G_BType.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT2022\CryTrialBalanceReport_6_Incom2022_3_5_New.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom2022_3_5_New.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT2022\CryTrialBalanceReport_6_Incom2022_BType.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom2022_BType.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT2022\FmTrialBalanceReport2022.resx">
+      <DependentUpon>FmTrialBalanceReport2022.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\Atuset.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\CryRpt_Depreciation1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Depreciation1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\CryRpt_Depreciation2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Depreciation2.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\CryRpt_Depreciation3.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Depreciation3.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\CryRpt_Depreciation4.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Depreciation4.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\CryRpt_Depreciation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Depreciation.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\FmRpt_Depreciation.resx">
+      <DependentUpon>FmRpt_Depreciation.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\FmRptProItem_O6.resx">
+      <DependentUpon>FmRptProItem_O6.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\CryRpt_Pro6.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Pro6.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\CryRpt_liabilities.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_liabilities.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\CryRpt_Pro1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Pro1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\CryRpt_Prodetail.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Prodetail.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\CryRpt_Risk_rate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Risk_rate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\CryRpt_Total_Assets.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Total_Assets.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\FmAutoAdd.resx">
+      <DependentUpon>FmAutoAdd.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\FmCaculate_Pro.resx">
+      <DependentUpon>FmCaculate_Pro.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\FmRptPro.resx">
+      <DependentUpon>FmRptPro.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\FmRptProItem.resx">
+      <DependentUpon>FmRptProItem.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RPT_NEW\FrmAccSearch.resx">
+      <DependentUpon>FrmAccSearch.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmPostedLedgers_From2.resx">
+      <DependentUpon>FmPostedLedgers_From2.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmAmtStatus_Item.resx">
+      <DependentUpon>FmAmtStatus_Item.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmCashflow_Item.resx">
+      <DependentUpon>FmCashflow_Item.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmClosing.resx">
+      <DependentUpon>FmClosing.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmJeneralJournal_List.resx">
+      <DependentUpon>FmJeneralJournal_List.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmPostedLedgers_From3.resx">
+      <DependentUpon>FmPostedLedgers_From3.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmRpt_BLS3.resx">
+      <DependentUpon>FmRpt_BLS3.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\CryLOGO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryLOGO.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\CryRpt_Income_Itemxx.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Income_Itemxx.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmBLS.resx">
+      <DependentUpon>FmBLS.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmCaculate_Rpt.resx">
+      <DependentUpon>FmCaculate_Rpt.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\Fmfind.resx">
+      <DependentUpon>Fmfind.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmIncome.resx">
+      <DependentUpon>FmIncome.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmLangaugeSeting.resx">
+      <DependentUpon>FmLangaugeSeting.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmOff_User.resx">
+      <DependentUpon>FmOff_User.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmOpen_jn_List.resx">
+      <DependentUpon>FmOpen_jn_List.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmTrialBalanceReport.resx">
+      <DependentUpon>FmTrialBalanceReport.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryPostedLedgers3.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryPostedLedgers3.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryPostedLedgersCurr3.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryPostedLedgersCurr3.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryPostedLedgersCurr_From2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryPostedLedgersCurr_From2.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryPostedLedgers_Eng_From2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryPostedLedgers_Eng_From2.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryPostedLedgers_From2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryPostedLedgers_From2.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryCashflow_statement2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryCashflow_statement2.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_BLS_Exp.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLS_Exp.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_BLS_M_Exp.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLS_M_Exp.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryPostedLedgers_Eng.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryPostedLedgers_Eng.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom_NEW_Mae_3_5.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom_NEW_Mae_3_5.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryGeneralLedgersUserO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryGeneralLedgersUserO.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryNewsJerneralJournal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryNewsJerneralJournal.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryNewsJerneralJournal_Old.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryNewsJerneralJournal_Old.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_Income_Old_M.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Income_Old_M.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_BLS_M.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLS_M.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CrystalReport_posted_ledgers_ALL.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport_posted_ledgers_ALL.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom_NEW_Mae.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom_NEW_Mae.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom_NEW_Acc.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom_NEW_Acc.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom_NEW.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom_NEW.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_BLS_NNN.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLS_NNN.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_BLSg.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLSg.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_Income1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Income11.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_BLS1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLS1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_BLS_Old.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLS_Old.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_Income_Old.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Income_Old.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryAmt_Status.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryAmt_Status.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\Copy of CryTrialBalanceReport_6_Detail.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Copy of CryTrialBalanceReport_6_Detail.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_Cashflow_Item.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Cashflow_Item.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_BLS.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLS.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryShartOfAcc2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryShartOfAcc2.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\Crybandon_year.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Crybandon_year.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryOpen_yearAllSty.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryOpen_yearAllSty.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryTrialBalanceReport_6_Incom2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryTrialBalanceReport_6_Incom2.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\FmAmtStatus.resx">
+      <DependentUpon>FmAmtStatus.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\FmAmtStatus123.resx">
+      <DependentUpon>FmAmtStatus123.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmLogin.resx">
+      <DependentUpon>FmLogin.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmRate.resx">
+      <DependentUpon>FmRate.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmRpt_Income_BankSty.resx">
+      <DependentUpon>FmRpt_Income_BankSty.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_Incomexxy.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Incomexxy.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmMessageBox.resx">
+      <DependentUpon>FmMessageBox.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmRpt_JeneralJournal.resx">
+      <DependentUpon>FmRpt_JeneralJournal.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\frmBackup_Restore.resx">
+      <DependentUpon>frmBackup_Restore.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FrmUser_DDC.resx">
+      <DependentUpon>FrmUser_DDC.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\Copy of CryPostedLedgers.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Copy of CryPostedLedgers.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\Copy of CryRpt_Income_Item.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Copy of CryRpt_Income_Item.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_Income_Y.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Income_Y.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_Income_Q.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Income_Q.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmRpt_Income.resx">
+      <DependentUpon>FmRpt_Income.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmLocKey.resx">
+      <DependentUpon>FmLocKey.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmAccountBook.resx">
+      <DependentUpon>FmAccountBook.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmImgSize.resx">
+      <DependentUpon>FmImgSize.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmLock.resx">
+      <DependentUpon>FmLock.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmLogOut.resx">
+      <DependentUpon>FmLogOut.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\Fmdelete.resx">
+      <DependentUpon>Fmdelete.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmRpt_BLS.resx">
+      <DependentUpon>FmRpt_BLS.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FrmSet date working.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmSet date working.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FrmUser.resx">
+      <DependentUpon>FrmUser.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\Conection_To_Servee.resx">
+      <DependentUpon>Conection_To_Servee.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmPartition.resx">
+      <DependentUpon>FmPartition.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmRestorData.resx">
+      <DependentUpon>FmRestorData.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmMain.resx">
+      <DependentUpon>FmMain.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmOffice_AP.resx">
+      <DependentUpon>FmOffice_AP.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\Office_AP.resx">
+      <DependentUpon>Office_AP.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmLoanClosing.resx">
+      <DependentUpon>FmLoanClosing.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmNewOpen_jn.resx">
+      <DependentUpon>FmNewOpen_jn.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmNsewJeneralJournal.resx">
+      <DependentUpon>FmNsewJeneralJournal.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmPostedLedgers.resx">
+      <DependentUpon>FmPostedLedgers.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmPreview.resx">
+      <DependentUpon>FmPreview.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmRateStatus.resx">
+      <DependentUpon>FmRateStatus.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmReceipt.resx">
+      <DependentUpon>FmReceipt.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmReceipt_List.resx">
+      <DependentUpon>FmReceipt_List.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\fmShartOfAcc.resx">
+      <DependentUpon>fmShartOfAcc.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\fmShartOfAccDetail.resx">
+      <DependentUpon>fmShartOfAccDetail.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FmShow.resx">
+      <DependentUpon>FmShow.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FmCalcu.resx">
+      <DependentUpon>FmCalcu.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\Fm_Image.resx">
+      <DependentUpon>Fm_Image.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FrmBackup Data.resx">
+      <DependentUpon>FrmBackup Data.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Form\FrmSerial_For_Registration.resx">
+      <DependentUpon>FrmSerial_For_Registration.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Frm\FrNewAcc.resx">
+      <DependentUpon>FrNewAcc.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryProgramRepay.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryProgramRepay.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryLoanPaymentTebleAll.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryLoanPaymentTebleAll.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryLoanRePayTeble.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryLoanRePayTeble.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CrySy.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrySy.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryGeneralLedgers.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryGeneralLedgers.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryGeneralLedgersUser.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryGeneralLedgersUser.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryKamhong.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryKamhong.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_Income_Item.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Income_Item.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_BLSItem.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_BLSItem.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryRpt_Income.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRpt_Income.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryNewsJerneralJournal1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryNewsJerneralJournal1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryPostedLedgersCurr.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryPostedLedgersCurr.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryBreadownOfDepositsE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryBreadownOfDepositsE1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryExcludingRelatedPartiesE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryExcludingRelatedPartiesE1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryInComeStaementE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryInComeStaementE1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryListOfLoansToRelaetdPartiesE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryListOfLoansToRelaetdPartiesE1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryLoanBreadownByCategoryE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryLoanBreadownByCategoryE1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryLoanClassificaionAndProVisioningE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryLoanClassificaionAndProVisioningE1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\Cryloanpayment.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Cryloanpayment1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\Cryloan_Receipt.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Cryloan_Receipt1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryOpen_jn.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryOpen_jn.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryPostedLedgers.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryPostedLedgers.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\CryRateService_list.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryRateService_list.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryCashflow_statement.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryCashflow_statement.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\AccSystem\Rpt\CryShartOfAcc.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CryShartOfAcc1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sonexay\Report\Imgee.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Imgee.vb</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LoginBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LoginBackground2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconForlogin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="DataSet1.xsc">
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet1.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSet1.xss">
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\app.manifest" />
+    <None Include="Resources\loopnone.png" />
+    <None Include="Resources\aaa.png" />
+    <None Include="Resources\CD-icon.png" />
+    <None Include="Resources\backup-icon.jpg" />
+    <None Include="Resources\1 copy.png" />
+    <None Include="Resources\1.png" />
+    <None Include="Resources\1 copy.jpg" />
+    <None Include="Resources\1 chhopy.jpg" />
+    <Content Include="ApAccount.ico" />
+    <None Include="bin\Debug\Conection_To_Server1.png" />
+    <None Include="BackLogIn.png" />
+    <None Include="BackLogIng.jpg" />
+    <None Include="Resources\Acc.png" />
+    <None Include="Resources\Acc1.png" />
+    <None Include="Resources\Acc2.png" />
+    <None Include="bin\Image\888.png" />
+    <None Include="bin\Image\106.png" />
+    <Content Include="Resources\AP3.ico" />
+    <None Include="Resources\backupdatta.png" />
+    <None Include="Resources\ApWelcome1.jpg" />
+    <None Include="Resources\BackLogIn.jpg" />
+    <None Include="Resources\ApBank.png" />
+    <None Include="Resources\ApBankLogIn.png" />
+    <Content Include="Resources\banner.jpg" />
+    <Content Include="Resources\Booking.png" />
+    <None Include="Resources\BqackLogIn.jpg" />
+    <None Include="Resources\BqackLogIn1.jpg" />
+    <None Include="Resources\browser.png" />
+    <Content Include="Resources\Cacel2.png" />
+    <None Include="Resources\Conection_To_Server1.png" />
+    <None Include="Resources\Calculator.jpg" />
+    <None Include="Resources\dd.png" />
+    <None Include="Resources\Date.png" />
+    <Content Include="Resources\Edit.png" />
+    <Content Include="Resources\First.gif" />
+    <None Include="Resources\imagesa.jpg" />
+    <Content Include="Resources\Last.gif" />
+    <None Include="Resources\Lock.png" />
+    <None Include="Resources\m.png" />
+    <None Include="Resources\m2.png" />
+    <None Include="Resources\m22.png" />
+    <None Include="Resources\m28.png" />
+    <None Include="Resources\m281.png" />
+    <None Include="Resources\m282.png" />
+    <Content Include="Resources\MenuService.png" />
+    <None Include="Resources\Mystery Network Neighborhood.ico" />
+    <None Include="Resources\No Image.jpg" />
+    <None Include="Resources\No Image1.jpg" />
+    <Content Include="Resources\Prev.gif" />
+    <Content Include="Resources\PrintInvioce.png" />
+    <None Include="Resources\Rec.png" />
+    <Content Include="Resources\Refresh.gif" />
+    <None Include="Resources\security.png" />
+    <None Include="Resources\System.jpg" />
+    <None Include="Resources\System1.jpg" />
+    <None Include="Resources\s.png" />
+    <None Include="Resources\Set Rate.png" />
+    <None Include="Resources\Show And Hid.png" />
+    <None Include="Resources\Untitled - 2.ico" />
+    <None Include="Resources\Untitled - 3.ico" />
+    <Content Include="Resources\View And Printer.png" />
+    <None Include="Resources\Search.png" />
+    <None Include="Resources\Next.gif" />
+    <None Include="Resources\Back1.JPG" />
+    <None Include="Resources\Back2.JPG" />
+    <None Include="Resources\Refresh.png" />
+    <None Include="Resources\Invoice.png" />
+    <None Include="Resources\Preview.png" />
+    <None Include="Resources\Delete2.png" />
+    <None Include="Resources\Exit.png" />
+    <None Include="Resources\Edit3.png" />
+    <None Include="Resources\Save.png" />
+    <None Include="Resources\AddNew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="MSDATASRC">
+      <Guid>{7C0FFAB0-CD84-11D0-949A-00A0C91110ED}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GL\" />
+    <Folder Include="NewFolder1\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

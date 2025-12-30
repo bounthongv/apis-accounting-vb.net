@@ -257,16 +257,16 @@ Public Class FmLogin
             End If
         End With
         'MsgBox(MDDatabaName)
-        Dim rsProj2 As New ADODB.Recordset
-        Call LoadAcData("Select * from Conect where SvID='002' ", rsProj2)
-        With rsProj2
-            If .RecordCount <> 0 Then
-                MDServerName2 = (.Fields("ServerName").Value.ToString)
-                MDDatabaName2 = (.Fields("DatabaseName").Value.ToString)
-                MDServerUser2 = (.Fields("UserName").Value.ToString)
-                MDServerPassword2 = (.Fields("UserPassword").Value.ToString)
-            End If
-        End With
+        'Dim rsProj2 As New ADODB.Recordset
+        'Call LoadAcData("Select * from Conect where SvID='002' ", rsProj2)
+        'With rsProj2
+        '    If .RecordCount <> 0 Then
+        '        MDServerName2 = (.Fields("ServerName").Value.ToString)
+        '        MDDatabaName2 = (.Fields("DatabaseName").Value.ToString)
+        '        MDServerUser2 = (.Fields("UserName").Value.ToString)
+        '        MDServerPassword2 = (.Fields("UserPassword").Value.ToString)
+        '    End If
+        'End With
         If CStr(SPW) <> "" Then
             txtPassword.Text = SPW
             ChSavPW.Checked = True

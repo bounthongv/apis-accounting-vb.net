@@ -76,6 +76,14 @@ Partial Class FmRpt_JeneralJournal
         Me.Label8 = New System.Windows.Forms.Label
         Me.TxtPP = New System.Windows.Forms.TextBox
         Me.Label9 = New System.Windows.Forms.Label
+        Me.Label24 = New System.Windows.Forms.Label
+        Me.Label23 = New System.Windows.Forms.Label
+        Me.txtRate2 = New System.Windows.Forms.TextBox
+        Me.txtRate = New System.Windows.Forms.TextBox
+        Me.CMB_Curr = New System.Windows.Forms.ComboBox
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.CheckBox5 = New System.Windows.Forms.CheckBox
+        Me.CheckBox4 = New System.Windows.Forms.CheckBox
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
@@ -83,56 +91,62 @@ Partial Class FmRpt_JeneralJournal
         'LL5
         '
         Me.LL5.AutoSize = True
-        Me.LL5.Location = New System.Drawing.Point(81, 447)
+        Me.LL5.Location = New System.Drawing.Point(644, 321)
         Me.LL5.Name = "LL5"
-        Me.LL5.Size = New System.Drawing.Size(48, 21)
+        Me.LL5.Size = New System.Drawing.Size(48, 24)
         Me.LL5.TabIndex = 45606
         Me.LL5.Text = "Label9"
+        Me.LL5.Visible = False
         '
         'LL6
         '
         Me.LL6.AutoSize = True
-        Me.LL6.Location = New System.Drawing.Point(235, 447)
+        Me.LL6.Location = New System.Drawing.Point(798, 321)
         Me.LL6.Name = "LL6"
-        Me.LL6.Size = New System.Drawing.Size(55, 21)
+        Me.LL6.Size = New System.Drawing.Size(55, 24)
         Me.LL6.TabIndex = 45605
         Me.LL6.Text = "Label10"
+        Me.LL6.Visible = False
         '
         'LL1
         '
         Me.LL1.AutoSize = True
-        Me.LL1.Location = New System.Drawing.Point(81, 405)
+        Me.LL1.Location = New System.Drawing.Point(644, 279)
         Me.LL1.Name = "LL1"
-        Me.LL1.Size = New System.Drawing.Size(48, 21)
+        Me.LL1.Size = New System.Drawing.Size(48, 24)
         Me.LL1.TabIndex = 45604
         Me.LL1.Text = "Label7"
+        Me.LL1.Visible = False
         '
         'LL3
         '
         Me.LL3.AutoSize = True
-        Me.LL3.Location = New System.Drawing.Point(81, 426)
+        Me.LL3.Location = New System.Drawing.Point(644, 300)
         Me.LL3.Name = "LL3"
-        Me.LL3.Size = New System.Drawing.Size(48, 21)
+        Me.LL3.Size = New System.Drawing.Size(48, 24)
         Me.LL3.TabIndex = 45603
         Me.LL3.Text = "Label8"
+        Me.LL3.Visible = False
         '
         'LL4
         '
         Me.LL4.AutoSize = True
-        Me.LL4.Location = New System.Drawing.Point(235, 426)
+        Me.LL4.Location = New System.Drawing.Point(798, 300)
         Me.LL4.Name = "LL4"
-        Me.LL4.Size = New System.Drawing.Size(48, 21)
+        Me.LL4.Size = New System.Drawing.Size(48, 24)
         Me.LL4.TabIndex = 45602
         Me.LL4.Text = "Label6"
+        Me.LL4.Visible = False
         '
         'LL2
         '
         Me.LL2.AutoSize = True
-        Me.LL2.Location = New System.Drawing.Point(235, 405)
+        Me.LL2.Location = New System.Drawing.Point(798, 279)
         Me.LL2.Name = "LL2"
-        Me.LL2.Size = New System.Drawing.Size(48, 21)
+        Me.LL2.Size = New System.Drawing.Size(48, 24)
         Me.LL2.TabIndex = 45601
         Me.LL2.Text = "Label5"
+        Me.LL2.Visible = False
         '
         'Label1
         '
@@ -241,7 +255,7 @@ Partial Class FmRpt_JeneralJournal
         Me.RY.AutoSize = True
         Me.RY.Location = New System.Drawing.Point(18, 144)
         Me.RY.Name = "RY"
-        Me.RY.Size = New System.Drawing.Size(66, 25)
+        Me.RY.Size = New System.Drawing.Size(66, 28)
         Me.RY.TabIndex = 45588
         Me.RY.TabStop = True
         Me.RY.Tag = "5035"
@@ -253,7 +267,7 @@ Partial Class FmRpt_JeneralJournal
         Me.RD.AutoSize = True
         Me.RD.Location = New System.Drawing.Point(17, 42)
         Me.RD.Name = "RD"
-        Me.RD.Size = New System.Drawing.Size(83, 25)
+        Me.RD.Size = New System.Drawing.Size(83, 28)
         Me.RD.TabIndex = 45587
         Me.RD.TabStop = True
         Me.RD.Tag = "5032"
@@ -265,7 +279,7 @@ Partial Class FmRpt_JeneralJournal
         Me.RP.AutoSize = True
         Me.RP.Location = New System.Drawing.Point(17, 112)
         Me.RP.Name = "RP"
-        Me.RP.Size = New System.Drawing.Size(82, 25)
+        Me.RP.Size = New System.Drawing.Size(82, 28)
         Me.RP.TabIndex = 45586
         Me.RP.TabStop = True
         Me.RP.Tag = "5034"
@@ -277,7 +291,7 @@ Partial Class FmRpt_JeneralJournal
         Me.RM.AutoSize = True
         Me.RM.Location = New System.Drawing.Point(17, 77)
         Me.RM.Name = "RM"
-        Me.RM.Size = New System.Drawing.Size(88, 25)
+        Me.RM.Size = New System.Drawing.Size(88, 28)
         Me.RM.TabIndex = 45585
         Me.RM.Tag = "5033"
         Me.RM.Text = "ປະຈຳເດືອນ"
@@ -325,7 +339,7 @@ Partial Class FmRpt_JeneralJournal
         Me.Period.Items.AddRange(New Object() {"ງວດທີ 1", "ງວດທີ 2", "ງວດທີ 3", "ງວດທີ 4"})
         Me.Period.Location = New System.Drawing.Point(111, 107)
         Me.Period.Name = "Period"
-        Me.Period.Size = New System.Drawing.Size(109, 29)
+        Me.Period.Size = New System.Drawing.Size(109, 32)
         Me.Period.TabIndex = 45579
         '
         'DMonth
@@ -335,7 +349,7 @@ Partial Class FmRpt_JeneralJournal
         Me.DMonth.Items.AddRange(New Object() {"ມັງກອນ", "ກຸມພາ", "ມີນາ", "ເມສາ", "ພຶດສະພາ", "ມີຖຸນາ", "ກໍລະກົດ", "ສິງຫາ", "ກັນຍາ", "ຕຸລາ", "ພະຈິກ", "ທັນວາ"})
         Me.DMonth.Location = New System.Drawing.Point(112, 75)
         Me.DMonth.Name = "DMonth"
-        Me.DMonth.Size = New System.Drawing.Size(109, 29)
+        Me.DMonth.Size = New System.Drawing.Size(109, 32)
         Me.DMonth.TabIndex = 45578
         '
         'nn
@@ -345,7 +359,7 @@ Partial Class FmRpt_JeneralJournal
         Me.nn.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.nn.Location = New System.Drawing.Point(304, 8)
         Me.nn.Name = "nn"
-        Me.nn.Size = New System.Drawing.Size(54, 21)
+        Me.nn.Size = New System.Drawing.Size(54, 24)
         Me.nn.TabIndex = 45608
         Me.nn.Text = "Label5"
         '
@@ -355,7 +369,7 @@ Partial Class FmRpt_JeneralJournal
         Me.CheckBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.CheckBox1.Location = New System.Drawing.Point(9, 248)
         Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(120, 25)
+        Me.CheckBox1.Size = New System.Drawing.Size(120, 28)
         Me.CheckBox1.TabIndex = 45609
         Me.CheckBox1.Tag = "4001"
         Me.CheckBox1.Text = "ສະແດງມູນຄ່າເດີມ"
@@ -367,7 +381,7 @@ Partial Class FmRpt_JeneralJournal
         Me.Off_Usr.FormattingEnabled = True
         Me.Off_Usr.Location = New System.Drawing.Point(212, 247)
         Me.Off_Usr.Name = "Off_Usr"
-        Me.Off_Usr.Size = New System.Drawing.Size(157, 26)
+        Me.Off_Usr.Size = New System.Drawing.Size(157, 29)
         Me.Off_Usr.TabIndex = 45611
         '
         'Label27
@@ -375,7 +389,7 @@ Partial Class FmRpt_JeneralJournal
         Me.Label27.AutoSize = True
         Me.Label27.Location = New System.Drawing.Point(143, 250)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(60, 21)
+        Me.Label27.Size = New System.Drawing.Size(60, 24)
         Me.Label27.TabIndex = 45610
         Me.Label27.Tag = "2011"
         Me.Label27.Text = "ໜ່ວຍງານ"
@@ -386,7 +400,7 @@ Partial Class FmRpt_JeneralJournal
         Me.Label15.Font = New System.Drawing.Font("Saysettha OT", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label15.Location = New System.Drawing.Point(248, 51)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(38, 24)
+        Me.Label15.Size = New System.Drawing.Size(41, 29)
         Me.Label15.TabIndex = 46025
         Me.Label15.Tag = "2013"
         Me.Label15.Text = "ເຖິງ:"
@@ -416,7 +430,7 @@ Partial Class FmRpt_JeneralJournal
         Me.CheckBox2.ForeColor = System.Drawing.Color.Blue
         Me.CheckBox2.Location = New System.Drawing.Point(428, 10)
         Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(81, 25)
+        Me.CheckBox2.Size = New System.Drawing.Size(81, 28)
         Me.CheckBox2.TabIndex = 46026
         Me.CheckBox2.Tag = "4001"
         Me.CheckBox2.Text = "ໃບຢັ້ງຢືນ"
@@ -459,7 +473,7 @@ Partial Class FmRpt_JeneralJournal
         Me.cmbBook.FormattingEnabled = True
         Me.cmbBook.Location = New System.Drawing.Point(118, 14)
         Me.cmbBook.Name = "cmbBook"
-        Me.cmbBook.Size = New System.Drawing.Size(93, 29)
+        Me.cmbBook.Size = New System.Drawing.Size(93, 32)
         Me.cmbBook.TabIndex = 46028
         '
         'RadioButton7
@@ -470,7 +484,7 @@ Partial Class FmRpt_JeneralJournal
         Me.RadioButton7.Location = New System.Drawing.Point(12, 13)
         Me.RadioButton7.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.RadioButton7.Name = "RadioButton7"
-        Me.RadioButton7.Size = New System.Drawing.Size(78, 28)
+        Me.RadioButton7.Size = New System.Drawing.Size(81, 33)
         Me.RadioButton7.TabIndex = 46029
         Me.RadioButton7.TabStop = True
         Me.RadioButton7.Tag = "2020"
@@ -484,7 +498,7 @@ Partial Class FmRpt_JeneralJournal
         Me.RadioButton8.Location = New System.Drawing.Point(12, 46)
         Me.RadioButton8.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.RadioButton8.Name = "RadioButton8"
-        Me.RadioButton8.Size = New System.Drawing.Size(84, 28)
+        Me.RadioButton8.Size = New System.Drawing.Size(87, 33)
         Me.RadioButton8.TabIndex = 46031
         Me.RadioButton8.Tag = "2017"
         Me.RadioButton8.Text = "ໃບຢັ້ງຢືນ"
@@ -622,17 +636,109 @@ Partial Class FmRpt_JeneralJournal
         Me.Label9.Font = New System.Drawing.Font("Saysettha OT", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.Location = New System.Drawing.Point(46, 18)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(42, 24)
+        Me.Label9.Size = New System.Drawing.Size(45, 29)
         Me.Label9.TabIndex = 46048
         Me.Label9.Text = "ຫົວຂໍ້"
         Me.Label9.Visible = False
         '
+        'Label24
+        '
+        Me.Label24.Location = New System.Drawing.Point(20, 448)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(150, 29)
+        Me.Label24.TabIndex = 46080
+        Me.Label24.Tag = "2020"
+        Me.Label24.Text = "ສະກຸນເງິນ"
+        Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label23
+        '
+        Me.Label23.Location = New System.Drawing.Point(20, 413)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(150, 29)
+        Me.Label23.TabIndex = 46079
+        Me.Label23.Tag = "2020"
+        Me.Label23.Text = "ສະກຸນເງິນ"
+        Me.Label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'txtRate2
+        '
+        Me.txtRate2.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.txtRate2.Font = New System.Drawing.Font("Times New Roman", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRate2.Location = New System.Drawing.Point(175, 448)
+        Me.txtRate2.Name = "txtRate2"
+        Me.txtRate2.Size = New System.Drawing.Size(117, 29)
+        Me.txtRate2.TabIndex = 46078
+        Me.txtRate2.Text = "1"
+        Me.txtRate2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtRate
+        '
+        Me.txtRate.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.txtRate.Font = New System.Drawing.Font("Times New Roman", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRate.Location = New System.Drawing.Point(176, 413)
+        Me.txtRate.Name = "txtRate"
+        Me.txtRate.Size = New System.Drawing.Size(117, 29)
+        Me.txtRate.TabIndex = 46077
+        Me.txtRate.Text = "1"
+        Me.txtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'CMB_Curr
+        '
+        Me.CMB_Curr.Font = New System.Drawing.Font("Times New Roman", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CMB_Curr.FormattingEnabled = True
+        Me.CMB_Curr.Location = New System.Drawing.Point(175, 377)
+        Me.CMB_Curr.Name = "CMB_Curr"
+        Me.CMB_Curr.Size = New System.Drawing.Size(81, 30)
+        Me.CMB_Curr.TabIndex = 46076
+        Me.CMB_Curr.Text = "EQVL"
+        '
+        'Label6
+        '
+        Me.Label6.Location = New System.Drawing.Point(83, 381)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(86, 24)
+        Me.Label6.TabIndex = 46075
+        Me.Label6.Tag = "2020"
+        Me.Label6.Text = "ສະກຸນເງິນ"
+        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'CheckBox5
+        '
+        Me.CheckBox5.AutoSize = True
+        Me.CheckBox5.Font = New System.Drawing.Font("Saysettha OT", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox5.Location = New System.Drawing.Point(342, 418)
+        Me.CheckBox5.Name = "CheckBox5"
+        Me.CheckBox5.Size = New System.Drawing.Size(114, 31)
+        Me.CheckBox5.TabIndex = 46082
+        Me.CheckBox5.Text = "ທຽບເທົ່າເງິນ"
+        Me.CheckBox5.UseVisualStyleBackColor = True
+        '
+        'CheckBox4
+        '
+        Me.CheckBox4.AutoSize = True
+        Me.CheckBox4.Font = New System.Drawing.Font("Saysettha OT", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox4.Location = New System.Drawing.Point(342, 381)
+        Me.CheckBox4.Name = "CheckBox4"
+        Me.CheckBox4.Size = New System.Drawing.Size(114, 31)
+        Me.CheckBox4.TabIndex = 46081
+        Me.CheckBox4.Text = "ທຽບເທົ່າເງິນ"
+        Me.CheckBox4.UseVisualStyleBackColor = True
+        '
         'FmRpt_JeneralJournal
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 21.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 24.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(196, Byte), Integer), CType(CType(213, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(864, 386)
+        Me.ClientSize = New System.Drawing.Size(864, 578)
+        Me.Controls.Add(Me.CheckBox5)
+        Me.Controls.Add(Me.CheckBox4)
+        Me.Controls.Add(Me.Label24)
+        Me.Controls.Add(Me.Label23)
+        Me.Controls.Add(Me.txtRate2)
+        Me.Controls.Add(Me.txtRate)
+        Me.Controls.Add(Me.CMB_Curr)
+        Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Button4)
@@ -735,4 +841,12 @@ Partial Class FmRpt_JeneralJournal
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents TxtPP As System.Windows.Forms.TextBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents Label24 As System.Windows.Forms.Label
+    Friend WithEvents Label23 As System.Windows.Forms.Label
+    Friend WithEvents txtRate2 As System.Windows.Forms.TextBox
+    Friend WithEvents txtRate As System.Windows.Forms.TextBox
+    Friend WithEvents CMB_Curr As System.Windows.Forms.ComboBox
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents CheckBox5 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBox4 As System.Windows.Forms.CheckBox
 End Class
