@@ -27,9 +27,10 @@
 
 1.  **Replace ActiveX Controls (VSFlexGrid):**
     *   *Problem:* ActiveX (`AxVSFlex8U`) is not supported in .NET Core or Web environments.
-    *   *Action:* Replace `AxVSFlexGrid` with a managed .NET equivalent.
-        *   *Option A (Standard):* `System.Windows.Forms.DataGridView` (Built-in, requires code rewrite).
-        *   *Option B (Commercial):* Modern WinForms FlexGrid (ComponentOne for .NET) or DevExpress (Potentially easier migration path but adds cost).
+    *   *Action:* Replace `AxVSFlexGrid` with `System.Windows.Forms.DataGridView`.
+    *   **[COMPLETED] Pilot Project:** Successfully replaced `AxVSFlexGrid` with `DataGridView` in `ACC_NEW\FrmRate setting.vb`. Verified compilation with MSBuild.
+    *   **[TODO] Scale Out:** Replicate this pattern across other forms using `AxVSFlexGrid`.
+    *   **[TODO] Documentation:** Document the mapping patterns (e.g., `get_TextMatrix` -> `Rows(r).Cells(c).Value`) for future reference.
 2.  **Replace ADODB with ADO.NET:**
     *   *Problem:* ADODB is a COM wrapper. It is thread-unsafe and unmanaged, causing instability in web server environments.
     *   *Action:* Refactor data access layers to use `System.Data.SqlClient` (or `Microsoft.Data.SqlClient`) using `SqlConnection`, `SqlCommand`, and `SqlDataReader` / `DataTable`.
