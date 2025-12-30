@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class Rate_setting
     Inherits System.Windows.Forms.Form
 
@@ -46,7 +46,7 @@ Partial Class Rate_setting
         Me.txtCerrent = New System.Windows.Forms.TextBox
         Me.DTrate = New System.Windows.Forms.DateTimePicker
         Me.BtnExit = New System.Windows.Forms.Button
-        Me.FG_Rate = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG_Rate = New System.Windows.Forms.DataGridView
         Me.Label6 = New System.Windows.Forms.Label
         Me.Panel2 = New System.Windows.Forms.Panel
         Me.Label10 = New System.Windows.Forms.Label
@@ -54,7 +54,7 @@ Partial Class Rate_setting
         Me.txt_Component_id = New System.Windows.Forms.TextBox
         Me.Label25 = New System.Windows.Forms.Label
         Me.Panel3 = New System.Windows.Forms.Panel
-        Me.FG_Curr = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG_Curr = New System.Windows.Forms.DataGridView
         Me.Panel5 = New System.Windows.Forms.Panel
         Me.txtRate = New System.Windows.Forms.TextBox
         Me.Label11 = New System.Windows.Forms.Label
@@ -381,11 +381,13 @@ Partial Class Rate_setting
         '
         'FG_Rate
         '
-        Me.FG_Rate.DataSource = Nothing
+        Me.FG_Rate.AllowUserToAddRows = False
+        Me.FG_Rate.AllowUserToDeleteRows = False
+        Me.FG_Rate.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG_Rate.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FG_Rate.Location = New System.Drawing.Point(0, 0)
         Me.FG_Rate.Name = "FG_Rate"
-        Me.FG_Rate.OcxState = CType(resources.GetObject("FG_Rate.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.FG_Rate.ReadOnly = True
         Me.FG_Rate.Size = New System.Drawing.Size(588, 331)
         Me.FG_Rate.TabIndex = 52
         '
@@ -471,11 +473,13 @@ Partial Class Rate_setting
         '
         'FG_Curr
         '
-        Me.FG_Curr.DataSource = Nothing
+        Me.FG_Curr.AllowUserToAddRows = False
+        Me.FG_Curr.AllowUserToDeleteRows = False
+        Me.FG_Curr.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG_Curr.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FG_Curr.Location = New System.Drawing.Point(0, 0)
         Me.FG_Curr.Name = "FG_Curr"
-        Me.FG_Curr.OcxState = CType(resources.GetObject("FG_Curr.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.FG_Curr.ReadOnly = True
         Me.FG_Curr.Size = New System.Drawing.Size(442, 362)
         Me.FG_Curr.TabIndex = 46016
         '
@@ -880,7 +884,7 @@ Partial Class Rate_setting
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents txtCerrent As System.Windows.Forms.TextBox
     Friend WithEvents DTrate As System.Windows.Forms.DateTimePicker
-    Friend WithEvents FG_Rate As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG_Rate As System.Windows.Forms.DataGridView
     Friend WithEvents txtUSD_THB As System.Windows.Forms.TextBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label
@@ -890,7 +894,7 @@ Partial Class Rate_setting
     Friend WithEvents txt_Component_id As System.Windows.Forms.TextBox
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
-    Friend WithEvents FG_Curr As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG_Curr As System.Windows.Forms.DataGridView
     Friend WithEvents Panel4 As System.Windows.Forms.Panel
     Friend WithEvents Panel5 As System.Windows.Forms.Panel
     Friend WithEvents txtRate As System.Windows.Forms.TextBox
