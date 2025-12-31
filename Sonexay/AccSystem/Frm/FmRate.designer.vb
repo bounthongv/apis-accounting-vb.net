@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmRate
     Inherits System.Windows.Forms.Form
 
@@ -27,7 +27,7 @@ Partial Class FmRate
         Me.BtnSave = New System.Windows.Forms.Button
         Me.BtnAddNew2 = New System.Windows.Forms.Button
         Me.Curr = New System.Windows.Forms.TextBox
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Label1 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
         Me.Rate = New System.Windows.Forms.TextBox
@@ -36,7 +36,7 @@ Partial Class FmRate
         Me.BtnDelete = New System.Windows.Forms.Button
         Me.Label4 = New System.Windows.Forms.Label
         Me.TextBox1 = New System.Windows.Forms.TextBox
-        Me.FG2 = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG2 = New System.Windows.Forms.DataGridView
         Me.Label43 = New System.Windows.Forms.Label
         Me.Curr_Last = New System.Windows.Forms.TextBox
         Me.Label6 = New System.Windows.Forms.Label
@@ -89,10 +89,9 @@ Partial Class FmRate
         Me.FG.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG.DataSource = Nothing
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(4, 105)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(745, 423)
         Me.FG.TabIndex = 13
         '
@@ -172,10 +171,9 @@ Partial Class FmRate
         '
         Me.FG2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG2.DataSource = Nothing
+        Me.FG2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG2.Location = New System.Drawing.Point(753, 105)
         Me.FG2.Name = "FG2"
-        Me.FG2.OcxState = CType(resources.GetObject("FG2.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG2.Size = New System.Drawing.Size(180, 524)
         Me.FG2.TabIndex = 23
         '
@@ -282,7 +280,7 @@ Partial Class FmRate
     Friend WithEvents BtnSave As System.Windows.Forms.Button
     Friend WithEvents BtnAddNew2 As System.Windows.Forms.Button
     Friend WithEvents Curr As System.Windows.Forms.TextBox
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Rate As System.Windows.Forms.TextBox
@@ -291,7 +289,7 @@ Partial Class FmRate
     Friend WithEvents BtnDelete As System.Windows.Forms.Button
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
-    Friend WithEvents FG2 As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG2 As System.Windows.Forms.DataGridView
     Friend WithEvents Label43 As System.Windows.Forms.Label
     Friend WithEvents Curr_Last As System.Windows.Forms.TextBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
