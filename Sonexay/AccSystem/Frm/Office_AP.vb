@@ -1,4 +1,4 @@
-﻿Public Class Office_AP
+Public Class Office_AP
     Dim MDAC00 As Integer = 0
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
        
@@ -378,7 +378,7 @@
         Call MdiCNum()
     End Sub
     Private Sub Office_AP_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        fg.FormatString = "ລ/ດ|<ລະຫັດ       |<ລະຫັດເຂດ |<ຊື່(ພາສາລາວ)                         |<ຊື່(ພາສາອັງກິດ)               |<ທີ່ຢູ່                     |<ເບີໂທ              |<ແຟັກ"
+        SetupGrid()
         Call LoadData()
         fg.Width = 1004
         fg.Height = 336
@@ -387,70 +387,70 @@
         Fm_Image.ImgType.Text = "LOGO"
         Call LoadPhoto()
         PictureBox1.Image = Fm_Image.PictureBox1.Image
-
-
     End Sub
     Private Sub LoadData()
-        Fg.Rows = 1
+        fg.Rows.Clear()
         Call LoadSqlData(" SELECT off_id, sub_id ,off_name,off_namee,off_add1,Tel,Fax FROM Ap_office ", RSC)
         If RSC.RecordCount <> 0 Then
             While Not RSC.EOF
-                fg.AddItem(RSC.AbsolutePosition & _
-                 Chr(9) & (RSC.Fields("off_id").Value.ToString) & _
-                  Chr(9) & (RSC.Fields("sub_id").Value.ToString) & _
-                  Chr(9) & (RSC.Fields("off_name").Value.ToString) & _
-                        Chr(9) & (RSC.Fields("off_namee").Value.ToString) & _
-                      Chr(9) & (RSC.Fields("off_add1").Value.ToString) & _
-                      Chr(9) & (RSC.Fields("Tel").Value.ToString) & _
-                 Chr(9) & (RSC.Fields("Fax").Value.ToString))
+                fg.Rows.Add(RSC.AbsolutePosition, _
+                 (RSC.Fields("off_id").Value.ToString), _
+                  (RSC.Fields("sub_id").Value.ToString), _
+                  (RSC.Fields("off_name").Value.ToString), _
+                        (RSC.Fields("off_namee").Value.ToString), _
+                      (RSC.Fields("off_add1").Value.ToString), _
+                      (RSC.Fields("Tel").Value.ToString), _
+                 (RSC.Fields("Fax").Value.ToString))
                 RSC.MoveNext()
             End While
         End If
         Sub_Id.Enabled = True
     End Sub
 
-    Private Sub fg_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles fg.SelChange
+    Private Sub fg_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles fg.SelectionChanged
         Sub_Id.Enabled = False
-        Call LoadSqlData(" SELECT * FROM Ap_office WHERE sub_id= '" & fg.get_TextMatrix(fg.Row, 2) & "'", RSC)
-        If RSC.RecordCount <> 0 Then
-            txtoff_id.Text = (RSC.Fields("off_id").Value.ToString)
-            Sub_Id.Text = (RSC.Fields("sub_id").Value.ToString)
-            txtoff_name.Text = (RSC.Fields("off_name").Value.ToString)
-            txtoff_namee.Text = (RSC.Fields("off_namee").Value.ToString)
-            txtOff_add1.Text = (RSC.Fields("off_add1").Value.ToString)
-            txtoff_adde1.Text = (RSC.Fields("off_adde1").Value.ToString)
-            txtoff_add2.Text = (RSC.Fields("off_add2").Value.ToString)
-            txtoff_adde2.Text = (RSC.Fields("off_adde2").Value.ToString)
-            txtTel.Text = (RSC.Fields("Tel").Value.ToString)
-            txtFax.Text = (RSC.Fields("fax").Value.ToString)
-            txtPlace.Text = (RSC.Fields("place").Value.ToString)
-            txtPlacee.Text = (RSC.Fields("placee").Value.ToString)
-            txtSing1.Text = (RSC.Fields("sign1").Value.ToString)
-            txtSing1e.Text = (RSC.Fields("sign1e").Value.ToString)
-            txtSing2.Text = (RSC.Fields("sign2").Value.ToString)
-            txtSing2e.Text = (RSC.Fields("sign2e").Value.ToString)
-            txtSing3.Text = (RSC.Fields("sign3").Value.ToString)
-            txtSing3e.Text = (RSC.Fields("sign3e").Value.ToString)
-            txtSing4.Text = (RSC.Fields("sign4").Value.ToString)
-            txtSing4e.Text = (RSC.Fields("sign4e").Value.ToString)
-            txtSing5.Text = (RSC.Fields("sign5").Value.ToString)
-            txtSing5e.Text = (RSC.Fields("sign5e").Value.ToString)
+        If fg.CurrentRow IsNot Nothing Then
+            Call LoadSqlData(" SELECT * FROM Ap_office WHERE sub_id= '" & fg.CurrentRow.Cells(2).Value.ToString() & "'", RSC)
+            If RSC.RecordCount <> 0 Then
+                txtoff_id.Text = (RSC.Fields("off_id").Value.ToString)
+                Sub_Id.Text = (RSC.Fields("sub_id").Value.ToString)
+                txtoff_name.Text = (RSC.Fields("off_name").Value.ToString)
+                txtoff_namee.Text = (RSC.Fields("off_namee").Value.ToString)
+                txtOff_add1.Text = (RSC.Fields("off_add1").Value.ToString)
+                txtoff_adde1.Text = (RSC.Fields("off_adde1").Value.ToString)
+                txtoff_add2.Text = (RSC.Fields("off_add2").Value.ToString)
+                txtoff_adde2.Text = (RSC.Fields("off_adde2").Value.ToString)
+                txtTel.Text = (RSC.Fields("Tel").Value.ToString)
+                txtFax.Text = (RSC.Fields("fax").Value.ToString)
+                txtPlace.Text = (RSC.Fields("place").Value.ToString)
+                txtPlacee.Text = (RSC.Fields("placee").Value.ToString)
+                txtSing1.Text = (RSC.Fields("sign1").Value.ToString)
+                txtSing1e.Text = (RSC.Fields("sign1e").Value.ToString)
+                txtSing2.Text = (RSC.Fields("sign2").Value.ToString)
+                txtSing2e.Text = (RSC.Fields("sign2e").Value.ToString)
+                txtSing3.Text = (RSC.Fields("sign3").Value.ToString)
+                txtSing3e.Text = (RSC.Fields("sign3e").Value.ToString)
+                txtSing4.Text = (RSC.Fields("sign4").Value.ToString)
+                txtSing4e.Text = (RSC.Fields("sign4e").Value.ToString)
+                txtSing5.Text = (RSC.Fields("sign5").Value.ToString)
+                txtSing5e.Text = (RSC.Fields("sign5e").Value.ToString)
 
-            txtSing6.Text = (RSC.Fields("sign6").Value.ToString)
-            txtSing6e.Text = (RSC.Fields("sign6e").Value.ToString)
+                txtSing6.Text = (RSC.Fields("sign6").Value.ToString)
+                txtSing6e.Text = (RSC.Fields("sign6e").Value.ToString)
 
-            txtOthers.Text = (RSC.Fields("others").Value.ToString)
-            txtmychk.Text = (RSC.Fields("mychk").Value.ToString)
+                txtOthers.Text = (RSC.Fields("others").Value.ToString)
+                txtmychk.Text = (RSC.Fields("mychk").Value.ToString)
 
-            TxtDepNm.Text = (RSC.Fields("DepNm").Value.ToString)
-            TxtDepNmE.Text = (RSC.Fields("DepNmE").Value.ToString)
+                TxtDepNm.Text = (RSC.Fields("DepNm").Value.ToString)
+                TxtDepNmE.Text = (RSC.Fields("DepNmE").Value.ToString)
 
 
-            Dim MMM As String = (RSC.Fields("MD00").Value.ToString)
-            If MMM = 0 Then
-                CheckBox1.Checked = False
-            Else
-                CheckBox1.Checked = True
+                Dim MMM As String = (RSC.Fields("MD00").Value.ToString)
+                If MMM = 0 Then
+                    CheckBox1.Checked = False
+                Else
+                    CheckBox1.Checked = True
+                End If
             End If
         End If
     End Sub
@@ -536,5 +536,52 @@
         Catch
 
         End Try
+    End Sub
+    Private Sub SetupGrid()
+        fg.Columns.Clear()
+        fg.AllowUserToAddRows = False
+        fg.AllowUserToDeleteRows = False
+        fg.ReadOnly = True
+        fg.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        fg.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        fg.RowHeadersVisible = False
+
+        Dim c As DataGridViewColumn
+
+        ' Define columns based on fg.FormatString = "ລ/ດ|<ລະຫັດ       |<ລະຫັດເຂດ |<ຊື່(ພາສາລາວ)                         |<ຊື່(ພາສາອັງກິດ)               |<ທີ່ຢູ່                     |<ເບີໂທ              |<ແຟັກ"
+        c = New DataGridViewTextBoxColumn() : c.Name = "No" : c.HeaderText = "ລ/ດ" : c.Width = 50 : fg.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "off_id" : c.HeaderText = "ລະຫັດ" : c.Width = 100 : fg.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "sub_id" : c.HeaderText = "ລະຫັດເຂດ" : c.Width = 100 : fg.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "off_name" : c.HeaderText = "ຊື່(ພາສາລາວ)" : c.Width = 200 : fg.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "off_namee" : c.HeaderText = "ຊື່(ພາສາອັງກິດ)" : c.Width = 200 : fg.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "off_add1" : c.HeaderText = "ທີ່ຢູ່" : c.Width = 150 : fg.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "Tel" : c.HeaderText = "ເບີໂທ" : c.Width = 100 : fg.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "Fax" : c.HeaderText = "ແຟັກ" : c.Width = 100 : fg.Columns.Add(c)
+
+        UpdateColumnHeaders()
+    End Sub
+
+    Private Sub UpdateColumnHeaders()
+        If fg.Columns.Count < 8 Then Exit Sub ' Ensure all columns are added
+
+        If MuLng = "L" Then ' Lao
+            fg.Columns("No").HeaderText = "ລ/ດ"
+            fg.Columns("off_id").HeaderText = "ລະຫັດ"
+            fg.Columns("sub_id").HeaderText = "ລະຫັດເຂດ"
+            fg.Columns("off_name").HeaderText = "ຊື່(ພາສາລາວ)"
+            fg.Columns("off_namee").HeaderText = "ຊື່(ພາສາອັງກິດ)"
+            fg.Columns("off_add1").HeaderText = "ທີ່ຢູ່"
+            fg.Columns("Tel").HeaderText = "ເບີໂທ"
+            fg.Columns("Fax").HeaderText = "ແຟັກ"
+        Else ' English
+            fg.Columns("No").HeaderText = "No"
+            fg.Columns("off_id").HeaderText = "ID"
+            fg.Columns("sub_id").HeaderText = "Area ID"
+            fg.Columns("off_name").HeaderText = "Name (Lao)"
+            fg.Columns("off_namee").HeaderText = "Name (Eng)"
+            fg.Columns("off_add1").HeaderText = "Address"
+            fg.Columns("Tel").HeaderText = "Phone"
+            fg.Columns("Fax").HeaderText = "Fax"
+        End If
     End Sub
 End Class

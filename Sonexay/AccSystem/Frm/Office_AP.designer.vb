@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class Office_AP
     Inherits System.Windows.Forms.Form
 
@@ -49,7 +49,7 @@ Partial Class Office_AP
         Me.Label12 = New System.Windows.Forms.Label
         Me.Button4 = New System.Windows.Forms.Button
         Me.Button3 = New System.Windows.Forms.Button
-        Me.fg = New AxVSFlex8U.AxVSFlexGrid
+        Me.fg = New System.Windows.Forms.DataGridView
         Me.Button1 = New System.Windows.Forms.Button
         Me.txtoff_add2 = New System.Windows.Forms.TextBox
         Me.Button2 = New System.Windows.Forms.Button
@@ -444,7 +444,7 @@ Partial Class Office_AP
         Me.fg.DataSource = Nothing
         Me.fg.Location = New System.Drawing.Point(3, 362)
         Me.fg.Name = "fg"
-        Me.fg.OcxState = CType(resources.GetObject("fg.OcxState"), System.Windows.Forms.AxHost.State)
+
         Me.fg.Size = New System.Drawing.Size(1126, 381)
         Me.fg.TabIndex = 126
         '
@@ -926,7 +926,7 @@ Partial Class Office_AP
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents Button4 As System.Windows.Forms.Button
-    Friend WithEvents fg As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents fg As System.Windows.Forms.DataGridView
     Friend WithEvents Sub_Id As System.Windows.Forms.TextBox
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents Button5 As System.Windows.Forms.Button
