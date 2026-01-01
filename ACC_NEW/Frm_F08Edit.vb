@@ -1,50 +1,81 @@
 ﻿Public Class Frm_F08Edit
 
     Private Sub Frm_F08Edit_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        FG.FormatString = "^ລ/ດ |<ລະຫັດ |< ປະເພດສິນເຊື່ອ                 |< ໄລຍະເວລາ         |< ອັດຕາ%           |< ປະເພດເງິນຝາກ                  |< ໄລຍະເວລາ       |< ອັດຕາ%        "
+        SetupGrid()
         Call AAA()
     End Sub
-    Private Sub AAA()
-        FG.Rows = 1
-        With RSC
 
+    Private Sub SetupGrid()
+        FG.Columns.Clear()
+        FG.Columns.Add("No", "ລ/ດ")
+        FG.Columns.Add("ItemID", "ລະຫັດ")
+        FG.Columns.Add("Itemnm", "ປະເພດສິນເຊື່ອ")
+        FG.Columns.Add("Vala", "ໄລຍະເວລາ")
+        FG.Columns.Add("Int", "ອັດຕາ%")
+        FG.Columns.Add("SaveNm", "ປະເພດເງິນຝາກ")
+        FG.Columns.Add("Save_Vala", "ໄລຍະເວລາ")
+        FG.Columns.Add("Save_Int", "ອັດຕາ%")
+
+        FG.Columns(0).Width = 50
+        FG.Columns(1).Width = 80
+        FG.Columns(2).Width = 200
+        FG.Columns(3).Width = 120
+        FG.Columns(4).Width = 100
+        FG.Columns(5).Width = 200
+        FG.Columns(6).Width = 120
+        FG.Columns(7).Width = 100
+
+        FG.Columns(0).ReadOnly = True
+        FG.Columns(1).ReadOnly = False
+        FG.Columns(2).ReadOnly = False
+        FG.Columns(3).ReadOnly = False
+        FG.Columns(4).ReadOnly = False
+        FG.Columns(5).ReadOnly = False
+        FG.Columns(6).ReadOnly = False
+        FG.Columns(7).ReadOnly = False
+        
+        FG.AllowUserToAddRows = False
+        FG.SelectionMode = DataGridViewSelectionMode.CellSelect
+    End Sub
+
+    Private Sub AAA()
+        FG.Rows.Clear()
+        With RSC
             Call LoadSqlData("SELECT * FROM RPT_F08 Order by ItemID asc ", RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("ItemID").Value)) & vbTab & Trim(CStr(.Fields("Itemnm").Value)) & vbTab & Trim(CStr(.Fields("Vala").Value)) & _
-                      "" & vbTab & ((.Fields("int").Value)) & vbTab & ((.Fields("SaveNm").Value)) & vbTab & ((.Fields("Save_Vala").Value)) & vbTab & ((.Fields("Save_Int").Value)))
+                    FG.Rows.Add(.AbsolutePosition, _
+                                Trim(CStr(.Fields("ItemID").Value)), _
+                                Trim(CStr(.Fields("Itemnm").Value)), _
+                                Trim(CStr(.Fields("Vala").Value)), _
+                                ((.Fields("int").Value)), _
+                                ((.Fields("SaveNm").Value)), _
+                                ((.Fields("Save_Vala").Value)), _
+                                ((.Fields("Save_Int").Value)))
                     .MoveNext()
                 End While
-            Else
-                FG.Rows = 2
             End If
-
         End With
- 
     End Sub
 
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
-        FG.Rows = FG.Rows + 1 
-        For i = 1 To FG.Rows - 1
-            If FG.get_TextMatrix(i, 4) = "" Then
-                FG.set_TextMatrix(i, 4, Format(CDbl(0), "#,##0.00"))
+        FG.Rows.Add()
+        For i = 0 To FG.Rows.Count - 1
+            If FG.Rows(i).Cells(4).Value Is Nothing OrElse FG.Rows(i).Cells(4).Value.ToString() = "" Then
+                FG.Rows(i).Cells(4).Value = Format(CDbl(0), "#,##0.00")
             End If
         Next i
     End Sub
 
-    Private Sub FG_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.DblClick
-        'AccCD = FG.get_TextMatrix(FG.Row, 1) & FG.get_TextMatrix(FG.Row, 2)
-        If MessageBox.Show("ທ່ານຕ້ອງການລືບລາຍການ'" & FG.get_TextMatrix(FG.Row, 1) & FG.get_TextMatrix(FG.Row, 2) & "' ນີ້ ແທ້ ຫຼື ບໍ່ ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-            CNN.Execute(" DELETE RPT_F08 where  ItemID=N'" & (FG.get_TextMatrix(FG.Row, 1)) & "' ")
-            FG.RemoveItem()
-        End If
-    End Sub
-
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        If FG.Col = 1 Or FG.Col = 2 Or FG.Col = 3 Or FG.Col = 4 Or FG.Col = 5 Or FG.Col = 6 Or FG.Col = 7 Then
-            FG.Editable = VSFlex8U.EditableSettings.flexEDKbd
-        Else
-            FG.Editable = VSFlex8U.EditableSettings.flexEDNone
+    Private Sub FG_CellDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles FG.CellDoubleClick
+        If e.RowIndex < 0 Then Exit Sub
+        
+        Dim itemId As String = If(FG.Rows(e.RowIndex).Cells(1).Value Is Nothing, "", FG.Rows(e.RowIndex).Cells(1).Value.ToString())
+        Dim itemNm As String = If(FG.Rows(e.RowIndex).Cells(2).Value Is Nothing, "", FG.Rows(e.RowIndex).Cells(2).Value.ToString())
+        
+        If MessageBox.Show("ທ່ານຕ້ອງການລືບລາຍການ'" & itemId & itemNm & "' ນີ້ ແທ້ ຫຼື ບໍ່ ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+            CNN.Execute(" DELETE RPT_F08 where  ItemID=N'" & itemId & "' ")
+            FG.Rows.RemoveAt(e.RowIndex)
         End If
     End Sub
 
@@ -52,29 +83,42 @@
         Save_item()
         MsgBox("Finish")
     End Sub
+
     Private Sub Save_item()
-       Dim Rschk As New ADODB.Recordset
+        Dim Rschk As New ADODB.Recordset
         Dim i As Integer
-        With Rschk 
-            For i = 1 To FG.Rows - 1
-                Dim sk As String = "Select * FROM RPT_F08 where  ItemID=N'" & (FG.get_TextMatrix(i, 1)) & "'   "
-                Call LoadSqlData(sk, Rschk)
-                If Rschk.RecordCount = 0 Then
-                    Dim sa As String = "INSERT INTO RPT_F08 ( ItemID, ItemNM, Vala, Int,SaveNm, Save_Vala, Save_Int ) " & _
-                    " VALUES (  N'" & (FG.get_TextMatrix(i, 1)) & "'," & _
-                     " N'" & (FG.get_TextMatrix(i, 2)) & "'," & _
-                      " N'" & (FG.get_TextMatrix(i, 3)) & "'," & _
-                        " N'" & (FG.get_TextMatrix(i, 4)) & "',N'" & (FG.get_TextMatrix(i, 5)) & "',N'" & (FG.get_TextMatrix(i, 6)) & "',N'" & (FG.get_TextMatrix(i, 7)) & "') "
-                    CNN.Execute(sa)
-                Else
-                    Dim UPPP As String = " UPDATE RPT_F08 set ItemNM=N'" & (FG.get_TextMatrix(i, 2)) & "'," & _
-                      " Vala=N'" & (FG.get_TextMatrix(i, 3)) & "'," & _
-                        " Int=N'" & (FG.get_TextMatrix(i, 4)) & "',SaveNm=N'" & (FG.get_TextMatrix(i, 5)) & "',Save_Vala=N'" & (FG.get_TextMatrix(i, 6)) & "',Save_Int=N'" & (FG.get_TextMatrix(i, 7)) & "' " & _
-                        " where ItemID=N'" & (FG.get_TextMatrix(i, 1)) & "' "
-                    CNN.Execute(UPPP)
-                End If
-            Next i
-        End With
+        
+        For i = 0 To FG.Rows.Count - 1
+            Dim itemId As String = If(FG.Rows(i).Cells(1).Value Is Nothing, "", FG.Rows(i).Cells(1).Value.ToString())
+            If itemId = "" Then Continue For
+            
+            Dim sk As String = "Select * FROM RPT_F08 where  ItemID=N'" & itemId & "'   "
+            Call LoadSqlData(sk, Rschk)
+            
+            Dim v1 As String = If(FG.Rows(i).Cells(1).Value Is Nothing, "", FG.Rows(i).Cells(1).Value.ToString())
+            Dim v2 As String = If(FG.Rows(i).Cells(2).Value Is Nothing, "", FG.Rows(i).Cells(2).Value.ToString())
+            Dim v3 As String = If(FG.Rows(i).Cells(3).Value Is Nothing, "", FG.Rows(i).Cells(3).Value.ToString())
+            Dim v4 As String = If(FG.Rows(i).Cells(4).Value Is Nothing, "0", FG.Rows(i).Cells(4).Value.ToString())
+            Dim v5 As String = If(FG.Rows(i).Cells(5).Value Is Nothing, "", FG.Rows(i).Cells(5).Value.ToString())
+            Dim v6 As String = If(FG.Rows(i).Cells(6).Value Is Nothing, "", FG.Rows(i).Cells(6).Value.ToString())
+            Dim v7 As String = If(FG.Rows(i).Cells(7).Value Is Nothing, "0", FG.Rows(i).Cells(7).Value.ToString())
+
+            If Rschk.RecordCount = 0 Then
+                Dim sa As String = "INSERT INTO RPT_F08 ( ItemID, ItemNM, Vala, Int,SaveNm, Save_Vala, Save_Int ) " & _
+                " VALUES (  N'" & v1 & "'," & _
+                 " N'" & v2 & "'," & _
+                  " N'" & v3 & "'," & _
+                    " N'" & v4 & "',N'" & v5 & "',N'" & v6 & "',N'" & v7 & "') "
+                CNN.Execute(sa)
+            Else
+                Dim UPPP As String = " UPDATE RPT_F08 set ItemNM=N'" & v2 & "'," & _
+                  " Vala=N'" & v3 & "'," & _
+                    " Int=N'" & v4 & "',SaveNm=N'" & v5 & "',Save_Vala=N'" & v6 & "',Save_Int=N'" & v7 & "' " & _
+                    " where ItemID=N'" & v1 & "' "
+                CNN.Execute(UPPP)
+            End If
+        Next i
+        
         CNN.Execute("DELETE FROM RPT_F08 where  ItemID=''  ") 
     End Sub
 

@@ -32,34 +32,34 @@ Partial Class FrmUser_DDC
         Me.lblID = New System.Windows.Forms.Label
         Me.lblNm = New System.Windows.Forms.Label
         Me.lblPass = New System.Windows.Forms.Label
-        Me.lblConfirm = New System.Windows.Forms.Label
-        Me.lblPermission = New System.Windows.Forms.Label
-        Me.lblPermissions = New System.Windows.Forms.Label
-        Me.Fg = New AxVSFlex8U.AxVSFlexGrid
-        Me.FgSec = New AxVSFlex8U.AxVSFlexGrid
-        Me.CheckBox3 = New System.Windows.Forms.CheckBox
-        Me.CheckBox2 = New System.Windows.Forms.CheckBox
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox
-        Me.FG2 = New AxVSFlex8U.AxVSFlexGrid
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.FgItem = New AxVSFlex8U.AxVSFlexGrid
-        Me.Panel3 = New System.Windows.Forms.Panel
-        Me.txtNewPass = New System.Windows.Forms.TextBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.txtOldPass = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Button5 = New System.Windows.Forms.Button
-        Me.Button4 = New System.Windows.Forms.Button
-        Me.TextBox1 = New System.Windows.Forms.TextBox
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.Button1 = New System.Windows.Forms.Button
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.CheckBox4 = New System.Windows.Forms.CheckBox
-        Me.CheckBox5 = New System.Windows.Forms.CheckBox
-        Me.CheckBox6 = New System.Windows.Forms.CheckBox
-        Me.Panel2 = New System.Windows.Forms.Panel
-        Me.Panel4 = New System.Windows.Forms.Panel
-        Me.FG_DP = New AxVSFlex8U.AxVSFlexGrid
+        Me.lblConfirm = New System.Windows.Forms.Label()
+        Me.lblPermission = New System.Windows.Forms.Label()
+        Me.lblPermissions = New System.Windows.Forms.Label()
+        Me.Fg = New System.Windows.Forms.DataGridView()
+        Me.FgSec = New System.Windows.Forms.DataGridView()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.FG2 = New System.Windows.Forms.DataGridView()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.FgItem = New System.Windows.Forms.DataGridView()
+        Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.txtNewPass = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.txtOldPass = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Button5 = New System.Windows.Forms.Button()
+        Me.Button4 = New System.Windows.Forms.Button()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.CheckBox4 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox5 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox6 = New System.Windows.Forms.CheckBox()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.FG_DP = New System.Windows.Forms.DataGridView()
         Me.Cmb_DP = New System.Windows.Forms.ComboBox
         Me.txt_DP_ID = New System.Windows.Forms.TextBox
         Me.Label3 = New System.Windows.Forms.Label
@@ -203,24 +203,16 @@ Partial Class FrmUser_DDC
         Me.lblPermissions.TabIndex = 85
         Me.lblPermissions.Text = "ສິດທິນໍາໃຊ້"
         Me.lblPermissions.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Fg
-        '
-        Me.Fg.DataSource = Nothing
+        Me.Fg.AllowUserToAddRows = False
         Me.Fg.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Fg.Location = New System.Drawing.Point(0, 0)
         Me.Fg.Name = "Fg"
-        Me.Fg.OcxState = CType(resources.GetObject("Fg.OcxState"), System.Windows.Forms.AxHost.State)
         Me.Fg.Size = New System.Drawing.Size(607, 480)
         Me.Fg.TabIndex = 86
-        '
-        'FgSec
-        '
-        Me.FgSec.DataSource = Nothing
+        Me.FgSec.AllowUserToAddRows = False
         Me.FgSec.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FgSec.Location = New System.Drawing.Point(0, 0)
         Me.FgSec.Name = "FgSec"
-        Me.FgSec.OcxState = CType(resources.GetObject("FgSec.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FgSec.Size = New System.Drawing.Size(336, 250)
         Me.FgSec.TabIndex = 45490
         '
@@ -253,13 +245,9 @@ Partial Class FrmUser_DDC
         Me.CheckBox1.TabIndex = 45492
         Me.CheckBox1.Text = "ປ້ອນຂໍ້ມູນ"
         Me.CheckBox1.UseVisualStyleBackColor = True
-        '
-        'FG2
-        '
-        Me.FG2.DataSource = Nothing
+        Me.FG2.AllowUserToAddRows = False
         Me.FG2.Location = New System.Drawing.Point(127, 6)
         Me.FG2.Name = "FG2"
-        Me.FG2.OcxState = CType(resources.GetObject("FG2.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG2.Size = New System.Drawing.Size(262, 65)
         Me.FG2.TabIndex = 45526
         Me.FG2.Visible = False
@@ -275,14 +263,10 @@ Partial Class FrmUser_DDC
         Me.Label5.TabIndex = 45528
         Me.Label5.Text = "ຜູ້ໃຊ້ລະບົບ"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'FgItem
-        '
-        Me.FgItem.DataSource = Nothing
+        Me.FgItem.AllowUserToAddRows = False
         Me.FgItem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FgItem.Location = New System.Drawing.Point(0, 0)
         Me.FgItem.Name = "FgItem"
-        Me.FgItem.OcxState = CType(resources.GetObject("FgItem.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FgItem.Size = New System.Drawing.Size(336, 223)
         Me.FgItem.TabIndex = 45529
         '
@@ -443,14 +427,10 @@ Partial Class FrmUser_DDC
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(336, 223)
         Me.Panel4.TabIndex = 45541
-        '
-        'FG_DP
-        '
-        Me.FG_DP.DataSource = Nothing
+        Me.FG_DP.AllowUserToAddRows = False
         Me.FG_DP.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FG_DP.Location = New System.Drawing.Point(0, 0)
         Me.FG_DP.Name = "FG_DP"
-        Me.FG_DP.OcxState = CType(resources.GetObject("FG_DP.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG_DP.Size = New System.Drawing.Size(299, 479)
         Me.FG_DP.TabIndex = 45543
         '
@@ -729,14 +709,14 @@ Partial Class FrmUser_DDC
     Friend WithEvents BtnSave As System.Windows.Forms.Button
     Friend WithEvents BtnAddNew As System.Windows.Forms.Button
     Friend WithEvents Button2 As System.Windows.Forms.Button
-    Friend WithEvents Fg As AxVSFlex8U.AxVSFlexGrid
-    Friend WithEvents FgSec As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents Fg As System.Windows.Forms.DataGridView
+    Friend WithEvents FgSec As System.Windows.Forms.DataGridView
     Friend WithEvents CheckBox3 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox2 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
-    Friend WithEvents FG2 As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG2 As System.Windows.Forms.DataGridView
     Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents FgItem As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FgItem As System.Windows.Forms.DataGridView
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
     Friend WithEvents Button5 As System.Windows.Forms.Button
@@ -753,7 +733,7 @@ Partial Class FrmUser_DDC
     Friend WithEvents CheckBox6 As System.Windows.Forms.CheckBox
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents Panel4 As System.Windows.Forms.Panel
-    Friend WithEvents FG_DP As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG_DP As System.Windows.Forms.DataGridView
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Cmb_DP As System.Windows.Forms.ComboBox
     Friend WithEvents txt_DP_ID As System.Windows.Forms.TextBox

@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmReceipt_List
     Inherits System.Windows.Forms.Form
 
@@ -18,7 +18,7 @@ Partial Class FmReceipt_List
     Private components As System.ComponentModel.IContainer
 
     'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
+    'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
@@ -43,7 +43,7 @@ Partial Class FmReceipt_List
         Me.Button1 = New System.Windows.Forms.Button
         Me.SearchName = New System.Windows.Forms.TextBox
         Me.Label3 = New System.Windows.Forms.Label
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -267,10 +267,12 @@ Partial Class FmReceipt_List
         '
         'FG
         '
-        Me.FG.DataSource = Nothing
+        Me.FG.AllowUserToAddRows = False
+        Me.FG.AllowUserToDeleteRows = False
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(7, 218)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.FG.ReadOnly = True
         Me.FG.Size = New System.Drawing.Size(450, 502)
         Me.FG.TabIndex = 168
         '
@@ -308,7 +310,7 @@ Partial Class FmReceipt_List
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents SearchName As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents RRight As System.Windows.Forms.RadioButton

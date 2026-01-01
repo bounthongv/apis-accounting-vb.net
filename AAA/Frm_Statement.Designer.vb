@@ -23,7 +23,7 @@ Partial Class Frm_Statement
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Statement))
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Label11 = New System.Windows.Forms.Label
         Me.Dt = New System.Windows.Forms.DateTimePicker
         Me.Ds = New System.Windows.Forms.DateTimePicker
@@ -74,15 +74,19 @@ Partial Class Frm_Statement
         '
         'FG
         '
+        Me.FG.AllowUserToAddRows = False
+        Me.FG.AllowUserToDeleteRows = False
         Me.FG.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG.DataSource = Nothing
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(16, 190)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.FG.ReadOnly = True
         Me.FG.Size = New System.Drawing.Size(1230, 236)
         Me.FG.TabIndex = 303
+        Me.FG.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.FG.MultiSelect = False
         '
         'Label11
         '
@@ -544,7 +548,7 @@ Partial Class Frm_Statement
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents BtnExit As System.Windows.Forms.Button
     Friend WithEvents BtnPreview As System.Windows.Forms.Button

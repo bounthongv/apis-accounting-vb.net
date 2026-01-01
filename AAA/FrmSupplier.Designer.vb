@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FrmSupplier
     Inherits System.Windows.Forms.Form
 
@@ -18,7 +18,7 @@ Partial Class FrmSupplier
     Private components As System.ComponentModel.IContainer
 
     'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
+    'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
@@ -47,7 +47,7 @@ Partial Class FrmSupplier
         Me.Label9 = New System.Windows.Forms.Label
         Me.Label10 = New System.Windows.Forms.Label
         Me.TxtOther = New System.Windows.Forms.TextBox
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Label11 = New System.Windows.Forms.Label
         CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -281,13 +281,15 @@ Partial Class FrmSupplier
         '
         'FG
         '
+        Me.FG.AllowUserToAddRows = False
+        Me.FG.AllowUserToDeleteRows = False
         Me.FG.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG.DataSource = Nothing
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(16, 290)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.FG.ReadOnly = True
         Me.FG.Size = New System.Drawing.Size(847, 180)
         Me.FG.TabIndex = 303
         '
@@ -367,6 +369,6 @@ Partial Class FrmSupplier
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents TxtOther As System.Windows.Forms.TextBox
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Label11 As System.Windows.Forms.Label
 End Class

@@ -1,4 +1,4 @@
-﻿Public Class FrmRpt_Fixed_Assets
+Public Class FrmRpt_Fixed_Assets
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         Me.Close()
@@ -8,9 +8,8 @@
     Private Sub FrmAdjustment_List_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         DateIn.Value = DateAdd("d", -1, DateAdd("m", DateDiff("m", DateIn.Value, DateIn.Value) + 1, CDate(Month(DateIn.Value) & "/" & Year(DateIn.Value))))
         'SetControlText(Me)
-        'FG.FormatString = "^No. |<Code  |< Adjustment (LA)    |< Adjustment (EN) |^ Date IN  |<Period |> Adjust Value    |>Remain Value   |< Desription |< Dr            |< Cr         |^Last Adjust Date|^Expect Day|>Expect Value to Adjust|>Expect Remain Value|^Select"
-        FG.FormatString = "^No. |<Code        |< Description    |<Location  |< Asset Code  |<Model  |<Serial Number|<Invoice|^  Date     |<Currency|<Useful Life|>Purchase Cost|>per Year |>Monthly    |>Prev Month  |>Accumulated|>Net Book Value (NBV)|<Broken Date|<Disposal Date|>Gain or loss o |^Select "
 
+        SetupGrid()
         LdGrp()
         LoadListFG()
         LoadBook()
@@ -20,12 +19,71 @@
             Cmb.SelectedIndex = 0
         End If
 
-        FG.set_ColDataType(20, VSFlex8U.DataTypeSettings.flexDTBoolean)
+        ' Handle column visibility based on language setting
         If FmMain.MuLngL.Checked = True Then
-            FG.set_ColHidden(3, True)
+            FG.Columns(3).Visible = False  ' Location column
         Else
-            FG.set_ColHidden(2, True)
+            FG.Columns(2).Visible = False  ' Description column
         End If
+    End Sub
+
+    Private Sub SetupGrid()
+        ' Clear and setup DataGridView columns
+        FG.Columns.Clear()
+        FG.Columns.Add("No", "No.")
+        FG.Columns.Add("Code", "Code")
+        FG.Columns.Add("Description", "Description")
+        FG.Columns.Add("Location", "Location")
+        FG.Columns.Add("AssetCode", "Asset Code")
+        FG.Columns.Add("Model", "Model")
+        FG.Columns.Add("SerialNumber", "Serial Number")
+        FG.Columns.Add("Invoice", "Invoice")
+        FG.Columns.Add("Date", "Date")
+        FG.Columns.Add("Currency", "Currency")
+        FG.Columns.Add("UsefulLife", "Useful Life")
+        FG.Columns.Add("PurchaseCost", "Purchase Cost")
+        FG.Columns.Add("PerYear", "per Year")
+        FG.Columns.Add("Monthly", "Monthly")
+        FG.Columns.Add("PrevMonth", "Prev Month")
+        FG.Columns.Add("Accumulated", "Accumulated")
+        FG.Columns.Add("NetBookValue", "Net Book Value (NBV)")
+        FG.Columns.Add("BrokenDate", "Broken Date")
+        FG.Columns.Add("DisposalDate", "Disposal Date")
+        FG.Columns.Add("GainLoss", "Gain or loss o")
+        FG.Columns.Add("Select", "Select")  ' Boolean column
+
+        ' Set column widths
+        FG.Columns(0).Width = 50
+        FG.Columns(1).Width = 100
+        FG.Columns(2).Width = 150
+        FG.Columns(3).Width = 100
+        FG.Columns(4).Width = 100
+        FG.Columns(5).Width = 100
+        FG.Columns(6).Width = 120
+        FG.Columns(7).Width = 100
+        FG.Columns(8).Width = 100
+        FG.Columns(9).Width = 80
+        FG.Columns(10).Width = 80
+        FG.Columns(11).Width = 100
+        FG.Columns(12).Width = 80
+        FG.Columns(13).Width = 80
+        FG.Columns(14).Width = 100
+        FG.Columns(15).Width = 100
+        FG.Columns(16).Width = 120
+        FG.Columns(17).Width = 100
+        FG.Columns(18).Width = 100
+        FG.Columns(19).Width = 100
+        FG.Columns(20).Width = 50
+
+        ' Configure DataGridView properties
+        FG.AllowUserToAddRows = False
+        FG.ReadOnly = True
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.MultiSelect = False
+
+        ' Set the last column as boolean (checkbox)
+        FG.Columns(20).DefaultCellStyle.NullValue = False
+        FG.Columns(20).ValueType = GetType(Boolean)
     End Sub
     Private Sub LoadBook()
         Dim rst As New ADODB.Recordset
@@ -98,8 +156,9 @@
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         If TxtCode.Text = "" Then MsgBox("ກະລຸນາເລືອກກ່ອນ!", MsgBoxStyle.OkOnly) : Exit Sub
-        If MessageBox.Show("ທ່ານຕ້ອງລຶບລະຫັດ " & FG.get_TextMatrix(FG.Row, 1) & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            CNN.Execute("DELETE FROM Adjustment_List WHERE Code=N'" & FG.get_TextMatrix(FG.Row, 1) & "'")
+        If FG.CurrentRow Is Nothing Then Exit Sub
+        If MessageBox.Show("ທ່ານຕ້ອງລຶບລະຫັດ " & FG.CurrentRow.Cells(1).Value.ToString() & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            CNN.Execute("DELETE FROM Adjustment_List WHERE Code=N'" & FG.CurrentRow.Cells(1).Value.ToString() & "'")
 
             LoadListFG()
             Call AddNew()
@@ -112,7 +171,10 @@
         Else
             GrpNM = " AND GrpID=N'" & Trim(txtGrp.Text) & "' "
         End If
-        FG.Rows = 1
+
+        ' Clear existing rows
+        FG.Rows.Clear()
+
         Dim cRS As New ADODB.Recordset
         Dim Str As String = ""
         Dim ss As String
@@ -199,43 +261,36 @@
 
 
         With cRS
-            'strDate = CDate("01/" & Trim(DateIn.Value.Month.ToString) & "/" & Trim(DateIn.Value.Year.ToString))
+            'strDate = CDate("01/" & Trim(DateIn.Value.Month.ToString) & "/" & Trim(DateIn.Value.Year.ToString)
             'Call LoadSqlData("SELECT *, (DateDiff(d, '" & Format(CDate(strDate), "yyyy/MM/dd") & "' , '" & Format(CDate(DateIn.Value), "yyyy/MM/dd") & "')+1) as ExpectDay FROM  Adjustment_List where 1=1 " & GrpNM & " and Remain>0 order by Code ASC  ", RSC)
             Call LoadSqlData("SELECT * FROM Rpt_Grp where 1=1  Order by Assetid ", cRS)
             If .RecordCount > 0 Then
                 While Not .EOF
                     Dim Rema As Double = 0
-                    'FG.FormatString = "^No. |<Code        |< Description    |<Location  |< Asset Code  |<Model  |<Serial Number|<Invoice|^  Date     |<Currency|<Useful Life|>Purchase Cost|>per Year |>Monthly    |>Prev Month  |>Accumulated|>Net Book Value (NBV)|^Select"
-
-                    FG.AddItem(cRS.AbsolutePosition & Chr(9) & Trim(cRS.Fields("AssetID").Value.ToString) & _
-                               Chr(9) & Trim(cRS.Fields("Asset_Nm").Value.ToString) & _
-                               Chr(9) & Trim(cRS.Fields("Using_By").Value.ToString) & _
-                               Chr(9) & Trim(cRS.Fields("Asset_No").Value.ToString) & _
-                           Chr(9) & Trim(cRS.Fields("Model").Value.ToString) & _
-                              Chr(9) & Trim(cRS.Fields("Serial").Value.ToString) & _
-                                   Chr(9) & Trim(cRS.Fields("Vendor").Value.ToString) & _
-                                   Chr(9) & Format(cRS.Fields("Date_Work").Value, "dd/MM/yyyy") & _
-                                             Chr(9) & Trim(cRS.Fields("Curr").Value.ToString) & _
-                                            Chr(9) & cRS.Fields("Used_life").Value.ToString & _
-                               Chr(9) & Format(cRS.Fields("Amt_KIP").Value, "#,##0.00") & _
-                                    Chr(9) & 20 & _
-                       Chr(9) & Format(cRS.Fields("MonDep").Value, "#,##0.00") & _
-                       Chr(9) & Format(cRS.Fields("PrevDep").Value, "#,##0.00") & _
-                       Chr(9) & Format(cRS.Fields("TTDep").Value, "#,##0.00") & _
-                       Chr(9) & Format(cRS.Fields("Remain").Value, "#,##0.00") & _
-                            Chr(9) & Trim(cRS.Fields("Broke_Date").Value.ToString) & _
-                                 Chr(9) & Trim(cRS.Fields("Deposted_Date").Value.ToString) & _
-                                  Chr(9) & Format(cRS.Fields("disposal").Value, "#,##0.00") & _
-                      "" & vbTab & 0)
-                    ' Chr(9) & cRS.Fields("Deposted_Date").Value & _
-                    'Chr(9) & Format(cRS.Fields("Dep_Year").Value, "#,##0.00") & _
-                    'Chr(9) & Format(cRS.Fields("Dep_Month").Value, "#,##0.00") & _
-                    'Chr(9) & cRS.Fields("TTMon").Value.ToString & _
-                    'Chr(9) & cRS.Fields("PrevMon").Value.ToString & _
+                    ' Add row to DataGridView
+                    FG.Rows.Add(cRS.AbsolutePosition, _
+                               Trim(cRS.Fields("AssetID").Value.ToString), _
+                               Trim(cRS.Fields("Asset_Nm").Value.ToString), _
+                               Trim(cRS.Fields("Using_By").Value.ToString), _
+                               Trim(cRS.Fields("Asset_No").Value.ToString), _
+                               Trim(cRS.Fields("Model").Value.ToString), _
+                               Trim(cRS.Fields("Serial").Value.ToString), _
+                               Trim(cRS.Fields("Vendor").Value.ToString), _
+                               Format(cRS.Fields("Date_Work").Value, "dd/MM/yyyy"), _
+                               Trim(cRS.Fields("Curr").Value.ToString), _
+                               cRS.Fields("Used_life").Value.ToString, _
+                               Format(cRS.Fields("Amt_KIP").Value, "#,##0.00"), _
+                               20, _
+                               Format(cRS.Fields("MonDep").Value, "#,##0.00"), _
+                               Format(cRS.Fields("PrevDep").Value, "#,##0.00"), _
+                               Format(cRS.Fields("TTDep").Value, "#,##0.00"), _
+                               Format(cRS.Fields("Remain").Value, "#,##0.00"), _
+                               Trim(cRS.Fields("Broke_Date").Value.ToString), _
+                               Trim(cRS.Fields("Deposted_Date").Value.ToString), _
+                               Format(cRS.Fields("disposal").Value, "#,##0.00"), _
+                               False)  ' Default value for the boolean select column
                     .MoveNext()
                 End While
-            Else
-                FG.Rows = 2
             End If
         End With
 
@@ -243,10 +298,12 @@
     Private Sub Sum()
         Dim i As Integer
         Dim total As Double = 0
-        For i = 1 To FG.Rows - 1
-            total = total + (CDbl(FG.get_TextMatrix(i, 13)))
+        For i = 0 To FG.Rows.Count - 1
+            If FG.Rows(i).Cells(13).Value IsNot Nothing AndAlso IsNumeric(FG.Rows(i).Cells(13).Value) Then
+                total = total + CDbl(FG.Rows(i).Cells(13).Value)
+            End If
         Next i
-  
+
         txtBill_Amt.Text = Format(CDbl(total), "#,##0.00")
     End Sub
 
@@ -281,19 +338,30 @@
         LoadListFG()
     End Sub
 
-    Private Sub FG_MouseUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseUpEvent) Handles FG.MouseUpEvent
-        If FG.Col = 17 Then
-            FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-        Else
-
+    Private Sub FG_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG.CellClick
+        ' Handle checkbox column (column 20) click
+        If e.ColumnIndex = 20 AndAlso e.RowIndex >= 0 Then
+            ' Toggle the checkbox value
+            Dim currentValue As Boolean = False
+            If FG.Rows(e.RowIndex).Cells(20).Value IsNot Nothing Then
+                Boolean.TryParse(FG.Rows(e.RowIndex).Cells(20).Value.ToString(), currentValue)
+            End If
+            FG.Rows(e.RowIndex).Cells(20).Value = Not currentValue
         End If
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        TxtCode.Text = FG.get_TextMatrix(FG.Row, 1)
-        TxtName.Text = FG.get_TextMatrix(FG.Row, 2)
-        'Call LoadText()
-        TxtCode.Enabled = False
+    Private Sub FG_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles FG.SelectionChanged, FG.Click
+        If FG.CurrentRow Is Nothing Then Exit Sub
+        If FG.CurrentRow.Index < 0 Then Exit Sub
+
+        Try
+            TxtCode.Text = FG.CurrentRow.Cells(1).Value.ToString()
+            TxtName.Text = FG.CurrentRow.Cells(2).Value.ToString()
+            'Call LoadText()
+            TxtCode.Enabled = False
+        Catch ex As Exception
+            ' Handle potential conversion errors or empty cells
+        End Try
     End Sub
     Private Sub LoadText()
         Call LoadSqlData("SELECT * FROM Adjustment_List WHERE Code =N'" & Trim(TxtCode.Text) & "'", RSC)
@@ -490,11 +558,11 @@
             MsgBox("ກະລຸນາເລືອກໝວດຊັບສິນກ່ອນ!", MsgBoxStyle.Exclamation) : txtGrpNm.Focus() : Exit Sub
         End If
         If MessageBox.Show("ທ່ານຕ້ອງການໂອນໄປບັນຊີແທ້ ຫຼື ບໍ່ ! ", "ຢັ້ງຢືນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            For i = 1 To FG.Rows - 1
-                FG.Row = i
-                If FG.get_ValueMatrix(i, 17) = True Then
+            For i = 0 To FG.Rows.Count - 1
+                ' FG.Row = i (Not needed for manual index access)
+                If CBool(FG.Rows(i).Cells(17).Value) = True Then
                     Dim MDcertify As String
-                    MDcertify = CmbBook.Text & "." & Trim(FG.get_TextMatrix(i, 1)) & "." & Format(CDate(DateIn.Value), "dd/MM/yyyy")
+                    MDcertify = CmbBook.Text & "." & Trim(FG.Rows(i).Cells(1).Value.ToString()) & "." & Format(CDate(DateIn.Value), "dd/MM/yyyy")
                     '====== Dr =========
                     Dim DeGen As String = "Delete from AP_ACC_Gen  where certify=N'" & Trim(MDcertify) & "' and office_id='" & MuSubOff2 & "' and  date_work='" & Format(CDate(DateIn.Value), "yyyy-MM-dd") & "'  "
                     CNN.Execute(DeGen)
@@ -503,31 +571,31 @@
                     Dim Dejn As String = "Delete from gen_jn where certify=N'" & Trim(MDcertify) & "' and  office_id='" & MuSubOff2 & "' and  date_work='" & Format(CDate(DateIn.Value), "yyyy-MM-dd") & "' "
                     CNN.Execute(Dejn)
 
-                    If CDbl(FG.get_TextMatrix(i, 13)) <> 0 Then
+                    If CDbl(FG.Rows(i).Cells(13).Value) <> 0 Then
                         'CNN.Execute("INSERT INTO gen_jn(certify,Referno, Book,date_work, code_dr,code_cr,ac_code,ac_name,descrip,amount, amount_dr,amount_cr,amt_dr,amt_Cr, curr,rate,curr_i,rate_i, net_amt,my_lock,don_id,Com_id,Office_ID, last_update,last_user) " & _
                         '                    " VALUES('" & MDcertify & "','" & MDcertify & "','" & CmbBook.Text & "','" & Format(DateIn.Value, "yyyy-MM-dd") & "','" & (FG.get_TextMatrix(FG.Row, 9)) & "','','" & (FG.get_TextMatrix(FG.Row, 9)) & "','',''," & CDbl(FG.get_TextMatrix(FG.Row, 13)) & "," & CDbl(FG.get_TextMatrix(FG.Row, 13)) & ",0," & CDbl(FG.get_TextMatrix(FG.Row, 13)) & ",0,'LAK','1','LAK','1'," & CDbl(FG.get_TextMatrix(FG.Row, 7)) & ",'1','01','" & Trim(KK) & "','" & Trim(KK) & "','" & Format(Date.Today, "yyyy-MM-dd") & "','" & MUserID & "')")
                         Dim CNDR As String = "INSERT INTO gen_jn(certify,Descrip,date_work, book,Referno,Referno_Item, cheque_no,amount,Curr,rate,Curr_i,rate_i,net_amt, code_dr, code_cr, ac_code, ac_name, amount_dr, amount_cr, " & _
                       " amt_dr, amt_cr,amt_USD_dr,amt_USD_Cr, my_lock,rec_lock, last_update, last_user, office_id,AG,Frm) " & _
                         " VALUES(N'" & Trim(MDcertify) & "'," & _
-                             "N'" & (FG.get_TextMatrix(i, 2)) & "'," & _
+                             "N'" & (FG.Rows(i).Cells(2).Value.ToString()) & "'," & _
                       " '" & Format(CDate(DateIn.Value), "yyyy-MM-dd") & "'," & _
                          "N'" & CmbBook.Text & "'," & _
                         "N'" & Trim(MDcertify) & "'," & _
-                          "N'" & (FG.get_TextMatrix(i, 1)) & "'," & _
+                          "N'" & (FG.Rows(i).Cells(1).Value.ToString()) & "'," & _
                                        "N''," & _
-                                     "" & CDbl(FG.get_TextMatrix(i, 13)) & "," & _
+                                     "" & CDbl(FG.Rows(i).Cells(13).Value) & "," & _
                           "N'" & Trim(Cmb.Text) & "'," & _
                              "" & CDbl(1) & "," & _
                                "N'" & Trim(Cmb.Text) & "'," & _
                              "" & CDbl(1) & "," & _
-                                "" & CDbl(FG.get_TextMatrix(i, 13)) * CDbl(1) & "," & _
+                                "" & CDbl(FG.Rows(i).Cells(13).Value) * CDbl(1) & "," & _
                         "N'" & TxtDr.Text & "'," & _
                          "N''," & _
                        "N'" & TxtDr.Text & "'," & _
                        "N''," & _
-                        "" & CDbl(FG.get_TextMatrix(i, 13)) & "," & _
+                        "" & CDbl(FG.Rows(i).Cells(13).Value) & "," & _
                         " 0," & _
-                             "" & CDbl(FG.get_TextMatrix(i, 13)) * CDbl(1) & "," & _
+                             "" & CDbl(FG.Rows(i).Cells(13).Value) * CDbl(1) & "," & _
                         " 0," & _
                            " 0," & _
                               " 0," & _
@@ -541,26 +609,26 @@
                         Dim CNCr As String = "INSERT INTO gen_jn(certify,Descrip,date_work, book,Referno,Referno_Item, cheque_no,amount,Curr,rate,Curr_i,rate_i,net_amt, code_dr, code_cr, ac_code, ac_name, amount_dr, amount_cr, " & _
                       " amt_dr, amt_cr,amt_USD_dr,amt_USD_Cr, my_lock,rec_lock, last_update, last_user, office_id,AG,Frm) " & _
                         " VALUES(N'" & Trim(MDcertify) & "'," & _
-                            "N'" & (FG.get_TextMatrix(i, 2)) & "'," & _
+                            "N'" & (FG.Rows(i).Cells(2).Value.ToString()) & "'," & _
                       " '" & Format(CDate(DateIn.Value), "yyyy-MM-dd") & "'," & _
                      "N'" & CmbBook.Text & "'," & _
                         "N'" & Trim(MDcertify) & "'," & _
-                         "N'" & (FG.get_TextMatrix(i, 1)) & "'," & _
+                         "N'" & (FG.Rows(i).Cells(1).Value.ToString()) & "'," & _
                                        "N''," & _
-                                     "" & CDbl(FG.get_TextMatrix(i, 13)) & "," & _
+                                     "" & CDbl(FG.Rows(i).Cells(13).Value) & "," & _
                           "N'" & Trim(Cmb.Text) & "'," & _
                              "" & CDbl(1) & "," & _
                                "N'" & Trim(Cmb.Text) & "'," & _
                              "" & CDbl(1) & "," & _
-                                "" & CDbl(FG.get_TextMatrix(i, 13)) * CDbl(1) & "," & _
+                                "" & CDbl(FG.Rows(i).Cells(13).Value) * CDbl(1) & "," & _
                                                    "N''," & _
                         "N'" & TxtCr.Text & "'," & _
                        "N'" & TxtCr.Text & "'," & _
                        "N''," & _
               " 0," & _
-                        "" & CDbl(FG.get_TextMatrix(i, 13)) & "," & _
+                        "" & CDbl(FG.Rows(i).Cells(13).Value) & "," & _
                         " 0," & _
-                          "" & CDbl(FG.get_TextMatrix(i, 13)) * CDbl(1) & "," & _
+                          "" & CDbl(FG.Rows(i).Cells(13).Value) * CDbl(1) & "," & _
                         " 0," & _
                            " 0," & _
                          " 1," & _
@@ -573,8 +641,8 @@
                     CNN.Execute("update AP_ACC_Gen_Item set  AP_ACC_Gen_Item.descrip=Acc_Code.Name_L, AP_ACC_Gen_Item.ac_name=Acc_Code.Name_L,  AP_ACC_Gen_Item.ac_typee=Acc_Code.Acc_TypeE from Acc_Code,AP_ACC_Gen_Item where AP_ACC_Gen_Item.certify='" & Trim(MDcertify) & "' and AP_ACC_Gen_Item.AC_Code=ACC_Code.AC_Code ")
 
                     CNN.Execute("update gen_jn set  gen_jn.ac_name=Acc_Code.Name_L, gen_jn.ac_namee=Acc_Code.Name_E from Acc_Code,gen_jn where gen_jn.certify=N'" & Trim(MDcertify) & "' and gen_jn.AC_Code=ACC_Code.AC_Code ")
-                    'CNN.Execute("update Adjustment_List set  Remain= " & CDbl(FG.get_TextMatrix(i, 7)) & "-" & CDbl(FG.get_TextMatrix(i, 13)) & " where Code=N'" & (FG.get_TextMatrix(i, 1)) & "' ")
-                    'CNN.Execute("update Adjustment_List set  Remain= " & CDbl(FG.get_TextMatrix(i, 14)) & "  where Code=N'" & (FG.get_TextMatrix(i, 1)) & "' ")
+                    'CNN.Execute("update Adjustment_List set  Remain= " & CDbl(FG.Rows(i).Cells(7).Value.ToString()) & "-" & CDbl(FG.Rows(i).Cells(13).Value.ToString()) & " where Code=N'" & (FG.Rows(i).Cells(1).Value.ToString()) & "' ")
+                    'CNN.Execute("update Adjustment_List set  Remain= " & CDbl(FG.Rows(i).Cells(14).Value.ToString()) & "  where Code=N'" & (FG.Rows(i).Cells(1).Value.ToString()) & "' ")
 
                 End If
             Next
@@ -589,34 +657,34 @@
         Sum()
     End Sub
     Private Sub FGCal()
-        For i = 1 To FG.Rows - 1
-            If FG.get_TextMatrix(i, 1) <> "" Then
+        For i = 0 To FG.Rows.Count - 1
+            If FG.Rows(i).Cells(1).Value IsNot Nothing AndAlso FG.Rows(i).Cells(1).Value.ToString() <> "" Then
                 StrDate = CDate("01/" & Trim(DateIn.Value.Month.ToString) & "/" & Trim(DateIn.Value.Year.ToString))
                 StrMM = Format(CDate(DateIn.Value), "dd/MM/yyyy")
                 Call LoadSqlData("SELECT *, (DateDiff(d, '" & Format(CDate(StrDate), "yyyy/MM/dd") & "' , '" & Format(CDate(DateIn.Value), "yyyy/MM/dd") & "')+1) as ExpectDay FROM  Adjustment_List where 1=1 " & GrpNm & " order by Code ASC  ", RSC)
 
                 '========================
-                If Format(CDate(DateIn.Value), "MM/yyyy") = Format(CDate(FG.get_TextMatrix(i, 4)), "MM/yyyy") Then
-                    FG.set_TextMatrix(i, 11, Format(CDate(StrMM), "dd/MM/yyyy"))
-                    FG.set_TextMatrix(i, 12, DateDiff(DateInterval.Day, CDate(FG.get_TextMatrix(i, 4)), CDate(FG.get_TextMatrix(i, 11))) + 1)
+                If FG.Rows(i).Cells(4).Value IsNot Nothing AndAlso Format(CDate(DateIn.Value), "MM/yyyy") = Format(CDate(FG.Rows(i).Cells(4).Value), "MM/yyyy") Then
+                    FG.Rows(i).Cells(11).Value = Format(CDate(StrMM), "dd/MM/yyyy")
+                    FG.Rows(i).Cells(12).Value = DateDiff(DateInterval.Day, CDate(FG.Rows(i).Cells(4).Value), CDate(FG.Rows(i).Cells(11).Value)) + 1
 
                     'Label10.Text = DateDiff(DateInterval.Day, DISDATE.Value, RECDATE.Value)
                 End If
 
-                Dim D As Double = Format(CDbl(FG.get_TextMatrix(i, 6)) / CDbl(FG.get_TextMatrix(i, 5)), "#,##0.00")
-                FG.set_TextMatrix(i, 13, Format(CDbl(D) * CDbl(FG.get_TextMatrix(i, 12)), "#,##0.00"))
-                FG.set_TextMatrix(i, 13, Format(CDbl(D) * CDbl(FG.get_TextMatrix(i, 12)), "#,##0.00"))
-                Dim AMT As Double = Math.Round(Val(FG.get_TextMatrix(i, 6) / CDbl(FG.get_TextMatrix(i, 5)) * CDbl(FG.get_TextMatrix(i, 12))), 2)
-                FG.set_TextMatrix(i, 13, Math.Round(Val(FG.get_TextMatrix(i, 6) / CDbl(FG.get_TextMatrix(i, 5)) * CDbl(FG.get_TextMatrix(i, 12))), 2))
-                'Dim AMT As Double = Math.Round(Val(FG.get_TextMatrix(i, 12)), 2)
+                Dim D As Double = Format(CDbl(FG.Rows(i).Cells(6).Value) / CDbl(FG.Rows(i).Cells(5).Value), "#,##0.00")
+                FG.Rows(i).Cells(13).Value = Format(CDbl(D) * CDbl(FG.Rows(i).Cells(12).Value), "#,##0.00")
+                FG.Rows(i).Cells(13).Value = Format(CDbl(D) * CDbl(FG.Rows(i).Cells(12).Value), "#,##0.00")
+                Dim AMT As Double = Math.Round(Val(FG.Rows(i).Cells(6).Value / CDbl(FG.Rows(i).Cells(5).Value) * CDbl(FG.Rows(i).Cells(12).Value)), 2)
+                FG.Rows(i).Cells(13).Value = Math.Round(Val(FG.Rows(i).Cells(6).Value / CDbl(FG.Rows(i).Cells(5).Value) * CDbl(FG.Rows(i).Cells(12).Value)), 2)
+                'Dim AMT As Double = Math.Round(Val(FG.Rows(i).Cells(12).Value), 2)
 
-                FG.set_TextMatrix(i, 13, Format(CDbl(FG.get_TextMatrix(i, 13)), "#,##0.00"))
+                FG.Rows(i).Cells(13).Value = Format(CDbl(FG.Rows(i).Cells(13).Value), "#,##0.00")
 
-                'FG.set_TextMatrix(i, 14, Format(CDbl(FG.get_TextMatrix(i, 7) - (FG.get_TextMatrix(i, 13))), "#,##0.00"))
+                'FG.Rows(i).Cells(14).Value = Format(CDbl(FG.Rows(i).Cells(7).Value - (FG.Rows(i).Cells(13).Value)), "#,##0.00")
                 If CheckBox2.Checked = True Then
-                    FG.set_TextMatrix(i, 13, Format(CDbl(FG.get_TextMatrix(i, 7)), "#,##0.00"))
+                    FG.Rows(i).Cells(13).Value = Format(CDbl(FG.Rows(i).Cells(7).Value), "#,##0.00")
                 End If
-                FG.set_TextMatrix(i, 14, Format(CDbl(FG.get_TextMatrix(i, 7) - (FG.get_TextMatrix(i, 13))), "#,##0.00"))
+                FG.Rows(i).Cells(14).Value = Format(CDbl(FG.Rows(i).Cells(7).Value) - CDbl(FG.Rows(i).Cells(13).Value), "#,##0.00")
 
             End If
         Next i
@@ -744,8 +812,8 @@
             CNN.Execute("update AP_ACC_Gen_Item set  AP_ACC_Gen_Item.descrip=Acc_Code.Name_L, AP_ACC_Gen_Item.ac_name=Acc_Code.Name_L,  AP_ACC_Gen_Item.ac_typee=Acc_Code.Acc_TypeE from Acc_Code,AP_ACC_Gen_Item where AP_ACC_Gen_Item.certify='" & Trim(MDcertify) & "' and AP_ACC_Gen_Item.AC_Code=ACC_Code.AC_Code ")
 
             CNN.Execute("update gen_jn set  gen_jn.ac_name=Acc_Code.Name_L, gen_jn.ac_namee=Acc_Code.Name_E from Acc_Code,gen_jn where gen_jn.certify=N'" & Trim(MDcertify) & "' and gen_jn.AC_Code=ACC_Code.AC_Code ")
-            'CNN.Execute("update Adjustment_List set  Remain= " & CDbl(FG.get_TextMatrix(i, 7)) & "-" & CDbl(FG.get_TextMatrix(i, 13)) & " where Code=N'" & (FG.get_TextMatrix(i, 1)) & "' ")
-            'CNN.Execute("update Adjustment_List set  Remain= " & CDbl(FG.get_TextMatrix(i, 14)) & "  where Code=N'" & (FG.get_TextMatrix(i, 1)) & "' ")
+            'CNN.Execute("update Adjustment_List set  Remain= " & CDbl(FG.Rows(i).Cells(7).Value.ToString()) & "-" & CDbl(FG.Rows(i).Cells(13).Value.ToString()) & " where Code=N'" & (FG.Rows(i).Cells(1).Value.ToString()) & "' ")
+            'CNN.Execute("update Adjustment_List set  Remain= " & CDbl(FG.Rows(i).Cells(14).Value.ToString()) & "  where Code=N'" & (FG.Rows(i).Cells(1).Value.ToString()) & "' ")
             MsgBox("Finish")
         End If
 

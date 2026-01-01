@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmOff_User
     Inherits System.Windows.Forms.Form
 
@@ -23,10 +23,10 @@ Partial Class FmOff_User
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FmOff_User))
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.BtnExit = New System.Windows.Forms.Button
         Me.Button1 = New System.Windows.Forms.Button
-        Me.FG2 = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG2 = New System.Windows.Forms.DataGridView
         Me.Label14 = New System.Windows.Forms.Label
         Me.CmbUsr = New System.Windows.Forms.ComboBox
         CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -38,7 +38,6 @@ Partial Class FmOff_User
         Me.FG.DataSource = Nothing
         Me.FG.Location = New System.Drawing.Point(10, 40)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(350, 417)
         Me.FG.TabIndex = 0
         '
@@ -68,7 +67,6 @@ Partial Class FmOff_User
         Me.FG2.DataSource = Nothing
         Me.FG2.Location = New System.Drawing.Point(372, 40)
         Me.FG2.Name = "FG2"
-        Me.FG2.OcxState = CType(resources.GetObject("FG2.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG2.Size = New System.Drawing.Size(350, 417)
         Me.FG2.TabIndex = 293
         '
@@ -114,10 +112,10 @@ Partial Class FmOff_User
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents BtnExit As System.Windows.Forms.Button
     Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents FG2 As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG2 As System.Windows.Forms.DataGridView
     Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents CmbUsr As System.Windows.Forms.ComboBox
 End Class

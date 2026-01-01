@@ -1190,13 +1190,13 @@ hang:
         FmJeneralJournal_Adjust_List.Show()
         FmJeneralJournal_Adjust_List.Focus()
         'FmJeneralJournal_List.FG.Size = New System.Drawing.Size(1260, 388)
-        FmJeneralJournal_Adjust_List.FG.set_ColHidden(11, False)
-        FmJeneralJournal_Adjust_List.FG.set_ColHidden(5, True)
-        FmJeneralJournal_Adjust_List.FG.set_ColHidden(12, False)
-        FmJeneralJournal_Adjust_List.FG.set_ColHidden(13, True)
-        FmJeneralJournal_Adjust_List.FG.set_ColHidden(14, True)
-        FmJeneralJournal_Adjust_List.FG.set_ColHidden(15, True)
-        FmJeneralJournal_Adjust_List.FG.set_ColHidden(16, True)
+        FmJeneralJournal_Adjust_List.FG.Columns(11).Visible = True
+        FmJeneralJournal_Adjust_List.FG.Columns(5).Visible = False
+        FmJeneralJournal_Adjust_List.FG.Columns(12).Visible = True
+        FmJeneralJournal_Adjust_List.FG.Columns(13).Visible = False
+        FmJeneralJournal_Adjust_List.FG.Columns(14).Visible = False
+        FmJeneralJournal_Adjust_List.FG.Columns(15).Visible = False
+        FmJeneralJournal_Adjust_List.FG.Columns(16).Visible = False
     End Sub
 
     Private Sub ToolStripMenuItem55_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem55.Click

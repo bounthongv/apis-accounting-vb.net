@@ -23,10 +23,10 @@ Partial Class Frm_F08Edit
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_F08Edit))
-        Me.Button1 = New System.Windows.Forms.Button
-        Me.BtnSave = New System.Windows.Forms.Button
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
-        Me.Button5 = New System.Windows.Forms.Button
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.BtnSave = New System.Windows.Forms.Button()
+        Me.FG = New System.Windows.Forms.DataGridView()
+        Me.Button5 = New System.Windows.Forms.Button()
         CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -55,10 +55,11 @@ Partial Class Frm_F08Edit
         '
         'FG
         '
-        Me.FG.DataSource = Nothing
+        Me.FG.AllowUserToAddRows = False
+        Me.FG.AllowUserToDeleteRows = False
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(22, 88)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(1190, 338)
         Me.FG.TabIndex = 121
         '
@@ -99,6 +100,6 @@ Partial Class Frm_F08Edit
     End Sub
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents BtnSave As System.Windows.Forms.Button
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Button5 As System.Windows.Forms.Button
 End Class

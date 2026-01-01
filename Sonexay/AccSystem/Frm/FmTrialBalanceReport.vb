@@ -1,4 +1,4 @@
-﻿Public Class FmTrialBalanceReport
+Public Class FmTrialBalanceReport
     Dim MonthLetter1 As String
 
 
@@ -392,8 +392,9 @@
         Period.Text = "ງວດທີ 1"
         DMonth.Text = "ມັງກອນ"
         LoadMonth()
+        SetupGrid()
         If MuLng = "L" Then
-            FG.FormatString = "^ລ/ດ |<ລະຫັດບັນຊີ        |<  ເນື້ອນໃນ           |ຍອດຍົກເບື້ອງ (ຫນີ້) |ຍອດຍົກເບື້ອງ (ມີ) | ການເຄື່ອນໄຫວ (ຫນີ້) | ການເຄື່ອນໄຫວ (ມີ) | ຍອດເຫລືອ (ຫນີ້)     | ຍອດເຫລືອ (ມີ)      "
+            'FG.FormatString = "^ລ/ດ |<ລະຫັດບັນຊີ        |<  ເນື້ອນໃນ           |ຍອດຍົກເບື້ອງ (ຫນີ້) |ຍອດຍົກເບື້ອງ (ມີ) | ການເຄື່ອນໄຫວ (ຫນີ້) | ການເຄື່ອນໄຫວ (ມີ) | ຍອດເຫລືອ (ຫນີ້)     | ຍອດເຫລືອ (ມີ)      "
             Label5.Text = "ຍອດຍົກເບື້ອງຕົ້ນ(ຫນີ້)"
             Label6.Text = "ຍອດຍົກເບື້ອງຕົ້ນ(ມີ)"
 
@@ -412,7 +413,7 @@
             Label9.Text = "Balance (Debit)"
             Label17.Text = "Balance  (Credit)"
 
-            FG.FormatString = "^No |<Code         |<  Acc Name              |Open (Debit)    |Open (Credit)    | Move (Debit)     |Move    (Credit) | Balance (Debit)     | Balance  (Credit)        "
+            'FG.FormatString = "^No |<Code         |<  Acc Name              |Open (Debit)    |Open (Credit)    | Move (Debit)     |Move    (Credit) | Balance (Debit)     | Balance  (Credit)        "
 
         End If
 
@@ -1432,7 +1433,7 @@
     End Sub
     Private Sub LoadListFG()
         Dim O_dr, O_cr, Amt_dr, Amt_cr, R_dr, R_Cr As Double
-        FG.Rows = 1
+        FG.Rows.Clear()
         If CMB_Curr.SelectedIndex = 1 Then
             CNN.Execute(" update Ap_balance_6_col set ac_code='00-'+ ac_code ")
         ElseIf CMB_Curr.SelectedIndex = 2 Then
@@ -1457,19 +1458,15 @@
                     R_dr = Trim(CDbl(.Fields("Rem_dr").Value))
                     R_Cr = Trim(CDbl(.Fields("Rem_cr").Value))
 
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("ac_code").Value)) & _
-                                "" & vbTab & Trim(CStr(.Fields("ac_name").Value.ToString)) & _
-                                        "" & vbTab & Format(O_dr, "##,##0.00") & _
-                                         "" & vbTab & Format(O_cr, "##,##0.00") & _
-                                          "" & vbTab & Format(Amt_dr, "##,##0.00") & _
-                                             "" & vbTab & Format(Amt_cr, "##,##0.00") & _
-                                                 "" & vbTab & Format(R_dr, "##,##0.00") & _
-                                             "" & vbTab & Format(R_Cr, "##,##0.00") & _
-                                            "" & vbTab & ((.Fields("cnt").Value)))
+                    FG.Rows.Add(.AbsolutePosition, _
+                                Trim(CStr(.Fields("ac_code").Value)), _
+                                Trim(CStr(.Fields("ac_name").Value.ToString)), _
+                                O_dr, O_cr, Amt_dr, Amt_cr, R_dr, R_Cr, _
+                                .Fields("cnt").Value)
                     .MoveNext()
                 End While
             Else
-                FG.Rows = 1
+                ' FG.Rows = 1 
             End If
         End With
 
@@ -1485,13 +1482,13 @@
         BOpDr.Text = 0
         BAmtDr.Text = 0
         BReDr.Text = 0
-        For i = 1 To FG.Rows - 1
-            OpDr.Text = CDbl(OpDr.Text) + CDbl(FG.get_TextMatrix(i, 3))
-            OpCr.Text = CDbl(OpCr.Text) + CDbl(FG.get_TextMatrix(i, 4))
-            AmtDr.Text = CDbl(AmtDr.Text) + CDbl(FG.get_TextMatrix(i, 5))
-            AmtCr.Text = CDbl(AmtCr.Text) + CDbl(FG.get_TextMatrix(i, 6))
-            ReDr.Text = CDbl(ReDr.Text) + CDbl(FG.get_TextMatrix(i, 7))
-            ReCr.Text = CDbl(ReCr.Text) + CDbl(FG.get_TextMatrix(i, 8))
+        For i = 0 To FG.Rows.Count - 1
+            OpDr.Text = CDbl(OpDr.Text) + CDbl(FG.Rows(i).Cells(3).Value)
+            OpCr.Text = CDbl(OpCr.Text) + CDbl(FG.Rows(i).Cells(4).Value)
+            AmtDr.Text = CDbl(AmtDr.Text) + CDbl(FG.Rows(i).Cells(5).Value)
+            AmtCr.Text = CDbl(AmtCr.Text) + CDbl(FG.Rows(i).Cells(6).Value)
+            ReDr.Text = CDbl(ReDr.Text) + CDbl(FG.Rows(i).Cells(7).Value)
+            ReCr.Text = CDbl(ReCr.Text) + CDbl(FG.Rows(i).Cells(8).Value)
         Next i
         BOpDr.Text = CDbl(OpCr.Text) - CDbl(OpDr.Text)
         BAmtDr.Text = CDbl(AmtCr.Text) - CDbl(AmtDr.Text)
@@ -1531,7 +1528,7 @@
         Call Close()
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
+    Private Sub FG_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
 
     End Sub
 
@@ -1908,5 +1905,57 @@
   
     Private Sub CheckBox4_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox4.CheckedChanged
 
+    End Sub
+
+    Private Sub SetupGrid()
+        FG.Columns.Clear()
+        FG.Rows.Clear()
+        FG.AllowUserToAddRows = False
+        FG.AllowUserToDeleteRows = False
+        FG.ReadOnly = True
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.MultiSelect = False
+        FG.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        FG.RowHeadersVisible = False
+
+        Dim c As DataGridViewColumn
+
+        c = New DataGridViewTextBoxColumn() : c.Name = "No" : c.HeaderText = "ລ/ດ" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter : FG.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "Code" : c.HeaderText = "ລະຫັດບັນຊີ" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft : FG.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "Name" : c.HeaderText = "ເນື້ອນໃນ" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft : c.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill : FG.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "OpenDr" : c.HeaderText = "ຍອດຍົກເບື້ອງ (ຫນີ້)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : c.DefaultCellStyle.Format = "N2" : FG.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "OpenCr" : c.HeaderText = "ຍອດຍົກເບື້ອງ (ມີ)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : c.DefaultCellStyle.Format = "N2" : FG.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "MoveDr" : c.HeaderText = "ການເຄື່ອນໄຫວ (ຫນີ້)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : c.DefaultCellStyle.Format = "N2" : FG.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "MoveCr" : c.HeaderText = "ການເຄື່ອນໄຫວ (ມີ)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : c.DefaultCellStyle.Format = "N2" : FG.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "BalDr" : c.HeaderText = "ຍອດເຫລືອ (ຫນີ້)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : c.DefaultCellStyle.Format = "N2" : FG.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "BalCr" : c.HeaderText = "ຍອດເຫລືອ (ມີ)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : c.DefaultCellStyle.Format = "N2" : FG.Columns.Add(c)
+        c = New DataGridViewTextBoxColumn() : c.Name = "Cnt" : c.HeaderText = "Cnt" : c.Visible = False : FG.Columns.Add(c)
+
+        UpdateColumnHeaders()
+    End Sub
+
+    Private Sub UpdateColumnHeaders()
+        If FG.Columns.Count < 9 Then Exit Sub
+        If MuLng = "L" Then
+            FG.Columns(0).HeaderText = "ລ/ດ"
+            FG.Columns(1).HeaderText = "ລະຫັດບັນຊີ"
+            FG.Columns(2).HeaderText = "ເນື້ອນໃນ"
+            FG.Columns(3).HeaderText = "ຍອດຍົກເບື້ອງ (ຫນີ້)"
+            FG.Columns(4).HeaderText = "ຍອດຍົກເບື້ອງ (ມີ)"
+            FG.Columns(5).HeaderText = "ການເຄື່ອນໄຫວ (ຫນີ້)"
+            FG.Columns(6).HeaderText = "ການເຄື່ອນໄຫວ (ມີ)"
+            FG.Columns(7).HeaderText = "ຍອດເຫລືອ (ຫນີ້)"
+            FG.Columns(8).HeaderText = "ຍອດເຫລືອ (ມີ)"
+        Else
+            FG.Columns(0).HeaderText = "No"
+            FG.Columns(1).HeaderText = "Code"
+            FG.Columns(2).HeaderText = "Acc Name"
+            FG.Columns(3).HeaderText = "Open (Debit)"
+            FG.Columns(4).HeaderText = "Open (Credit)"
+            FG.Columns(5).HeaderText = "Move (Debit)"
+            FG.Columns(6).HeaderText = "Move (Credit)"
+            FG.Columns(7).HeaderText = "Balance (Debit)"
+            FG.Columns(8).HeaderText = "Balance (Credit)"
+        End If
     End Sub
 End Class

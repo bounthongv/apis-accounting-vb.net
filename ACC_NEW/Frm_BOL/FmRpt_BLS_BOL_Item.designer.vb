@@ -23,27 +23,27 @@ Partial Class FmRpt_BLS_BOL_Item
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FmRpt_BLS_BOL_Item))
-        Me.FG2 = New AxVSFlex8U.AxVSFlexGrid
-        Me.TextBox1 = New System.Windows.Forms.TextBox
-        Me.BtnMove = New System.Windows.Forms.Button
-        Me.BtnSearch = New System.Windows.Forms.Button
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
-        Me.Button1 = New System.Windows.Forms.Button
-        Me.AC_Code = New System.Windows.Forms.TextBox
-        Me.Rpt_Type = New System.Windows.Forms.ComboBox
-        Me.RPT_ID = New System.Windows.Forms.TextBox
-        Me.Button3 = New System.Windows.Forms.Button
-        Me.Button4 = New System.Windows.Forms.Button
-        Me.Button2 = New System.Windows.Forms.Button
-        Me.BtnEdit = New System.Windows.Forms.Button
-        Me.BtnExit = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Button5 = New System.Windows.Forms.Button
-        Me.Button6 = New System.Windows.Forms.Button
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.Panel2 = New System.Windows.Forms.Panel
+        Me.FG2 = New System.Windows.Forms.DataGridView()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.BtnMove = New System.Windows.Forms.Button()
+        Me.BtnSearch = New System.Windows.Forms.Button()
+        Me.FG = New System.Windows.Forms.DataGridView()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.AC_Code = New System.Windows.Forms.TextBox()
+        Me.Rpt_Type = New System.Windows.Forms.ComboBox()
+        Me.RPT_ID = New System.Windows.Forms.TextBox()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button4 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.BtnEdit = New System.Windows.Forms.Button()
+        Me.BtnExit = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Button5 = New System.Windows.Forms.Button()
+        Me.Button6 = New System.Windows.Forms.Button()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Panel2 = New System.Windows.Forms.Panel()
         CType(Me.FG2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -52,11 +52,12 @@ Partial Class FmRpt_BLS_BOL_Item
         '
         'FG2
         '
-        Me.FG2.DataSource = Nothing
+        Me.FG2.AllowUserToAddRows = False
+        Me.FG2.AllowUserToDeleteRows = False
+        Me.FG2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FG2.Location = New System.Drawing.Point(0, 0)
         Me.FG2.Name = "FG2"
-        Me.FG2.OcxState = CType(resources.GetObject("FG2.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG2.Size = New System.Drawing.Size(578, 403)
         Me.FG2.TabIndex = 12
         '
@@ -92,11 +93,12 @@ Partial Class FmRpt_BLS_BOL_Item
         '
         'FG
         '
-        Me.FG.DataSource = Nothing
+        Me.FG.AllowUserToAddRows = False
+        Me.FG.AllowUserToDeleteRows = False
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FG.Location = New System.Drawing.Point(0, 0)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(629, 403)
         Me.FG.TabIndex = 150
         '
@@ -294,11 +296,11 @@ Partial Class FmRpt_BLS_BOL_Item
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents FG2 As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG2 As System.Windows.Forms.DataGridView
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents BtnMove As System.Windows.Forms.Button
     Friend WithEvents BtnSearch As System.Windows.Forms.Button
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents BtnExit As System.Windows.Forms.Button
     Friend WithEvents BtnEdit As System.Windows.Forms.Button

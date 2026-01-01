@@ -17,20 +17,11 @@
         SUPD = 0
     End Sub
     Private Sub FrmUser_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Fg.FormatString = "^ລ/ດ|<ລະຫັດຜູ້ໃຊ້   |<ຊື່ ຜູ້ໃຊ້               |<ພາກ​ສ່ວນ/ສຳ​ນັກ​ງານ              |<ຮັບຜິດຊອບ  |<ໃນນາມ"
-
-        'If MDWrite = 0 Then
-        '    BtnAddNew.Enabled = False
-        '    BtnSave.Enabled = False
-        'Else
-        '    BtnAddNew.Enabled = True
-        '    BtnSave.Enabled = True
-        'End If
-        'If MDDelete = 0 Then
-        '    BtnDel.Enabled = False
-        'Else
-        '    BtnDel.Enabled = True
-        'End If
+        SetupGrid()
+        SetupGridSec()
+        SetupGridItem()
+        SetupGrid2()
+        SetupGridDP()
 
         FgSec.Visible = True
         FgItem.Visible = True
@@ -41,111 +32,151 @@
         txtUsr_id.Enabled = True
         txtUsr_id.Focus()
 
-
-        'SetControlText(Me)
-        Fg.Cols = 6
-        FgSec.Cols = 3
-        FgItem.Cols = 4
-        FG2.Cols = 3
-        FG2.set_ColDataType(1, VSFlex8U.DataTypeSettings.flexDTBoolean)
-        FgItem.set_ColDataType(1, VSFlex8U.DataTypeSettings.flexDTBoolean)
-        If FG2.Col = 1 Then
-            FG2.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-        End If
-        If FgItem.Col = 1 Then
-            FgItem.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-        End If
-
-        FgItem.FormatString = "^ລ/ດ|    |< |<                     "
-        FgSec.FormatString = "^ລ/ດ||<ລະຫັດພາກສ່ວນ  |<ລາຍການພາກສ່ວນ               "
-        FG2.FormatString = "^ລ/ດ|    |^User   |<            "
-        FG_DP.FormatString = "^ລ/ດ|<ເລືອກ|<ລະຫັດ   |<ກົມກອງ               "
-
-        FgSec.set_ColHidden(1, True)
-        FgSec.set_ColHidden(3, True)
-        FgSec.BackColorSel = Color.SkyBlue
-        FgItem.set_ColHidden(2, True)
-        FG2.Rows = 1
-        FG2.Rows = 2
-        Fg.Size = New System.Drawing.Size(557, 521)
-        FgSec.Size = New System.Drawing.Size(411, 200)
-        FgItem.Size = New System.Drawing.Size(411, 271)
-        FG2.Size = New System.Drawing.Size(265, 480)
-        'Call LoadSubCompany()
         EditActive = False
-        'Fg.set_ColHidden(5, False)
+    End Sub
+
+    Private Sub SetupGrid()
+        Fg.Columns.Clear()
+        Fg.Columns.Add("No", "ລ/ດ")
+        Fg.Columns.Add("Usr_id", "ລະຫັດຜູ້ໃຊ້")
+        Fg.Columns.Add("Usr_nm", "ຊື່ ຜູ້ໃຊ້")
+        Fg.Columns.Add("Section", "ພາກ​ສ່ວນ/ສຳ​ນັກ​ງານ")
+        Fg.Columns.Add("Responsibility", "ຮັບຜິດຊອບ")
+        Fg.Columns.Add("InName", "ໃນນາມ")
+
+        Fg.Columns(0).Width = 50
+        Fg.Columns(1).Width = 100
+        Fg.Columns(2).Width = 150
+        Fg.Columns(3).Width = 150
+        Fg.Columns(4).Width = 100
+        Fg.Columns(5).Width = 100
+        
+        Fg.AllowUserToAddRows = False
+        Fg.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        Fg.ReadOnly = True
+    End Sub
+
+    Private Sub SetupGridSec()
+        FgSec.Columns.Clear()
+        FgSec.Columns.Add("No", "ລ/ດ")
+        FgSec.Columns.Add("ID_Hidden", "")
+        FgSec.Columns.Add("Sec_ID", "ລະຫັດພາກສ່ວນ")
+        FgSec.Columns.Add("Sec_Nm", "ລາຍການພາກສ່ວນ")
+        
+        FgSec.Columns(1).Visible = False
+        
+        FgSec.AllowUserToAddRows = False
+        FgSec.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FgSec.ReadOnly = True
+    End Sub
+
+    Private Sub SetupGridItem()
+        FgItem.Columns.Clear()
+        FgItem.Columns.Add("No", "ລ/ດ")
+        Dim chkCol As New DataGridViewCheckBoxColumn()
+        chkCol.HeaderText = ""
+        chkCol.Name = "Check"
+        FgItem.Columns.Add(chkCol)
+        FgItem.Columns.Add("ID", "")
+        FgItem.Columns.Add("Name", "")
+        
+        FgItem.Columns(2).Visible = False
+        
+        FgItem.AllowUserToAddRows = False
+        FgItem.SelectionMode = DataGridViewSelectionMode.CellSelect
+    End Sub
+
+    Private Sub SetupGrid2()
+        FG2.Columns.Clear()
+        FG2.Columns.Add("No", "ລ/ດ")
+        Dim chkCol As New DataGridViewCheckBoxColumn()
+        chkCol.HeaderText = ""
+        chkCol.Name = "Check"
+        FG2.Columns.Add(chkCol)
+        FG2.Columns.Add("User", "User")
+        FG2.Columns.Add("Name", "")
+        
+        FG2.AllowUserToAddRows = False
+        FG2.SelectionMode = DataGridViewSelectionMode.CellSelect
+    End Sub
+
+    Private Sub SetupGridDP()
+        FG_DP.Columns.Clear()
+        FG_DP.Columns.Add("No", "ລ/ດ")
+        Dim chkCol As New DataGridViewCheckBoxColumn()
+        chkCol.HeaderText = "ເລືອກ"
+        chkCol.Name = "Check"
+        FG_DP.Columns.Add(chkCol)
+        FG_DP.Columns.Add("ID", "ລະຫັດ")
+        FG_DP.Columns.Add("Name", "ກົມກອງ")
+        
+        FG_DP.AllowUserToAddRows = False
+        FG_DP.SelectionMode = DataGridViewSelectionMode.CellSelect
     End Sub
     Public Sub LoadListFG2()
         Dim aa As String
         aa = "update Ap_Office set Lck=0 update Ap_Office set Lck=1 from  Ap_Office_User , Ap_office where Ap_Office_User.Sub_Id = Ap_office.Sub_Id And Usr_Id =  '" & txtUsr_id.Text & "' "
         CNN.Execute(aa)
-        FG2.Rows = 1
+        FG2.Rows.Clear()
         With RSC
             Call LoadSqlData("select Sub_Id , Off_Add2,Lck  from Ap_office order by Sub_Id", RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    FG2.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("Lck").Value)) & _
-                                "" & vbTab & Trim(CStr(.Fields("Sub_Id").Value)) & _
-                    "" & vbTab & Trim(CStr(.Fields("Off_Add2").Value)))
+                    FG2.Rows.Add(.AbsolutePosition, _
+                                (.Fields("Lck").Value), _
+                                Trim(CStr(.Fields("Sub_Id").Value)), _
+                                Trim(CStr(.Fields("Off_Add2").Value)))
                     .MoveNext()
                 End While
-            Else
-                FG2.Rows = 2
             End If
         End With
-        'If txtUsr_id.Text = "a" Then
-        '    Exit Sub
-        'End If
-        For i = 1 To FG2.Rows - 1
-            If FG2.get_TextMatrix(i, 2) = "00-00" Then
-                FG2.Col = 2
-                FG2.Row = i
-                FG2.CellForeColor = Color.Red
-                FG2.CellFontBold = True
-                FG2.Col = 3
-                FG2.CellForeColor = Color.Red
-                FG2.CellFontBold = True
+
+        For i = 0 To FG2.Rows.Count - 1
+            Dim subId As String = If(FG2.Rows(i).Cells(2).Value Is Nothing, "", FG2.Rows(i).Cells(2).Value.ToString())
+            If subId = "00-00" Then
+                FG2.Rows(i).Cells(2).Style.ForeColor = Color.Red
+                FG2.Rows(i).Cells(2).Style.Font = New Font(FG2.Font, FontStyle.Bold)
+                FG2.Rows(i).Cells(3).Style.ForeColor = Color.Red
+                FG2.Rows(i).Cells(3).Style.Font = New Font(FG2.Font, FontStyle.Bold)
             End If
-            If Mid(FG2.get_TextMatrix(i, 2), 1, 2) <> "00" Then
-                If Mid(FG2.get_TextMatrix(i, 2), 4, 2) = "00" Then
-                    FG2.Col = 2
-                    FG2.Row = i
-                    FG2.CellForeColor = Color.Blue
-                    FG2.CellFontBold = True
-                    FG2.Col = 3
-                    FG2.CellForeColor = Color.Blue
-                    FG2.CellFontBold = True
+            If Mid(subId, 1, 2) <> "00" Then
+                If Mid(subId, 4, 2) = "00" Then
+                    FG2.Rows(i).Cells(2).Style.ForeColor = Color.Blue
+                    FG2.Rows(i).Cells(2).Style.Font = New Font(FG2.Font, FontStyle.Bold)
+                    FG2.Rows(i).Cells(3).Style.ForeColor = Color.Blue
+                    FG2.Rows(i).Cells(3).Style.Font = New Font(FG2.Font, FontStyle.Bold)
                 End If
             End If
         Next i
     End Sub
+
     Private Sub LoadData()
-        'Fg.FormatString = "^ລ/ດ|<ລະຫັດຜູ້ໃຊ້   |<ຊື່ ຜູ້ໃຊ້              |<ພາກ​ສ່ວນ/ສຳ​ນັກ​ງານ         |<ຮັບຜິດຊອບ         |<ໃນນາມ"
-        Fg.Rows = 1
+        Fg.Rows.Clear()
         With rs
             Call LoadSqlData("select Usr_id,Usr_nm,permision   from Ap_Users Order by Sec_id ", rs)
             If .RecordCount > 0 Then
                 While Not .EOF()
-                    Fg.AddItem(.AbsolutePosition & _
-                    Chr(9) & (.Fields("Usr_id").Value.ToString) & _
-                    Chr(9) & (.Fields("Usr_nm").Value.ToString) & _
-                       Chr(9) & "" & _
-                     Chr(9) & "" & _
-                    Chr(9) & (.Fields("permision").Value.ToString))
+                    Fg.Rows.Add(.AbsolutePosition, _
+                                (.Fields("Usr_id").Value.ToString), _
+                                (.Fields("Usr_nm").Value.ToString), _
+                                "", "", _
+                                (.Fields("permision").Value.ToString))
                     .MoveNext()
                 End While
             End If
         End With
     End Sub
+
     Private Sub LoadSection()
-        FgSec.Rows = 1
+        FgSec.Rows.Clear()
         With rs
             Call LoadSqlData("select * from Ap_Section Order by Sec_ID ", rs)
             If .RecordCount > 0 Then
                 While Not .EOF()
-                    FgSec.AddItem(.AbsolutePosition & _
-                    Chr(9) & (.Fields("Sec_ID").Value.ToString) & _
-                    Chr(9) & (.Fields("Sec_Nm").Value.ToString))
+                    FgSec.Rows.Add(.AbsolutePosition, _
+                                   "", _
+                                   (.Fields("Sec_ID").Value.ToString), _
+                                   (.Fields("Sec_Nm").Value.ToString))
                     .MoveNext()
                 End While
             End If
@@ -234,18 +265,18 @@
         With Rschk
             If cmbpermision.SelectedIndex = 1 Then
                 Call LoadSqlData("SELECT * FROM AP_Users_List WHERE Usr_id = N'" & txtUsr_id.Text & "'", Rschk)
-                For i = 1 To FG_DP.Rows - 1
+                For i = 0 To FG_DP.Rows.Count - 1
                     If .RecordCount = 0 Then
-                        If FG_DP.get_ValueMatrix(i, 1) = True Then
+                        If CBool(If(FG_DP.Rows(i).Cells(1).Value Is Nothing, False, FG_DP.Rows(i).Cells(1).Value)) = True Then
                             CNN.Execute("INSERT INTO  AP_Users_List (Usr_id,Stff_Id,Usr_nm,permision,permision_id,status,txt_DP_ID,Cmb_DP,Get_date, lst_usr, pc_nm) " & _
                                 " VALUES(N'" & (txtUsr_id.Text) & "'," & _
                                       " N'" & (TextBox1.Text) & "'," & _
                            " N'" & (txtUsr_nm.Text) & "'," & _
-                               " N'" & (cmbpermision.Text) & "'," & _
+                                " N'" & (cmbpermision.Text) & "'," & _
                            " N'" & (txt_permision_id.Text) & "'," & _
                              " N'" & 1 & "'," & _
-                                " N'" & Apostrophe(FG_DP.get_TextMatrix(i, 2)) & "'," & _
-                                  " N'" & Apostrophe(FG_DP.get_TextMatrix(i, 3)) & "'," & _
+                                " N'" & Apostrophe(If(FG_DP.Rows(i).Cells(2).Value Is Nothing, "", FG_DP.Rows(i).Cells(2).Value.ToString())) & "'," & _
+                                  " N'" & Apostrophe(If(FG_DP.Rows(i).Cells(3).Value Is Nothing, "", FG_DP.Rows(i).Cells(3).Value.ToString())) & "'," & _
                                    " Getdate()," & _
                               " N'" & MUserName & "'," & _
                               " '" & COMPUTER_NM & "')")
@@ -256,20 +287,20 @@
             ElseIf cmbpermision.SelectedIndex = 2 Then
 
                 Call LoadSqlData("SELECT * FROM AP_Users_List WHERE Usr_id = N'" & txtUsr_id.Text & "'", Rschk)
-                For i = 1 To FG_DP.Rows - 1
+                For i = 0 To FG_DP.Rows.Count - 1
                     If .RecordCount = 0 Then
-                        If FG_DP.get_ValueMatrix(i, 1) = True Then
+                        If CBool(If(FG_DP.Rows(i).Cells(1).Value Is Nothing, False, FG_DP.Rows(i).Cells(1).Value)) = True Then
                             CNN.Execute("INSERT INTO  AP_Users_List (Usr_id,Stff_Id,Usr_nm,permision,permision_id,txt_DP_ID,Cmb_DP,txt_DP_sub_ID,Cmb_DP_sub,Get_date, lst_usr, pc_nm) " & _
                                 " VALUES(N'" & (txtUsr_id.Text) & "'," & _
                                       " N'" & (TextBox1.Text) & "'," & _
                            " N'" & (txtUsr_nm.Text) & "'," & _
-                               " N'" & (cmbpermision.Text) & "'," & _
+                                " N'" & (cmbpermision.Text) & "'," & _
                            " N'" & (txt_permision_id.Text) & "'," & _
-                               " N'" & (txt_DP_ID.Text) & "'," & _
-                                   " N'" & (Cmb_DP.Text) & "'," & _
-                                " N'" & Apostrophe(FG_DP.get_TextMatrix(i, 2)) & "'," & _
-                                  " N'" & Apostrophe(FG_DP.get_TextMatrix(i, 3)) & "'," & _
-                                   " Getdate()," & _
+                                " N'" & (txt_DP_ID.Text) & "'," & _
+                                    " N'" & (Cmb_DP.Text) & "'," & _
+                                 " N'" & Apostrophe(If(FG_DP.Rows(i).Cells(2).Value Is Nothing, "", FG_DP.Rows(i).Cells(2).Value.ToString())) & "'," & _
+                                   " N'" & Apostrophe(If(FG_DP.Rows(i).Cells(3).Value Is Nothing, "", FG_DP.Rows(i).Cells(3).Value.ToString())) & "'," & _
+                                    " Getdate()," & _
                               " N'" & MUserName & "'," & _
                               " '" & COMPUTER_NM & "')")
                         End If
@@ -277,17 +308,17 @@
                 Next i
             Else
                 Call LoadSqlData("SELECT * FROM AP_Users_List WHERE Usr_id = N'" & txtUsr_id.Text & "'", Rschk)
-                For i = 1 To FG_DP.Rows - 1
+                For i = 0 To FG_DP.Rows.Count - 1
                     If .RecordCount = 0 Then
-                        If FG_DP.get_ValueMatrix(i, 1) = True Then
+                        If CBool(If(FG_DP.Rows(i).Cells(1).Value Is Nothing, False, FG_DP.Rows(i).Cells(1).Value)) = True Then
                             CNN.Execute("INSERT INTO  AP_Users_List (Usr_id,Stff_Id,Usr_nm,permision,permision_id,txt_DP_ID,Cmb_DP,Get_date, lst_usr, pc_nm) " & _
                                 " VALUES(N'" & (txtUsr_id.Text) & "'," & _
                                       " N'" & (TextBox1.Text) & "'," & _
                            " N'" & (txtUsr_nm.Text) & "'," & _
-                               " N'" & (cmbpermision.Text) & "'," & _
+                                " N'" & (cmbpermision.Text) & "'," & _
                            " N'" & (txt_permision_id.Text) & "'," & _
-                                " N'" & Apostrophe(FG_DP.get_TextMatrix(i, 2)) & "'," & _
-                                  " N'" & Apostrophe(FG_DP.get_TextMatrix(i, 3)) & "'," & _
+                                " N'" & Apostrophe(If(FG_DP.Rows(i).Cells(2).Value Is Nothing, "", FG_DP.Rows(i).Cells(2).Value.ToString())) & "'," & _
+                                  " N'" & Apostrophe(If(FG_DP.Rows(i).Cells(3).Value Is Nothing, "", FG_DP.Rows(i).Cells(3).Value.ToString())) & "'," & _
                                    " Getdate()," & _
                               " N'" & MUserName & "'," & _
                               " '" & COMPUTER_NM & "')")
@@ -328,14 +359,14 @@
                    " N'" & Trim(txtUsr_nm.Text) & "'," & _
                    " N'" & (cmbpermision.Text) & "'," & _
                       " N'" & Trim(txt_permision_id.Text) & "'," & _
-                     " N'" & Trim(txt_Component_id.Text) & "'," & _
-                     " N'" & Trim(txt_Component_nm.Text) & "'," & _
-                   " N'" & (TextBox1.Text) & "'," & _
-                   " N'" & (txtPWD.Text) & "'," & _
-                              " Getdate()," & _
-                       " N'" & MDCheckWrite & "'," & _
-                   " N'" & MDCheckEdit & "'," & _
-                   " N'" & MDCheckDelete & "')")
+                      " N'" & Trim(txt_Component_id.Text) & "'," & _
+                      " N'" & Trim(txt_Component_nm.Text) & "'," & _
+                    " N'" & (TextBox1.Text) & "'," & _
+                    " N'" & (txtPWD.Text) & "'," & _
+                               " Getdate()," & _
+                        " N'" & MDCheckWrite & "'," & _
+                    " N'" & MDCheckEdit & "'," & _
+                    " N'" & MDCheckDelete & "')")
 
                 'CNN.Execute("insert into Ap_Image (Img_Id,ImgType ,Img)  select  N'" & txtUsr_id.Text & "',ImgType ,Img  from Ap_Image2 where Img_Id = 'a' And ImgType = 'User'")
                 'CNN.Execute("insert into Ap_Image (Img_Id,ImgType ,Img)  select  N'" & txtUsr_id.Text & "',ImgType ,Img  from Ap_Image2 where Img_Id = 'a' And ImgType = 'Back'")
@@ -378,8 +409,9 @@
         'LoadSqlData("Select Usr_id From Ap_Users Where Usr_id = '" & txtUsr_id.Text & "' ", RSC)
         If txtUsr_id.Text = "a" Then
             CNN.Execute("Delete Ap_Office_User Where Usr_Id =N'" & Trim(txtUsr_id.Text) & "'")
-            For i = 1 To FG2.Rows - 1
-                CNN.Execute("Insert into Ap_Office_User (Usr_Id,Sub_Id) VAlues ( N'" & Trim(txtUsr_id.Text) & "',N'" & Trim(FG2.get_TextMatrix(i, 2)) & "') ")
+            For i = 0 To FG2.Rows.Count - 1
+                Dim subId As String = If(FG2.Rows(i).Cells(2).Value Is Nothing, "", FG2.Rows(i).Cells(2).Value.ToString())
+                CNN.Execute("Insert into Ap_Office_User (Usr_Id,Sub_Id) VAlues ( N'" & Trim(txtUsr_id.Text) & "',N'" & Trim(subId) & "') ")
             Next i
             'CNN.Execute(" update Ap_Office_User set off_Id=Ap_Office.off_Id,off_add1=Ap_office.off_add1 ,off_add2=Ap_office.off_add2 from  Ap_Office_User , Ap_office where Ap_Office_User.Sub_Id = Ap_office.Sub_Id")
             CNN.Execute("Update Ap_Section_Item set Ints =1 Where Usr_Id = N'" & Trim(txtUsr_id.Text) & "'")
@@ -388,7 +420,7 @@
     End Sub
     Private Sub Button7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDel.Click
         If txtUsr_id.Text = "a" Then MsgBox("a ບໍ່ສາມາມລືບໄດ້ຍ້ອນມັນເປັນລະຫັດຫລັກ , !", MsgBoxStyle.OkOnly) : txtUsr_id.Focus() : Exit Sub
-        If Fg.Rows = 2 Then MsgBox("ທ່ານບໍ່ສາມາດລຶບລາຍການນີ້ໄດ້, ເພາະແມ່ນລາຍການສຸດທ້າຍແລ້ວ ", MsgBoxStyle.OkOnly) : Exit Sub
+        If Fg.Rows.Count <= 1 Then MsgBox("ທ່ານບໍ່ສາມາດລຶບລາຍການນີ້ໄດ້, ເພາະແມ່ນລາຍການສຸດທ້າຍແລ້ວ ", MsgBoxStyle.OkOnly) : Exit Sub
         AccCD = txtUsr_id.Text
         'Call LoadSqlData("Select Bill_no From AP_SaleForStock WHERE Stff_Id='" & AccCD & "'", RSC)
         'If RSC.RecordCount <> 0 Then MsgBox("You do not delete '" & AccCD & "' because activity", MsgBoxStyle.OkOnly) : RSC = Nothing : Exit Sub
@@ -414,17 +446,17 @@
         'SUPD = 0
     End Sub
 
-    Private Sub Fg_ClickEvent(ByVal sender As Object, ByVal e As System.EventArgs) Handles Fg.ClickEvent
-
-     
-
+    Private Sub Fg_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles Fg.CellClick
     End Sub
 
-    Private Sub Fg_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles Fg.DblClick
-        If Fg.get_TextMatrix(Fg.Row, 1) = "" Then Exit Sub
-        txtUsr_id.Text = Fg.get_TextMatrix(Fg.Row, 1)
-        txtOldPass.Text = Fg.get_TextMatrix(Fg.Row, 1)
-        txtUsr_nm.Text = Fg.get_TextMatrix(Fg.Row, 2)
+    Private Sub Fg_CellDoubleClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles Fg.CellDoubleClick
+        If e.RowIndex < 0 Then Exit Sub
+        If Fg.Rows(e.RowIndex).Cells(1).Value Is Nothing Then Exit Sub
+        
+        txtUsr_id.Text = Fg.Rows(e.RowIndex).Cells(1).Value.ToString()
+        txtOldPass.Text = Fg.Rows(e.RowIndex).Cells(1).Value.ToString()
+        txtUsr_nm.Text = Fg.Rows(e.RowIndex).Cells(2).Value.ToString()
+        
         LoadSqlData("Select Usr_id,Usr_nm,permision,Department , off_id,off_nm , PWD , Write_bit ,Edit_bit , Delete_bit  From  Ap_Users where  USr_Id = N'" & Trim(txtUsr_id.Text) & "' ", RSC)
         txtUsr_id.Enabled = False
         If RSC.RecordCount <> 0 Then
@@ -436,41 +468,25 @@
 
             TextBox1.Text = (RSC.Fields("Department").Value.ToString)
             txtPWD.Text = (RSC.Fields("PWD").Value.ToString)
-            'MsgBox(RSC.Fields("Write_bit").Value)
+            
             MDCheckWrite = (RSC.Fields("Write_bit").Value)
             MDCheckEdit = (RSC.Fields("Edit_bit").Value)
             MDCheckDelete = (RSC.Fields("Delete_bit").Value)
 
-
             CheckBox6.Checked = (RSC.Fields("Write_bit").Value)
             CheckBox5.Checked = (RSC.Fields("Edit_bit").Value)
             CheckBox4.Checked = (RSC.Fields("Delete_bit").Value)
-
-
         End If
-
-
-
-
 
         If txtUsr_id.Text = "a" Then
-            'FG2.set_ColHidden(1, True)
-            'FgItem.set_ColHidden(1, True)
-            FG2.Editable = VSFlex8U.EditableSettings.flexEDNone
-            FgItem.Editable = VSFlex8U.EditableSettings.flexEDNone
-            'FG2.ForeColor = Color.Silver
-            'FgItem.ForeColor = Color.Silver
-            'FG2.Enabled = True
+            FG2.ReadOnly = True
+            FgItem.ReadOnly = True
         Else
-            'FG2.set_ColHidden(1, False)
-            'FgItem.set_ColHidden(1, False)
-            FG2.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-            FgItem.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-            'FG2.ForeColor = Color.Black
-            'FgItem.ForeColor = Color.Black
+            FG2.ReadOnly = False
+            FgItem.ReadOnly = False
         End If
-        FgItem.Rows = 1
-        FgItem.Rows = 2
+        
+        FgItem.Rows.Clear()
         EditActive = True
 
         If cmbpermision.SelectedIndex = 0 Then
@@ -480,25 +496,22 @@
             txt_permision_id.Text = "0"
             txt_DP_ID.Text = "00"
             Load_DP_00()
-            'For i = 1 To FG_DP.Rows - 1
-            '    FG_DP.set_TextMatrix(i, 1, True)
-            'Next
-
         ElseIf cmbpermision.SelectedIndex = 1 Then
-            FG_DP.FormatString = "^ລ/ດ|<ເລືອກ|<ລະຫັດ   |<ສຳນັກງານ    "
+            FG_DP.Columns(1).HeaderText = "ເລືອກ"
+            FG_DP.Columns(2).HeaderText = "ລະຫັດ"
+            FG_DP.Columns(3).HeaderText = "ສຳນັກງານ"
+            
             txt_permision_id.Text = "1"
             Cmb_DP.Items.Clear()
             Cmb_DP.Text = ""
             Cmb_DP.Enabled = False
             Load_DP()
             Load_DP_Edit()
-            If FG_DP.Col = 1 Then
-                FG_DP.Editable = VSFlex8U.EditableSettings.flexEDNone
-            End If
-            FG_DP.set_ColDataType(1, VSFlex8U.DataTypeSettings.flexDTBoolean)
-
         Else
-            FG_DP.FormatString = "^ລ/ດ|<ເລືອກ|<ລະຫັດ   |<ສຳນັກງານ     "
+            FG_DP.Columns(1).HeaderText = "ເລືອກ"
+            FG_DP.Columns(2).HeaderText = "ລະຫັດ"
+            FG_DP.Columns(3).HeaderText = "ສຳນັກງານ"
+            
             txt_permision_id.Text = "2"
             Cmb_DP.Enabled = True
             Cmb_DP.Items.Clear()
@@ -510,11 +523,9 @@
         End If
 
         Call LoadListFG2()
-
-
     End Sub
 
-    Private Sub Fg_MouseUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseUpEvent) Handles Fg.MouseUpEvent
+    Private Sub Fg_MouseUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseUpEvent)
 
         'If Fg.get_TextMatrix(Fg.Row, 1) = "" Then Exit Sub
         'txtUsr_id.Text = Fg.get_TextMatrix(Fg.Row, 1)
@@ -570,7 +581,7 @@
 
 
 
-    Private Sub Fg_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Fg.SelChange
+    Private Sub Fg_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Fg.SelectionChanged
 
 
     End Sub
@@ -620,55 +631,45 @@
 
 
 
-    Private Sub FgSec_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FgSec.DblClick
-        'Panel1.Visible = False
-        'txtDep_ID.Text = FgSec.get_TextMatrix(FgSec.Row, 1)
-        'txtDep_Nm.Text = FgSec.get_TextMatrix(FgSec.Row, 2)
+    Private Sub FgSec_CellDoubleClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FgSec.CellDoubleClick
     End Sub
 
-    Private Sub FgSec_MouseUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseUpEvent) Handles FgSec.MouseUpEvent
-        FgItem.Cols = 4
-
-        If FgSec.Row = 0 Then Exit Sub
-        If FgSec.get_TextMatrix(FgSec.Row, 1) = "" Then Exit Sub
-        FgItem.Rows = 1
+    Private Sub FgSec_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FgSec.CellClick
+        If e.RowIndex < 0 Then Exit Sub
+        Dim secId As String = If(FgSec.Rows(e.RowIndex).Cells(2).Value Is Nothing, "", FgSec.Rows(e.RowIndex).Cells(2).Value.ToString())
+        If secId = "" Then Exit Sub
+        
+        FgItem.Rows.Clear()
         With rs
             Dim s As String = "select * from Ap_Section_Item" & _
-                        " WHERE Sec_ID='" & FgSec.get_TextMatrix(FgSec.Row, 1) & "'  And Usr_Id = '" & txtUsr_id.Text & "' ORDER BY  cnt "
+                        " WHERE Sec_ID='" & secId & "'  And Usr_Id = '" & txtUsr_id.Text & "' ORDER BY  cnt "
             Call LoadSqlData(s, rs)
             If .RecordCount > 0 Then
                 While Not .EOF()
-                    FgItem.AddItem(.AbsolutePosition & _
-                    Chr(9) & (.Fields("Ints").Value) & _
-                    Chr(9) & (.Fields("cnt").Value.ToString) & _
-                    Chr(9) & (.Fields("Sec_Nm").Value.ToString))
+                    FgItem.Rows.Add(.AbsolutePosition, _
+                                   (.Fields("Ints").Value), _
+                                   (.Fields("cnt").Value.ToString), _
+                                   (.Fields("Sec_Nm").Value.ToString))
                     .MoveNext()
                 End While
             End If
         End With
 
-        'If txtUsr_id.Text = "a" Then
-        '    Exit Sub
-        'End If
-
-
-        For i = 1 To FgItem.Rows - 1
-            If Microsoft.VisualBasic.Left(FgItem.get_TextMatrix(i, 3), 3) = "*  " Then
-                FgItem.Row = i
-                FgItem.Col = 3
-                FgItem.CellFontBold = True
-                FgItem.CellForeColor = Color.Blue
+        For i = 0 To FgItem.Rows.Count - 1
+            Dim secNm As String = If(FgItem.Rows(i).Cells(3).Value Is Nothing, "", FgItem.Rows(i).Cells(3).Value.ToString())
+            If Microsoft.VisualBasic.Left(secNm, 3) = "*  " Then
+                FgItem.Rows(i).Cells(3).Style.Font = New Font(FgItem.Font, FontStyle.Bold)
+                FgItem.Rows(i).Cells(3).Style.ForeColor = Color.Blue
             End If
-
         Next i
-        FgItem.Row = 1
-        FgItem.Col = 3
-        FgItem.CellFontBold = True
-        FgItem.CellForeColor = Color.Red
-        FgItem.Col = 2
+        
+        If FgItem.Rows.Count > 0 Then
+            FgItem.Rows(0).Cells(3).Style.Font = New Font(FgItem.Font, FontStyle.Bold)
+            FgItem.Rows(0).Cells(3).Style.ForeColor = Color.Red
+        End If
     End Sub
 
-    Private Sub FgSec_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FgSec.SelChange
+    Private Sub FgSec_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FgSec.SelectionChanged
 
 
     End Sub
@@ -682,23 +683,23 @@
 
     Private Sub Button9_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim i As Integer
-        For i = 1 To FgItem.Rows - 1
-            If FgItem.get_TextMatrix(i, 1) = True Then
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=1 WHERE Sec_ID='" & FgItem.get_TextMatrix(i, 2) & "'AND Sec_Nm=N'" & FgItem.get_TextMatrix(i, 3) & "' ")
-            ElseIf FgItem.get_TextMatrix(FgItem.Row, 1) = True Then
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=1 WHERE Sec_ID='" & FgItem.get_TextMatrix(FgItem.Row, 2) & "' AND Sec_Nm=N'" & FgItem.get_TextMatrix(FgItem.Row, 3) & "' ")
-            ElseIf FgItem.get_TextMatrix(FgItem.Row, 1) = False Then
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=0 WHERE Sec_ID='" & FgItem.get_TextMatrix(FgItem.Row, 2) & "' AND Sec_Nm=N'" & FgItem.get_TextMatrix(FgItem.Row, 3) & "' ")
+        For i = 0 To FgItem.Rows.Count - 1
+            Dim isChecked As Boolean = CBool(If(FgItem.Rows(i).Cells(1).Value Is Nothing, False, FgItem.Rows(i).Cells(1).Value))
+            Dim secId As String = If(FgItem.Rows(i).Cells(2).Value Is Nothing, "", FgItem.Rows(i).Cells(2).Value.ToString())
+            Dim secNm As String = If(FgItem.Rows(i).Cells(3).Value Is Nothing, "", FgItem.Rows(i).Cells(3).Value.ToString())
+            
+            If isChecked = True Then
+                CNN.Execute("UPDATE Ap_Section_Item SET Ints=1 WHERE Sec_ID='" & secId & "'AND Sec_Nm=N'" & secNm & "' ")
             Else
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=0 WHERE Sec_ID='" & FgItem.get_TextMatrix(i, 2) & "' AND Sec_Nm=N'" & FgItem.get_TextMatrix(i, 3) & "' ")
+                CNN.Execute("UPDATE Ap_Section_Item SET Ints=0 WHERE Sec_ID='" & secId & "' AND Sec_Nm=N'" & secNm & "' ")
             End If
         Next i
         MsgBox("ສໍາເລັດຜົນ!", MsgBoxStyle.OkOnly)
     End Sub
 
     Private Sub FgItem_MouseUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseUpEvent)
-        If FgItem.Row > 0 Then
-            CNN.Execute("Update Ap_Section_Item set Ints = " & FgItem.get_TextMatrix(FgItem.Row, 1) & " where cnt = " & FgItem.get_TextMatrix(FgItem.Row, 2) & "  And Usr_Id = '" & txtUsr_id.Text & "' ")
+        If FgItem.CurrentRow IsNot Nothing AndAlso FgItem.CurrentRow.Index >= 0 Then
+            CNN.Execute("Update Ap_Section_Item set Ints = " & Convert.ToString(FgItem.CurrentRow.Cells(1).Value) & " where cnt = " & Convert.ToString(FgItem.CurrentRow.Cells(2).Value) & "  And Usr_Id = '" & txtUsr_id.Text & "' ")
         End If
     End Sub
 
@@ -725,50 +726,48 @@
 
     End Sub
 
-    Private Sub FgItem_MouseUpEvent1(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseUpEvent) Handles FgItem.MouseUpEvent
-        If FgItem.Row = 1 Then
-            If FgItem.get_TextMatrix(1, 2) <> "" Then
-                'MsgBox(FgItem.get_TextMatrix(1, 2))
-                For i = 1 To FgItem.Rows - 1
-                    FgItem.set_TextMatrix(i, 1, FgItem.get_TextMatrix(1, 1))
-                    CNN.Execute("Update Ap_Section_Item set Ints = " & FgItem.get_TextMatrix(1, 1) & " where cnt = " & FgItem.get_TextMatrix(i, 2) & "  And Usr_Id = '" & txtUsr_id.Text & "' ")
-                Next
+    Private Sub FgItem_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FgItem.CellContentClick
+        If e.ColumnIndex = 1 Then
+            FgItem.CommitEdit(DataGridViewDataErrorContexts.Commit)
+            Dim isChecked As Boolean = CBool(If(FgItem.Rows(e.RowIndex).Cells(1).Value Is Nothing, False, FgItem.Rows(e.RowIndex).Cells(1).Value))
+            
+            If e.RowIndex = 0 Then
+                Dim cnt_Val As String = If(FgItem.Rows(0).Cells(2).Value Is Nothing, "", FgItem.Rows(0).Cells(2).Value.ToString())
+                If cnt_Val <> "" Then
+                    For i = 0 To FgItem.Rows.Count - 1
+                        FgItem.Rows(i).Cells(1).Value = isChecked
+                        Dim rowCnt As String = If(FgItem.Rows(i).Cells(2).Value Is Nothing, "", FgItem.Rows(i).Cells(2).Value.ToString())
+                        CNN.Execute("Update Ap_Section_Item set Ints = " & If(isChecked, 1, 0) & " where cnt = " & rowCnt & "  And Usr_Id = '" & txtUsr_id.Text & "' ")
+                    Next
+                End If
+            Else
+                Dim rowCnt As String = If(FgItem.Rows(e.RowIndex).Cells(2).Value Is Nothing, "", FgItem.Rows(e.RowIndex).Cells(2).Value.ToString())
+                CNN.Execute("Update Ap_Section_Item set Ints = " & If(isChecked, 1, 0) & " where cnt = " & rowCnt & "  And Usr_Id = '" & txtUsr_id.Text & "' ")
             End If
-        End If
-        If FgItem.Row > 1 Then
-            CNN.Execute("Update Ap_Section_Item set Ints = " & FgItem.get_TextMatrix(FgItem.Row, 1) & " where cnt = " & FgItem.get_TextMatrix(FgItem.Row, 2) & "  And Usr_Id = '" & txtUsr_id.Text & "' ")
         End If
     End Sub
 
-    Private Sub Fg4_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FgItem.SelChange
+    Private Sub FgItem_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FgItem.SelectionChanged
 
     End Sub
 
-    Private Sub FG2_MouseDownEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseDownEvent) Handles FG2.MouseDownEvent
-
-        Dim s As String = FG2.get_TextMatrix(FG2.Row, 2)
-        Dim d As String = FG2.get_TextMatrix(FG2.Row, 1)
-        If s = "00-00" Then
-            If d = True Then
-                For i = 1 To FG2.Rows - 1
-                    FG2.set_TextMatrix(i, 1, True)
-                Next i
-            End If
-            If d = False Then
-                For i = 1 To FG2.Rows - 1
-                    FG2.set_TextMatrix(i, 1, False)
-                Next i
-            End If
+    Private Sub FG2_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG2.CellContentClick
+        If e.RowIndex < 0 Or e.ColumnIndex <> 1 Then Exit Sub
+        
+        FG2.CommitEdit(DataGridViewDataErrorContexts.Commit)
+        Dim subId_Val As String = If(FG2.Rows(e.RowIndex).Cells(2).Value Is Nothing, "", FG2.Rows(e.RowIndex).Cells(2).Value.ToString())
+        Dim isChecked As Boolean = CBool(If(FG2.Rows(e.RowIndex).Cells(1).Value Is Nothing, False, FG2.Rows(e.RowIndex).Cells(1).Value))
+        
+        If subId_Val = "00-00" Then
+            For i = 0 To FG2.Rows.Count - 1
+                FG2.Rows(i).Cells(1).Value = isChecked
+            Next i
         Else
-            If Mid(s, 4, 2) = "00" Then
-                For i = 1 To FG2.Rows - 1
-                    If Mid(s, 1, 2) = Mid(FG2.get_TextMatrix(i, 2), 1, 2) Then
-                        If d = True Then
-                            FG2.set_TextMatrix(i, 1, True)
-                        End If
-                        If d = False Then
-                            FG2.set_TextMatrix(i, 1, False)
-                        End If
+            If Mid(subId_Val, 4, 2) = "00" Then
+                For i = 0 To FG2.Rows.Count - 1
+                    Dim rowSubId As String = If(FG2.Rows(i).Cells(2).Value Is Nothing, "", FG2.Rows(i).Cells(2).Value.ToString())
+                    If Mid(subId_Val, 1, 2) = Mid(rowSubId, 1, 2) Then
+                        FG2.Rows(i).Cells(1).Value = isChecked
                     End If
                 Next i
             End If
@@ -777,17 +776,18 @@
         LoadSqlData("Select Usr_id From Ap_Users Where Usr_id = '" & txtUsr_id.Text & "' ", RSC)
         If RSC.RecordCount <> 0 Then
             CNN.Execute("Delete Ap_Office_User Where Usr_Id = '" & txtUsr_id.Text & "'")
-            For i = 1 To FG2.Rows - 1
-                If FG2.get_TextMatrix(i, 1) = True Then
-                    CNN.Execute("Insert into Ap_Office_User (Usr_Id,Sub_Id) VAlues ( '" & txtUsr_id.Text & "','" & FG2.get_TextMatrix(i, 2) & "') ")
+            For i = 0 To FG2.Rows.Count - 1
+                Dim rowChecked As Boolean = CBool(If(FG2.Rows(i).Cells(1).Value Is Nothing, False, FG2.Rows(i).Cells(1).Value))
+                If rowChecked = True Then
+                    Dim rowSubId As String = If(FG2.Rows(i).Cells(2).Value Is Nothing, "", FG2.Rows(i).Cells(2).Value.ToString())
+                    CNN.Execute("Insert into Ap_Office_User (Usr_Id,Sub_Id) VAlues ( '" & txtUsr_id.Text & "','" & rowSubId & "') ")
                 End If
             Next i
             CNN.Execute(" update Ap_Office_User set off_Id=Ap_Office.off_Id,off_add1=Ap_office.off_add1 ,off_add2=Ap_office.off_add2 from  Ap_Office_User , Ap_office where Ap_Office_User.Sub_Id = Ap_office.Sub_Id")
         End If
-
     End Sub
 
-    Private Sub FG2_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG2.SelChange
+    Private Sub FG2_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG2.SelectionChanged
 
     End Sub
 
@@ -824,7 +824,7 @@
 
     Private Sub cmbpermision_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmbpermision.SelectedIndexChanged
         If cmbpermision.SelectedIndex = 0 Then
-            FG_DP.FormatString = "^ລ/ດ|<ເລືອກ|<ລະຫັດ   |<ສຳນັກງານ      "
+            'FG_DP.FormatString = "^ລ/ດ|<ເລືອກ|<ລະຫັດ   |<ສຳນັກງານ      "
             Cmb_DP.Items.Clear()
             Cmb_DP.Text = ""
             Cmb_DP.Enabled = False
@@ -836,17 +836,14 @@
             'Next
 
         Else
-            FG_DP.FormatString = "^ລ/ດ|<ເລືອກ|<ລະຫັດ   |<ສຳນັກງານ      "
+            'FG_DP.FormatString = "^ລ/ດ|<ເລືອກ|<ລະຫັດ   |<ສຳນັກງານ      "
             txt_permision_id.Text = "1"
             Cmb_DP.Items.Clear()
             Cmb_DP.Text = ""
             Cmb_DP.Enabled = False
             Load_DP()
             Load_DP_Edit()
-            If FG_DP.Col = 1 Then
-                FG_DP.Editable = VSFlex8U.EditableSettings.flexEDNone
-            End If
-            FG_DP.set_ColDataType(1, VSFlex8U.DataTypeSettings.flexDTBoolean)
+            ' Legacy VSFlexGrid configuration removed
 
             'Else
             '    FG_DP.FormatString = "^ລ/ດ|<ເລືອກ|<ລະຫັດ   |<ສຳນັກງານ         "
@@ -860,53 +857,47 @@
         End If
     End Sub
     Public Sub Load_DP_Sub()
-        FG_DP.Rows = 1
+        FG_DP.Rows.Clear()
         With rs
             Call LoadSqlData("SELECT   * from Depart_sub  where 1=1  and Depart_id=N'" & txt_DP_ID.Text & "'  order by  Depart_sub_id", rs)
             If .RecordCount > 0 Then
                 While Not .EOF()
-                    FG_DP.AddItem(.AbsolutePosition & _
-                                         Chr(9) & 0 & _
-                                Chr(9) & (.Fields("Depart_sub_id").Value.ToString) & _
-                    Chr(9) & (.Fields("Depart_sub_nm").Value.ToString))
+                    FG_DP.Rows.Add(.AbsolutePosition, _
+                                   False, _
+                                   (.Fields("Depart_sub_id").Value.ToString), _
+                                   (.Fields("Depart_sub_nm").Value.ToString))
                     .MoveNext()
                 End While
-            Else
-                FG_DP.Rows = 1
             End If
         End With
     End Sub
     Public Sub Load_DP()
-        FG_DP.Rows = 1
+        FG_DP.Rows.Clear()
         With rs
             Call LoadSqlData("SELECT   * from AP_Office where 1=1  order by  off_id", rs)
             If .RecordCount > 0 Then
                 While Not .EOF()
-                    FG_DP.AddItem(.AbsolutePosition & _
-                                      Chr(9) & 0 & _
-                          Chr(9) & (.Fields("off_id").Value.ToString) & _
-                    Chr(9) & (.Fields("off_name").Value.ToString))
+                    FG_DP.Rows.Add(.AbsolutePosition, _
+                                   False, _
+                                   (.Fields("off_id").Value.ToString), _
+                                   (.Fields("off_name").Value.ToString))
                     .MoveNext()
                 End While
-            Else
-                FG_DP.Rows = 2
             End If
         End With
     End Sub
     Public Sub Load_DP_00()
-        FG_DP.Rows = 1
+        FG_DP.Rows.Clear()
         With rs
             Call LoadSqlData("SELECT   * from Depart where Depart_id='00'  order by  Depart_id", rs)
             If .RecordCount > 0 Then
                 While Not .EOF()
-                    FG_DP.AddItem(.AbsolutePosition & _
-                                       Chr(9) & 1 & _
-                          Chr(9) & (.Fields("Depart_id").Value.ToString) & _
-                    Chr(9) & (.Fields("Depart_nm").Value.ToString))
+                    FG_DP.Rows.Add(.AbsolutePosition, _
+                                   True, _
+                                   (.Fields("Depart_id").Value.ToString), _
+                                   (.Fields("Depart_nm").Value.ToString))
                     .MoveNext()
                 End While
-            Else
-                FG_DP.Rows = 2
             End If
         End With
     End Sub
@@ -918,9 +909,10 @@
                   "    AP_Office ON AP_Users_List.txt_DP_ID = AP_Office.off_id  where  Usr_id = N'" & txtUsr_id.Text & "'    order by  off_id", rs)
             If .RecordCount > 0 Then
                 While Not .EOF()
-                    For i = 1 To FG_DP.Rows - 1
-                        If FG_DP.get_TextMatrix(i, 2) = Trim((.Fields("off_id").Value).ToString) Then
-                            FG_DP.set_TextMatrix(i, 1, True)
+                    For i = 0 To FG_DP.Rows.Count - 1
+                        Dim offId As String = If(FG_DP.Rows(i).Cells(2).Value Is Nothing, "", FG_DP.Rows(i).Cells(2).Value.ToString())
+                        If offId = Trim((.Fields("off_id").Value).ToString) Then
+                            FG_DP.Rows(i).Cells(1).Value = True
                         End If
                     Next
                     .MoveNext()
@@ -935,11 +927,10 @@
                 Cmb_DP.Text = Trim((.Fields("Cmb_DP").Value).ToString)
                 txt_DP_ID.Text = Trim((.Fields("txt_DP_ID").Value).ToString)
                 While Not .EOF()
-                    For i = 1 To FG_DP.Rows - 1
-                        'MsgBox(FG_DP.get_TextMatrix(i, 2))
-                        'MsgBox(Trim((.Fields("txt_DP_sub_ID").Value).ToString))
-                        If FG_DP.get_TextMatrix(i, 2) = Trim((.Fields("txt_DP_sub_ID").Value).ToString) Then
-                            FG_DP.set_TextMatrix(i, 1, True)
+                    For i = 0 To FG_DP.Rows.Count - 1
+                        Dim subId As String = If(FG_DP.Rows(i).Cells(2).Value Is Nothing, "", FG_DP.Rows(i).Cells(2).Value.ToString())
+                        If subId = Trim((.Fields("txt_DP_sub_ID").Value).ToString) Then
+                            FG_DP.Rows(i).Cells(1).Value = True
                         End If
                     Next
                     .MoveNext()
@@ -954,44 +945,21 @@
             txt_DP_ID.Text = Trim(RSC("Depart_id").Value)
         End If
         Load_DP_Sub()
-        'Load_DP_Sub_Edit()
-
     End Sub
 
-    Private Sub FG_DP_ClickEvent(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG_DP.ClickEvent
-        If FG_DP.Col = 1 Then
-            FG_DP.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-        End If
+    Private Sub FG_DP_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG_DP.CellContentClick
+        ' Handling checkbox interaction if needed beyond ReadOnly toggle
     End Sub
 
-    Private Sub FG_DP_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG_DP.SelChange
-        If FG_DP.Col = 1 Then
-            FG_DP.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-        End If
+    Private Sub FG_DP_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG_DP.SelectionChanged
     End Sub
 
     Private Sub txtOldPass_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtOldPass.TextChanged
-
     End Sub
 
     Private Sub Button7_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button7.Click
-        'FrmStaff_item.ShowDialog()
-        'If StaffID = "" Then
-        '    txtUsr_id.Focus() : Exit Sub
-        'Else
-        '    txtUsr_id.Text = StaffID
-        '    txtUsr_nm.Text = StaffNm
-        'End If
     End Sub
 
     Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
-        'Frm_Of_component_for_user_Item.ShowDialog()
-        'If Cat_id = "" Then
-        '    txt_Component_id.Focus() : Exit Sub
-        'Else
-        '    txt_Component_id.Text = Cat_id
-        '    txt_Component_nm.Text = Cat_nm
-
-        'End If
     End Sub
 End Class

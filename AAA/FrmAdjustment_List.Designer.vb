@@ -35,7 +35,7 @@ Partial Class FrmAdjustment_List
         Me.Label6 = New System.Windows.Forms.Label
         Me.TxtRemain = New System.Windows.Forms.TextBox
         Me.Label9 = New System.Windows.Forms.Label
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Label11 = New System.Windows.Forms.Label
         Me.txtGrp = New System.Windows.Forms.TextBox
         Me.txtGrpNm = New System.Windows.Forms.ComboBox
@@ -187,15 +187,19 @@ Partial Class FrmAdjustment_List
         '
         'FG
         '
+        Me.FG.AllowUserToAddRows = False
+        Me.FG.AllowUserToDeleteRows = False
         Me.FG.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG.DataSource = Nothing
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(16, 278)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.FG.ReadOnly = True
         Me.FG.Size = New System.Drawing.Size(1118, 165)
         Me.FG.TabIndex = 303
+        Me.FG.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.FG.MultiSelect = False
         '
         'Label11
         '
@@ -602,7 +606,7 @@ Partial Class FrmAdjustment_List
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents TxtRemain As System.Windows.Forms.TextBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents txtGrp As System.Windows.Forms.TextBox
     Friend WithEvents txtGrpNm As System.Windows.Forms.ComboBox

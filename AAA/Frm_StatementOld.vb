@@ -1,8 +1,7 @@
 ﻿Public Class Frm_StatementOld
 
     Private Sub FrmCustomer_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        FG.FormatString = "^No. |< Date      |< Voucher No.          |< Description                                       |< Check Ref.|> Debit          |> Credit         |> Balance Debit   |>  Balance Credit  |>  Remain       "
-
+        SetupGrid()
 
         CmbCust.Items.Clear()
         Call load_Cmb(" SELECT Name  FROM Customer  ORDER BY cnt ", "Name", CmbCust)
@@ -16,8 +15,42 @@
             CmbSupp.SelectedIndex = 0
         End If
 
-        FG.set_ColHidden(7, True)
-        FG.set_ColHidden(8, True)
+        ' Hide columns 7 and 8 (Balance Debit and Balance Credit)
+        FG.Columns(7).Visible = False
+        FG.Columns(8).Visible = False
+    End Sub
+
+    Private Sub SetupGrid()
+        ' Clear and setup DataGridView columns
+        FG.Columns.Clear()
+        FG.Columns.Add("No", "No.")
+        FG.Columns.Add("Date", "Date")
+        FG.Columns.Add("VoucherNo", "Voucher No.")
+        FG.Columns.Add("Description", "Description")
+        FG.Columns.Add("CheckRef", "Check Ref.")
+        FG.Columns.Add("Debit", "Debit")
+        FG.Columns.Add("Credit", "Credit")
+        FG.Columns.Add("BalanceDebit", "Balance Debit")
+        FG.Columns.Add("BalanceCredit", "Balance Credit")
+        FG.Columns.Add("Remain", "Remain")
+
+        ' Set column widths
+        FG.Columns(0).Width = 50
+        FG.Columns(1).Width = 100
+        FG.Columns(2).Width = 120
+        FG.Columns(3).Width = 200
+        FG.Columns(4).Width = 100
+        FG.Columns(5).Width = 100
+        FG.Columns(6).Width = 100
+        FG.Columns(7).Width = 120
+        FG.Columns(8).Width = 120
+        FG.Columns(9).Width = 100
+
+        ' Configure DataGridView properties
+        FG.AllowUserToAddRows = False
+        FG.ReadOnly = True
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.MultiSelect = False
     End Sub
 
     Private Sub BtnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnExit.Click
@@ -238,24 +271,25 @@
         FrmPreview.Focus()
     End Sub
     Public Sub LoadListFG()
-        FG.Rows = 1
+        ' Clear existing rows
+        FG.Rows.Clear()
+
         With RSC
             Call LoadSqlData("SELECT * FROM  Ap_PostedLedgers    WHERE  ac_code=N'" & TxtAccCode.Text & "' order by cnt ASC  ", RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("Date_Work").Value.ToString)) & _
-                      vbTab & Trim(CStr(.Fields("Certify").Value.ToString)) & _
-                       vbTab & Trim(CStr(.Fields("Descrip").Value.ToString)) & _
-                          vbTab & "" & _
-                       vbTab & Format(CDbl(.Fields("amt_dr").Value), "##,##0.00") & _
-                               vbTab & Format(CDbl(.Fields("amt_Cr").Value), "##,##0.00") & _
-                       vbTab & Format(CDbl(.Fields("amt_dr").Value), "##,##0.00") & _
-                               vbTab & Format(CDbl(.Fields("amt_Cr").Value), "##,##0.00") & _
-                      vbTab & Format(CDbl(.Fields("remain").Value), "##,##0.00"))
+                    FG.Rows.Add(.AbsolutePosition, _
+                      Trim(CStr(.Fields("Date_Work").Value.ToString)), _
+                      Trim(CStr(.Fields("Certify").Value.ToString)), _
+                      Trim(CStr(.Fields("Descrip").Value.ToString)), _
+                      "", _  ' Check Ref column
+                      Format(CDbl(.Fields("amt_dr").Value), "##,##0.00"), _
+                      Format(CDbl(.Fields("amt_Cr").Value), "##,##0.00"), _
+                      Format(CDbl(.Fields("amt_dr").Value), "##,##0.00"), _
+                      Format(CDbl(.Fields("amt_Cr").Value), "##,##0.00"), _
+                      Format(CDbl(.Fields("remain").Value), "##,##0.00"))
                     .MoveNext()
                 End While
-            Else
-                FG.Rows = 2
             End If
         End With
 

@@ -79,7 +79,7 @@ Partial Class FmJeneralJournal_Adjust_List
         Me.TextBox20 = New System.Windows.Forms.TextBox
         Me.TextBox12 = New System.Windows.Forms.TextBox
         Me.TextBox9 = New System.Windows.Forms.TextBox
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.CMS1 = New System.Windows.Forms.ToolStripMenuItem
         Me.CMS2 = New System.Windows.Forms.ToolStripMenuItem
@@ -924,13 +924,17 @@ Partial Class FmJeneralJournal_Adjust_List
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.FG.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.FG.DataSource = Nothing
         Me.FG.Location = New System.Drawing.Point(8, 113)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(1246, 466)
         Me.FG.TabIndex = 175
         Me.FG.Tag = "8001"
+        Me.FG.AllowUserToAddRows = False
+        Me.FG.AllowUserToDeleteRows = False
+        Me.FG.ReadOnly = True
+        Me.FG.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.FG.MultiSelect = False
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         '
         'ContextMenuStrip1
         '
@@ -2181,7 +2185,7 @@ Partial Class FmJeneralJournal_Adjust_List
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents BtnRefresh As System.Windows.Forms.Button
     Friend WithEvents Nme As System.Windows.Forms.TextBox
     Friend WithEvents Button3 As System.Windows.Forms.Button

@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmLangaugeSeting
     Inherits System.Windows.Forms.Form
 
@@ -23,7 +23,7 @@ Partial Class FmLangaugeSeting
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FmLangaugeSeting))
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Button1 = New System.Windows.Forms.Button
         Me.Button3 = New System.Windows.Forms.Button
         Me.Button4 = New System.Windows.Forms.Button
@@ -57,7 +57,6 @@ Partial Class FmLangaugeSeting
         Me.FG.Location = New System.Drawing.Point(10, 36)
         Me.FG.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(1102, 519)
         Me.FG.TabIndex = 0
         '
@@ -302,7 +301,7 @@ Partial Class FmLangaugeSeting
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents Button4 As System.Windows.Forms.Button

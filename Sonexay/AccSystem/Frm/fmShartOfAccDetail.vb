@@ -161,9 +161,9 @@
             Close()
         End If
         If txtSty.Text = "NsewJeneralJournal_Adjust" Or txtSty.Text = "NsewJeneralJournal_Adjust_DR" Then
-            If FmNsewJeneralJournal_Adjust.FG.get_TextMatrix(FmNsewJeneralJournal_Adjust.FG.Row, 1) + FmNsewJeneralJournal_Adjust.FG.get_TextMatrix(FmNsewJeneralJournal_Adjust.FG.Row, 2) = "" Then
-                If FmNsewJeneralJournal_Adjust.FG.Row <> FmNsewJeneralJournal_Adjust.FG.Rows - 1 Then
-                    FmNsewJeneralJournal_Adjust.FG.RemoveItem()
+            If Convert.ToString(FmNsewJeneralJournal_Adjust.FG.CurrentRow.Cells(1).Value) + Convert.ToString(FmNsewJeneralJournal_Adjust.FG.CurrentRow.Cells(2).Value) = "" Then
+                If FmNsewJeneralJournal_Adjust.FG.CurrentRow.Index <> FmNsewJeneralJournal_Adjust.FG.Rows.Count - 1 Then
+                    FmNsewJeneralJournal_Adjust.FG.Rows.RemoveAt(FmNsewJeneralJournal_Adjust.FG.CurrentRow.Index)
                     FmNsewJeneralJournal_Adjust.SumAmountDr()
                     FmNsewJeneralJournal_Adjust.Panel1.Visible = False
                     FmNsewJeneralJournal_Adjust.BtnMove.Visible = False
@@ -224,9 +224,9 @@
 
 
         If txtSty.Text = "NsewJeneralJournal_Adjust" Then
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, L, FG.get_TextMatrix(FG.Row, 1))
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, 3, FG.get_TextMatrix(FG.Row, 2))
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, 4, FG.get_TextMatrix(FG.Row, 3))
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.get_TextMatrix(FG.Row, 1)
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.get_TextMatrix(FG.Row, 2)
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.get_TextMatrix(FG.Row, 3)
             FmNsewJeneralJournal_Adjust.LoadDesc()
             FmNsewJeneralJournal_Adjust.AddAcc()
             'If FmNsewJeneralJournal.FG.get_TextMatrix(FmNsewJeneralJournal.FG.Row, 1) = "" Then
@@ -236,9 +236,9 @@
         End If
         If txtSty.Text = "NsewJeneralJournal_Adjust_DR" Then
             Close()
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, L, FG.get_TextMatrix(FG.Row, 1))
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, 3, FG.get_TextMatrix(FG.Row, 2))
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, 4, FG.get_TextMatrix(FG.Row, 2))
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.get_TextMatrix(FG.Row, 1)
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.get_TextMatrix(FG.Row, 2)
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.get_TextMatrix(FG.Row, 2)
             FmNsewJeneralJournal_Adjust.LoadDesc()
             FmNsewJeneralJournal_Adjust.AddAcc2()
 
@@ -453,17 +453,17 @@
         End If
         '=====================Adj====
         If txtSty.Text = "NsewJeneralJournal" Then
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, L, FG.get_TextMatrix(FG.Row, 1))
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, 3, FG.get_TextMatrix(FG.Row, 2))
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, 4, FG.get_TextMatrix(FG.Row, 3))
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.get_TextMatrix(FG.Row, 1)
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.get_TextMatrix(FG.Row, 2)
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.get_TextMatrix(FG.Row, 3)
             FmNsewJeneralJournal_Adjust.AddAcc()
             Close()
         End If
         If txtSty.Text = "NsewJeneralJournal_DR" Then
             Close()
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, L, FG.get_TextMatrix(FG.Row, 1))
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, 3, FG.get_TextMatrix(FG.Row, 2))
-            FmNsewJeneralJournal_Adjust.FG.set_TextMatrix(R, 4, FG.get_TextMatrix(FG.Row, 3))
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.get_TextMatrix(FG.Row, 1)
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.get_TextMatrix(FG.Row, 2)
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.get_TextMatrix(FG.Row, 3)
             FmNsewJeneralJournal_Adjust.AddAcc2()
 
         End If

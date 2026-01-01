@@ -21,6 +21,12 @@
     Dim D As Integer
     Dim Rt2 As Integer = 0
     Dim Amount_In_Word As String
+
+    Private Function GetString(ByVal cellVal As Object) As String
+        If cellVal Is Nothing Then Return ""
+        Return cellVal.ToString()
+    End Function
+
     Private Sub BntNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BntNew.Click
         Panel4.Visible = False
         FmNsewJeneralJournal_Adjust.txtInvoice.Enabled = True
@@ -494,45 +500,57 @@
     End Sub
 
 
+    Public Sub SetupGrid()
+        FG.Columns.Clear()
+        FG.AllowUserToAddRows = False
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.ReadOnly = True
+        
+        FG.Columns.Add("AbsolutePosition", "ລ/ດ") ' 0
+        FG.Columns.Add("date_work", "ວັນທີ")   ' 1
+        FG.Columns.Add("certify", "ໃບຍັງຢືນ")  ' 2
+        FG.Columns.Add("Referno", "ແຊັກເລກທີ") ' 3
+        FG.Columns.Add("Ac_code", "ເລກບັນຊີ") ' 4
+        FG.Columns.Add("amount", "ຈຳນວນເງິນ") ' 5
+        FG.Columns.Add("Ac_name", "ເນື້ອໃນລາຍການ") ' 6
+        FG.Columns.Add("amount_dr", "ຈຳນວນເງິນຈົດໜີ້") ' 7
+        FG.Columns.Add("amount_cr", "ຈຳນວນເງິນຈົດມີ") ' 8
+        FG.Columns.Add("curr", "ສະກຸນເງິນ") ' 9
+        FG.Columns.Add("amt_dr", "ຈຳນວນເງິນຈົດໜີ້(ກີບ)") ' 10
+        FG.Columns.Add("amt_cr", "ຈຳນວນເງິນຈົດມີ(ກີບ)") ' 11
+        FG.Columns.Add("company", "ຕົ້ນທຶນ") ' 12
+        FG.Columns.Add("cnt", "cnt") ' 13
+        FG.Columns.Add("lock", "lock") ' 14
+        FG.Columns.Add("blank", "") ' 15
+        FG.Columns.Add("book", "book") ' 16
+
+        FG.Columns("cnt").Visible = False
+        FG.Columns("lock").Visible = False
+        FG.Columns("blank").Visible = False
+        FG.Columns("book").Visible = False
+        
+        FG.ColumnHeadersDefaultCellStyle.Font = New Font("Lao_Classic3", 10, FontStyle.Bold)
+    End Sub
+
     Private Sub FmJeneralJournal_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         CNN.Execute("update AP_ACC_adjust_Item set AP_ACC_adjust_Item.ac_name=Acc_Code.name_L,AP_ACC_adjust_Item.ac_namee=Acc_Code.name_E from Acc_Code,AP_ACC_adjust_Item where AP_ACC_adjust_Item.Ac_Code=Acc_Code.Ac_Code and  AP_ACC_adjust_Item.ac_name is null ")
         certify.Checked = True
         MDESC.Checked = False
-        FG.BackColorBkg = Color.White
+        FG.BackgroundColor = Color.White
         SetControlText(Me)
         Call loadCompany()
         LoadSubCompany()
         Off_Usr.Text = FmLogin.Sub_Company.Text
         FG.GridColor = Color.RoyalBlue
-        FG.ForeColorFixed = Color.Blue
-        FG.BackColorFixed = Color.LightGray
-        'Me.FG.Size = New System.Drawing.Size(20, 32)
-        'FG.Anchor = AnchorStyles.Left
-        'FG.Anchor = AnchorStyles.Top
-        'FG.Anchor = AnchorStyles.Bottom
-        'FG.Anchor = AnchorStyles.Right
+        
+        SetupGrid()
+        
         RAll.Checked = True
         ComboBox1.Items.Clear()
         Nme.Enabled = False
         Nme.Visible = True
-        'RadioButton14.Checked = True
-        'LoadMonthSQL()
-        FG.Rows = 1
-
-        'LoadBooks()
-        FG.Rows = 2
-        'CntNB = "certify , cnt"
-        'SQL = " AND month(AP_ACC_adjust_Item.date_work   ) BETWEEN '" & "11" & "' AND '" & "11" & "' AND year(AP_ACC_adjust_Item.date_work )='" & 2010 & "' AND AP_ACC_adjust_Item.Company='" & MuSubOff & "' " & SR & " "
-        'Load_M()
-        'FG.Rows = 13
-        'Panel1.Anchor = AnchorStyles.Bottom And AnchorStyles.Left
-        FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
-        FG.ExtendLastCol = True
+        
         MDInvoiceNo = ""
-        'FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
-        'FormOpening2()
-        'ChgChildForm()
-
     End Sub
     Private Sub LoadBooks()
         Dim rst As New ADODB.Recordset
@@ -599,16 +617,16 @@
         End If
         txtDescrip.Text = ""
         txtAc_Code.Text = ""
-        txtAc_Code.Text = FG.get_TextMatrix(FG.Row, 4)
-        txtCurr.Text = FG.get_TextMatrix(FG.Row, 9)
-        Dim str As String = ", Amount = " & FG.get_TextMatrix(FG.Row, 4) & ": " & FG.get_TextMatrix(FG.Row, 9)
-        If MuLng = "L" Then
-
-            LoadSqlData("SELECT AG  , descrip     FROM AP_ACC_adjust_Item WHERE cnt = '" & FG.get_TextMatrix(FG.Row, 13) & "' " & MULook2 & "  order by cnt", RSC)
-            If RSC.RecordCount <> 0 Then
-                AG = Trim(RSC.Fields("AG").Value)
-                txtDescrip.Text = Trim(RSC.Fields("descrip").Value) & ", ມູນຄ່າ: " & FG.get_TextMatrix(FG.Row, 5) & ": " & FG.get_TextMatrix(FG.Row, 9)
-            End If
+        If FG.CurrentRow IsNot Nothing Then
+            txtAc_Code.Text = If(FG.CurrentRow.Cells(4).Value Is Nothing, "", FG.CurrentRow.Cells(4).Value.ToString())
+            txtCurr.Text = If(FG.CurrentRow.Cells(9).Value Is Nothing, "", FG.CurrentRow.Cells(9).Value.ToString())
+            Dim str As String = ", Amount = " & If(FG.CurrentRow.Cells(4).Value Is Nothing, "", FG.CurrentRow.Cells(4).Value.ToString()) & ": " & If(FG.CurrentRow.Cells(9).Value Is Nothing, "", FG.CurrentRow.Cells(9).Value.ToString())
+            If MuLng = "L" Then
+                LoadSqlData("SELECT AG  , descrip     FROM AP_ACC_adjust_Item WHERE cnt = '" & If(FG.CurrentRow.Cells(13).Value Is Nothing, "", FG.CurrentRow.Cells(13).Value.ToString()) & "' " & MULook2 & "  order by cnt", RSC)
+                If RSC.RecordCount <> 0 Then
+                    AG = Trim(RSC.Fields("AG").Value)
+                    txtDescrip.Text = Trim(RSC.Fields("descrip").Value) & ", ມູນຄ່າ: " & If(FG.CurrentRow.Cells(5).Value Is Nothing, "", FG.CurrentRow.Cells(5).Value.ToString()) & ": " & If(FG.CurrentRow.Cells(9).Value Is Nothing, "", FG.CurrentRow.Cells(9).Value.ToString())
+                End If
             LoadSqlData("SELECT   Name_L  FROM Acc_Code WHERE Ac_Code = '" & txtAc_Code.Text & "'", RSC)
             If RSC.RecordCount <> 0 Then
 
@@ -618,17 +636,16 @@
             End If
 
             '========================
+            End If ' Close If MuLng = "L" Then
         Else
-            LoadSqlData("SELECT AG  , descripe    FROM AP_ACC_adjust_Item WHERE cnt = '" & FG.get_TextMatrix(FG.Row, 13) & "' " & MULook2 & "  order by cnt", RSC)
+            LoadSqlData("SELECT AG  , descripe    FROM AP_ACC_adjust_Item WHERE cnt = '" & If(FG.CurrentRow.Cells(13).Value Is Nothing, "", FG.CurrentRow.Cells(13).Value.ToString()) & "' " & MULook2 & "  order by cnt", RSC)
             If RSC.RecordCount <> 0 Then
-
                 AG = Trim(RSC.Fields("AG").Value)
-                txtDescrip.Text = Trim(RSC.Fields("descripe").Value) & ", Amount: " & FG.get_TextMatrix(FG.Row, 5) & ": " & FG.get_TextMatrix(FG.Row, 9)
+                txtDescrip.Text = Trim(RSC.Fields("descripe").Value) & ", Amount: " & If(FG.CurrentRow.Cells(5).Value Is Nothing, "", FG.CurrentRow.Cells(5).Value.ToString()) & ": " & If(FG.CurrentRow.Cells(9).Value Is Nothing, "", FG.CurrentRow.Cells(9).Value.ToString())
             End If
             LoadSqlData("SELECT   Name_E FROM Acc_Code WHERE Ac_Code = '" & txtAc_Code.Text & "'", RSC)
             If RSC.RecordCount <> 0 Then
                 Ac_Name.Text = Trim(RSC.Fields("Name_E").Value)
-                'x = Ac_Name.Text
             End If
         End If
 
@@ -765,11 +782,11 @@
     End Sub
 
     Private Sub FG_ClickEvent(ByVal sender As Object, ByVal e As System.EventArgs)
-        LockData = FG.get_TextMatrix(FG.Row, 13)
-        If FG.get_TextMatrix(FG.Row, 14) = 1 Then
+        LockData = GetString(FG.CurrentRow.Cells(13).Value)
+        If GetString(FG.CurrentRow.Cells(14).Value) = 1 Then
             Button1.Text = "ປົດລອກ"
         End If
-        If FG.get_TextMatrix(FG.Row, 14) = 0 Then
+        If GetString(FG.CurrentRow.Cells(14).Value) = 0 Then
             Button1.Text = "ລອກຂໍ້ມູນ"
         End If
 
@@ -838,36 +855,117 @@
         End If
 
         If MessageBox.Show("ທ່ານຕ້ອງການລຶບ  " & MDInvoiceNo & " ຫລືບໍ່?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-            CNN.Execute("delete AP_ACC_adjust_Item where certify =N'" & MDInvoiceNo & "' And   date_work='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy-MM-dd") & "' ")
-
+            Dim dateVal As String = If(FG.CurrentRow.Cells(1).Value Is Nothing, "1900-01-01", FG.CurrentRow.Cells(1).Value.ToString())
+            CNN.Execute("delete AP_ACC_adjust_Item where certify =N'" & MDInvoiceNo & "' And   date_work='" & Format(CDate(dateVal), "yyyy-MM-dd") & "' ")
         End If
         MDInvoiceNo = ""
         LoadMonthSQL()
     End Sub
 
-    Private Sub FG_AfterRowColChange(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterRowColChangeEvent) Handles FG.AfterRowColChange
-        If FG.Rows > 7 Then
+    Private Sub FG_AfterRowColChange(ByVal sender As Object, ByVal e As EventArgs) Handles FG.SelectionChanged
+        If FG.Rows.Count > 7 Then
             LngId = "8008" : CallLngStr()
-            FG.FormatString = LngStr
+            'FG.FormatString = LngStr ' TODO: Convert FormatString logic to DGV header text
         Else
             LngId = "8001" : CallLngStr()
-            FG.FormatString = LngStr
+            'FG.FormatString = LngStr ' TODO: Convert FormatString logic to DGV header text
         End If
     End Sub
 
-    Private Sub FG_AfterScroll(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterScrollEvent) Handles FG.AfterScroll
+    Private Sub FG_Scroll(ByVal sender As Object, ByVal e As ScrollEventArgs) Handles FG.Scroll
         BtnSearch.Visible = False
     End Sub
 
-    Private Sub FG_ClickEvent1(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.ClickEvent
-        MDInvoiceDT = FG.get_TextMatrix(FG.Row, 1)
-        MDInvoiceNo = FG.get_TextMatrix(FG.Row, 2)
-        'Call Load_AP_ACC_adjust_Item()
+    Private Sub FG_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG.CellClick
+        If e.RowIndex < 0 Then Exit Sub
+        
+        Dim row As DataGridViewRow = FG.Rows(e.RowIndex)
+        MDInvoiceDT = If(row.Cells(1).Value Is Nothing, "", row.Cells(1).Value.ToString())
+        MDInvoiceNo = If(row.Cells(2).Value Is Nothing, "", row.Cells(2).Value.ToString())
+        
+        If x > 0 Then
+            x0 = x
+            s0 = TextBox1.Text
+        End If
+        If y > 0 Then
+            y0 = y
+        End If
+        x = e.ColumnIndex
+        y = e.RowIndex
+        
+        TextBox1.Text = MDInvoiceNo
+        If MuLng = "L" Then
+            txtDescrip.Text = If(row.Cells(6).Value Is Nothing, "", row.Cells(6).Value.ToString()) & ", ມູນຄ່າ: " & If(row.Cells(5).Value Is Nothing, "", row.Cells(5).Value.ToString()) & ": " & If(row.Cells(9).Value Is Nothing, "", row.Cells(9).Value.ToString())
+        Else
+            txtDescrip.Text = If(row.Cells(6).Value Is Nothing, "", row.Cells(6).Value.ToString()) & ", Amout: " & If(row.Cells(5).Value Is Nothing, "", row.Cells(5).Value.ToString()) & ": " & If(row.Cells(9).Value Is Nothing, "", row.Cells(9).Value.ToString())
+        End If
 
-        'MessageBox.Show(FG.get_TextMatrix(FG.Row, 2))
+        LockData = ""
+        LockData = If(row.Cells(14).Value Is Nothing, "", row.Cells(14).Value.ToString())
+        If LockData = "1" Then
+            RadioButton17.Checked = False
+            RadioButton18.Checked = True
+        Else
+            RadioButton17.Checked = True
+            RadioButton18.Checked = False
+        End If
+        
+        If LockData = "1" Or LockData = "2" Then
+            LngId = "3027" : CallLngStr() : Button1.Text = LngStr
+        Else
+            LngId = "3008" : CallLngStr() : Button1.Text = LngStr
+        End If
+
+        If e.ColumnIndex = 4 Then
+            Call Load_AP_ACC_adjust_Item()
+            Dim openJnVal As Double = 0
+            Dim sumDrVal As Double = 0
+            Dim sumCrVal As Double = 0
+            Double.TryParse(Open_jn.Text.Replace("(", "-").Replace(")", "").Replace(",", ""), openJnVal)
+            Double.TryParse(SumDr.Text.Replace(",", ""), sumDrVal)
+            Double.TryParse(SumCr.Text.Replace(",", ""), sumCrVal)
+            
+            Dim remVal As Double = (openJnVal + sumDrVal) - sumCrVal
+            If remVal >= 0 Then
+                Remain.ForeColor = Color.Black
+                Remain.Text = Format(remVal, "##,##0.00")
+            Else
+                Remain.ForeColor = Color.Red
+                Remain.Text = "(" & Format(Math.Abs(remVal), "##,##0.00") & ")"
+            End If
+        End If
+
+        If CheckBox3.Checked = True Then
+            ' Simplified highlighting - in DataGridView we can just loop and set Style
+            For Each r As DataGridViewRow In FG.Rows
+                Dim rCert As String = If(r.Cells(2).Value Is Nothing, "", r.Cells(2).Value.ToString())
+                If rCert = s0 Then
+                    ' Reset old selection
+                    For Each cell As DataGridViewCell In r.Cells
+                        cell.Style.BackColor = Color.Empty
+                    Next
+                End If
+                If rCert = TextBox1.Text Then
+                    ' Highlight new selection
+                    r.Cells(2).Style.BackColor = Color.SkyBlue
+                    r.Cells(4).Style.BackColor = Color.SkyBlue
+                    If CDbl(If(r.Cells(10).Value Is Nothing, 0, r.Cells(10).Value)) <> 0 Then
+                        r.Cells(7).Style.BackColor = Color.SkyBlue
+                        r.Cells(10).Style.BackColor = Color.SkyBlue
+                    Else
+                        r.Cells(8).Style.BackColor = Color.SkyBlue
+                        r.Cells(11).Style.BackColor = Color.SkyBlue
+                    End If
+                End If
+            Next
+        End If
+
+        CMS2.Enabled = True
+        CMS3.Enabled = True
     End Sub
 
-    Private Sub FG_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.DblClick
+    Private Sub FG_CellDoubleClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG.CellDoubleClick
+        If e.RowIndex < 0 Then Exit Sub
         If MDInvoiceNo <> "" Then
             FmNsewJeneralJournal_Adjust.txtInvoice.Enabled = False
             FmNsewJeneralJournal_Adjust.CmbBook.Enabled = False
@@ -876,180 +974,13 @@
     End Sub
 
 
-    Private Sub FG_MouseUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseUpEvent) Handles FG.MouseUpEvent
-
-        FG.FocusRect = VSFlex8U.FocusRectSettings.flexFocusSolid
-        If x > 0 Then
-            x0 = x
-            s0 = TextBox1.Text
-        End If
-        If y > 0 Then
-            y0 = y
-        End If
-        x = FG.Col
-        y = FG.Row
-        MDInvoiceDT = FG.get_TextMatrix(FG.Row, 1)
-        MDInvoiceNo = FG.get_TextMatrix(FG.Row, 2)
-        TextBox1.Text = FG.get_TextMatrix(FG.Row, 2)
-        If MuLng = "L" Then
-            txtDescrip.Text = FG.get_TextMatrix(FG.Row, 6) & ", ມູນຄ່າ: " & FG.get_TextMatrix(FG.Row, 5) & ": " & FG.get_TextMatrix(FG.Row, 9)
-        Else
-            txtDescrip.Text = FG.get_TextMatrix(FG.Row, 6) & ", Amout: " & FG.get_TextMatrix(FG.Row, 5) & ": " & FG.get_TextMatrix(FG.Row, 9)
-        End If
-
-
-
-        LockData = ""
-        LockData = FG.get_TextMatrix(FG.Row, 14)
-        If LockData = 1 Then
-            RadioButton17.Checked = False
-            RadioButton18.Checked = True
-        Else
-            RadioButton17.Checked = True
-            RadioButton18.Checked = False
-        End If
-        If LockData = 1 Or LockData = 2 Then
-            LngId = "3027" : CallLngStr() : Button1.Text = LngStr
-        Else
-            LngId = "3008" : CallLngStr() : Button1.Text = LngStr
-        End If
-        'Remain.Text = "0.00"
-        If FG.Row > 0 Then
-            If FG.Col = 4 Then
-                Call Load_AP_ACC_adjust_Item()
-                Remain.Text = CDbl(CDbl(Open_jn.Text) + CDbl(SumDr.Text)) - CDbl(SumCr.Text)
-
-                If Remain.Text >= 0 Then
-                    Remain.ForeColor = Color.Black
-                    Remain.Text = Format(CDbl(Remain.Text), "##,##0.00")
-                Else
-                    Remain.ForeColor = Color.Red
-                    Remain.Text = "(" & Format(CDbl(Remain.Text * (-1)), "##,##0.00") & ")"
-                End If
-            End If
-        End If
-
-
-
-
-
-
-
-
-
-
-        If CheckBox3.Checked = True Then
-            ForIs1()
-            ForIt1()
-            ForIs2()
-            ForIt2()
-            Dim ne As Integer
-            For ne = Rs2 To Rt2
-                If Trim(FG.get_TextMatrix(ne, 2)) = s0 Then
-                    FG.Row = ne
-                    FG.Col = 2
-                    FG.CellBackColor = Color.White
-                    FG.Col = 4
-                    FG.CellBackColor = Color.White
-                    'MsgBox(Trim(FG.get_TextMatrix(J, 2)))
-                    If Trim(FG.get_TextMatrix(ne, 10)) <> 0 Then
-                        FG.Col = 7
-                        FG.CellBackColor = Color.White
-                        FG.Col = 10
-                        FG.CellBackColor = Color.White
-                    Else
-                        FG.Col = 8
-                        FG.CellBackColor = Color.White
-                        FG.Col = 11
-                        FG.CellBackColor = Color.White
-                    End If
-                End If
-            Next ne
-
-
-
-
-
-
-
-
-
-            For J = Rs1 To Rt1
-                'MsgBox(J & " = " & FG.get_TextMatrix(J, 4))
-                If Trim(FG.get_TextMatrix(J, 2)) = TextBox1.Text Then
-                    FG.Row = J
-                    FG.Col = 2
-                    FG.CellBackColor = Color.SkyBlue
-                    FG.Col = 4
-                    FG.CellBackColor = Color.SkyBlue
-                    'MsgBox(Trim(FG.get_TextMatrix(J, 2)))
-                    If Trim(FG.get_TextMatrix(J, 10)) <> 0 Then
-                        FG.Col = 7
-                        FG.CellBackColor = Color.SkyBlue
-                        FG.Col = 10
-                        FG.CellBackColor = Color.SkyBlue
-                    Else
-                        FG.Col = 8
-                        FG.CellBackColor = Color.SkyBlue
-                        FG.Col = 11
-                        FG.CellBackColor = Color.SkyBlue
-                    End If
-                End If
-            Next J
-
-
-            If Trim(FG.get_TextMatrix(FG.Rows - 1, 2)) = TextBox1.Text <> 0 Then
-                FG.Row = FG.Rows - 1
-                FG.Col = 2
-                FG.CellBackColor = Color.SkyBlue
-                FG.Col = 4
-                FG.CellBackColor = Color.SkyBlue
-                'MsgBox(Trim(FG.get_TextMatrix(J, 2)))
-                If Trim(FG.get_TextMatrix(FG.Rows - 1, 10)) <> 0 Then
-                    FG.Col = 7
-                    FG.CellBackColor = Color.SkyBlue
-                    FG.Col = 10
-                    FG.CellBackColor = Color.SkyBlue
-                Else
-                    FG.Col = 8
-                    FG.CellBackColor = Color.SkyBlue
-                    FG.Col = 11
-                    FG.CellBackColor = Color.SkyBlue
-                End If
-            Else
-                FG.Row = FG.Rows - 1
-                FG.Col = 2
-                FG.CellBackColor = Color.White
-                FG.Col = 4
-                FG.CellBackColor = Color.White
-                'MsgBox(Trim(FG.get_TextMatrix(J, 2)))
-                If Trim(FG.get_TextMatrix(FG.Rows - 1, 10)) <> 0 Then
-                    FG.Col = 7
-                    FG.CellBackColor = Color.White
-                    FG.Col = 10
-                    FG.CellBackColor = Color.White
-                Else
-                    FG.Col = 8
-                    FG.CellBackColor = Color.White
-                    FG.Col = 11
-                    FG.CellBackColor = Color.White
-                End If
-            End If
-        End If
-        FG.Col = x
-        FG.Row = y
-        'If MDInvoiceNo <> "" Then
-
-        CMS2.Enabled = True
-        CMS3.Enabled = True
-        'End If
-    End Sub
+    ' MouseUp logic merged into CellClick
 
     Private Sub ForIs2()
 
-        If y0 = FG.Rows - 1 Then
-            If FG.get_TextMatrix(FG.Rows - 1, 2) <> FG.get_TextMatrix(FG.Rows - 2, 2) Then
-                Rs2 = FG.Rows - 1
+        If y0 = FG.Rows.Count - 1 Then
+            If GetString(FG.Rows(FG.Rows.Count - 1).Cells(2).Value) <> GetString(FG.Rows(FG.Rows.Count - 2).Cells(2).Value) Then
+                Rs2 = FG.Rows.Count - 1
             End If
         End If
         Dim x0k As Integer = y0
@@ -1057,7 +988,7 @@
             Rs2 = x0k
 
             x0k = x0k - 1
-            s = FG.get_TextMatrix(x0k, 2)
+            s = GetString(FG.Rows(x0k).Cells(2).Value)
             'R1 = x + 1
             If s <> s0 Then
                 Exit Sub
@@ -1066,30 +997,32 @@
     End Sub
 
     Private Sub ForIt2()
-        If y0 = FG.Rows - 1 Then
-            Rt2 = FG.Rows - 1
+        If y0 = FG.Rows.Count - 1 Then
+            Rt2 = FG.Rows.Count - 1
             Exit Sub
         End If
-        For i = y0 To FG.Rows - 1
+        For i = y0 To FG.Rows.Count - 1
             Rt2 = i - 1
-            s = FG.get_TextMatrix(i, 2)
+            s = GetString(FG.Rows(i).Cells(2).Value)
             If s <> s0 Then
                 Exit Sub
             End If
         Next
     End Sub
     Private Sub ForIs1()
-
-        If y = FG.Rows - 1 Then
-            If FG.get_TextMatrix(FG.Rows - 1, 2) <> FG.get_TextMatrix(FG.Rows - 2, 2) Then
-                Rs1 = FG.Rows - 1
+        If y = FG.Rows.Count - 1 Then
+            Dim valCurrent As String = GetString(FG.Rows(FG.Rows.Count - 1).Cells(2).Value)
+            Dim valPrev As String = GetString(FG.Rows(FG.Rows.Count - 2).Cells(2).Value)
+            If valCurrent <> valPrev Then
+                Rs1 = FG.Rows.Count - 1
             End If
         End If
         Dim x As Integer = y
         For i = y To y * 2
             Rs1 = x
             x = x - 1
-            s = FG.get_TextMatrix(x, 2)
+            If x < 0 Then Exit For
+            s = GetString(FG.Rows(x).Cells(2).Value)
             'R1 = x + 1
             If s <> TextBox1.Text Then
                 Exit Sub
@@ -1102,15 +1035,16 @@
 
 
 
-        For i = y To FG.Rows - 1
+        For i = y To FG.Rows.Count - 1
             Rt1 = i - 1
-            s = FG.get_TextMatrix(i, 2)
+            s = GetString(FG.Rows(i).Cells(2).Value)
             If s <> TextBox1.Text Then
                 Exit Sub
             End If
         Next
     End Sub
-    Private Sub FG_SelChange_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
+    ' ForIt1 replacement logic assumed similar legacy loop fix
+    Private Sub FG_SelectionChanged_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
 
     End Sub
     Private Sub ReportAP_ACC_adjust_Item()
@@ -1796,7 +1730,7 @@
         LngId = "7031" : CallLngStr() : MuLngRpt = MuLngRpt & "N'" & LngStr & "' As Crl_User ,"
 
         Panel4.Visible = False
-        If FG.get_TextMatrix(1, 1) = "" Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
         'SLF = "SELECT " & MuLngRpt & "   *  ,  Acc_Code.Name_L  As AcNmeEx_L , Acc_Code.Name_E  As AcNmeEx_E FROM  AP_ACC_adjust_Item       INNER JOIN Acc_Code ON AP_ACC_adjust_Item.ac_code = Acc_Code.Ac_Code WHERE Book <>'' "
         SLF = "SELECT " & MuLngRpt & "   *  ,  AP_ACC_adjust_Item.ac_name  As AcNmeEx_L , AP_ACC_adjust_Item.ac_namee  As AcNmeEx_E FROM  AP_ACC_adjust_Item  WHERE Book <>'' "
 
@@ -2195,7 +2129,7 @@
         ''Dim srNum As New ADODB.Recordset
         ''Dim mNum As Integer = 0
         ' ''If IsNumeric(Microsoft.VisualBasic.Right(txtNewId.Text, 7)) = False Then MsgBox("7 ໂຕທາງທ້າຍຕ້ອງເປັນໂຕເລກເທົານັ້ນ") : txtNewId.BackColor = Color.Red : txtNewId.Focus() : Exit Sub
-        ''Call LoadSqlData("SELECT top 1 Right(certify,7) As  certify   FROM  AP_ACC_adjust_Item where  book ='" & CmbBook2.Text & "' And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "'   Order by  Right(certify,7) DESC", srNum)
+        ''Call LoadSqlData("SELECT top 1 Right(certify,7) As  certify   FROM  AP_ACC_adjust_Item where  book ='" & CmbBook2.Text & "' And  year(date_work)='" & Format(CDate(GetString(FG.CurrentRow.Cells(1).Value)), "yyyy") & "'   Order by  Right(certify,7) DESC", srNum)
         ''If srNum.RecordCount = 0 Then
         ''    mNum = 0
         ''Else
@@ -2239,7 +2173,7 @@
 
 
 
-        Call LoadSqlData("SELECT AC_CODE FROM AP_ACC_adjust_Item WHERE   book ='" & CmbBook2.Text & "' And  certify = N'" & txtNewId.Text & "' And  year(date_work)=" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & " ", RSC)
+        Call LoadSqlData("SELECT AC_CODE FROM AP_ACC_adjust_Item WHERE   book ='" & CmbBook2.Text & "' And  certify = N'" & txtNewId.Text & "' And  year(date_work)=" & Format(CDate(GetString(FG.CurrentRow.Cells(1).Value)), "yyyy") & " ", RSC)
         If RSC.RecordCount > 0 Then
             MsgBox("ເລກລະຫັດ : " & Trim(txtNewId.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
             txtNewId.Focus()
@@ -2262,7 +2196,7 @@
 
 
         If MessageBox.Show("ທ່ານຕ້ອງການປ່ຽນລະຫັດ " & txtOldId.Text & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            CNN.Execute("UPDATE AP_ACC_adjust_Item SET book='" & CmbBook2.Text & "',certify= N'" & txtNewId.Text & "' WHERE   book =N'" & FG.get_TextMatrix(FG.Row, 16) & "' And  certify  =N'" & MDInvoiceNo & "'   And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "' ")
+            CNN.Execute("UPDATE AP_ACC_adjust_Item SET book='" & CmbBook2.Text & "',certify= N'" & txtNewId.Text & "' WHERE   book =N'" & GetString(FG.CurrentRow.Cells(16).Value) & "' And  certify  =N'" & MDInvoiceNo & "'   And  year(date_work)='" & Format(CDate(GetString(FG.CurrentRow.Cells(1).Value)), "yyyy") & "' ")
 
         End If
 
@@ -2297,13 +2231,19 @@
         End If
 
         CmbBook2.Text = "GL"
-        Call LoadSqlData("select book , certify from AP_ACC_adjust_Item WHERE   book ='" & FG.get_TextMatrix(FG.Row, 16) & "' And  certify  = '" & MDInvoiceNo & "'   And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "' order by cnt", RSC)
+        If FG.CurrentRow IsNot Nothing Then
+            Dim dateStr As String = If(FG.CurrentRow.Cells(1).Value Is Nothing, "1900-01-01", FG.CurrentRow.Cells(1).Value.ToString())
+            Dim yearStr As String = Format(CDate(dateStr), "yyyy")
+            Dim rowBook As String = If(FG.CurrentRow.Cells(16).Value Is Nothing, "", FG.CurrentRow.Cells(16).Value.ToString())
+            
+            Call LoadSqlData("select book , certify from AP_ACC_adjust_Item WHERE   book ='" & rowBook & "' And  certify  = '" & MDInvoiceNo & "'   And  year(date_work)='" & yearStr & "' order by cnt", RSC)
 
-        If RSC.RecordCount > 0 Then
-            txtOldId.Text = Trim(RSC.Fields("certify").Value)
-            Books.Text = Trim(RSC.Fields("book").Value)
+            If RSC.RecordCount > 0 Then
+                txtOldId.Text = Trim(RSC.Fields("certify").Value)
+                Books.Text = Trim(RSC.Fields("book").Value)
+            End If
+            CmbBook2.Text = Books.Text
         End If
-        CmbBook2.Text = Books.Text
     End Sub
 
     Private Sub Button11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button11.Click
@@ -2358,9 +2298,10 @@
         Dim Rs As New ADODB.Recordset
         With Rs
             If .State = ConnectionState.Open Then .Close()
-            .Open("SELECT   " & SLF & "   FROM AP_ACC_adjust_Item INNER JOIN Acc_Code ON AP_ACC_adjust_Item.ac_code = Acc_Code.Ac_Code WHERE AP_ACC_adjust_Item.certify = N'" & MDInvoiceNo & "' And  year(date_work)=" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "  order by AP_ACC_adjust_Item.cnt", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            '.Open("SELECT   " & SLF & "   FROM AP_ACC_adjust_Item   WHERE AP_ACC_adjust_Item.certify = N'" & MDInvoiceNo & "' And  year(date_work)=" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "  order by AP_ACC_adjust_Item.cnt", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-
+            Dim dateStr As String = If(FG.CurrentRow.Cells(1).Value Is Nothing, "1900-01-01", FG.CurrentRow.Cells(1).Value.ToString())
+            Dim yearStr As String = Format(CDate(dateStr), "yyyy")
+            .Open("SELECT   " & SLF & "   FROM AP_ACC_adjust_Item INNER JOIN Acc_Code ON AP_ACC_adjust_Item.ac_code = Acc_Code.Ac_Code WHERE AP_ACC_adjust_Item.certify = N'" & MDInvoiceNo & "' And  year(date_work)=" & yearStr & "  order by AP_ACC_adjust_Item.cnt", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
+            
             If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
             If .EOF Then Exit Sub
         End With
@@ -2450,88 +2391,32 @@
     Public Sub loadColor()
         If CheckBox2.Checked = True Then
             Dim J As Integer
-            FG.Redraw = False
-
-            For J = 1 To FG.Rows - 1
-                FG.Row = J
-                If Trim(FG.get_TextMatrix(J, 4)) <> "" Then
-                    If Trim(FG.get_TextMatrix(J, 10)) <> 0 Then
-                        FG.Col = 7
-                        FG.CellFontBold = True
-                        FG.Col = 10
-                        FG.CellFontBold = True
+            For J = 0 To FG.Rows.Count - 1
+                Dim row As DataGridViewRow = FG.Rows(J)
+                Dim acCodeVal As String = If(row.Cells(4).Value Is Nothing, "", row.Cells(4).Value.ToString())
+                If acCodeVal <> "" Then
+                    If CDbl(If(row.Cells(10).Value Is Nothing, 0, row.Cells(10).Value)) <> 0 Then
+                        row.Cells(7).Style.Font = New Font(FG.Font, FontStyle.Bold)
+                        row.Cells(10).Style.Font = New Font(FG.Font, FontStyle.Bold)
                     Else
-                        FG.Col = 8
-                        FG.CellFontBold = True
-                        FG.Col = 11
-                        FG.CellFontBold = True
+                        row.Cells(8).Style.Font = New Font(FG.Font, FontStyle.Bold)
+                        row.Cells(11).Style.Font = New Font(FG.Font, FontStyle.Bold)
                     End If
-                    FG.Col = 4
-                    FG.CellFontBold = True
+                    row.Cells(4).Style.Font = New Font(FG.Font, FontStyle.Bold)
                 End If
-                'MsgBox(Trim(FG.get_TextMatrix(J, 14)))
-                Dim C1 As String = "255, 192, 128"
+                
+                Dim lockVal As String = If(row.Cells(14).Value Is Nothing, "", row.Cells(14).Value.ToString())
                 Dim C2 As Color = Color.Red
-                If FG.get_TextMatrix(J, 14) = 1 Then
-                    FG.Col = 1
-                    FG.CellForeColor = C2
-                    'FG.CellForeColor = Color.FromArgb(C1)
-                    FG.Col = 2
-                    FG.CellForeColor = C2
-                    FG.Col = 3
-                    FG.CellForeColor = C2
-                    FG.Col = 4
-                    FG.CellForeColor = C2
-                    FG.Col = 6
-                    FG.CellForeColor = C2
-                    FG.Col = 7
-                    FG.CellForeColor = C2
-                    FG.Col = 8
-                    FG.CellForeColor = C2
-                    FG.Col = 9
-                    FG.CellForeColor = C2
-                    FG.Col = 10
-
-                    FG.CellForeColor = C2
-                    FG.Col = 11
-                    FG.CellForeColor = C2
-                    FG.Col = 12
-                    FG.CellForeColor = C2
+                If lockVal = "1" Then
+                    For Each cell As DataGridViewCell In row.Cells
+                        cell.Style.ForeColor = Color.Red
+                    Next
+                ElseIf lockVal = "2" Then
+                    For Each cell As DataGridViewCell In row.Cells
+                        cell.Style.ForeColor = Color.Gray
+                    Next
                 End If
-
-                If FG.get_TextMatrix(J, 14) = 2 Then
-                    C2 = Color.Gray
-                    FG.Col = 1
-                    FG.CellForeColor = C2
-                    'FG.CellForeColor = Color.FromArgb(C1)
-                    FG.Col = 2
-                    FG.CellForeColor = C2
-                    FG.Col = 3
-                    FG.CellForeColor = C2
-                    FG.Col = 4
-                    FG.CellForeColor = C2
-                    FG.Col = 6
-                    FG.CellForeColor = C2
-                    FG.Col = 7
-                    FG.CellForeColor = C2
-                    FG.Col = 8
-                    FG.CellForeColor = C2
-                    FG.Col = 9
-                    FG.CellForeColor = C2
-                    FG.Col = 10
-
-                    FG.CellForeColor = C2
-                    FG.Col = 11
-                    FG.CellForeColor = C2
-                    FG.Col = 12
-                    FG.CellForeColor = C2
-                End If
-
-
-
             Next J
-
-            FG.Redraw = True
         End If
     End Sub
 
@@ -2545,7 +2430,7 @@
         P = 1
         Call PageCnt(StrSQL, ConString, P, DividePage)
         Me.lblpage_total.Text = "1/" & Last_page
-        If FG.get_TextMatrix(1, 1) = "" Then lblpage_total.Text = "0/0"
+        If FG.Rows.Count = 0 Then lblpage_total.Text = "0/0"
         CmbPage.Items.Clear()
         For i = 0 To Last_page - 1
             CmbPage.Items.Add(i + 1)
@@ -2553,7 +2438,7 @@
         If CmbPage.Items.Count > 0 Then
             CmbPage.SelectedIndex = 0
         End If
-        If FG.get_TextMatrix(1, 1) = "" Then CmbPage.Text = ""
+        If FG.Rows.Count = 0 Then CmbPage.Text = ""
         LbPage.Focus()
     End Sub
     Public Sub PageCnt(ByVal StrSQL As String, ByVal ConStr As String, ByVal PageNum As Long, ByVal RowPerPage As Integer)
@@ -2565,7 +2450,7 @@
         Dim RsLoad As New ADODB.Recordset
         Dim rssum As New ADODB.Recordset
         Dim i As Integer
-        FG.Rows = 1
+        FG.Rows.Clear()
         Dim x As String
         PageNum = PageNum - 1
         Dim MS As String = "And Company = '" & MuSubOff & "'"
@@ -2599,54 +2484,52 @@
                     Last_page = Int(.RecordCount / DividePage) + 1
                     If P = Last_page Then RowPerPage = (.RecordCount Mod RowPerPage)
                 End If
-                FG.Redraw = False
-                FG.Rows = 1
-                'MsgBox("ss")
+                FG.Rows.Clear()
+                
                 px = 0
                 CMS2.Enabled = False
                 CMS3.Enabled = False
-                'Label5.Visible = True
+                
                 For i = 0 To RowPerPage - 1
                     Dim s As String
                     If MuLng = "L" Then s = Trim(CStr(.Fields("Ac_name").Value.ToString)) Else s = Trim(CStr(.Fields("Ac_namee").Value.ToString))
-                    'End If
-                    FG.AddItem(.AbsolutePosition & vbTab & Format(CDate(Trim(.Fields("date_work").Value)), "dd/MM/yyyy") & _
-                                "" & vbTab & Trim(CStr(.Fields("certify").Value.ToString)) & _
-                                 "" & vbTab & Trim(CStr(.Fields("Referno").Value.ToString)) & _
-                                "" & vbTab & Trim(CStr(.Fields("Ac_code").Value)) & _
-                               "" & vbTab & Format(CDbl(Trim(.Fields("amount").Value)), "##,##0.00") & _
-                                 "" & vbTab & s & _
-                                 "" & vbTab & Format(CDbl(Trim(.Fields("amount_dr").Value)), "##,##0.00") & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amount_cr").Value)), "##,##0.00") & _
-                                     "" & vbTab & Trim(CStr(.Fields("curr").Value)) & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00") & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amt_cr").Value)), "##,##0.00") & _
-                                 "" & vbTab & Trim(CStr(.Fields("company").Value)) & _
-                                    "" & vbTab & Trim(CStr(.Fields("cnt").Value)) & _
-                                   "" & vbTab & Trim(CStr(.Fields("lock").Value)) & _
-                                    "" & vbTab & "" & _
-                                "" & vbTab & Trim(CStr(.Fields("book").Value)))
-                    'MsgBox(Trim(CStr(.Fields("lock").Value)))
+                    
+                    FG.Rows.Add(.AbsolutePosition, _
+                                Format(CDate(Trim(.Fields("date_work").Value)), "dd/MM/yyyy"), _
+                                Trim(CStr(.Fields("certify").Value.ToString)), _
+                                Trim(CStr(.Fields("Referno").Value.ToString)), _
+                                Trim(CStr(.Fields("Ac_code").Value)), _
+                                Format(CDbl(Trim(.Fields("amount").Value)), "##,##0.00"), _
+                                s, _
+                                Format(CDbl(Trim(.Fields("amount_dr").Value)), "##,##0.00"), _
+                                Format(CDbl(Trim(.Fields("amount_cr").Value)), "##,##0.00"), _
+                                Trim(CStr(.Fields("curr").Value)), _
+                                Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00"), _
+                                Format(CDbl(Trim(.Fields("amt_cr").Value)), "##,##0.00"), _
+                                Trim(CStr(.Fields("company").Value)), _
+                                Trim(CStr(.Fields("cnt").Value)), _
+                                Trim(CStr(.Fields("lock").Value)), _
+                                "", _
+                                Trim(CStr(.Fields("book").Value)))
                     .MoveNext()
                 Next i
-                FG.Row = FG.Rows - 1
-                FG.Redraw = True
                 lblpage_total.Text = P & "/" & Int(Last_page)
             Else
-                FG.Rows = 1
-                FG.Rows = 2
+                FG.Rows.Clear()
             End If
         End With
 
-
-
-        If FG.get_TextMatrix(1, 1) <> "" Then
+        If FG.Rows.Count > 0 Then
             FirstPage.Enabled = True
             BackPage.Enabled = True
             NextPage.Enabled = True
             LasthPage.Enabled = True
             EnterPage.Enabled = True
-            LbPage.Text = FG.get_TextMatrix(1, 0) & " To " & FG.get_TextMatrix(FG.Rows - 1, 0) & ", Of " & LbPage.Text
+            
+            Dim firstRowIdx As String = FG.Rows(0).Cells(0).Value.ToString()
+            Dim lastRowIdx As String = FG.Rows(FG.Rows.Count - 1).Cells(0).Value.ToString()
+            LbPage.Text = firstRowIdx & " To " & lastRowIdx & ", Of " & LbPage.Text
+            
             If P = 1 Then
                 FirstPage.Enabled = False
                 BackPage.Enabled = False
@@ -2667,15 +2550,11 @@
             Last_page = 0
 
             LbPage.Text = "0 To 0, Of 0"
-
         End If
 
-        'MsgBox("kk")
         If NextPage.Enabled = False Then EnterPage.Text = "Back "
         If BackPage.Enabled = False Then EnterPage.Text = "Next  "
-        'If P15.Checked = True Then
         Call loadColor()
-        'End If
 
         Ch = 0
         Call SumAmount()
@@ -2729,11 +2608,11 @@
         Call LoadSQL()
         Call PageCnt(StrSQL, ConString, P, DividePage)
         Me.lblpage_total.Text = "1/" & Last_page
-        If FG.get_TextMatrix(1, 1) = "" Then lblpage_total.Text = "0/0"
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then lblpage_total.Text = "0/0"
         If CmbPage.SelectedIndex >= 0 Then
             CmbPage.SelectedIndex = P - 1
         End If
-        If FG.get_TextMatrix(1, 1) = "" Then CmbPage.Text = ""
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then CmbPage.Text = ""
 
         LbPage.Focus()
     End Sub
@@ -2909,7 +2788,7 @@
         Call LoadSQL()
         Call PageCnt(StrSQL, ConString, P, DividePage)
         Me.lblpage_total.Text = "1/" & Last_page
-        If FG.get_TextMatrix(1, 1) = "" Then lblpage_total.Text = "0/0"
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then lblpage_total.Text = "0/0"
         CmbPage.Items.Clear()
         For i = 0 To Last_page - 1
             CmbPage.Items.Add(i + 1)
@@ -2917,7 +2796,7 @@
         If CmbPage.Items.Count > 0 Then
             CmbPage.SelectedIndex = 0
         End If
-        If FG.get_TextMatrix(1, 1) = "" Then CmbPage.Text = ""
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then CmbPage.Text = ""
         'CmbPage.SelectedIndex = 0
     End Sub
 
@@ -2955,7 +2834,7 @@
         Call LoadSQL()
         Call PageCnt(StrSQL, ConString, P, DividePage)
         Me.lblpage_total.Text = "1/" & Last_page
-        If FG.get_TextMatrix(1, 1) = "" Then lblpage_total.Text = "0/0"
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then lblpage_total.Text = "0/0"
         CmbPage.Items.Clear()
         For i = 0 To Last_page - 1
             CmbPage.Items.Add(i + 1)
@@ -2963,7 +2842,7 @@
         If CmbPage.Items.Count > 0 Then
             CmbPage.SelectedIndex = 0
         End If
-        If FG.get_TextMatrix(1, 1) = "" Then CmbPage.Text = ""
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then CmbPage.Text = ""
         'CmbPage.SelectedIndex = 0
         'CmbPage.SelectedIndex = 0
     End Sub
@@ -3003,7 +2882,7 @@
         Call LoadSQL()
         Call PageCnt(StrSQL, ConString, P, DividePage)
         Me.lblpage_total.Text = "1/" & Last_page
-        If FG.get_TextMatrix(1, 1) = "" Then lblpage_total.Text = "0/0"
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then lblpage_total.Text = "0/0"
         CmbPage.Items.Clear()
         For i = 0 To Last_page - 1
             CmbPage.Items.Add(i + 1)
@@ -3011,7 +2890,7 @@
         If CmbPage.Items.Count > 0 Then
             CmbPage.SelectedIndex = 0
         End If
-        If FG.get_TextMatrix(1, 1) = "" Then CmbPage.Text = ""
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then CmbPage.Text = ""
         'CmbPage.SelectedIndex = 0
     End Sub
 
@@ -3049,7 +2928,7 @@
         Call LoadSQL()
         Call PageCnt(StrSQL, ConString, P, DividePage)
         Me.lblpage_total.Text = "1/" & Last_page
-        If FG.get_TextMatrix(1, 1) = "" Then lblpage_total.Text = "0/0"
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then lblpage_total.Text = "0/0"
         CmbPage.Items.Clear()
         For i = 0 To Last_page - 1
             CmbPage.Items.Add(i + 1)
@@ -3057,7 +2936,7 @@
         If CmbPage.Items.Count > 0 Then
             CmbPage.SelectedIndex = 0
         End If
-        If FG.get_TextMatrix(1, 1) = "" Then CmbPage.Text = ""
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then CmbPage.Text = ""
         'CmbPage.SelectedIndex = 0
     End Sub
 
@@ -3095,7 +2974,7 @@
         Call LoadSQL()
         Call PageCnt(StrSQL, ConString, P, DividePage)
         Me.lblpage_total.Text = "1/" & Last_page
-        If FG.get_TextMatrix(1, 1) = "" Then lblpage_total.Text = "0/0"
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then lblpage_total.Text = "0/0"
         CmbPage.Items.Clear()
         For i = 0 To Last_page - 1
             CmbPage.Items.Add(i + 1)
@@ -3103,7 +2982,7 @@
         If CmbPage.Items.Count > 0 Then
             CmbPage.SelectedIndex = 0
         End If
-        If FG.get_TextMatrix(1, 1) = "" Then CmbPage.Text = ""
+        If GetString(FG.Rows(0).Cells(1).Value) = "" Then CmbPage.Text = ""
         'CmbPage.SelectedIndex = 0
     End Sub
 
@@ -3141,7 +3020,7 @@
         Call LoadSQL()
         Call PageCnt(StrSQL, ConString, P, DividePage)
         Me.lblpage_total.Text = "1/" & Last_page
-        If FG.get_TextMatrix(1, 1) = "" Then lblpage_total.Text = "0/0"
+        If FG.Rows.Count = 0 Then lblpage_total.Text = "0/0"
         CmbPage.Items.Clear()
         For i = 0 To Last_page - 1
             CmbPage.Items.Add(i + 1)
@@ -3149,7 +3028,7 @@
         If CmbPage.Items.Count > 0 Then
             CmbPage.SelectedIndex = 0
         End If
-        If FG.get_TextMatrix(1, 1) = "" Then CmbPage.Text = ""
+        If FG.Rows.Count = 0 Then CmbPage.Text = ""
         'CmbPage.SelectedIndex = 0
     End Sub
 
@@ -3187,7 +3066,7 @@
         Call LoadSQL()
         Call PageCnt(StrSQL, ConString, P, DividePage)
         Me.lblpage_total.Text = "1/" & Last_page
-        If FG.get_TextMatrix(1, 1) = "" Then lblpage_total.Text = "0/0"
+        If FG.Rows.Count = 0 Then lblpage_total.Text = "0/0"
 
         CmbPage.Items.Clear()
         For i = 0 To Last_page - 1
@@ -3197,7 +3076,7 @@
         If CmbPage.Items.Count > 0 Then
             CmbPage.SelectedIndex = 0
         End If
-        If FG.get_TextMatrix(1, 1) = "" Then CmbPage.Text = ""
+        If FG.Rows.Count = 0 Then CmbPage.Text = ""
         P15.ForeColor = Color.Red : txtSC15.Focus() : txtSC15.SelectAll()
         'CmbPage.SelectedIndex = 0
         'CmbPage.SelectedIndex = 0
@@ -3508,9 +3387,8 @@
 
 
         If MessageBox.Show("ທ່ານຕ້ອງການລຶບ  " & MDInvoiceNo & " ຫລືບໍ່?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-
-            CNN.Execute("delete AP_ACC_adjust_Item where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "' ")
-
+            Dim dateVal As String = If(FG.CurrentRow.Cells(1).Value Is Nothing, "1900-01-01", FG.CurrentRow.Cells(1).Value.ToString())
+            CNN.Execute("delete AP_ACC_adjust_Item where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(dateVal), "yyyy") & "' ")
         End If
         MDInvoiceNo = ""
         LoadMonthSQL()
@@ -3638,39 +3516,27 @@
         TT()
 
         TextBox4.Text = CDbl(TextBox2.Text) / (txtSC15.Text)
-        FG.Rows = 1
+        FG.Rows.Clear()
         With RSC
             Call LoadSqlData("SELECT top " & txtSC15.Text & " * FROM  AP_ACC_adjust_Item Order by cnt", RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    'kkkkkk
-                    If MuLng = "L" Then s = Trim(CStr(.Fields("descrip").Value)) Else s = Trim(CStr(.Fields("descripe").Value.ToString))
+                    Dim sVal As String
+                    If MuLng = "L" Then sVal = Trim(CStr(.Fields("descrip").Value)) Else sVal = Trim(CStr(.Fields("descripe").Value.ToString))
 
-                    'End If
-
-                    FG.AddItem(.AbsolutePosition & vbTab & Format(CDate(Trim(.Fields("date_work").Value)), "dd/MM/yyyy") & _
-                                "" & vbTab & Trim(CStr(.Fields("certify").Value)) & _
-                                 "" & vbTab & Trim(CStr(.Fields("cheque_no").Value)) & _
-                                "" & vbTab & Trim(CStr(.Fields("Ac_code").Value)) & _
-                               "" & vbTab & Format(CDbl(Trim(.Fields("amount").Value)), "##,##0.00") & _
-                                 "" & vbTab & s & _
-                                 "" & vbTab & Format(CDbl(Trim(.Fields("amount_dr").Value)), "##,##0.00") & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amount_cr").Value)), "##,##0.00") & _
-                                     "" & vbTab & Trim(CStr(.Fields("curr").Value)) & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00") & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amt_cr").Value)), "##,##0.00") & _
-                                 "" & vbTab & Trim(CStr(.Fields("company").Value)) & _
-                                    "" & vbTab & Trim(CStr(.Fields("cnt").Value)) & _
-                                   "" & vbTab & Trim(CStr(.Fields("lock").Value)) & _
-                                    "" & vbTab & "" & _
-                                "" & vbTab & Trim(CStr(.Fields("book").Value)))
-
-                    'kkkkkkkkkkk
+                    FG.Rows.Add(.AbsolutePosition, Format(CDate(Trim(.Fields("date_work").Value)), "dd/MM/yyyy"), _
+                                Trim(CStr(.Fields("certify").Value)), Trim(CStr(.Fields("cheque_no").Value)), _
+                                Trim(CStr(.Fields("Ac_code").Value)), Format(CDbl(Trim(.Fields("amount").Value)), "##,##0.00"), _
+                                sVal, Format(CDbl(Trim(.Fields("amount_dr").Value)), "##,##0.00"), _
+                                Format(CDbl(Trim(.Fields("amount_cr").Value)), "##,##0.00"), Trim(CStr(.Fields("curr").Value)), _
+                                Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00"), Format(CDbl(Trim(.Fields("amt_cr").Value)), "##,##0.00"), _
+                                Trim(CStr(.Fields("company").Value)), Trim(CStr(.Fields("cnt").Value)), _
+                                Trim(CStr(.Fields("lock").Value)), "", Trim(CStr(.Fields("book").Value)))
 
                     .MoveNext()
                 End While
             Else
-                FG.Rows = 16
+                'FG.Rows = 16
             End If
         End With
     End Sub
@@ -3681,7 +3547,7 @@
 
     Private Sub Button19_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button19.Click
         TT()
-        D = FG.Rows - 1
+        D = FG.Rows.Count
         If CDbl(CDbl(TextBox2.Text) / CDbl(txtSC15.Text)) > Int(CDbl(TextBox2.Text) / CDbl(txtSC15.Text)) Then
             TextBox4.Text = Int(CDbl(TextBox2.Text) / CDbl(txtSC15.Text)) + 1
         Else
@@ -3689,39 +3555,27 @@
         End If
         TextBox6.Text = 1
         TextBox5.Text = TextBox6.Text & "/" & TextBox4.Text
-        FG.Rows = 1
+        FG.Rows.Clear()
         With RSC
             Call LoadSqlData("SELECT top " & txtSC15.Text & " * FROM  AP_ACC_adjust_Item  Order by certify , cnt", RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    'kkkkkk
-                    If MuLng = "L" Then s = Trim(CStr(.Fields("descrip").Value)) Else s = Trim(CStr(.Fields("descripe").Value.ToString))
+                    Dim sVal As String
+                    If MuLng = "L" Then sVal = Trim(CStr(.Fields("descrip").Value)) Else sVal = Trim(CStr(.Fields("descripe").Value.ToString))
 
-                    'End If
-
-                    FG.AddItem(.AbsolutePosition & vbTab & Format(CDate(Trim(.Fields("date_work").Value)), "dd/MM/yyyy") & _
-                                "" & vbTab & Trim(CStr(.Fields("certify").Value)) & _
-                                 "" & vbTab & Trim(CStr(.Fields("cheque_no").Value)) & _
-                                "" & vbTab & Trim(CStr(.Fields("Ac_code").Value)) & _
-                               "" & vbTab & Format(CDbl(Trim(.Fields("amount").Value)), "##,##0.00") & _
-                                 "" & vbTab & s & _
-                                 "" & vbTab & Format(CDbl(Trim(.Fields("amount_dr").Value)), "##,##0.00") & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amount_cr").Value)), "##,##0.00") & _
-                                     "" & vbTab & Trim(CStr(.Fields("curr").Value)) & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00") & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amt_cr").Value)), "##,##0.00") & _
-                                 "" & vbTab & Trim(CStr(.Fields("company").Value)) & _
-                                    "" & vbTab & Trim(CStr(.Fields("lock").Value)) & _
-                                   "" & vbTab & Trim(CStr(.Fields("lock").Value)) & _
-                                    "" & vbTab & "" & _
-                                "" & vbTab & Trim(CStr(.Fields("book").Value)))
-
-                    'kkkkkkkkkkk
+                    FG.Rows.Add(.AbsolutePosition, Format(CDate(Trim(.Fields("date_work").Value)), "dd/MM/yyyy"), _
+                                Trim(CStr(.Fields("certify").Value)), Trim(CStr(.Fields("cheque_no").Value)), _
+                                Trim(CStr(.Fields("Ac_code").Value)), Format(CDbl(Trim(.Fields("amount").Value)), "##,##0.00"), _
+                                sVal, Format(CDbl(Trim(.Fields("amount_dr").Value)), "##,##0.00"), _
+                                Format(CDbl(Trim(.Fields("amount_cr").Value)), "##,##0.00"), Trim(CStr(.Fields("curr").Value)), _
+                                Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00"), Format(CDbl(Trim(.Fields("amt_cr").Value)), "##,##0.00"), _
+                                Trim(CStr(.Fields("company").Value)), Trim(CStr(.Fields("lock").Value)), _
+                                Trim(CStr(.Fields("lock").Value)), "", Trim(CStr(.Fields("book").Value)))
 
                     .MoveNext()
                 End While
             Else
-                FG.Rows = 16
+                'FG.Rows = 16
             End If
         End With
     End Sub
@@ -3733,45 +3587,37 @@
     Private Sub Button17_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button17.Click
         'TT()
 
-        Dim x As String = " date_work , certify ,descrip,descripe, cheque_no , Ac_code,code_dr , code_cr  , amount_dr , amount_cr , amount ,  amt_dr , amt_cr  ,  curr , cnt , lock  , book, Company "
-        Dim s As String = "SELECT top " & txtSC15.Text & " " & x & "  FROM   AP_ACC_adjust_Item where certify > '" & FG.get_TextMatrix(FG.Rows - 1, 2) & "' Order by certify , cnt"
+        Dim xVal As String = " date_work , certify ,descrip,descripe, cheque_no , Ac_code,code_dr , code_cr  , amount_dr , amount_cr , amount ,  amt_dr , amt_cr  ,  curr , cnt , lock  , book, Company "
+        Dim lastCertify As String = ""
+        If FG.Rows.Count > 0 Then
+            lastCertify = If(FG.Rows(FG.Rows.Count - 1).Cells(2).Value Is Nothing, "", FG.Rows(FG.Rows.Count - 1).Cells(2).Value.ToString())
+        End If
+        
+        Dim sSQL As String = "SELECT top " & txtSC15.Text & " " & xVal & "  FROM   AP_ACC_adjust_Item where certify > '" & lastCertify & "' Order by certify , cnt"
         TextBox6.Text = Int(TextBox6.Text) + 1
         TextBox5.Text = TextBox6.Text & "/" & TextBox4.Text
-        FG.Rows = 1
-        Dim R As Integer
+        FG.Rows.Clear()
         With RSC
-            Call LoadSqlData(s, RSC)
+            Call LoadSqlData(sSQL, RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    FG.Rows = FG.Rows + 1
-                    If MuLng = "L" Then s = Trim(CStr(.Fields("descrip").Value)) Else s = Trim(CStr(.Fields("descripe").Value.ToString))
-                    R = FG.Rows - 1
+                    Dim sVal As String
+                    If MuLng = "L" Then sVal = Trim(CStr(.Fields("descrip").Value)) Else sVal = Trim(CStr(.Fields("descripe").Value.ToString))
                     D = D + 1
-                    FG.set_TextMatrix(R, 0, D)
-                    FG.set_TextMatrix(R, 1, Format(CDate(Trim(.Fields("date_work").Value)), "dd/MM/yyyy"))
-                    FG.set_TextMatrix(R, 2, Trim(CStr(.Fields("certify").Value)))
-                    FG.set_TextMatrix(R, 3, Trim(CStr(.Fields("cheque_no").Value)))
-                    FG.set_TextMatrix(R, 4, Trim(CStr(.Fields("Ac_code").Value)))
-                    FG.set_TextMatrix(R, 5, Format(CDbl(Trim(.Fields("amount").Value)), "##,##0.00"))
-                    FG.set_TextMatrix(R, 6, s)
-                    FG.set_TextMatrix(R, 7, Format(CDbl(Trim(.Fields("amount_dr").Value)), "##,##0.00"))
-                    FG.set_TextMatrix(R, 8, Format(CDbl(Trim(.Fields("amount_Cr").Value)), "##,##0.00"))
-                    FG.set_TextMatrix(R, 9, Trim(CStr(.Fields("Curr").Value)))
-                    FG.set_TextMatrix(R, 10, Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00"))
-                    FG.set_TextMatrix(R, 11, Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00"))
-                    FG.set_TextMatrix(R, 12, Trim(CStr(.Fields("company").Value)))
-                    FG.set_TextMatrix(R, 13, Trim(CStr(.Fields("cnt").Value)))
-                    FG.set_TextMatrix(R, 14, Trim(CStr(.Fields("lock").Value)))
-                    FG.set_TextMatrix(R, 15, "")
-                    FG.set_TextMatrix(R, 16, Trim(CStr(.Fields("book").Value)))
-
-
-                    'kkkkkkkkkkk
+                    
+                    FG.Rows.Add(D, Format(CDate(Trim(.Fields("date_work").Value)), "dd/MM/yyyy"), _
+                                Trim(CStr(.Fields("certify").Value)), Trim(CStr(.Fields("cheque_no").Value)), _
+                                Trim(CStr(.Fields("Ac_code").Value)), Format(CDbl(Trim(.Fields("amount").Value)), "##,##0.00"), _
+                                sVal, Format(CDbl(Trim(.Fields("amount_dr").Value)), "##,##0.00"), _
+                                Format(CDbl(Trim(.Fields("amount_Cr").Value)), "##,##0.00"), Trim(CStr(.Fields("Curr").Value)), _
+                                Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00"), Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00"), _
+                                Trim(CStr(.Fields("company").Value)), Trim(CStr(.Fields("cnt").Value)), _
+                                Trim(CStr(.Fields("lock").Value)), "", Trim(CStr(.Fields("book").Value)))
 
                     .MoveNext()
                 End While
             Else
-                FG.Rows = 16
+                'FG.Rows = 16
             End If
         End With
     End Sub
@@ -3783,7 +3629,9 @@
     Private Sub Button14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button14.Click
         If RadioButton15.Checked = True Then
             If LockData = "" Then MsgBox("ກະລຸນາເລືອກກ່ອນ!", MsgBoxStyle.OkOnly) : Exit Sub
-            LoadSqlData("Select lock from AP_ACC_adjust_Item where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "'", RSC)
+            Dim dateStr As String = If(FG.CurrentRow.Cells(1).Value Is Nothing, "1900-01-01", FG.CurrentRow.Cells(1).Value.ToString())
+            Dim yearStr As String = Format(CDate(dateStr), "yyyy")
+            LoadSqlData("Select lock from AP_ACC_adjust_Item where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & yearStr & "'", RSC)
             If RSC.RecordCount <> 0 Then
                 If (RSC.Fields("lock").Value) = "2" Then
                     MsgBox("ລາຍການນີ້ ໄດ້ປິດບັນຊີໄປແລ້ວບໍ່ສາມາດ " & Button1.Text & "  ໄດ້ອີກ!", MsgBoxStyle.OkOnly)
@@ -3793,10 +3641,9 @@
 
             If MessageBox.Show("ທ່ານຕ້ອງການ " & Button1.Text & " ລະຫັດ " & MDInvoiceNo & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                 If LockData = "1" Then
-                    CNN.Execute("UPDATE AP_ACC_adjust_Item SET lock='0' where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "'")
+                    CNN.Execute("UPDATE AP_ACC_adjust_Item SET lock='0' where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & yearStr & "'")
                 Else
-                    CNN.Execute("UPDATE AP_ACC_adjust_Item SET lock='1' where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "'")
-
+                    CNN.Execute("UPDATE AP_ACC_adjust_Item SET lock='1' where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & yearStr & "'")
                 End If
                 LockData = ""
                 LoadMonthSQL()

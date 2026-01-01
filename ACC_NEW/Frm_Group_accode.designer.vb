@@ -26,28 +26,28 @@ Partial Class Frm_Group_accode
         Me.Txt_ID = New System.Windows.Forms.TextBox
         Me.Label7 = New System.Windows.Forms.Label
         Me.Txt_name_L = New System.Windows.Forms.TextBox
-        Me.fg = New AxVSFlex8U.AxVSFlexGrid
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Cmb_Sections = New System.Windows.Forms.ComboBox
-        Me.txtSection_ID = New System.Windows.Forms.TextBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.txtsym = New System.Windows.Forms.TextBox
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.Button1 = New System.Windows.Forms.Button
-        Me.Button3 = New System.Windows.Forms.Button
-        Me.Button7 = New System.Windows.Forms.Button
-        Me.BtnSave = New System.Windows.Forms.Button
-        Me.BtnAddNew = New System.Windows.Forms.Button
-        Me.Button6 = New System.Windows.Forms.Button
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Txt_name_E = New System.Windows.Forms.TextBox
-        Me.txtpersen = New System.Windows.Forms.TextBox
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.Button4 = New System.Windows.Forms.Button
-        Me.Button2 = New System.Windows.Forms.Button
-        Me.Button5 = New System.Windows.Forms.Button
+        Me.fg = New System.Windows.Forms.DataGridView()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Cmb_Sections = New System.Windows.Forms.ComboBox()
+        Me.txtSection_ID = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtsym = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button7 = New System.Windows.Forms.Button()
+        Me.BtnSave = New System.Windows.Forms.Button()
+        Me.BtnAddNew = New System.Windows.Forms.Button()
+        Me.Button6 = New System.Windows.Forms.Button()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Txt_name_E = New System.Windows.Forms.TextBox()
+        Me.txtpersen = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Button4 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button5 = New System.Windows.Forms.Button()
         CType(Me.fg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -89,11 +89,12 @@ Partial Class Frm_Group_accode
         '
         'fg
         '
-        Me.fg.DataSource = Nothing
+        Me.fg.AllowUserToAddRows = False
+        Me.fg.AllowUserToDeleteRows = False
+        Me.fg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.fg.Dock = System.Windows.Forms.DockStyle.Fill
         Me.fg.Location = New System.Drawing.Point(0, 0)
         Me.fg.Name = "fg"
-        Me.fg.OcxState = CType(resources.GetObject("fg.OcxState"), System.Windows.Forms.AxHost.State)
         Me.fg.Size = New System.Drawing.Size(1212, 499)
         Me.fg.TabIndex = 342
         '
@@ -421,7 +422,7 @@ Partial Class Frm_Group_accode
     Friend WithEvents Txt_ID As System.Windows.Forms.TextBox
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents Txt_name_L As System.Windows.Forms.TextBox
-    Friend WithEvents fg As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents fg As System.Windows.Forms.DataGridView
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Cmb_Sections As System.Windows.Forms.ComboBox

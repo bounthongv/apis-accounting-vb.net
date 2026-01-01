@@ -1,4 +1,4 @@
-﻿Public Class FmReceipt_List
+Public Class FmReceipt_List
     Dim sql As String
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         loadSQL()
@@ -84,31 +84,41 @@
                 sql = ""
                 sql = " AND (Bnk_Ac_Code  Like N'%" & TAc_Bnk_Coode.Text.Trim & "%')"
             End If
-       
+
         ElseIf RdDate.Checked = True Then
             sql = ""
             sql = " AND Ap_Receipt.InDate    BETWEEN '" & Format(DtmStartDate.Value, "yyyy-MM-dd") & "' AND '" & Format(DtmToDate.Value, "yyyy-MM-dd") & "' "
-      
+
         End If
         sql = sql & " AND status ='0' "
         sql = sql & " AND Receipt_Type =N'" & ComboBox1.Text & "' "
     End Sub
     Public Sub LoadListFG()
-        FG.Rows = 1
+        ' Clear existing rows
+        FG.Rows.Clear()
+
         With RSC
             Call LoadSqlData("select *  from Ap_Receipt WHERE Receipt_No<>'' " & sql & " order by Receipt_No", RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("Receipt_No").Value)) & _
-                                "" & vbTab & Trim(CStr(.Fields("InDate").Value)) & _
-                                "" & vbTab & Trim(CStr(.Fields("Bnk_Ac_Code").Value)) & _
-                                "" & vbTab & Trim(CStr(.Fields("Bnk_Ac_Name").Value)) & _
-                                 "" & vbTab & Trim(Format(CDbl(.Fields("Amt").Value), "##,##0.00")) & _
-                                 "" & vbTab & ((.Fields("Curr").Value)))
+                    ' Add a new row to the DataGridView
+                    Dim rowIndex As Integer = FG.Rows.Add()
+                    Dim currentRow As DataGridViewRow = FG.Rows(rowIndex)
+
+                    ' Populate the cells with data
+                    currentRow.Cells(0).Value = .AbsolutePosition
+                    currentRow.Cells(1).Value = Trim(CStr(.Fields("Receipt_No").Value))
+                    currentRow.Cells(2).Value = Trim(CStr(.Fields("InDate").Value))
+                    currentRow.Cells(3).Value = Trim(CStr(.Fields("Bnk_Ac_Code").Value))
+                    currentRow.Cells(4).Value = Trim(CStr(.Fields("Bnk_Ac_Name").Value))
+                    currentRow.Cells(5).Value = Trim(Format(CDbl(.Fields("Amt").Value), "##,##0.00"))
+                    currentRow.Cells(6).Value = .Fields("Curr").Value
+
                     .MoveNext()
                 End While
             Else
-                FG.Rows = 2
+                ' Add an empty row if no data
+                FG.Rows.Add()
             End If
         End With
     End Sub
@@ -129,22 +139,26 @@
         Me.Close()
     End Sub
 
-    Private Sub FG_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.DblClick
-       
+    Private Sub FG_CellDoubleClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG.CellDoubleClick
 
-      
 
-     
-     
+
+
+
+
         Close()
     End Sub
 
-    Private Sub FG_MouseUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseUpEvent) Handles FG.MouseUpEvent
-        MDReceipt = FG.get_TextMatrix(FG.Row, 1)
+    Private Sub FG_CellClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.CellClick, FG.CellContentClick
+        If FG.CurrentRow IsNot Nothing Then
+            MDReceipt = FG.CurrentRow.Cells(1).Value.ToString()
+        End If
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        MDReceipt = FG.get_TextMatrix(FG.Row, 1)
+    Private Sub FG_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
+        If FG.CurrentRow IsNot Nothing Then
+            MDReceipt = FG.CurrentRow.Cells(1).Value.ToString()
+        End If
     End Sub
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
@@ -154,13 +168,44 @@
         FmReceipt.ComboBox1.Text = ComboBox1.Text
     End Sub
 
+    Private Sub SetupDataGridView()
+        ' Clear existing columns
+        FG.Columns.Clear()
+
+        ' Add columns with headers
+        FG.Columns.Add("No", "ລ/ດ")
+        FG.Columns.Add("ReceiptNo", "ເລກບິນ")
+        FG.Columns.Add("Date", "ວັນທີ")
+        FG.Columns.Add("AcCode", "ເລກບັນຊີ")
+        FG.Columns.Add("AcName", "ຊື່ບັນຊື")
+        FG.Columns.Add("Amount", "ຈຳນວນເງິນ")
+        FG.Columns.Add("Currency", "ສະກຸນເງິນ")
+
+        ' Set column widths
+        FG.Columns(0).Width = 50
+        FG.Columns(1).Width = 100
+        FG.Columns(2).Width = 100
+        FG.Columns(3).Width = 100
+        FG.Columns(4).Width = 150
+        FG.Columns(5).Width = 100
+        FG.Columns(6).Width = 80
+
+        ' Configure DataGridView properties
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.ReadOnly = True
+        FG.AllowUserToAddRows = False
+        FG.AllowUserToDeleteRows = False
+    End Sub
+
     Private Sub FmReceipt_List_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         RdDate.Checked = True
         Rfull.Checked = True
         SelectS()
         loadSQL()
+
+        ' Setup DataGridView columns
+        SetupDataGridView()
         LoadListFG()
-        FG.FormatString = "^ລ/ດ |< ເລກບິນ  |ວັນທີ       ||< ຊື່ບັນຊື             |< ຈຳນວນເງິນ        |< ສະກຸນເງິນ  "
         ComboBox1.Items.Clear()
 
         Call load_Cmb(" SELECT bookname FROM  books  where Type='RCTY' ", "bookname", ComboBox1)

@@ -1,13 +1,30 @@
-﻿Public Class FmLangaugeSeting
+Public Class FmLangaugeSeting
     Dim sql As String
     Private Sub FmLangaugeSeting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        ' Setup DataGridView Columns
+        FG.Columns.Clear()
+        FG.Columns.Add("No", "No")
+        FG.Columns.Add("LangID", "Langauge ID")
+        FG.Columns.Add("LangL", "Langauge Name(Laos)")
+        FG.Columns.Add("LangE", "Langauge Name (English)")
+        FG.Columns.Add("Toolbox", "ToolBox")
 
-        FG.Cols = 5
+        ' Set Column Widths (Approximation based on original format string spaces)
+        FG.Columns(0).Width = 50
+        FG.Columns(1).Width = 100
+        FG.Columns(2).Width = 300
+        FG.Columns(3).Width = 300
+        FG.Columns(4).Width = 150
 
-        FG.FormatString = "^No    |<Langauge ID |< Langauge Name(Laos)                                         |< Langauge Name (English)                                        |< ToolBok      "
+        FG.AllowUserToAddRows = False
+        FG.ReadOnly = True
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.MultiSelect = False
+
         Call loadToolbox()
         'Call LaodList()
     End Sub
+
     Private Sub loadToolbox()
         Toolbox.Items.Clear()
 
@@ -35,22 +52,22 @@
         If Toolbox.SelectedIndex > 0 Then
             sql = sql & " And ( Toolbox =  '" & Toolbox.Text & "' ) "
         End If
-        FG.Rows = 1
+        
+        FG.Rows.Clear()
+        
         Call LoadAcData("Select * from Langauge  " & sql & "  order by   LngID ", RSC)
         With RSC
             If .RecordCount > 0 Then
                 While Not .EOF
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("LngID").Value)) & _
-                                                        "" & vbTab & Trim(CStr(.Fields("LngL").Value.ToString)) & _
-                                                         "" & vbTab & Trim(CStr(.Fields("LngE").Value.ToString)) & _
-                                                             "" & vbTab & Trim(CStr(.Fields("Toolbox").Value.ToString)))
+                    FG.Rows.Add(.AbsolutePosition, _
+                                Trim(CStr(.Fields("LngID").Value)), _
+                                Trim(CStr(.Fields("LngL").Value.ToString)), _
+                                Trim(CStr(.Fields("LngE").Value.ToString)), _
+                                Trim(CStr(.Fields("Toolbox").Value.ToString)))
                     .MoveNext()
                 End While
-            Else
-                FG.Rows = 2
             End If
         End With
-        FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeColumns
     End Sub
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
@@ -58,40 +75,30 @@
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-        For i = 1 To FG.Rows - 1
-            conn.Execute("Update Langauge set LngL = '" & FG.get_TextMatrix(i, 2) & "'  , LngE = '" & FG.get_TextMatrix(i, 3) & "' Where LngID =  '" & FG.get_TextMatrix(i, 1) & "'  ")
+        For i As Integer = 0 To FG.Rows.Count - 1
+            ' Note: DataGridView is 0-based. 
+            ' Col 1 (LangID), Col 2 (LangL), Col 3 (LangE) match the indices defined in Load event.
+            conn.Execute("Update Langauge set LngL = '" & FG.Rows(i).Cells(2).Value.ToString() & "'  , LngE = '" & FG.Rows(i).Cells(3).Value.ToString() & "' Where LngID =  '" & FG.Rows(i).Cells(1).Value.ToString() & "'  ")
         Next i
         Call LaodList()
         LoadLng()
 
     End Sub
 
-    Private Sub FG_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.DblClick
-        If FG.Row > 0 Then
+    Private Sub FG_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.DoubleClick, FG.CellDoubleClick
+        If FG.CurrentRow IsNot Nothing AndAlso FG.CurrentRow.Index >= 0 Then
             Panel1.Visible = True
             LngL.Focus()
         End If
-
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        If FG.Row > 0 Then
-
-            LngId.Text = FG.get_TextMatrix(FG.Row, 1)
-            LngL.Text = FG.get_TextMatrix(FG.Row, 2)
-            LngE.Text = FG.get_TextMatrix(FG.Row, 3)
-            Toolbox2.Text = FG.get_TextMatrix(FG.Row, 4)
+    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged, FG.Click
+        If FG.CurrentRow IsNot Nothing AndAlso FG.CurrentRow.Index >= 0 Then
+            LngId.Text = FG.CurrentRow.Cells(1).Value.ToString()
+            LngL.Text = FG.CurrentRow.Cells(2).Value.ToString()
+            LngE.Text = FG.CurrentRow.Cells(3).Value.ToString()
+            Toolbox2.Text = FG.CurrentRow.Cells(4).Value.ToString()
         End If
-  
-
-        'If FG.Col = 2 Or FG.Col = 3 Then
-        '    FG.FocusRect = VSFlex8U.FocusRectSettings.flexFocusInset
-        '    'FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-        'Else
-
-        '    'FG.Editable = VSFlex8U.EditableSettings.flexEDNone
-        '    FG.FocusRect = VSFlex8U.FocusRectSettings.flexFocusLight
-        'End If
     End Sub
 
     Private Sub txtSearch_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtSearch.KeyPress
@@ -118,11 +125,15 @@
     End Sub
 
     Private Sub Button2_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+        If FG.CurrentRow Is Nothing Then Exit Sub
+        
         conn.Execute("Update Langauge set LngL = '" & LngL.Text & "'  , LngE = '" & LngE.Text & "' Where LngID =  '" & LngId.Text & "'  ")
-        FG.set_TextMatrix(FG.Row, 1, LngId.Text)
-        FG.set_TextMatrix(FG.Row, 2, LngL.Text)
-        FG.set_TextMatrix(FG.Row, 3, LngE.Text)
-        FG.set_TextMatrix(FG.Row, 4, Toolbox2.Text)
+        
+        FG.CurrentRow.Cells(1).Value = LngId.Text
+        FG.CurrentRow.Cells(2).Value = LngL.Text
+        FG.CurrentRow.Cells(3).Value = LngE.Text
+        FG.CurrentRow.Cells(4).Value = Toolbox2.Text
+        
         Panel1.Visible = False
     End Sub
 
@@ -139,12 +150,16 @@
     Private Sub LngE_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles LngE.KeyPress
         If e.KeyChar = Chr(13) Then
             If CheckBox1.Checked = True Then
-                conn.Execute("Update Langauge set LngL = '" & LngL.Text & "'  , LngE = '" & LngE.Text & "' Where LngID =  '" & LngId.Text & "'  ")
-                FG.set_TextMatrix(FG.Row, 1, LngId.Text)
-                FG.set_TextMatrix(FG.Row, 2, LngL.Text)
-                FG.set_TextMatrix(FG.Row, 3, LngE.Text)
-                FG.set_TextMatrix(FG.Row, 4, Toolbox2.Text)
-                Panel1.Visible = False
+                If FG.CurrentRow IsNot Nothing Then
+                    conn.Execute("Update Langauge set LngL = '" & LngL.Text & "'  , LngE = '" & LngE.Text & "' Where LngID =  '" & LngId.Text & "'  ")
+                    
+                    FG.CurrentRow.Cells(1).Value = LngId.Text
+                    FG.CurrentRow.Cells(2).Value = LngL.Text
+                    FG.CurrentRow.Cells(3).Value = LngE.Text
+                    FG.CurrentRow.Cells(4).Value = Toolbox2.Text
+                    
+                    Panel1.Visible = False
+                End If
             End If
         End If
     End Sub

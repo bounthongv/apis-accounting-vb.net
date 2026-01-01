@@ -6,9 +6,42 @@
     End Sub
 
     Private Sub FrmAdjustment_List_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        FG.FormatString = "^No. |< Code      |< Adjustment (LA)                       |< Adjustment (EN)              |> Value          |>Remaining Value  |^  Date IN  |<Adjusting Period|< Dr                |< Cr                "
+        SetupGrid()
         LdGrp()
         LoadListFG()
+    End Sub
+
+    Private Sub SetupGrid()
+        ' Clear and setup DataGridView columns
+        FG.Columns.Clear()
+        FG.Columns.Add("No", "No.")
+        FG.Columns.Add("Code", "Code")
+        FG.Columns.Add("AdjustmentLA", "Adjustment (LA)")
+        FG.Columns.Add("AdjustmentEN", "Adjustment (EN)")
+        FG.Columns.Add("Value", "Value")
+        FG.Columns.Add("RemainingValue", "Remaining Value")
+        FG.Columns.Add("DateIN", "Date IN")
+        FG.Columns.Add("AdjustingPeriod", "Adjusting Period")
+        FG.Columns.Add("Dr", "Dr")
+        FG.Columns.Add("Cr", "Cr")
+
+        ' Set column widths
+        FG.Columns(0).Width = 50
+        FG.Columns(1).Width = 100
+        FG.Columns(2).Width = 150
+        FG.Columns(3).Width = 150
+        FG.Columns(4).Width = 100
+        FG.Columns(5).Width = 120
+        FG.Columns(6).Width = 100
+        FG.Columns(7).Width = 120
+        FG.Columns(8).Width = 100
+        FG.Columns(9).Width = 100
+
+        ' Configure DataGridView properties
+        FG.AllowUserToAddRows = False
+        FG.ReadOnly = True
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.MultiSelect = False
     End Sub
 
     Private Sub LdGrp()
@@ -63,8 +96,9 @@
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         If TxtCode.Text = "" Then MsgBox("ກະລຸນາເລືອກກ່ອນ!", MsgBoxStyle.OkOnly) : Exit Sub
-        If MessageBox.Show("ທ່ານຕ້ອງລຶບລະຫັດ " & FG.get_TextMatrix(FG.Row, 1) & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            CNN.Execute("DELETE FROM Adjustment_List WHERE Code=N'" & FG.get_TextMatrix(FG.Row, 1) & "'")
+        If FG.CurrentRow Is Nothing Then Exit Sub
+        If MessageBox.Show("ທ່ານຕ້ອງລຶບລະຫັດ " & FG.CurrentRow.Cells(1).Value.ToString() & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            CNN.Execute("DELETE FROM Adjustment_List WHERE Code=N'" & FG.CurrentRow.Cells(1).Value.ToString() & "'")
 
             LoadListFG()
             Call AddNew()
@@ -77,27 +111,28 @@
         Else
             GrpNM = " AND GrpID=N'" & Trim(txtGrp.Text) & "' "
         End If
-        FG.Rows = 1
+
+        ' Clear existing rows
+        FG.Rows.Clear()
+
         With RSC
             Call LoadSqlData("SELECT * FROM  Adjustment_List where 1=1 " & GrpNM & " order by Code ASC  ", RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("Code").Value)) & _
-                      vbTab & Trim(CStr(.Fields("Name").Value.ToString)) & _
-                       vbTab & Trim(CStr(.Fields("NameE").Value.ToString)) & _
-                          vbTab & Format(CDbl(Trim(.Fields("Value").Value)), "##,##0.00") & _
-                                     vbTab & Format(CDbl(Trim(.Fields("Remain").Value)), "##,##0.00") & _
-                                vbTab & Format(CDate(Trim(.Fields("DateIn").Value)), "dd/MM/yyyy") & _
-                                       vbTab & Trim(CStr(.Fields("Period").Value.ToString)) & _
-                                              vbTab & Trim(CStr(.Fields("Dr").Value.ToString)) & _
-                      "" & vbTab & (.Fields("Cr").Value.ToString))
+                    FG.Rows.Add(.AbsolutePosition, _
+                        Trim(CStr(.Fields("Code").Value)), _
+                        Trim(CStr(.Fields("Name").Value.ToString)), _
+                        Trim(CStr(.Fields("NameE").Value.ToString)), _
+                        Format(CDbl(Trim(.Fields("Value").Value)), "##,##0.00"), _
+                        Format(CDbl(Trim(.Fields("Remain").Value)), "##,##0.00"), _
+                        Format(CDate(Trim(.Fields("DateIn").Value)), "dd/MM/yyyy"), _
+                        Trim(CStr(.Fields("Period").Value.ToString)), _
+                        Trim(CStr(.Fields("Dr").Value.ToString)), _
+                        Trim(CStr(.Fields("Cr").Value.ToString)))
                     .MoveNext()
                 End While
-            Else
-                FG.Rows = 2
             End If
         End With
-
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
@@ -136,11 +171,18 @@
         LoadListFG()
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        TxtCode.Text = FG.get_TextMatrix(FG.Row, 1)
-        TxtName.Text = FG.get_TextMatrix(FG.Row, 2)
-        Call LoadText()
-        TxtCode.Enabled = False
+    Private Sub FG_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles FG.SelectionChanged, FG.Click
+        If FG.CurrentRow Is Nothing Then Exit Sub
+        If FG.CurrentRow.Index < 0 Then Exit Sub
+
+        Try
+            TxtCode.Text = FG.CurrentRow.Cells(1).Value.ToString()
+            TxtName.Text = FG.CurrentRow.Cells(2).Value.ToString()
+            Call LoadText()
+            TxtCode.Enabled = False
+        Catch ex As Exception
+            ' Handle potential conversion errors or empty cells
+        End Try
     End Sub
     Private Sub LoadText()
         Call LoadSqlData("SELECT * FROM Adjustment_List WHERE Code =N'" & Trim(TxtCode.Text) & "'", RSC)

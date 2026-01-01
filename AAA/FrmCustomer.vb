@@ -1,4 +1,4 @@
-﻿Public Class FrmCustomer
+Public Class FrmCustomer
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         Me.Close()
@@ -6,8 +6,41 @@
     End Sub
 
     Private Sub FrmCustomer_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        FG.FormatString = "^No. |< Code       |< Lao Name                             |< English Name                              |< Tel                   |< Fax                 |< Email                |< Website           "
+        SetupDataGridView()
         LoadListFG()
+    End Sub
+
+    Private Sub SetupDataGridView()
+        ' Clear existing columns
+        FG.Columns.Clear()
+
+        ' Add columns with headers
+        FG.Columns.Add("No", "No.")
+        FG.Columns.Add("Code", "Code")
+        FG.Columns.Add("LaoName", "Lao Name")
+        FG.Columns.Add("EngName", "English Name")
+        FG.Columns.Add("Tel", "Tel")
+        FG.Columns.Add("Fax", "Fax")
+        FG.Columns.Add("Email", "Email")
+        FG.Columns.Add("Website", "Website")
+        FG.Columns.Add("Other", "Other")
+
+        ' Set column widths
+        FG.Columns(0).Width = 50
+        FG.Columns(1).Width = 100
+        FG.Columns(2).Width = 150
+        FG.Columns(3).Width = 150
+        FG.Columns(4).Width = 100
+        FG.Columns(5).Width = 100
+        FG.Columns(6).Width = 150
+        FG.Columns(7).Width = 100
+        FG.Columns(8).Width = 100
+
+        ' Configure DataGridView properties
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.ReadOnly = True
+        FG.AllowUserToAddRows = False
+        FG.AllowUserToDeleteRows = False
     End Sub
 
     Private Sub TextBox7_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TxtFax.TextChanged
@@ -34,30 +67,41 @@
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         If TxtCode.Text = "" Then MsgBox("ກະລຸນາເລືອກກ່ອນ!", MsgBoxStyle.OkOnly) : Exit Sub
-        If MessageBox.Show("ທ່ານຕ້ອງລຶບລະຫັດ " & FG.get_TextMatrix(FG.Row, 1) & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            CNN.Execute("DELETE FROM Customer WHERE Code=N'" & FG.get_TextMatrix(FG.Row, 1) & "'")
-        
+        If MessageBox.Show("ທ່ານຕ້ອງລຶບລະຫັດ " & FG.CurrentRow.Cells(1).Value.ToString() & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            CNN.Execute("DELETE FROM Customer WHERE Code=N'" & FG.CurrentRow.Cells(1).Value.ToString() & "'")
+
             LoadListFG()
             Call AddNew()
         End If
     End Sub
     Public Sub LoadListFG()
-        FG.Rows = 1
+        ' Clear existing rows
+        FG.Rows.Clear()
+
         With RSC
             Call LoadSqlData("SELECT * FROM  Customer order by Code ASC  ", RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("Code").Value)) & _
-                      vbTab & Trim(CStr(.Fields("Name").Value.ToString)) & _
-                       vbTab & Trim(CStr(.Fields("NameE").Value.ToString)) & _
-                          vbTab & Trim(CStr(.Fields("Tel").Value.ToString)) & _
-                             vbTab & Trim(CStr(.Fields("Fax").Value.ToString)) & _
-                                vbTab & Trim(CStr(.Fields("Email").Value.ToString)) & _
-                      "" & vbTab & ((.Fields("Other").Value.ToString)))
+                    ' Add a new row to the DataGridView
+                    Dim rowIndex As Integer = FG.Rows.Add()
+                    Dim currentRow As DataGridViewRow = FG.Rows(rowIndex)
+
+                    ' Populate the cells with data
+                    currentRow.Cells(0).Value = .AbsolutePosition
+                    currentRow.Cells(1).Value = Trim(CStr(.Fields("Code").Value))
+                    currentRow.Cells(2).Value = Trim(CStr(.Fields("Name").Value.ToString))
+                    currentRow.Cells(3).Value = Trim(CStr(.Fields("NameE").Value.ToString))
+                    currentRow.Cells(4).Value = Trim(CStr(.Fields("Tel").Value.ToString))
+                    currentRow.Cells(5).Value = Trim(CStr(.Fields("Fax").Value.ToString))
+                    currentRow.Cells(6).Value = Trim(CStr(.Fields("Email").Value.ToString))
+                    currentRow.Cells(7).Value = "" ' Website column - not in the query
+                    currentRow.Cells(8).Value = Trim(CStr(.Fields("Other").Value.ToString))
+
                     .MoveNext()
                 End While
             Else
-                FG.Rows = 2
+                ' Add an empty row if no data
+                FG.Rows.Add()
             End If
         End With
 
@@ -90,12 +134,15 @@
         LoadListFG()
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        TxtCode.Text = FG.get_TextMatrix(FG.Row, 1)
-        TxtName.Text = FG.get_TextMatrix(FG.Row, 2)
-        Call LoadText()
-        TxtCode.Enabled = False
+    Private Sub FG_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
+        If FG.CurrentRow IsNot Nothing Then
+            TxtCode.Text = FG.CurrentRow.Cells(1).Value.ToString()
+            TxtName.Text = FG.CurrentRow.Cells(2).Value.ToString()
+            Call LoadText()
+            TxtCode.Enabled = False
+        End If
     End Sub
+
     Private Sub LoadText()
         Call LoadSqlData("SELECT * FROM Customer WHERE Code =N'" & Trim(TxtCode.Text) & "'", RSC)
         If RSC.RecordCount = 0 Then

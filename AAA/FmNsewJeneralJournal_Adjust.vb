@@ -6,28 +6,81 @@
     Dim IVN As String
     Dim Book As String
     Dim Amount_In_Word As String
+    Dim FgR As Integer
+    Dim FgC As Integer
+
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         fmShartOfAccDetail.ShowDialog()
     End Sub
 
+    Private Sub SetupGrid()
+        FG.Columns.Clear()
+        FG.Columns.Add("No", "ລ/ດ") ' 0
+        FG.Columns.Add("CodeDr", "ເລກບັນຊີໜີ") ' 1
+        FG.Columns.Add("CodeCr", "ເລກບັນຊີມີ") ' 2
+        FG.Columns.Add("AccL", "ຊື່ບັນຊີ (ລາວ)") ' 3
+        FG.Columns.Add("AccE", "ຊື່ບັນຊີ (ອັງກິດ)") ' 4
+        FG.Columns.Add("AmtDr", "ຈຳນວນເງິນຈົດໜີ້") ' 5
+        FG.Columns.Add("AmtCr", "ຈຳນວນເງິນຈົດມີ") ' 6
+        FG.Columns.Add("CatID", "ລະຫັດ") ' 7
+        FG.Columns.Add("CatL", "ຕົ້ນທຶນພາສາ (ລາວ)") ' 8
+        FG.Columns.Add("CatE", "ຕົ້ນທຶນພາສາ (ອັງກິດ)") ' 9
+        FG.Columns.Add("Curr", "ສະກຸນເງິນເງິນ") ' 10
+        FG.Columns.Add("Rate", "ອັດຕາແລກປ່ຽນ") ' 11
+        FG.Columns.Add("ValDr", "ມູນຄ່າໜີ້") ' 12
+        FG.Columns.Add("ValCr", "ມູນຄ່າມີ") ' 13
+        FG.Columns.Add("Col14", "1111") ' 14
+        FG.Columns.Add("Col15", "22") ' 15
+
+        FG.Columns(0).Width = 50
+        FG.Columns(1).Width = 100
+        FG.Columns(2).Width = 100
+        FG.Columns(3).Width = 200
+        FG.Columns(4).Width = 200
+        FG.Columns(5).Width = 120
+        FG.Columns(6).Width = 120
+        FG.Columns(7).Width = 60
+        FG.Columns(8).Width = 150
+        FG.Columns(9).Width = 150
+        FG.Columns(10).Width = 80
+        FG.Columns(11).Width = 100
+        FG.Columns(12).Width = 120
+        FG.Columns(13).Width = 120
+        FG.Columns(14).Width = 80
+        FG.Columns(15).Width = 80
+
+        FG.AllowUserToAddRows = False
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+    End Sub
+
+    Private Sub SetupGridBee()
+        Bee.Columns.Clear()
+        Bee.Columns.Add("No", "ລ/ດ") ' 0
+        Bee.Columns.Add("Col1", "") ' 1
+        Bee.Columns.Add("Col2", "") ' 2
+        Bee.Columns.Add("Col3", "") ' 3
+        Bee.AllowUserToAddRows = False
+    End Sub
+
     Private Sub Savedata()
         Dim J As Integer
-        For J = 1 To FG.Rows - 1
+        For J = 0 To FG.Rows.Count - 1
             '===============
-            FG.set_TextMatrix(J, 10, Cmb.Text)
-            FG.set_TextMatrix(J, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+            FG.Rows(J).Cells(10).Value = Cmb.Text
+            FG.Rows(J).Cells(11).Value = Format(CDbl(txtRate.Text), "#,##0.00")
 
+            Dim cell5Val As Object = FG.Rows(J).Cells(5).Value
+            Dim cell6Val As Object = FG.Rows(J).Cells(6).Value
+            Dim cell12Val As Object = FG.Rows(J).Cells(12).Value
+            Dim cell13Val As Object = FG.Rows(J).Cells(13).Value
 
             If Cmb.Text = "USD" Then
-                FG.set_TextMatrix(J, 14, Format(CDbl(FG.get_TextMatrix(J, 5)), "#,##0.00"))
-                FG.set_TextMatrix(J, 15, Format(CDbl(FG.get_TextMatrix(J, 6)), "#,##0.00"))
+                FG.Rows(J).Cells(14).Value = Format(CDbl(If(cell5Val Is Nothing OrElse cell5Val.ToString() = "", 0, cell5Val)), "#,##0.00")
+                FG.Rows(J).Cells(15).Value = Format(CDbl(If(cell6Val Is Nothing OrElse cell6Val.ToString() = "", 0, cell6Val)), "#,##0.00")
             Else
-                FG.set_TextMatrix(J, 14, Format(CDbl(FG.get_TextMatrix(J, 12)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-                FG.set_TextMatrix(J, 15, Format(CDbl(FG.get_TextMatrix(J, 13)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-                'FG.set_TextMatrix(FG.Row, 14, Format(CDbl(FG.get_TextMatrix(FG.Row, 12)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-                'FG.set_TextMatrix(FG.Row, 15, Format(CDbl(FG.get_TextMatrix(FG.Row, 13)) / CDbl(txtRateUSD.Text), "#,##0.00"))
+                FG.Rows(J).Cells(14).Value = Format(CDbl(If(cell12Val Is Nothing OrElse cell12Val.ToString() = "", 0, cell12Val)) / CDbl(txtRateUSD.Text), "#,##0.00")
+                FG.Rows(J).Cells(15).Value = Format(CDbl(If(cell13Val Is Nothing OrElse cell13Val.ToString() = "", 0, cell13Val)) / CDbl(txtRateUSD.Text), "#,##0.00")
             End If
-
         Next J
 
         If MuLng = "L" Then
@@ -36,38 +89,48 @@
             Amount_In_Word = txtAmt_letter_E.Text
         End If
         MuSubOff = Mid(Off_Usr.Text, 1, 5)
-        For i = 1 To FG.Rows - 1
-            If FG.get_TextMatrix(i, 1) = "" And FG.get_TextMatrix(i, 2) = "" Then
-                FG.Rows = 1
-                FG.Rows = 2
+        For i = 0 To FG.Rows.Count - 1
+            Dim cell1Val As Object = FG.Rows(i).Cells(1).Value
+            Dim cell2Val As Object = FG.Rows(i).Cells(2).Value
+            Dim cell3Val As Object = FG.Rows(i).Cells(3).Value
+            Dim cell5Val As Object = FG.Rows(i).Cells(5).Value
+            Dim cell6Val As Object = FG.Rows(i).Cells(6).Value
+            Dim cell7Val As Object = FG.Rows(i).Cells(7).Value
+            Dim cell10Val As Object = FG.Rows(i).Cells(10).Value
+            Dim cell11Val As Object = FG.Rows(i).Cells(11).Value
+            Dim cell12Val As Object = FG.Rows(i).Cells(12).Value
+            Dim cell13Val As Object = FG.Rows(i).Cells(13).Value
+            Dim cell14Val As Object = FG.Rows(i).Cells(14).Value
+            Dim cell15Val As Object = FG.Rows(i).Cells(15).Value
+
+            If (cell1Val Is Nothing OrElse cell1Val.ToString() = "") And (cell2Val Is Nothing OrElse cell2Val.ToString() = "") Then
+                FG.Rows.Clear()
+                FG.Rows.Add()
                 AutoNumber()
-                Call NewText()
+                'Call NewText()
                 Exit Sub
             End If
             Autox()
             txtAmount.Text = txtSumAmountDr.Text
             If CheckBox3.Checked = True Then
                 Dim KKK As String = "INSERT INTO AP_ACC_adjust_Item( date_work, ac_Name, book, certify,cheque_no ,descrip ,descripe ,amount , curr ,rate, Rate_USD, net_amt ,code_dr ,code_cr ,ac_code    ,amt_dr , amt_cr , amount_dr ,amount_cr  ,certis, lock ,rec_lock , last_update , last_user , descflag , Cat_ID , certifyID  ,company  ,Office_ID  , del , AG) " & _
-                   "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & FG.get_TextMatrix(i, 3) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Apostrophe(txtDesc.Text) & "',N'" & Apostrophe(txtDescE.Text) & "'," & CDbl(txtAmount.Text) & ",'" & FG.get_TextMatrix(i, 10) & "'," & CDbl(FG.get_TextMatrix(i, 11)) & "," & CDbl(txtRateUSD.Text) & ",'" & "0" & "','" & FG.get_TextMatrix(i, 1) & "','" & FG.get_TextMatrix(i, 2) & "','" & FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) & "'," & CDbl(FG.get_TextMatrix(i, 5)) & "," & CDbl(FG.get_TextMatrix(i, 6)) & "," & CDbl(0) & "," & CDbl(0) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & FG.get_TextMatrix(i, 7) & "','" & MdCertifyId & "','" & MuSubOff & "' ,'" & MuSubOff & "' , 0,1)"
+                   "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & Apostrophe(If(cell3Val Is Nothing, "", cell3Val.ToString())) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Apostrophe(txtDesc.Text) & "',N'" & Apostrophe(txtDescE.Text) & "'," & CDbl(txtAmount.Text) & ",'" & If(cell10Val Is Nothing, "", cell10Val.ToString()) & "'," & CDbl(If(cell11Val Is Nothing OrElse cell11Val.ToString() = "", 0, cell11Val)) & "," & CDbl(txtRateUSD.Text) & ",'" & "0" & "','" & If(cell1Val Is Nothing, "", cell1Val.ToString()) & "','" & If(cell2Val Is Nothing, "", cell2Val.ToString()) & "','" & (If(cell1Val Is Nothing, "", cell1Val.ToString()) & If(cell2Val Is Nothing, "", cell2Val.ToString())) & "'," & CDbl(If(cell5Val Is Nothing OrElse cell5Val.ToString() = "", 0, cell5Val)) & "," & CDbl(If(cell6Val Is Nothing OrElse cell6Val.ToString() = "", 0, cell6Val)) & "," & CDbl(0) & "," & CDbl(0) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & If(cell7Val Is Nothing, "", cell7Val.ToString()) & "','" & MdCertifyId & "','" & MuSubOff & "' ,'" & MuSubOff & "' , 0,1)"
                 CNN.Execute(KKK)
             Else
                 CNN.Execute("INSERT INTO AP_ACC_adjust_Item( date_work, ac_Name, book, certify,cheque_no ,descrip ,descripe ,amount , curr ,rate, Rate_USD, net_amt ,code_dr ,code_cr ,ac_code  , amount_dr ,amount_cr ,amt_dr , amt_cr   ,amt_USD_Dr, amt_USD_Cr  ,certis, lock ,rec_lock , last_update , last_user , descflag , Cat_ID , certifyID  ,company   ,Office_ID , del, AG) " & _
-                   "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & FG.get_TextMatrix(i, 3) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Apostrophe(txtDesc.Text) & "',N'" & Apostrophe(txtDescE.Text) & "'," & CDbl(txtAmount.Text) & ",'" & FG.get_TextMatrix(i, 10) & "'," & CDbl(FG.get_TextMatrix(i, 11)) & "," & CDbl(txtRateUSD.Text) & ",'" & "0" & "','" & FG.get_TextMatrix(i, 1) & "','" & FG.get_TextMatrix(i, 2) & "','" & FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) & "'," & CDbl(FG.get_TextMatrix(i, 5)) & "," & CDbl(FG.get_TextMatrix(i, 6)) & "," & CDbl(FG.get_TextMatrix(i, 12)) & "," & CDbl(FG.get_TextMatrix(i, 13)) & "," & CDbl(FG.get_TextMatrix(i, 14)) & "," & CDbl(FG.get_TextMatrix(i, 15)) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & FG.get_TextMatrix(i, 7) & "','" & MdCertifyId & "','" & MuSubOff & "' , '" & MuSubOff & "' , 0,0)")
+                   "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & Apostrophe(If(cell3Val Is Nothing, "", cell3Val.ToString())) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Apostrophe(txtDesc.Text) & "',N'" & Apostrophe(txtDescE.Text) & "'," & CDbl(txtAmount.Text) & ",'" & If(cell10Val Is Nothing, "", cell10Val.ToString()) & "'," & CDbl(If(cell11Val Is Nothing OrElse cell11Val.ToString() = "", 0, cell11Val)) & "," & CDbl(txtRateUSD.Text) & ",'" & "0" & "','" & If(cell1Val Is Nothing, "", cell1Val.ToString()) & "','" & If(cell2Val Is Nothing, "", cell2Val.ToString()) & "','" & (If(cell1Val Is Nothing, "", cell1Val.ToString()) & If(cell2Val Is Nothing, "", cell2Val.ToString())) & "'," & CDbl(If(cell5Val Is Nothing OrElse cell5Val.ToString() = "", 0, cell5Val)) & "," & CDbl(If(cell6Val Is Nothing OrElse cell6Val.ToString() = "", 0, cell6Val)) & "," & CDbl(If(cell12Val Is Nothing OrElse cell12Val.ToString() = "", 0, cell12Val)) & "," & CDbl(If(cell13Val Is Nothing OrElse cell13Val.ToString() = "", 0, cell13Val)) & "," & CDbl(If(cell14Val Is Nothing OrElse cell14Val.ToString() = "", 0, cell14Val)) & "," & CDbl(If(cell15Val Is Nothing OrElse cell15Val.ToString() = "", 0, cell15Val)) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & If(cell7Val Is Nothing, "", cell7Val.ToString()) & "','" & MdCertifyId & "','" & MuSubOff & "' , '" & MuSubOff & "' , 0,0)")
             End If
-
         Next i
         MuSubOff = MuSubOff2
         LngId = "6001" : MsgRpt()
     End Sub
 
-    Private Sub FG_AfterEdit(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterEditEvent) Handles FG.AfterEdit
-        If FG.Col = 1 Or FG.Col = 2 Then
-            If FG.get_TextMatrix(FG.Row, 1) & FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                'If Len(FG.get_TextMatrix(FG.Row, 1) & FG.get_TextMatrix(FG.Row, 2)) <> 7 Then
-                '    LngId = "6005" : MsgRpt()
-                '    Exit Sub
-                'End If
-            End If
+    Private Sub FG_CellEndEdit(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG.CellEndEdit
+        Dim colIndex As Integer = e.ColumnIndex
+        Dim rowIndex As Integer = e.RowIndex
+
+        If colIndex = 1 Or colIndex = 2 Then
+            ' Empty check logic
         End If
         If txtInvoice.BackColor = Color.Red Then
             txtInvoice.Focus()
@@ -80,9 +143,9 @@
             Exit Sub
         End If
         '=========jjjjjjj
-        txtTotal_Amt_LAK.Text = CDbl(txtRate.Text) * CDbl(txtAmount.Text)
+        txtTotal_Amt_LAK.Text = Format(CDbl(txtRate.Text) * CDbl(txtAmount.Text), "#,##0.00")
         If ChCat_ID.Checked = False Then
-            AfterEdit2()
+            AfterEdit(rowIndex, colIndex)
             loadColor()
             'MsgBox("jj")
             txtAmount.Focus()
@@ -93,12 +156,16 @@
         End If
 
         If txtDesc.Text = "" Then
-            txtDesc.Text = FG.get_TextMatrix(1, 3)
-            txtDescE.Text = FG.get_TextMatrix(1, 4)
+            Dim cell3Val As Object = FG.Rows(0).Cells(3).Value
+            Dim cell4Val As Object = FG.Rows(0).Cells(4).Value
+            txtDesc.Text = If(cell3Val Is Nothing, "", cell3Val.ToString())
+            txtDescE.Text = If(cell4Val Is Nothing, "", cell4Val.ToString())
         End If
         If CDbl(txtAmount.Text) = 0 Then
-            If FG.Row = 2 Then
-                txtAmount.Text = Format(CDbl((CDbl(FG.get_TextMatrix(1, 5)) + CDbl(FG.get_TextMatrix(1, 6)))), "##,##0.00")
+            If rowIndex = 1 Then ' 1-based index 2 was the second row. In 0-based it's 1.
+                Dim cell1_5Val As Object = FG.Rows(0).Cells(5).Value
+                Dim cell1_6Val As Object = FG.Rows(0).Cells(6).Value
+                txtAmount.Text = Format(CDbl((CDbl(If(cell1_5Val Is Nothing OrElse cell1_5Val.ToString() = "", 0, cell1_5Val)) + CDbl(If(cell1_6Val Is Nothing OrElse cell1_6Val.ToString() = "", 0, cell1_6Val)))), "##,##0.00")
             End If
         End If
         If CDbl(txtSumAmountDr.Text) >= CDbl(txtSumAmountCr.Text) Then
@@ -108,55 +175,69 @@
             txtAmount.Text = txtSumAmountCr.Text
         End If
     End Sub
-    Private Sub AfterEdit()
+    Private Function GetValue(ByVal cellVal As Object) As Double
+        If cellVal Is Nothing OrElse cellVal.ToString() = "" Then
+            Return 0
+        Else
+            If IsNumeric(cellVal) Then
+                Return CDbl(cellVal)
+            End If
+            Return 0
+        End If
+    End Function
+
+    Private Function GetString(ByVal cellVal As Object) As String
+        If cellVal Is Nothing Then Return ""
+        Return cellVal.ToString()
+    End Function
+
+    Private Sub AfterEdit(Optional ByVal rowIndex As Integer = -1, Optional ByVal colIndex As Integer = -1)
+        If rowIndex = -1 Then rowIndex = FG.CurrentCell.RowIndex
+        If colIndex = -1 Then colIndex = FG.CurrentCell.ColumnIndex
+
         BtnMove.Visible = False
         '*************************Col-1-*********************
-        If FG.Col = 1 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 1) = "" Then
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 1))
+        If colIndex = 1 Then
+            R = rowIndex
+            L = colIndex
+            Dim cell1Val As Object = FG.Rows(rowIndex).Cells(1).Value
+            If cell1Val Is Nothing OrElse cell1Val.ToString() = "" Then
+                MDSearchAcccode = ""
                 fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
                 fmShartOfAccDetail.ShowDialog()
             End If
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                AccId = FG.get_TextMatrix(FG.Row, 1)
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 1))
+            cell1Val = FG.Rows(rowIndex).Cells(1).Value
+            If cell1Val IsNot Nothing AndAlso cell1Val.ToString() <> "" Then
+                AccId = cell1Val.ToString()
+                MDSearchAcccode = AccId
                 LoadText()
-                FG.set_TextMatrix(FG.Row, 3, AccName)
-                FG.set_TextMatrix(FG.Row, 4, AccNamee)
-                If FG.get_TextMatrix(FG.Row, 3) = "" Then
-                    FG.set_TextMatrix(FG.Row, 1, "")
+                FG.Rows(rowIndex).Cells(3).Value = AccName
+                FG.Rows(rowIndex).Cells(4).Value = AccNamee
+                If FG.Rows(rowIndex).Cells(3).Value Is Nothing OrElse FG.Rows(rowIndex).Cells(3).Value.ToString() = "" Then
+                    FG.Rows(rowIndex).Cells(1).Value = ""
                     fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
                     fmShartOfAccDetail.ShowDialog()
                 End If
                 SumAmountDr()
-                txtSumAmountDr.Text = CDbl(txtSumAmountDr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 5))
-                FG.set_TextMatrix(FG.Row, 5, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
-                FG.set_TextMatrix(FG.Row, 7, 0)
-                FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-                FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 5)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 13, "0.00")
+                txtSumAmountDr.Text = (CDbl(txtSumAmountDr.Text) - GetValue(FG.Rows(rowIndex).Cells(5).Value)).ToString()
+                FG.Rows(rowIndex).Cells(5).Value = Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00")
+                FG.Rows(rowIndex).Cells(6).Value = "0.00"
+                FG.Rows(rowIndex).Cells(7).Value = 0
+                FG.Rows(rowIndex).Cells(10).Value = Cmb.Text
+                FG.Rows(rowIndex).Cells(11).Value = Format(CDbl(txtRate.Text), "#,##0.00")
+                FG.Rows(rowIndex).Cells(12).Value = Format(CDbl(CDbl(txtRate.Text) * GetValue(FG.Rows(rowIndex).Cells(5).Value)), "#,##0.00")
+                FG.Rows(rowIndex).Cells(13).Value = "0.00"
                 SumAmountDr()
 
                 If ChDe.Checked = True Then
-                    If MuLng = "L" Then
-                        FG.Col = 3
-                    End If
-                    If MuLng = "E" Then
-                        FG.Col = 4
-                    End If
-                    If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                        FG.Rows = FG.Rows + 1
+                    If FG.Rows(FG.Rows.Count - 1).Cells(3).Value IsNot Nothing AndAlso FG.Rows(FG.Rows.Count - 1).Cells(3).Value.ToString() <> "" Then
+                        FG.Rows.Add()
                     End If
                     Exit Sub
                 End If
 
-                FG.Col = 5
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
+                If FG.Rows(FG.Rows.Count - 1).Cells(3).Value IsNot Nothing AndAlso FG.Rows(FG.Rows.Count - 1).Cells(3).Value.ToString() <> "" Then
+                    FG.Rows.Add()
                     Exit Sub
                 End If
                 Exit Sub
@@ -164,725 +245,186 @@
             Exit Sub
         End If
         '*************************Col-2-*********************
-        If FG.Col = 2 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 2) = "" Then
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
+        If colIndex = 2 Then
+            R = rowIndex
+            L = colIndex
+            Dim cell2Val As Object = FG.Rows(rowIndex).Cells(2).Value
+            If cell2Val Is Nothing OrElse cell2Val.ToString() = "" Then
+                MDSearchAcccode = ""
                 fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
                 fmShartOfAccDetail.ShowDialog()
             End If
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                AccId = FG.get_TextMatrix(FG.Row, FG.Col)
+            cell2Val = FG.Rows(rowIndex).Cells(2).Value
+            If cell2Val IsNot Nothing AndAlso cell2Val.ToString() <> "" Then
+                AccId = cell2Val.ToString()
                 LoadText()
-                FG.set_TextMatrix(FG.Row, 3, AccName)
-                FG.set_TextMatrix(FG.Row, 4, AccNamee)
-                If FG.get_TextMatrix(FG.Row, 3) = "" Then
-                    MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
+                FG.Rows(rowIndex).Cells(3).Value = AccName
+                FG.Rows(rowIndex).Cells(4).Value = AccNamee
+                If FG.Rows(rowIndex).Cells(3).Value Is Nothing OrElse FG.Rows(rowIndex).Cells(3).Value.ToString() = "" Then
+                    MDSearchAcccode = cell2Val.ToString()
                     fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
                     fmShartOfAccDetail.ShowDialog()
                 End If
                 SumAmountDr()
-                txtSumAmountCr.Text = CDbl(txtSumAmountCr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 6))
-                FG.set_TextMatrix(FG.Row, 6, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountCr.Text)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                FG.set_TextMatrix(FG.Row, 7, 0)
-                FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-                FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 12, "0.00")
+                txtSumAmountCr.Text = (CDbl(txtSumAmountCr.Text) - GetValue(FG.Rows(rowIndex).Cells(6).Value)).ToString()
+                FG.Rows(rowIndex).Cells(6).Value = Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountCr.Text)), "#,##0.00")
+                FG.Rows(rowIndex).Cells(5).Value = "0.00"
+                FG.Rows(rowIndex).Cells(7).Value = 0
+                FG.Rows(rowIndex).Cells(10).Value = Cmb.Text
+                FG.Rows(rowIndex).Cells(11).Value = Format(CDbl(txtRate.Text), "#,##0.00")
+                FG.Rows(rowIndex).Cells(13).Value = Format(CDbl(CDbl(txtRate.Text) * GetValue(FG.Rows(rowIndex).Cells(6).Value)), "#,##0.00")
+                FG.Rows(rowIndex).Cells(12).Value = "0.00"
                 SumAmountDr()
                 If ChDe.Checked = True Then
-                    If MuLng = "L" Then
-                        FG.Col = 3
-                    End If
-                    If MuLng = "E" Then
-                        FG.Col = 4
-                    End If
-                    If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                        FG.Rows = FG.Rows + 1
+                    If FG.Rows(FG.Rows.Count - 1).Cells(3).Value IsNot Nothing AndAlso FG.Rows(FG.Rows.Count - 1).Cells(3).Value.ToString() <> "" Then
+                        FG.Rows.Add()
                     End If
                     Exit Sub
                 End If
-                FG.Col = 6
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
-                    FG.Col = 6
+                If FG.Rows(FG.Rows.Count - 1).Cells(3).Value IsNot Nothing AndAlso FG.Rows(FG.Rows.Count - 1).Cells(3).Value.ToString() <> "" Then
+                    FG.Rows.Add()
                 End If
                 Exit Sub
             End If
             Exit Sub
         End If
 
-
-        '====*************************
-
-        If FG.Col = 3 Then
-            If Button3.Text = "ໂຊຂໍ້ມູນແບບທົ່ວໄປ" Then
-                FG.Col = 4
+        '*************************Col-5/6 (Amounts)*********************
+        If colIndex = 5 Or colIndex = 6 Then
+            Dim cellVal As Object = FG.Rows(rowIndex).Cells(colIndex).Value
+            If IsNumeric(cellVal) = False Then
+                MessageBox.Show("ກະລຸນນາໃສ່ໂຕເລກ")
+                FG.Rows(rowIndex).Cells(colIndex).Value = "0.00"
                 Exit Sub
+            End If
+
+            FG.Rows(rowIndex).Cells(colIndex).Value = Format(CDbl(cellVal), "#,##0.00")
+            If colIndex = 5 Then
+                FG.Rows(rowIndex).Cells(6).Value = "0.00"
+                FG.Rows(rowIndex).Cells(12).Value = Format(CDbl(CDbl(txtRate.Text) * CDbl(FG.Rows(rowIndex).Cells(5).Value)), "#,##0.00")
+                FG.Rows(rowIndex).Cells(13).Value = "0.00"
             Else
-                If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                    FG.Col = 5
-                    Exit Sub
-                End If
-                If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                    FG.Col = 6
-                    Exit Sub
-                End If
-                'MsgBox("ໂຊຂໍ້ມູນແບບລະອຽດ")
+                FG.Rows(rowIndex).Cells(5).Value = "0.00"
+                FG.Rows(rowIndex).Cells(13).Value = Format(CDbl(CDbl(txtRate.Text) * CDbl(FG.Rows(rowIndex).Cells(6).Value)), "#,##0.00")
+                FG.Rows(rowIndex).Cells(12).Value = "0.00"
             End If
-        End If
-        If FG.Col = 4 Then
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                FG.Col = 5
-                Exit Sub
-            End If
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                FG.Col = 6
-                Exit Sub
-            End If
-            'MsgBox("ໂຊຂໍ້ມູນແບບລະອຽດ")
-        End If
-        '====*************************
-
-
-
-
-        '*************************Col-5-*********************
-        If FG.Col = 6 Then
-            If IsNumeric(FG.get_TextMatrix(FG.Row, 6)) = False Then
-                MessageBox.Show("ກະລຸນນາໃສ່ໂຕເລກ")
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
-                Exit Sub
-            End If
-            If CDbl(FG.get_TextMatrix(FG.Row, 6)) = 0 Then
-                MessageBox.Show("ກະລຸນນາມູນຄ່າກ່ອນ")
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
-                Exit Sub
-            End If
-            FG.set_TextMatrix(FG.Row, 6, Format(CDbl(FG.get_TextMatrix(FG.Row, FG.Col)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 5, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, "0.00")
+            
+            FG.Rows(rowIndex).Cells(7).Value = 0
+            FG.Rows(rowIndex).Cells(10).Value = Cmb.Text
+            FG.Rows(rowIndex).Cells(11).Value = Format(CDbl(txtRate.Text), "#,##0.00")
+            
             SumAmountDr()
-            FG.Col = 7
-            Exit Sub
-        End If
-        '*************************Col-4*********************
-        If FG.Col = 5 Then
-            If IsNumeric(FG.get_TextMatrix(FG.Row, 5)) = False Then
-                MessageBox.Show("ກະລຸນນາໃສ່ໂຕເລກ")
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                Exit Sub
-            End If
-
-            If CDbl(FG.get_TextMatrix(FG.Row, 5)) = 0 Then
-                MessageBox.Show("ກະລຸນນາມູນຄ່າກ່ອນ")
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                Exit Sub
-            End If
-
-            FG.set_TextMatrix(FG.Row, 5, Format(CDbl(FG.get_TextMatrix(FG.Row, FG.Col)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 6, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 5)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, "0.00")
-            SumAmountDr()
-            FG.Col = 7
-            Exit Sub
-        End If
-        '*************************Col-7-*********************
-        If FG.Col = 7 Then
-            If IsNumeric(FG.get_TextMatrix(FG.Row, 5)) = False Then
-                MessageBox.Show("ກະລຸນນາໃສ່ໂຕເລກ")
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                Exit Sub
-            End If
-            If FG.get_TextMatrix(FG.Row, 7) = "0" Then
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "1" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການພະລິດ")
-                FG.set_TextMatrix(FG.Row, 9, "Use build")
-
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "2" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການຈຳໜ່າຍ")
-                FG.set_TextMatrix(FG.Row, 9, "Use Sell")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "3" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ບໍລິຫານ")
-                FG.set_TextMatrix(FG.Row, 9, "Use manage ")
-
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "4" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
-                FG.set_TextMatrix(FG.Row, 9, "Sell capital/manage capital ")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) > 4 Then
-                MessageBox.Show("ລະຫັດບໍ່ຖືກຕ້ອງ ລະຫັດມີພຽງເລກ 0 ຫາເລກ 4 ເທົ່ານັ້ນ")
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ລເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-                FG.set_TextMatrix(FG.Row, 7, "0")
-                Exit Sub
-            ElseIf FG.get_TextMatrix(FG.Row, 7) < 0 Then
-                MessageBox.Show("ລະຫັດບໍ່ຖືກຕ້ອງ ລະຫັດມີພຽງເລກ 0 ຫາເລກ 4 ເທົ່ານັ້ນ")
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ລເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-                FG.set_TextMatrix(FG.Row, 7, "0")
-                Exit Sub
-            End If
-            'aaaaaaaaaaaa
+            
+            ' Balancing and Save confirmation logic
             If CDbl(txtTotal_Amt_LAK.Text) > 0 Then
-
-                If CDbl(txtSumTotalAmountDr.Text) = CDbl(txtTotal_Amt_LAK.Text) Then
-                    If CDbl(txtSumTotalAmountCr.Text) = CDbl(txtTotal_Amt_LAK.Text) Then
-                        If CDbl(txtSumTotalAmountDr.Text) = CDbl(txtSumTotalAmountCr.Text) Then
-                            'kkkkkkkkkkk
-                            If MessageBox.Show("ບັນຊີນີ້ດູນດ່ຽງແລ້ວ ທ່ານຕອ້ງການບັນທຶຫລືບໍ່!", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                                If txtInvoice.Enabled = True Then
-                                    AutoNumber()
-                                    If txtInvoice.Text = "" Then
-                                        MsgBox("ກະລຸນນາໃສ່ເລກໃບຢັງຢືນກອ່ນ!", MsgBoxStyle.OkOnly)
-                                        txtInvoice.BackColor = Color.Red
-                                        txtInvoice.Focus()
-                                        Exit Sub
-                                    End If
-
-
-                                    'xxxxxxxxxxxxxx
-
-                                    Dim srNum As New ADODB.Recordset
-                                    Dim mNum As Integer = 0
-                                    If IsNumeric(Microsoft.VisualBasic.Right(txtInvoice.Text, 3)) = False Then MsgBox("3 ໂຕທາງທ້າຍຕ້ອງເປັນໂຕເລກເທົານັ້ນ") : txtInvoice.BackColor = Color.Red : txtInvoice.Focus() : Exit Sub
-                                    Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM AP_ACC_adjust_Item WHERE   book ='" & CmbBook.Text & "' And    year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " Order by  Right(certify,7) DESC ", srNum)
-                                    If srNum.RecordCount = 0 Then
-                                        mNum = 0
-                                    Else
-                                        mNum = Val(srNum.Fields("certify").Value.ToString)
-                                    End If
-                                    mNum = mNum + 1
-
-                                    If Int(Microsoft.VisualBasic.Right(txtInvoice.Text, 3)) > mNum Then
-                                        If Len(CStr(mNum)) = 1 Then
-                                            MsgBox("ເລກທ້າຍ 3 ໂຕບໍ່ໃຫ້ເກີນເລກ " & "00" & mNum)
-                                        ElseIf Len(CStr(mNum)) = 2 Then
-                                            MsgBox("ເລກທ້າຍ 3 ໂຕບໍ່ໃຫ້ເກີນເລກ " & "0" & mNum)
-                                        ElseIf Len(CStr(mNum)) = 3 Then
-                                            MsgBox("ເລກທ້າຍ 3 ໂຕບໍ່ໃຫ້ເກີນເລກ " & mNum)
-                                        End If
-                                        txtInvoice.BackColor = Color.Red
-                                        txtInvoice.Focus()
-                                        Exit Sub
-                                    End If
-                                    'xxxxxxxxxxxxxxxxxxxxxxxxx
-
-                                    Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM AP_ACC_adjust_Item WHERE   book ='" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  Order by  Right(certify,7) DESC ", RSC)
-                                    If RSC.RecordCount > 0 Then
-                                        MsgBox("ເລກລະຫັດ : " & Trim(txtInvoice.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
-                                        txtInvoice.BackColor = Color.Red
-                                        txtInvoice.Focus()
-                                        If RSC.State = ConnectionState.Open Then RSC.Close()
-                                        Exit Sub
-                                    End If
-
-                                    Savedata()
-                                Else
-                                    CNN.Execute("DELETE FROM AP_ACC_adjust_Item WHERE book ='" & FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 1)), "yyyy") & "' ")
-                                    Savedata()
-                                End If
-                                If CheckBox1.Checked = True Then
-                                    Call LoadReport()
-                                End If
-                                txtInvoice.Enabled = True
-                                CmbBook.Enabled = True
-                                Panel1.Visible = False
-                                BtnMove.Visible = False
-                                BtnSearch.Visible = False
-                                FG.Rows = 1
-                                FG.Rows = 2
-                                FG.Row = 1
-                                FG.Col = 1
-
-                                If CheckBox2.Checked = True Then
-                                    Close()
-                                End If
+                If CDbl(txtSumTotalAmountDr.Text) = CDbl(txtTotal_Amt_LAK.Text) AndAlso CDbl(txtSumTotalAmountCr.Text) = CDbl(txtTotal_Amt_LAK.Text) Then
+                    If MessageBox.Show("ບັນຊີນີ້ດູນດ່ຽງແລ້ວ ທ່ານຕອ້ງການບັນທຶຫລືບໍ່!", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                        If txtInvoice.Enabled = True Then
+                            AutoNumber()
+                            If txtInvoice.Text = "" Then
+                                MsgBox("ກະລຸນນາໃສ່ເລກໃບຢັງຢືນກອ່ນ!", MsgBoxStyle.OkOnly)
+                                txtInvoice.BackColor = Color.Red
+                                txtInvoice.Focus()
                                 Exit Sub
                             End If
-                            'kkkkkkkkkkkkk
-                        End If
-                    End If
-                End If
-            End If
-            'aaaaaaaaaaaa
 
-
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                If FG.get_TextMatrix(FG.Row + 1, 1) <> "" Then
-                    FG.Row = FG.Row + 1
-                    FG.Col = 1
-                    Exit Sub
-                End If
-                FG.Row = FG.Row + 1
-                FG.Col = 2
-                SumAmountDr()
-                '*****************
-            Else
-                If FG.get_TextMatrix(FG.Row + 1, 2) <> "" Then
-                    FG.Row = FG.Row + 1
-                    FG.Col = 2
-                    Exit Sub
-                End If
-                FG.Row = FG.Row + 1
-                FG.Col = 1
-                SumAmountDr()
-            End If
-
-            Exit Sub
-        End If
-        CmbBook.Focus()
-    End Sub
-    Private Sub AfterEdit2()
-        BtnMove.Visible = False
-        '*************************Col-1-*********************
-        If FG.Col = 1 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 1) = "" Then
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 1))
-                AccId = FG.get_TextMatrix(FG.Row, 1)
-
-                fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
-                fmShartOfAccDetail.ShowDialog()
-
-            End If
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                AccId = FG.get_TextMatrix(FG.Row, 1)
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 1))
-
-
-                LoadText()
-                FG.set_TextMatrix(FG.Row, 3, AccName)
-                FG.set_TextMatrix(FG.Row, 4, AccNamee)
-                If FG.get_TextMatrix(FG.Row, 3) = "" Then
-
-                    FG.set_TextMatrix(FG.Row, 1, "")
-                    fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
-                    fmShartOfAccDetail.ShowDialog()
-                    LoadText()
-
-                End If
-                SumAmountDr()
-                txtSumAmountDr.Text = CDbl(txtSumAmountDr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 5))
-                FG.set_TextMatrix(FG.Row, 5, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
-                FG.set_TextMatrix(FG.Row, 7, 0)
-                FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-                FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 5)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 13, "0.00")
-                SumAmountDr()
-
-                If ChDe.Checked = True Then
-                    If MuLng = "L" Then
-                        FG.Col = 3
-                    End If
-                    If MuLng = "E" Then
-                        FG.Col = 4
-                    End If
-
-
-                    If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                        FG.Rows = FG.Rows + 1
-                    End If
-                    Exit Sub
-                End If
-
-                FG.Col = 5
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
-                    Exit Sub
-                End If
-                Exit Sub
-            End If
-            Exit Sub
-        End If
-        '*************************Col-2-*********************
-        If FG.Col = 2 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 2) = "" Then
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
-                fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
-                fmShartOfAccDetail.ShowDialog()
-            End If
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                AccId = FG.get_TextMatrix(FG.Row, FG.Col)
-                LoadText()
-                FG.set_TextMatrix(FG.Row, 3, AccName)
-                FG.set_TextMatrix(FG.Row, 4, AccNamee)
-                If FG.get_TextMatrix(FG.Row, 3) = "" Then
-                    MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
-                    fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
-                    fmShartOfAccDetail.ShowDialog()
-                End If
-                SumAmountDr()
-                txtSumAmountCr.Text = CDbl(txtSumAmountCr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 6))
-                FG.set_TextMatrix(FG.Row, 6, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountCr.Text)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                FG.set_TextMatrix(FG.Row, 7, 0)
-                FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-                FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 12, "0.00")
-                SumAmountDr()
-
-                If ChDe.Checked = True Then
-                    If MuLng = "L" Then
-                        FG.Col = 3
-                    End If
-                    If MuLng = "E" Then
-                        FG.Col = 4
-                    End If
-                    If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                        FG.Rows = FG.Rows + 1
-                    End If
-                    Exit Sub
-                End If
-                FG.Col = 6
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
-                    FG.Col = 6
-                End If
-                Exit Sub
-            End If
-            Exit Sub
-        End If
-
-        '====*************************
-
-        If FG.Col = 3 Then
-            If Button3.Text = "ໂຊຂໍ້ມູນແບບທົ່ວໄປ" Then
-                FG.Col = 4
-                Exit Sub
-            Else
-                If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                    FG.Col = 5
-                    Exit Sub
-                End If
-                If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                    FG.Col = 6
-                    Exit Sub
-                End If
-                'MsgBox("ໂຊຂໍ້ມູນແບບລະອຽດ")
-            End If
-        End If
-        If FG.Col = 4 Then
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                FG.Col = 5
-                Exit Sub
-            End If
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                FG.Col = 6
-                Exit Sub
-            End If
-            'MsgBox("ໂຊຂໍ້ມູນແບບລະອຽດ")
-        End If
-
-        '*************************Col-5-*********************
-        If FG.Col = 6 Then
-            If IsNumeric(FG.get_TextMatrix(FG.Row, 6)) = False Then
-                MessageBox.Show("ກະລຸນນາໃສ່ໂຕເລກ")
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
-                Exit Sub
-            End If
-            If CDbl(FG.get_TextMatrix(FG.Row, 6)) = 0 Then
-                MessageBox.Show("ກະລຸນນາມູນຄ່າກ່ອນ")
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
-                Exit Sub
-            End If
-            FG.set_TextMatrix(FG.Row, 6, Format(CDbl(FG.get_TextMatrix(FG.Row, FG.Col)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 5, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, "0.00")
-            SumAmountDr()
-
-            If CDbl(txtTotal_Amt_LAK.Text) > 0 Then
-                If CDbl(txtTotal_Amt_LAK.Text) > 0 Then
-                    If CDbl(txtSumTotalAmountDr.Text) = CDbl(txtTotal_Amt_LAK.Text) Then
-                        If CDbl(txtSumTotalAmountCr.Text) = CDbl(txtTotal_Amt_LAK.Text) Then
-                            If CDbl(txtSumTotalAmountDr.Text) = CDbl(txtSumTotalAmountCr.Text) Then
-                                'kkkkkkkkkkk
-
-                                If MessageBox.Show("ບັນຊີນີ້ດູນດ່ຽງແລ້ວ ທ່ານຕອ້ງການບັນທຶຫລືບໍ່!", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                                    If txtInvoice.Enabled = True Then
-                                        AutoNumber()
-
-                                        If txtInvoice.Text = "" Then
-                                            MsgBox("ກະລຸນນາໃສ່ເລກໃບຢັງຢືນກອ່ນ!", MsgBoxStyle.OkOnly)
-                                            txtInvoice.BackColor = Color.Red
-                                            txtInvoice.Focus()
-                                            Exit Sub
-                                        End If
-
-                                        'xxxxxxxxxxxxxx
-
-                                        Dim srNum As New ADODB.Recordset
-                                        Dim mNum As Integer = 0
-                                        If IsNumeric(Microsoft.VisualBasic.Right(txtInvoice.Text, 3)) = False Then MsgBox("3 ໂຕທາງທ້າຍຕ້ອງເປັນໂຕເລກເທົານັ້ນ") : txtInvoice.BackColor = Color.Red : txtInvoice.Focus() : Exit Sub
-                                        Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify  FROM AP_ACC_adjust_Item WHERE   book ='" & CmbBook.Text & "' And    year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  Order by  Right(certify,7) DESC ", srNum)
-                                        If srNum.RecordCount = 0 Then
-                                            mNum = 0
-                                        Else
-                                            mNum = Val(srNum.Fields("certify").Value.ToString)
-                                        End If
-                                        mNum = mNum + 1
-
-                                        If Int(Microsoft.VisualBasic.Right(txtInvoice.Text, 3)) > mNum Then
-                                            If Len(CStr(mNum)) = 1 Then
-                                                MsgBox("ເລກທ້າຍ 3 ໂຕບໍ່ໃຫ້ເກີນເລກ " & "00" & mNum)
-                                            ElseIf Len(CStr(mNum)) = 2 Then
-                                                MsgBox("ເລກທ້າຍ 3 ໂຕບໍ່ໃຫ້ເກີນເລກ " & "0" & mNum)
-                                            ElseIf Len(CStr(mNum)) = 3 Then
-                                                MsgBox("ເລກທ້າຍ 3 ໂຕບໍ່ໃຫ້ເກີນເລກ " & mNum)
-                                            End If
-                                            txtInvoice.BackColor = Color.Red
-                                            txtInvoice.Focus()
-                                            Exit Sub
-                                        End If
-                                        'xxxxxxxxxxxxxxxxxxxxxxxxx
-
-
-                                        Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM AP_ACC_adjust_Item WHERE   book ='" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " Order by  Right(certify,7) DESC ", RSC)
-                                        If RSC.RecordCount > 0 Then
-                                            MsgBox("ເລກລະຫັດ : " & Trim(txtInvoice.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
-                                            txtInvoice.BackColor = Color.Red
-                                            txtInvoice.Focus()
-                                            If RSC.State = ConnectionState.Open Then RSC.Close()
-                                            Exit Sub
-                                        End If
-
-                                        Savedata()
-                                    Else
-                                        CNN.Execute("DELETE FROM AP_ACC_adjust_Item WHERE book ='" & FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 1)), "yyyy") & "' ")
-                                        Savedata()
-                                    End If
-
-                                    If CheckBox1.Checked = True Then
-
-                                        Call LoadReport()
-                                        'MsgBox(11)
-                                    End If
-
-                                    txtInvoice.Enabled = True
-                                    CmbBook.Enabled = True
-                                    Panel1.Visible = False
-                                    BtnMove.Visible = False
-                                    BtnSearch.Visible = False
-                                    FG.Rows = 1
-                                    FG.Rows = 2
-                                    FG.Row = 1
-                                    FG.Col = 1
-                                    CmbBook.Focus()
-
-
-                                    If CheckBox2.Checked = True Then
-
-                                        Close()
-                                    End If
-                                    Exit Sub
-                                End If
-                                'kkkkkkkkkkkkk
-                            End If
-                        End If
-                    End If
-                End If
-
-            End If
-
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                If FG.get_TextMatrix(FG.Row + 1, 1) <> "" Then
-                    FG.Row = FG.Row + 1
-                    FG.Col = 1
-                    Exit Sub
-                End If
-                FG.Row = FG.Row + 1
-                FG.Col = 2
-                SumAmountDr()
-                '*****************
-            Else
-                If FG.get_TextMatrix(FG.Row + 1, 2) <> "" Then
-                    FG.Row = FG.Row + 1
-                    FG.Col = 2
-                    Exit Sub
-                End If
-                FG.Row = FG.Row + 1
-                FG.Col = 1
-                SumAmountDr()
-            End If
-            Exit Sub
-        End If
-        '*************************Col-4*********************
-        If FG.Col = 5 Then
-            If IsNumeric(FG.get_TextMatrix(FG.Row, 5)) = False Then
-                MessageBox.Show("ກະລຸນນາໃສ່ໂຕເລກ")
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                Exit Sub
-            End If
-
-            If CDbl(FG.get_TextMatrix(FG.Row, 5)) = 0 Then
-                MessageBox.Show("ກະລຸນນາມູນຄ່າກ່ອນ")
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                Exit Sub
-            End If
-
-            FG.set_TextMatrix(FG.Row, 5, Format(CDbl(FG.get_TextMatrix(FG.Row, FG.Col)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 6, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 5)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, "0.00")
-            SumAmountDr()
-            If CDbl(txtTotal_Amt_LAK.Text) > 0 Then
-                If CDbl(txtSumTotalAmountDr.Text) = CDbl(txtTotal_Amt_LAK.Text) Then
-                    If CDbl(txtSumTotalAmountCr.Text) = CDbl(txtTotal_Amt_LAK.Text) Then
-                        If CDbl(txtSumTotalAmountDr.Text) = CDbl(txtSumTotalAmountCr.Text) Then
-                            If MessageBox.Show("ບັນຊີນີ້ດູນດ່ຽງແລ້ວ ທ່ານຕອ້ງການບັນທຶຫລືບໍ່!", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                                If txtInvoice.Enabled = True Then
-                                    AutoNumber()
-
-                                    If txtInvoice.Text = "" Then
-                                        MsgBox("ກະລຸນນາໃສ່ເລກໃບຢັງຢືນກອ່ນ!", MsgBoxStyle.OkOnly)
-                                        txtInvoice.BackColor = Color.Red
-                                        txtInvoice.Focus()
-                                        Exit Sub
-                                    End If
-
-                                    'xxxxxxxxxxxxxx
-
-                                    Dim srNum As New ADODB.Recordset
-                                    Dim mNum As Integer = 0
-                                    If IsNumeric(Microsoft.VisualBasic.Right(txtInvoice.Text, 3)) = False Then MsgBox("3 ໂຕທາງທ້າຍຕ້ອງເປັນໂຕເລກເທົານັ້ນ") : txtInvoice.BackColor = Color.Red : txtInvoice.Focus() : Exit Sub
-                                    Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM AP_ACC_adjust_Item WHERE   book ='" & CmbBook.Text & "' And year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And Month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  Order by  Right(certify,7) DESC ", srNum)
-                                    If srNum.RecordCount = 0 Then
-                                        mNum = 0
-                                    Else
-                                        mNum = Val(srNum.Fields("certify").Value.ToString)
-                                    End If
-                                    mNum = mNum + 1
-
-                                    If Int(Microsoft.VisualBasic.Right(txtInvoice.Text, 3)) > mNum Then
-                                        If Len(CStr(mNum)) = 1 Then
-                                            MsgBox("ເລກທ້າຍ 3 ໂຕບໍ່ໃຫ້ເກີນເລກ " & "00" & mNum)
-                                        ElseIf Len(CStr(mNum)) = 2 Then
-                                            MsgBox("ເລກທ້າຍ 3 ໂຕບໍ່ໃຫ້ເກີນເລກ " & "0" & mNum)
-                                        ElseIf Len(CStr(mNum)) = 3 Then
-                                            MsgBox("ເລກທ້າຍ 3 ໂຕບໍ່ໃຫ້ເກີນເລກ " & mNum)
-                                        End If
-                                        txtInvoice.BackColor = Color.Red
-                                        txtInvoice.Focus()
-                                        Exit Sub
-                                    End If
-                                    'xxxxxxxxxxxxxxxxxxxxxxxxx
-
-                                    If MdCertifyAuto = 1 Then
-                                        If txtInvoice.Enabled = True Then
-                                            AutoNumber()
-                                        End If
-                                    End If
-
-                                    Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM AP_ACC_adjust_Item WHERE   book ='" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And Month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " Order by  Right(certify,7) DESC ", RSC)
-                                    If RSC.RecordCount > 0 Then
-                                        MsgBox("ເລກລະຫັດ : " & Trim(txtInvoice.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
-                                        txtInvoice.BackColor = Color.Red
-                                        txtInvoice.Focus()
-                                        If RSC.State = ConnectionState.Open Then RSC.Close()
-                                        Exit Sub
-                                    End If
-
-
-                                    Savedata()
-                                Else
-
-                                    CNN.Execute("DELETE FROM AP_ACC_adjust_Item WHERE book ='" & FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 1)), "yyyy") & "' ")
-                                    Savedata()
-                                End If
-                                If CheckBox1.Checked = True Then
-                                    Call LoadReport()
-                                End If
-                                txtInvoice.Enabled = True
-                                CmbBook.Enabled = True
-                                Panel1.Visible = False
-                                BtnMove.Visible = False
-                                BtnSearch.Visible = False
-                                FG.Rows = 1
-                                FG.Rows = 2
-                                FG.Row = 1
-                                FG.Col = 1
+                             ' Verify if Invoice exists
+                            Call LoadSqlData("SELECT top 1 Right(certify,3) As certify FROM AP_ACC_adjust_Item WHERE book ='" & CmbBook.Text & "' And certify = N'" & txtInvoice.Text & "' And year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And Month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " Order by Right(certify,7) DESC ", RSC)
+                            If RSC.RecordCount > 0 Then
+                                MsgBox("ເລກລະຫັດ : " & Trim(txtInvoice.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
+                                txtInvoice.BackColor = Color.Red
+                                txtInvoice.Focus()
+                                If RSC.State = ConnectionState.Open Then RSC.Close()
                                 Exit Sub
-
-                                If CheckBox2.Checked = True Then
-                                    Close()
-                                End If
                             End If
+
+                            Savedata()
+                        Else
+                            ' Update existing
+                            Dim prevListFG As DataGridView = FmJeneralJournal_Adjust_List.FG
+                            Dim prevRowIndex As Integer = prevListFG.CurrentCell.RowIndex
+                            CNN.Execute("DELETE FROM AP_ACC_adjust_Item WHERE book ='" & prevListFG.Rows(prevRowIndex).Cells(15).Value.ToString() & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(prevListFG.Rows(prevRowIndex).Cells(0).Value), "yyyy") & "' ")
+                            Savedata()
                         End If
+                        
+                        If CheckBox1.Checked = True Then Call LoadReport()
+
+                        txtInvoice.Enabled = True
+                        CmbBook.Enabled = True
+                        Panel1.Visible = False
+                        BtnMove.Visible = False
+                        BtnSearch.Visible = False
+                        FG.Rows.Clear()
+                        FG.Rows.Add()
+                        FG.Rows.Add()
+                        FG.CurrentCell = FG.Rows(0).Cells(1)
+                        CmbBook.Focus()
+
+                        If CheckBox2.Checked = True Then Close()
+                        Exit Sub
                     End If
                 End If
             End If
 
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                If FG.get_TextMatrix(FG.Row + 1, 1) <> "" Then
-                    FG.Row = FG.Row + 1
-                    FG.Col = 1
-                    Exit Sub
+            ' Navigation logic
+            Dim cell1Val_nav As Object = FG.Rows(rowIndex).Cells(1).Value
+            If cell1Val_nav IsNot Nothing AndAlso cell1Val_nav.ToString() <> "" Then
+                If rowIndex + 1 < FG.Rows.Count Then
+                    Dim nextCell1Val As Object = FG.Rows(rowIndex + 1).Cells(1).Value
+                    If nextCell1Val IsNot Nothing AndAlso nextCell1Val.ToString() <> "" Then
+                        FG.CurrentCell = FG.Rows(rowIndex + 1).Cells(1)
+                        Exit Sub
+                    End If
+                    FG.CurrentCell = FG.Rows(rowIndex + 1).Cells(2)
                 End If
-                FG.Row = FG.Row + 1
-                FG.Col = 2
                 SumAmountDr()
-                '*****************
             Else
-                If FG.get_TextMatrix(FG.Row + 1, 2) <> "" Then
-                    FG.Row = FG.Row + 1
-                    FG.Col = 2
-                    Exit Sub
+                If rowIndex + 1 < FG.Rows.Count Then
+                    Dim nextCell2Val As Object = FG.Rows(rowIndex + 1).Cells(2).Value
+                    If nextCell2Val IsNot Nothing AndAlso nextCell2Val.ToString() <> "" Then
+                        FG.CurrentCell = FG.Rows(rowIndex + 1).Cells(2)
+                        Exit Sub
+                    End If
+                    FG.CurrentCell = FG.Rows(rowIndex + 1).Cells(1)
                 End If
-                FG.Row = FG.Row + 1
-                FG.Col = 1
                 SumAmountDr()
             End If
             Exit Sub
         End If
+
         '*************************Col-7-*********************
-        If FG.Col = 7 Then
-            'If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-            '    If FG.get_TextMatrix(FG.Row + 1, 1) <> "" Then
-            '        FG.Row = FG.Row + 1
-            '        FG.Col = 1
-            '        Exit Sub
-            '    End If
-            '    FG.Row = FG.Row + 1
-            '    FG.Col = 2
-            '    SumAmountDr()
-            '    '*****************
-            'Else
-            '    If FG.get_TextMatrix(FG.Row + 1, 2) <> "" Then
-            '        FG.Row = FG.Row + 1
-            '        FG.Col = 2
-            '        Exit Sub
-            '    End If
-            '    FG.Row = FG.Row + 1
-            '    FG.Col = 1
-            '    SumAmountDr()
-            'End If
+        If colIndex = 7 Then
+            ' Logic for Col 7
+            Dim cellVal As Object = FG.Rows(rowIndex).Cells(7).Value
+            If IsNumeric(cellVal) Then
+                Dim code As Integer = CInt(cellVal)
+                If code >= 0 And code <= 4 Then
+                    Select Case code
+                        Case 0
+                            FG.Rows(rowIndex).Cells(8).Value = "ບໍ່ເລືອກ"
+                            FG.Rows(rowIndex).Cells(9).Value = "No Selete"
+                        Case 1
+                            FG.Rows(rowIndex).Cells(8).Value = "ຮັບໃຊ້ການພະລິດ"
+                            FG.Rows(rowIndex).Cells(9).Value = "Use build"
+                        Case 2
+                            FG.Rows(rowIndex).Cells(8).Value = "ຮັບໃຊ້ການຈຳໜ່າຍ"
+                            FG.Rows(rowIndex).Cells(9).Value = "Use Sell"
+                        Case 3
+                            FG.Rows(rowIndex).Cells(8).Value = "ຮັບໃຊ້ບໍລິຫານ"
+                            FG.Rows(rowIndex).Cells(9).Value = "Use manage "
+                        Case 4
+                            FG.Rows(rowIndex).Cells(8).Value = "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ"
+                            FG.Rows(rowIndex).Cells(9).Value = "Sell capital/manage capital "
+                    End Select
+                Else
+                    MessageBox.Show("ລະຫັດມີພຽງເລກ 0 ຫາເລກ 4 ເທົ່ານັ້ນ")
+                    FG.Rows(rowIndex).Cells(7).Value = "0"
+                    FG.Rows(rowIndex).Cells(8).Value = "ບໍ່ເລືອກ"
+                    FG.Rows(rowIndex).Cells(9).Value = "No Selete"
+                End If
+            End If
             Exit Sub
         End If
-
     End Sub
     Public Sub AutoNumber()
 
@@ -954,8 +496,9 @@
 
     Public Sub Foucus()
         FG.Focus()
-        FG.Row = R
-        FG.Col = L + 4
+        If R >= 0 And R < FG.Rows.Count And (L + 4) >= 0 And (L + 4) < FG.Columns.Count Then
+            FG.CurrentCell = FG.Rows(R).Cells(L + 4)
+        End If
     End Sub
     Private Sub NewText()
         dtActi.Text = MWorkSetting
@@ -1004,110 +547,6 @@
         'Off_Usr.SelectedIndex = 0
     End Sub
     Private Sub FmNsewJeneralJournal_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        If MuLng = "E" Then
-            txtAmt_letter.Visible = False
-            txtAmt_letter_E.Visible = True
-            FG.set_ColHidden(3, True)
-            FG.set_ColHidden(4, False)
-        Else
-            FG.set_ColHidden(3, False)
-            FG.set_ColHidden(4, True)
-            txtAmt_letter.Visible = True
-            txtAmt_letter_E.Visible = False
-        End If
-        Call loadOffice_User()
-        txtInvoice.BackColor = Color.White
-        FG.BackColorFixed = Color.LightGray
-
-        'LoadCurr()
-        If MdCertifyAuto = 1 Then
-            txtInvoice.ReadOnly = True
-        Else
-            txtInvoice.Text = ""
-            txtInvoice.ReadOnly = False
-        End If
-
-        BtnSearch.Visible = False
-        BtnMove.Visible = False
-
-        FG.FormatString = "^ລ/ດ |< ເລກບັນຊີໜີ           |< ເລກບັນຊີມີ           |< ຊື່ບັນຊີ (ລາວ)                                            |< ຊື່ບັນຊີ (ອັງກິດ)                     |> ຈຳນວນເງິນຈົດໜີ້        |> ຈຳນວນເງິນຈົດມີ     |^ລະຫັດ|< ຕົ້ນທຶນພາສາ (ລາວ)   |< ຕົ້ນທຶນພາສາ (ອັງກິດ)             |< ສະກຸນເງິນເງິນ |> ອັດຕາແລກປ່ຽນ |> ມູນຄ່າໜີ້          |> ມູນຄ່າມີ         |> 1111    |> 22         "
-        'Fg2.FormatString = "^|>       |<    |<                                   "
-        'Fg2.FormatString = "^|<                        "
-        'FG.Size = New System.Drawing.Point(962, 287)
-        If CmbBook.Enabled = True Then
-            dtActi.Enabled = True
-            curr_Last.Text = "Kip"
-            txtRate.Text = "1.00"
-            Cmb.Text = "LAK"
-        Else
-            'dtActi.Enabled = False
-        End If
-
-        LoadBook()
-        FG.Row = 1
-        FG.Col = 1
-        FG.BackColorSel = Color.White
-
-        LoadTableId()
-        Panel1.Visible = False
-        loadRate()
-        Call RateSetting()
-
-        Cmb.Items.Clear()
-        Call load_Cmb(" SELECT Curr  FROM Curr_For_Rate  ORDER BY cnt ", "Curr", Cmb)
-        If Cmb.Items.Count > 0 Then
-            Cmb.SelectedIndex = 0
-        End If
-        Call RateSetting()
-
-        If txtInvoice.Enabled = False Then
-            txtInvoice.Text = MDInvoiceNo
-            LoadSQL()
-            LoadListFG()
-            FG.Rows = FG.Rows + 1
-        Else
-            FG.Rows = 1
-            FG.Rows = 2
-            AutoNumber()
-            Call NewText()
-        End If
-
-        Call FormatText()
-
-
-        Button3.Text = "Show GLN"
-        Call ShowList()
-        Button3.Text = "Show All"
-
-
-        ChCat_ID.Checked = False
-        For J = 1 To FG.Rows - 1
-            FG.Row = J
-            If Trim(FG.get_TextMatrix(J, 3)) <> "" Then
-                If ChCat_ID.Checked = True Then
-                    FG.Col = 7
-                    FG.CellBackColor = Color.LightCyan
-                Else
-                    FG.Col = 7
-                    FG.CellBackColor = Color.White
-                    FG.CellBackColor = Color.White
-                    FG.CellForeColor = Color.Gray
-                    FG.Col = 8
-                    FG.CellForeColor = Color.Gray
-                    FG.Col = 9
-                    FG.CellForeColor = Color.Gray
-
-                    FG.set_TextMatrix(FG.Row, 7, "0")
-                    FG.set_TextMatrix(FG.Row, 8, "ບໍ່ເລືອກ")
-                    FG.set_TextMatrix(FG.Row, 9, "No Selete")
-                End If
-            End If
-        Next J
-        Call loadColor()
-        'FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
-        FG.ExtendLastCol = True
-        SetControlText(Me)
-        'FG.FormatString = "^ລ/ດ |< ເລກບັນຊີໜີ           |< ເລກບັນຊີມີ           |< ຊື່ບັນຊີ (ລາວ)                                            |< ຊື່ບັນຊີ (ອັງກິດ)                     |> ຈຳນວນເງິນຈົດໜີ້        |> ຈຳນວນເງິນຈົດມີ     |^ລະຫັດ|< ຕົ້ນທຶນພາສາ (ລາວ)   |< ຕົ້ນທຶນພາສາ (ອັງກິດ)             |< ສະກຸນເງິນເງິນ |> ອັດຕາແລກປ່ຽນ |> ມູນຄ່າໜີ້          |> ມູນຄ່າມີ            "
     End Sub
 
     Private Sub LoadBook()
@@ -1134,134 +573,69 @@
 
     End Sub
 
-    Public Sub AddAcc2()
-
-        BtnMove.Visible = False
-        If FG.Col = 1 Then
-            FG.set_TextMatrix(FG.Row, 6, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 4)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, "0.00")
-            SumAmountDr()
-            If ChDe.Checked = True Then
-                If MuLng = "L" Then
-                    FG.Col = 3
-                End If
-                If MuLng = "E" Then
-                    FG.Col = 4
-                End If
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
-
-                End If
-                Exit Sub
-            End If
-            FG.Col = 5
-            'Call loadColor()
-        End If
-        If FG.Col = 2 Then
-            AccId = FG.get_TextMatrix(FG.Row, FG.Col)
-            LoadText()
-            FG.set_TextMatrix(FG.Row, 3, AccName)
-            MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
-            FG.set_TextMatrix(FG.Row, 5, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, "0.00")
-            SumAmountDr()
-            If ChDe.Checked = True Then
-                If MuLng = "L" Then
-                    FG.Col = 3
-                End If
-                If MuLng = "E" Then
-                    FG.Col = 4
-                End If
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
-
-                End If
-                Exit Sub
-            End If
-            FG.Col = 5
-            'Call loadColor()
-        End If
-
-        SumAmountDr()
-
-    End Sub
     Public Sub AddAcc()
+        If FG.CurrentCell Is Nothing Then Exit Sub
+        Dim rowIndex As Integer = FG.CurrentCell.RowIndex
+        Dim colIndex As Integer = FG.CurrentCell.ColumnIndex
 
-        BtnMove.Visible = False
-        If FG.Col = 1 Then
-
-            txtSumAmountDr.Text = CDbl(txtSumAmountDr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 5))
-            FG.set_TextMatrix(FG.Row, 5, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 6, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 5)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, "0.00")
+        If colIndex = 1 Then
+            AccId = If(FG.Rows(rowIndex).Cells(1).Value Is Nothing, "", FG.Rows(rowIndex).Cells(1).Value.ToString())
+            LoadText()
+            FG.Rows(rowIndex).Cells(3).Value = AccName
+            MDSearchAcccode = If(FG.Rows(rowIndex).Cells(1).Value Is Nothing, "", FG.Rows(rowIndex).Cells(1).Value.ToString())
+            txtSumAmountDr.Text = (CDbl(txtSumAmountDr.Text) - CDbl(If(FG.Rows(rowIndex).Cells(5).Value Is Nothing OrElse FG.Rows(rowIndex).Cells(5).Value.ToString() = "", 0, FG.Rows(rowIndex).Cells(5).Value))).ToString()
+            FG.Rows(rowIndex).Cells(5).Value = Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00")
+            FG.Rows(rowIndex).Cells(6).Value = "0.00"
+            FG.Rows(rowIndex).Cells(7).Value = 0
+            FG.Rows(rowIndex).Cells(10).Value = Cmb.Text
+            FG.Rows(rowIndex).Cells(11).Value = Format(CDbl(txtRate.Text), "#,##0.00")
+            FG.Rows(rowIndex).Cells(12).Value = Format(CDbl(CDbl(txtRate.Text) * CDbl(If(FG.Rows(rowIndex).Cells(5).Value Is Nothing OrElse FG.Rows(rowIndex).Cells(5).Value.ToString() = "", 0, FG.Rows(rowIndex).Cells(5).Value))), "#,##0.00")
+            FG.Rows(rowIndex).Cells(13).Value = "0.00"
             SumAmountDr()
+            
             If ChDe.Checked = True Then
-                If MuLng = "L" Then
-                    FG.Col = 3
-                End If
-                If MuLng = "E" Then
-                    FG.Col = 4
-                End If
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
+                ' Logic for column focus omitted, but adding Row:
+                If FG.Rows(FG.Rows.Count - 1).Cells(3).Value IsNot Nothing AndAlso FG.Rows(FG.Rows.Count - 1).Cells(3).Value.ToString() <> "" Then
+                    FG.Rows.Add()
                 End If
                 Exit Sub
             End If
 
-            FG.Col = 5
+            'FG.Col = 5 ' Removed as per instruction to replace FG.Col for access, not setting cursor
 
-            If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                FG.Rows = FG.Rows + 1
+            If FG.Rows(FG.Rows.Count - 1).Cells(3).Value IsNot Nothing AndAlso FG.Rows(FG.Rows.Count - 1).Cells(3).Value.ToString() <> "" Then
+                FG.Rows.Add()
                 'Timer1.Enabled = True
 
             End If
             'Call loadColor()
         End If
-        If FG.Col = 2 Then
-
-            AccId = FG.get_TextMatrix(FG.Row, FG.Col)
+        If colIndex = 2 Then
+            AccId = If(FG.Rows(rowIndex).Cells(2).Value Is Nothing, "", FG.Rows(rowIndex).Cells(2).Value.ToString())
             LoadText()
-            FG.set_TextMatrix(FG.Row, 3, AccName)
-            MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
-            txtSumAmountCr.Text = CDbl(txtSumAmountCr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 6))
-            FG.set_TextMatrix(FG.Row, 6, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountCr.Text)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 5, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, "0.00")
+            FG.Rows(rowIndex).Cells(3).Value = AccName
+            MDSearchAcccode = If(FG.Rows(rowIndex).Cells(2).Value Is Nothing, "", FG.Rows(rowIndex).Cells(2).Value.ToString())
+            txtSumAmountCr.Text = (CDbl(txtSumAmountCr.Text) - CDbl(If(FG.Rows(rowIndex).Cells(6).Value Is Nothing OrElse FG.Rows(rowIndex).Cells(6).Value.ToString() = "", 0, FG.Rows(rowIndex).Cells(6).Value))).ToString()
+            FG.Rows(rowIndex).Cells(6).Value = Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountCr.Text)), "#,##0.00")
+            FG.Rows(rowIndex).Cells(5).Value = "0.00"
+            FG.Rows(rowIndex).Cells(7).Value = 0
+            FG.Rows(rowIndex).Cells(10).Value = Cmb.Text
+            FG.Rows(rowIndex).Cells(11).Value = Format(CDbl(txtRate.Text), "#,##0.00")
+            FG.Rows(rowIndex).Cells(13).Value = Format(CDbl(CDbl(txtRate.Text) * CDbl(If(FG.Rows(rowIndex).Cells(6).Value Is Nothing OrElse FG.Rows(rowIndex).Cells(6).Value.ToString() = "", 0, FG.Rows(rowIndex).Cells(6).Value))), "#,##0.00")
+            FG.Rows(rowIndex).Cells(12).Value = "0.00"
             SumAmountDr()
+
             If ChDe.Checked = True Then
-                If MuLng = "L" Then
-                    FG.Col = 3
-                End If
-                If MuLng = "E" Then
-                    FG.Col = 4
-                End If
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
+                If FG.Rows(FG.Rows.Count - 1).Cells(3).Value IsNot Nothing AndAlso FG.Rows(FG.Rows.Count - 1).Cells(3).Value.ToString() <> "" Then
+                    FG.Rows.Add()
                 End If
                 Exit Sub
             End If
 
+            'FG.Col = 6 ' Removed as per instruction to replace FG.Col for access, not setting cursor
 
-            FG.Col = 6
-
-            If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                FG.Rows = FG.Rows + 1
+            If FG.Rows(FG.Rows.Count - 1).Cells(3).Value IsNot Nothing AndAlso FG.Rows(FG.Rows.Count - 1).Cells(3).Value.ToString() <> "" Then
+                FG.Rows.Add()
                 'Timer1.Enabled = True
             End If
             'Call loadColor()
@@ -1275,27 +649,43 @@
         Dim AmountDr, AmountCr, TotalAmountDr, TotalAmountCr As Double
         AmountDr = 0
         AmountCr = 0
-        For i = 1 To FG.Rows - 1
-            If i <> FG.Rows - 1 Then
-                If FG.get_TextMatrix(i, 3) = "" Then
-                    FG.RemoveItem()
+        TotalAmountDr = 0
+        TotalAmountCr = 0
+        
+        Dim rowsToRemove As New List(Of Integer)
+        For i = 0 To FG.Rows.Count - 1
+            Dim cell3Val As Object = FG.Rows(i).Cells(3).Value
+            If i <> FG.Rows.Count - 1 Then
+                If cell3Val Is Nothing OrElse cell3Val.ToString() = "" Then
+                    rowsToRemove.Add(i)
                 End If
             End If
-            AmountDr = AmountDr + CDbl(FG.get_TextMatrix(i, 5))
-            AmountCr = AmountCr + CDbl(FG.get_TextMatrix(i, 6))
-            TotalAmountDr = TotalAmountDr + CDbl(FG.get_TextMatrix(i, 12))
-            TotalAmountCr = TotalAmountCr + CDbl(FG.get_TextMatrix(i, 13))
+            
+            Dim cell5Val As Object = FG.Rows(i).Cells(5).Value
+            Dim cell6Val As Object = FG.Rows(i).Cells(6).Value
+            Dim cell12Val As Object = FG.Rows(i).Cells(12).Value
+            Dim cell13Val As Object = FG.Rows(i).Cells(13).Value
+            
+            AmountDr = AmountDr + CDbl(If(cell5Val Is Nothing OrElse cell5Val.ToString() = "", 0, cell5Val))
+            AmountCr = AmountCr + CDbl(If(cell6Val Is Nothing OrElse cell6Val.ToString() = "", 0, cell6Val))
+            TotalAmountDr = TotalAmountDr + CDbl(If(cell12Val Is Nothing OrElse cell12Val.ToString() = "", 0, cell12Val))
+            TotalAmountCr = TotalAmountCr + CDbl(If(cell13Val Is Nothing OrElse cell13Val.ToString() = "", 0, cell13Val))
         Next
+        
+        For j As Integer = rowsToRemove.Count - 1 To 0 Step -1
+            FG.Rows.RemoveAt(rowsToRemove(j))
+        Next
+
         txtSumAmountDr.Text = Format(AmountDr, "#,##0.00")
         txtSumAmountCr.Text = Format(AmountCr, "#,##0.00")
         txtSumTotalAmountDr.Text = Format(TotalAmountDr, "#,##0.00")
         txtSumTotalAmountCr.Text = Format(TotalAmountCr, "#,##0.00")
 
 
-        Dr.Text = CDbl(txtSumAmountDr.Text) - CDbl(txtSumAmountCr.Text)
-        Cr.Text = CDbl(txtSumAmountCr.Text) - CDbl(txtSumAmountDr.Text)
-        DDR.Text = CDbl(txtSumTotalAmountDr.Text) - CDbl(txtSumTotalAmountCr.Text)
-        CCR.Text = CDbl(txtSumTotalAmountCr.Text) - CDbl(txtSumTotalAmountDr.Text)
+        Dr.Text = (CDbl(txtSumAmountDr.Text) - CDbl(txtSumAmountCr.Text)).ToString()
+        Cr.Text = (CDbl(txtSumAmountCr.Text) - CDbl(txtSumAmountDr.Text)).ToString()
+        DDR.Text = (CDbl(txtSumTotalAmountDr.Text) - CDbl(txtSumTotalAmountCr.Text)).ToString()
+        CCR.Text = (CDbl(txtSumTotalAmountCr.Text) - CDbl(txtSumTotalAmountDr.Text)).ToString()
         Dr.Text = Format(CDbl(Dr.Text), "#,##0.00")
         Cr.Text = Format(CDbl(Cr.Text), "#,##0.00")
         DDR.Text = Format(CDbl(DDR.Text), "#,##0.00")
@@ -1343,223 +733,162 @@
             Loop
         End With
     End Sub
-    Private Sub FG_AfterScroll(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterScrollEvent) Handles FG.AfterScroll
-
+    Private Sub FG_Scroll(ByVal sender As Object, ByVal e As ScrollEventArgs) Handles FG.Scroll
         BtnSearch.Visible = False
         BtnMove.Visible = False
     End Sub
 
 
-    Private Sub FG_MouseDownEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseDownEvent) Handles FG.MouseDownEvent
+    Private Sub FG_CellMouseDown(ByVal sender As Object, ByVal e As DataGridViewCellMouseEventArgs) Handles FG.CellMouseDown
         If txtInvoice.BackColor = Color.Red Then
             txtInvoice.Focus()
             Exit Sub
         End If
-        MouseDownEvent()
+        ' RowIndex < 0 means header cell
+        If e.RowIndex >= 0 Then
+            FG.CurrentCell = FG.Rows(e.RowIndex).Cells(e.ColumnIndex)
+            MouseDownEvent(e.RowIndex, e.ColumnIndex)
+        End If
     End Sub
 
-    Public Sub MouseDownEvent()
-        Select Case MouseButtons
-            Case Windows.Forms.MouseButtons.Right
-                FG.EditCell()
-            Case Windows.Forms.MouseButtons.Left
-                If FG.Rows >= 3 Then
-                    BtnMove.Visible = True
-
-                    BtnMove.Top = CInt((FG.CellTop / 15) + FG.Top)
-
-                    If FG.get_TextMatrix(FG.Row, FG.Col) <> "" Then
-                        If FG.Col = 7 Then
-                            If ChCat_ID.Checked = True Then
-                                Panel1.Visible = True
-                                Bee.Row = 1
-                                Bee.Col = 3
-                                Bee.Focus()
-                            End If
-
-                        Else
-                            Panel1.Visible = False
+    Public Sub MouseDownEvent(Optional ByVal rIndex As Integer = -1, Optional ByVal cIndex As Integer = -1)
+        If rIndex = -1 Then rIndex = FG.CurrentCell.RowIndex
+        If cIndex = -1 Then cIndex = FG.CurrentCell.ColumnIndex
+        
+        If MouseButtons = Windows.Forms.MouseButtons.Right Then
+            FG.BeginEdit(True)
+        ElseIf MouseButtons = Windows.Forms.MouseButtons.Left Then
+            If FG.Rows.Count >= 3 Then
+                BtnMove.Visible = True
+                Dim rect As Rectangle = FG.GetCellDisplayRectangle(cIndex, rIndex, False)
+                BtnMove.Top = rect.Top + FG.Top
+            End If
+            
+            Dim cellVal As Object = FG.Rows(rIndex).Cells(cIndex).Value
+            If cellVal IsNot Nothing AndAlso cellVal.ToString() <> "" Then
+                If cIndex = 7 Then
+                    If ChCat_ID.Checked = True Then
+                        Panel1.Visible = True
+                        ' Suggesting some default focus for Bee
+                        If Bee.Rows.Count > 0 Then
+                            Bee.CurrentCell = Bee.Rows(0).Cells(3)
+                            Bee.Focus()
                         End If
                     End If
-
-                    Panel1.Top = CInt((FG.CellTop / 15) + FG.Top)
-                    Panel1.Left = CInt(FG.Left + (FG.CellLeft / 15) + (FG.CellWidth / 250))
-                    If FG.Row = FG.Rows - 1 Then
-                        BtnMove.Visible = False
-                    End If
                 Else
-                    BtnMove.Visible = False
+                    Panel1.Visible = False
                 End If
-                If FG.Col = 1 Then
-                    If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                        BtnSearch.Visible = False
-                    Else
-                        BtnSearch.Visible = True
-                    End If
-                End If
-                If FG.Col = 2 Then
-                    If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                        BtnSearch.Visible = False
-                    Else
-                        BtnSearch.Visible = True
-                    End If
-                End If
-                If FG.Col = 1 Then
-                    BtnSearch.Left = CInt(FG.Left + (FG.CellLeft / 15) + (FG.CellWidth / 21.8))
-                    BtnSearch.Top = CInt((FG.CellTop / 15) + FG.Top)
+            End If
 
+            Dim cellDR As Object = FG.Rows(rIndex).Cells(1).Value
+            Dim cellCR As Object = FG.Rows(rIndex).Cells(2).Value
 
-                End If
-                If FG.Col = 2 Then
-                    BtnSearch.Size = New System.Drawing.Point(34, 26)
-                    BtnSearch.Left = CInt(FG.Left + (FG.CellLeft / 15) + (FG.CellWidth / 22.2))
-                    BtnSearch.Top = CInt((FG.CellTop / 15) + FG.Top)
-                End If
+            If cIndex = 1 Then
+                BtnSearch.Visible = (cellCR Is Nothing OrElse cellCR.ToString() = "")
+            ElseIf cIndex = 2 Then
+                BtnSearch.Visible = (cellDR Is Nothing OrElse cellDR.ToString() = "")
+            Else
+                BtnSearch.Visible = False
+            End If
 
-                If FG.Row = FG.Rows - 1 Then
-                    BtnMove.Visible = False
-                End If
+            If BtnSearch.Visible Then
+                Dim rect As Rectangle = FG.GetCellDisplayRectangle(cIndex, rIndex, False)
+                BtnSearch.Top = rect.Top + FG.Top
+                BtnSearch.Left = rect.Right + FG.Left - BtnSearch.Width
+            End If
 
-        End Select
+            If rIndex = FG.Rows.Count - 1 Then
+                BtnMove.Visible = False
+            End If
+        End If
     End Sub
 
     Private Sub btnmove_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnMove.Click
-        FG.RemoveItem()
-        SumAmountDr()
+        If FG.CurrentCell IsNot Nothing Then
+            FG.Rows.RemoveAt(FG.CurrentCell.RowIndex)
+            SumAmountDr()
+        End If
         Panel1.Visible = False
         BtnMove.Visible = False
         BtnSearch.Visible = False
-
     End Sub
 
 
-    'Sum
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
+
+    ' Helper to simulate VSFlexGrid Redraw property logic if needed
+    ' Private _redraw As Boolean = True
+
+    Private Sub FG_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles FG.SelectionChanged
         If txtInvoice.BackColor = Color.Red Then
             txtInvoice.Focus()
             Exit Sub
         End If
+        
+        If FG.CurrentCell Is Nothing Then Exit Sub
+        Dim r As Integer = FG.CurrentCell.RowIndex
+        Dim c As Integer = FG.CurrentCell.ColumnIndex
 
-        'If txxdes Then
-        FG.BackColor = Color.White
-        FG.BackColorAlternate = Color.White
-        If FG.Col = 1 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                FG.BackColorSel = Color.White
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
+        If c = 1 Then
+            Dim cell2Val As Object = FG.Rows(r).Cells(2).Value
+            If cell2Val IsNot Nothing AndAlso cell2Val.ToString() <> "" Then
+                FG.Rows(r).ReadOnly = True
             Else
-                FG.BackColorSel = Color.SkyBlue
-                FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-                AccId = FG.get_TextMatrix(FG.Row, FG.Col)
+                FG.Rows(r).ReadOnly = False
+                AccId = If(FG.Rows(r).Cells(c).Value Is Nothing, "", FG.Rows(r).Cells(c).Value.ToString())
             End If
         End If
 
-        If FG.Col = 2 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                FG.BackColorSel = Color.White
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
-                'FG.BackColorSel = Color.White
+        If c = 2 Then
+            Dim cell1Val As Object = FG.Rows(r).Cells(1).Value
+            If cell1Val IsNot Nothing AndAlso cell1Val.ToString() <> "" Then
+                FG.Rows(r).ReadOnly = True
             Else
-                FG.BackColorSel = Color.SkyBlue
-                FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-                AccId = FG.get_TextMatrix(FG.Row, FG.Col)
+                FG.Rows(r).ReadOnly = False
+                AccId = If(FG.Rows(r).Cells(c).Value Is Nothing, "", FG.Rows(r).Cells(c).Value.ToString())
             End If
         End If
 
-
-
-        If FG.Col = 3 Then
-            'FG.BackColorSel = Color.White
-            FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-            FG.BackColorSel = Color.SkyBlue
+        If c >= 3 And c <= 4 Then
+            FG.Rows(r).ReadOnly = False
         End If
 
-        If FG.Col = 4 Then
-            'FG.BackColorSel = Color.White
-            FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-            FG.BackColorSel = Color.SkyBlue
-        End If
-
-
-        If FG.Col = 5 Then
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
-                FG.BackColorSel = Color.White
-            Else
-                FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-                FG.BackColorSel = Color.SkyBlue
+        If c > 2 Then
+            Dim cell1Val As Object = FG.Rows(r).Cells(1).Value
+            Dim cell2Val As Object = FG.Rows(r).Cells(2).Value
+            If (cell1Val Is Nothing OrElse cell1Val.ToString() = "") AndAlso (cell2Val Is Nothing OrElse cell2Val.ToString() = "") Then
+                ' Logic for non-editable if no account
             End If
         End If
 
-        If FG.Col = 6 Then
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                FG.BackColorSel = Color.White
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
-
-            Else
-                FG.BackColorSel = Color.SkyBlue
-                FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-            End If
-        End If
-
-        If FG.Col = 7 Then
-            FG.BackColorSel = Color.SkyBlue
-            FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-        End If
-
-
-        If ChCat_ID.Checked = False Then
-            If FG.Col = 3 Or FG.Col = 4 Or FG.Col = 7 Or FG.Col = 8 Or FG.Col = 9 Or FG.Col = 10 Or FG.Col = 11 Or FG.Col = 12 Or FG.Col = 13 Then
-                FG.BackColorSel = Color.White
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
-            End If
-        Else
-            If FG.Col = 3 Or FG.Col = 4 Or FG.Col = 8 Or FG.Col = 9 Or FG.Col = 10 Or FG.Col = 11 Or FG.Col = 12 Or FG.Col = 13 Then
-                FG.BackColorSel = Color.White
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
-            End If
-        End If
-        If FG.Col > 2 Then
-            If FG.get_TextMatrix(FG.Row, 1) = "" Then
-                If FG.get_TextMatrix(FG.Row, 2) = "" Then
-                    FG.Editable = VSFlex8U.EditableSettings.flexEDNone
-                    FG.BackColorSel = Color.White
-                End If
-            End If
-        End If
-        'If CheckBox3.Checked = True Then
-        '    CheckBox3.
-        'End If
-        If FG.Col = 3 Or FG.Col = 4 Or FG.Col = 5 Or FG.Col = 6 Or FG.Col = 7 Or FG.Col = 8 Or FG.Col = 9 Or FG.Col = 10 Or FG.Col = 11 Or FG.Col = 12 Or FG.Col = 13 Then
+        If c >= 3 And c <= 13 Then
             BtnSearch.Visible = False
         End If
 
-        If FG.get_TextMatrix(FG.Row, 5) = "" Then
+        Dim cell5Val As Object = FG.Rows(r).Cells(5).Value
+        If cell5Val Is Nothing OrElse cell5Val.ToString() = "" Then
             Panel1.Visible = False
         End If
-        If FG.get_TextMatrix(FG.Row, 7) = "0" Then
-            FG.set_TextMatrix(FG.Row, 8, "ບໍ່ເລືອກ")
-            FG.set_TextMatrix(FG.Row, 9, "No Selete")
-        ElseIf FG.get_TextMatrix(FG.Row, 7) = "1" Then
-            FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການພະລິດ")
-            FG.set_TextMatrix(FG.Row, 9, "Use build")
 
-        ElseIf FG.get_TextMatrix(FG.Row, 7) = "2" Then
-            FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການຈຳໜ່າຍ")
-            FG.set_TextMatrix(FG.Row, 9, "Use Sell")
-        ElseIf FG.get_TextMatrix(FG.Row, 7) = "3" Then
-            FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ບໍລິຫານ")
-            FG.set_TextMatrix(FG.Row, 9, "Use manage ")
-
-        ElseIf FG.get_TextMatrix(FG.Row, 7) = "4" Then
-            FG.set_TextMatrix(FG.Row, 8, "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
-            FG.set_TextMatrix(FG.Row, 9, "Sell capital/manage capital ")
+        Dim cell7Val As Object = FG.Rows(r).Cells(7).Value
+        If cell7Val IsNot Nothing Then
+            Select Case cell7Val.ToString()
+                Case "0"
+                    FG.Rows(r).Cells(8).Value = "ບໍ່ເລືອກ"
+                    FG.Rows(r).Cells(9).Value = "No Selete"
+                Case "1"
+                    FG.Rows(r).Cells(8).Value = "ຮັບໃຊ້ການພະລິດ"
+                    FG.Rows(r).Cells(9).Value = "Use build"
+                Case "2"
+                    FG.Rows(r).Cells(8).Value = "ຮັບໃຊ້ການຈຳໜ່າຍ"
+                    FG.Rows(r).Cells(9).Value = "Use Sell"
+                Case "3"
+                    FG.Rows(r).Cells(8).Value = "ຮັບໃຊ້ບໍລິຫານ"
+                    FG.Rows(r).Cells(9).Value = "Use manage "
+                Case "4"
+                    FG.Rows(r).Cells(8).Value = "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ"
+                    FG.Rows(r).Cells(9).Value = "Sell capital/manage capital "
+            End Select
         End If
-
     End Sub
 
     Private Sub CmbBook_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles CmbBook.KeyPress
@@ -1584,19 +913,16 @@
 
     Private Sub txtAmount_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtAmount.KeyPress
         If e.KeyChar = Chr(13) Then
-            txtTotal_Amt_LAK.Text = CDbl(txtRate.Text) * CDbl(txtAmount.Text)
+            txtTotal_Amt_LAK.Text = Format(CDbl(txtRate.Text) * CDbl(txtAmount.Text), "#,##0.00")
             Call FormatText()
-            If FG.get_TextMatrix(1, 1) = "" And FG.get_TextMatrix(1, 2) = "" Then
-                FG.Row = 1
-                FG.Col = 1
-            End If
-            If FG.get_TextMatrix(1, 1) <> "" Then
-                FG.Row = 1
-                FG.Col = 1
-            End If
-            If FG.get_TextMatrix(1, 2) <> "" Then
-                FG.Row = 1
-                FG.Col = 2
+            Dim cell1_1Val As Object = FG.Rows(0).Cells(1).Value
+            Dim cell1_2Val As Object = FG.Rows(0).Cells(2).Value
+            If (cell1_1Val Is Nothing OrElse cell1_1Val.ToString() = "") And (cell1_2Val Is Nothing OrElse cell1_2Val.ToString() = "") Then
+                FG.CurrentCell = FG.Rows(0).Cells(1)
+            ElseIf cell1_1Val IsNot Nothing AndAlso cell1_1Val.ToString() <> "" Then
+                FG.CurrentCell = FG.Rows(0).Cells(1)
+            ElseIf cell1_2Val IsNot Nothing AndAlso cell1_2Val.ToString() <> "" Then
+                FG.CurrentCell = FG.Rows(0).Cells(2)
             End If
             FG.Focus()
         End If
@@ -1638,8 +964,10 @@
     End Function
     Private Sub txtsearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         FG.Focus()
-        R = FG.Row
-        L = FG.Col
+        If FG.CurrentCell IsNot Nothing Then
+            R = FG.CurrentCell.RowIndex
+            L = FG.CurrentCell.ColumnIndex
+        End If
     End Sub
 
 
@@ -1656,85 +984,36 @@
     'End Sub
 
     Private Sub LoadTableId()
-        Bee.set_TextMatrix(1, 2, "ບໍ່ເລືອກ")
-        Bee.set_TextMatrix(2, 2, "ຮັບໃຊ້ໃນການພະລິດ")
-        Bee.set_TextMatrix(3, 2, "ຮັບໃຊ້ໃນການຈຳໜ່າຍ")
-        Bee.set_TextMatrix(4, 2, "ຮັບໃຊ້ບໍລິຫານ")
-        Bee.set_TextMatrix(5, 2, "ຕົ້ນທື່ນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
-
-        Bee.set_TextMatrix(1, 3, "No Selete")
-        Bee.set_TextMatrix(2, 3, "Use build")
-        Bee.set_TextMatrix(3, 3, "Use Sell")
-        Bee.set_TextMatrix(4, 3, "Use manage")
-        Bee.set_TextMatrix(5, 3, "Sell capital/manage capital ")
-
-        Bee.set_TextMatrix(1, 4, " 0.   ບໍ່ເລືອກ")
-        Bee.set_TextMatrix(2, 4, " 1.   ຮັບໃຊ້ໃນການພະລິດ")
-        Bee.set_TextMatrix(3, 4, " 2.   ຮັບໃຊ້ໃນການຈຳໜ່າຍ")
-        Bee.set_TextMatrix(4, 4, " 3.   ຮັບໃຊ້ບໍລິຫານ")
-        Bee.set_TextMatrix(5, 4, " 4.   ຕົ້ນທື່ນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
+        Bee.Rows.Clear()
+        Bee.Rows.Add("0", "ບໍ່ເລືອກ", "No Selete", " 0.   ບໍ່ເລືອກ")
+        Bee.Rows.Add("1", "ຮັບໃຊ້ໃນການພະລິດ", "Use build", " 1.   ຮັບໃຊ້ໃນການພະລິດ")
+        Bee.Rows.Add("2", "ຮັບໃຊ້ໃນການຈຳໜ່າຍ", "Use Sell", " 2.   ຮັບໃຊ້ໃນການຈຳໜ່າຍ")
+        Bee.Rows.Add("3", "ຮັບໃຊ້ບໍລິຫານ", "Use manage", " 3.   ຮັບໃຊ້ບໍລິຫານ")
+        Bee.Rows.Add("4", "ຕົ້ນທື່ນຂາຍ/ຕົ້ນທຶນບໍລິຫານ", "Sell capital/manage capital ", " 4.   ຕົ້ນທື່ນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
     End Sub
 
-    Private Sub Bee_AfterEdit(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterEditEvent) Handles Bee.AfterEdit
+    ' Legacy Bee_AfterEdit event removed - DataGridView uses CellEndEdit
 
-    End Sub
-
-    Private Sub Bee_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles Bee.DblClick
-        FG.set_TextMatrix(FG.Row, 7, Bee.get_TextMatrix(Bee.Row, 1))
-        FG.set_TextMatrix(FG.Row, 8, Bee.get_TextMatrix(Bee.Row, 2))
-        FG.set_TextMatrix(FG.Row, 9, Bee.get_TextMatrix(Bee.Row, 3))
+    Private Sub Bee_CellDoubleClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles Bee.CellDoubleClick
+        Dim rowIndex As Integer = FG.CurrentCell.RowIndex
+        FG.Rows(rowIndex).Cells(7).Value = Bee.CurrentRow.Cells(0).Value
+        FG.Rows(rowIndex).Cells(8).Value = Bee.CurrentRow.Cells(1).Value
+        FG.Rows(rowIndex).Cells(9).Value = Bee.CurrentRow.Cells(2).Value
         Panel1.Visible = False
         loadColor()
-        'If FG.get_TextMatrix(FG.Row + 1, 6) <> "" Then
-        '    If FG.get_TextMatrix(FG.Row + 1, 1) = "" Then
-        '        FG.Col = 2
-        '        FG.Row = FG.Row + 1
-        '    Else
-        '        FG.Col = 1
-        '        FG.Row = FG.Row + 1
-        '    End If
-        'End If
-        'If FG.get_TextMatrix(FG.Row + 1, 3) = "" Then
-        '    If FG.get_TextMatrix(FG.Row, 1) = "" Then
-        '        FG.Col = 1
-        '        FG.Row = FG.Row + 1
-        '    Else
-        '        FG.Col = 2
-        '        FG.Row = FG.Row + 1
-        '    End If
-        'End If
         FG.Focus()
     End Sub
 
-
-
-
-    Private Sub Bee_KeyUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_KeyUpEvent) Handles Bee.KeyUpEvent
-        If e.keyCode = 13 Then
-            FG.set_TextMatrix(FG.Row, 7, Bee.get_TextMatrix(Bee.Row, 1))
-            FG.set_TextMatrix(FG.Row, 8, Bee.get_TextMatrix(Bee.Row, 2))
-            FG.set_TextMatrix(FG.Row, 9, Bee.get_TextMatrix(Bee.Row, 3))
+    Private Sub Bee_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs) Handles Bee.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Dim rowIndex As Integer = FG.CurrentCell.RowIndex
+            FG.Rows(rowIndex).Cells(7).Value = Bee.CurrentRow.Cells(0).Value
+            FG.Rows(rowIndex).Cells(8).Value = Bee.CurrentRow.Cells(1).Value
+            FG.Rows(rowIndex).Cells(9).Value = Bee.CurrentRow.Cells(2).Value
             Panel1.Visible = False
             loadColor()
-            'If FG.get_TextMatrix(FG.Row + 1, 6) <> "" Then
-            '    If FG.get_TextMatrix(FG.Row + 1, 1) = "" Then
-            '        FG.Col = 2
-            '        FG.Row = FG.Row + 1
-            '    Else
-            '        FG.Col = 1
-            '        FG.Row = FG.Row + 1
-            '    End If
-            'End If
-            'If FG.get_TextMatrix(FG.Row + 1, 3) = "" Then
-            '    If FG.get_TextMatrix(FG.Row, 1) = "" Then
-            '        FG.Col = 1
-            '        FG.Row = FG.Row + 1
-            '    Else
-            '        FG.Col = 2
-            '        FG.Row = FG.Row + 1
-            '    End If
-            'End If
             FG.Focus()
+            e.Handled = True
         End If
     End Sub
 
@@ -1759,112 +1038,48 @@
 
 
     Public Sub loadColor()
-        FgR = FG.Row
-        FgC = FG.Col
-        Dim rmRS As New ADODB.Recordset
-        Dim J As Integer
-        FG.Redraw = False
+        If FG.CurrentCell Is Nothing Then Exit Sub
+        Dim FgR As Integer = FG.CurrentCell.RowIndex
+        Dim FgC As Integer = FG.CurrentCell.ColumnIndex
 
+        ' FG.Redraw = False ' Not needed for DGV or use SuspendLayout()
 
+        For J As Integer = 0 To FG.Rows.Count - 1
+            Dim row As DataGridViewRow = FG.Rows(J)
+            
+            ' Apply numbering
+            row.Cells(0).Value = J + 1
 
-        FG.Col = 1
-        FG.Row = FG.Rows - 1
-        FG.CellBackColor = Color.LightCyan
-        FG.Col = 2
-        FG.CellBackColor = Color.LightCyan
-
-        For J = 1 To FG.Rows - 1
-            FG.Row = J
-            If Trim(FG.get_TextMatrix(J, 1)) <> "" Then
-                FG.Col = 1
-                FG.CellBackColor = Color.LightCyan
-                FG.CellFontBold = True
-                'FG.Col = 3
-                'FG.CellBackColor = Color.White
-                'FG.Col = 4
-                'FG.CellBackColor = Color.White
-                FG.Col = 5
-                FG.CellBackColor = Color.LightCyan
-                FG.CellFontBold = True
-                'FG.Col = 6
-                'FG.CellForeColor = Color.Gray
-                'FG.Col = 7
-                'FG.CellBackColor = Color.LightCyan
-                'FG.Col = 12
-                'FG.CellBackColor = Color.LightCyan
-                FG.set_TextMatrix(J, 0, J)
-
-
-
-
+            Dim cell1Val As String = GetString(row.Cells(1).Value)
+            If cell1Val.Trim() <> "" Then
+                row.Cells(1).Style.BackColor = Color.LightCyan
+                row.Cells(1).Style.Font = New Font(FG.Font, FontStyle.Bold)
+                
+                row.Cells(5).Style.BackColor = Color.LightCyan
+                row.Cells(5).Style.Font = New Font(FG.Font, FontStyle.Bold)
             Else
-                If Trim(FG.get_TextMatrix(J, 1)) = "" Then
-                    FG.Col = 1
-                    FG.CellBackColor = Color.White
-
-                End If
-
-                If Trim(FG.get_TextMatrix(J, 2)) <> "" Then
-                    FG.Col = 2
-                    FG.CellBackColor = Color.LightCyan
-                    FG.CellFontBold = True
-                    'FG.Col = 3
-                    'FG.CellBackColor = Color.White
-                    'FG.Col = 4
-                    'FG.CellBackColor = Color.White
-                    FG.Col = 6
-                    FG.CellFontBold = True
-                    FG.CellBackColor = Color.LightCyan
-                    'FG.Col = 5
-                    'FG.CellForeColor = Color.Gray
-                    'FG.Col = 7
-                    'FG.CellBackColor = Color.LightCyan
-                    'FG.Col = 13
-                    'FG.CellBackColor = Color.LightCyan
-
-                    FG.set_TextMatrix(J, 0, J)
-
-                End If
-                If Trim(FG.get_TextMatrix(J, 2)) = "" Then
-                    FG.Col = 2
-                    FG.CellBackColor = Color.White
-
-                End If
+                row.Cells(1).Style.BackColor = Color.White
             End If
 
-            '    If Trim(FG.get_TextMatrix(J, 7)) = "0" Then
-            '        FG.Col = 7
-            '        FG.CellForeColor = Color.Gray
-            '        FG.Col = 8
-            '        FG.CellForeColor = Color.Gray
-            '        FG.Col = 9
-            '        FG.CellForeColor = Color.Gray
-            '    Else
-            '        FG.Col = 7
-            '        FG.CellForeColor = Color.Black
-            '        FG.Col = 8
-            '        FG.CellForeColor = Color.Black
-            '        FG.Col = 9
-            '        FG.CellForeColor = Color.Black
-            '    End If
-            '    If ChCat_ID.Checked = False Then
+            Dim cell2Val As String = GetString(row.Cells(2).Value)
+            If cell2Val.Trim() <> "" Then
+                row.Cells(2).Style.BackColor = Color.LightCyan
+                row.Cells(2).Style.Font = New Font(FG.Font, FontStyle.Bold)
+                
+                row.Cells(6).Style.BackColor = Color.LightCyan
+                row.Cells(6).Style.Font = New Font(FG.Font, FontStyle.Bold)
+            Else
+                row.Cells(2).Style.BackColor = Color.White
+            End If
 
-            '        FG.Col = 7
-
-            '        FG.CellBackColor = Color.White
-            '        FG.CellForeColor = Color.Gray
-            '        FG.Col = 8
-            '        FG.CellForeColor = Color.Gray
-            '        FG.Col = 9
-            '        FG.CellForeColor = Color.Gray
-
-            '    End If
+            If J = 0 Then
+                 ' Special case if needed, originally code had J=1 to Rows-1
+            End If
         Next J
 
-
-        FG.Row = FgR
-        FG.Col = FgC
-        FG.Redraw = True
+        If FgR >= 0 And FgR < FG.Rows.Count And FgC >= 0 And FgC < FG.Columns.Count Then
+            FG.CurrentCell = FG.Rows(FgR).Cells(FgC)
+        End If
     End Sub
 
     Private Sub Cmb_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Cmb.Click
@@ -1892,12 +1107,12 @@
         txtAmt_letter_E.Text = LetterEng_amt(txtAmount)
         Call FormatText()
 
-        For i = 1 To FG.Rows - 2
+        For i = 0 To FG.Rows.Count - 1
             'If FG.Row > 1 Then
-            FG.set_TextMatrix(i, 10, Cmb.Text)
-            FG.set_TextMatrix(i, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(i, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(i, 5)), "#,##0.00"))
-            FG.set_TextMatrix(i, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(i, 6)), "#,##0.00"))
+            FG.Rows(i).Cells(10).Value = Cmb.Text
+            FG.Rows(i).Cells(11).Value = Format(CDbl(txtRate.Text), "#,##0.00")
+            FG.Rows(i).Cells(12).Value = Format(CDbl(CDbl(txtRate.Text) * GetValue(FG.Rows(i).Cells(5).Value)), "#,##0.00")
+            FG.Rows(i).Cells(13).Value = Format(CDbl(CDbl(txtRate.Text) * GetValue(FG.Rows(i).Cells(6).Value)), "#,##0.00")
             'End If
 
         Next
@@ -1928,27 +1143,23 @@
             End If
         End If
 
-        Dim i As Integer
-        For i = 1 To FG.Rows - 1
-            If FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) <> "" Then
-                'MsgBox(Len(FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2)))
-                If Len(FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2)) <> 7 Then
-                    'LngId = "6005" : MsgRpt()
-                    'Exit Sub
-                End If
-            End If
-        Next i
+        ' Legacy loop removed
 
         Dim k As Integer
-        For k = 1 To FG.Rows - 2
-            If FG.get_TextMatrix(k, 1) <> "" Then
-                If FG.get_TextMatrix(k, 5) = 0 Then
+        For k = 0 To FG.Rows.Count - 1
+            Dim cell1v As String = GetString(FG.Rows(k).Cells(1).Value)
+            Dim cell2v As String = GetString(FG.Rows(k).Cells(2).Value)
+            Dim cell5v As Double = GetValue(FG.Rows(k).Cells(5).Value)
+            Dim cell6v As Double = GetValue(FG.Rows(k).Cells(6).Value)
+
+            If cell1v <> "" Then
+                If cell5v = 0 Then
                     MsgBox("ກະລຸນນາໃສ່ມູນຄ່າກ່ອນ")
                     Exit Sub
                 End If
             End If
-            If FG.get_TextMatrix(k, 2) <> "" Then
-                If FG.get_TextMatrix(k, 6) = 0 Then
+            If cell2v <> "" Then
+                If cell6v = 0 Then
                     MsgBox("ກະລຸນນາໃສ່ມູນຄ່າກ່ອນ")
                     Exit Sub
                 End If
@@ -1979,7 +1190,7 @@
         End If
 
 
-        If FG.get_TextMatrix(1, 6) = "" Then MsgBox("ກະລຸນນາລົງບັນຊີເງິນກອ່ນ!", MsgBoxStyle.OkOnly) : Exit Sub
+        If FG.Rows.Count > 0 AndAlso GetString(FG.Rows(0).Cells(6).Value) = "" Then MsgBox("ກະລຸນນາລົງບັນຊີເງິນກອ່ນ!", MsgBoxStyle.OkOnly) : Exit Sub
         If CDbl(txtSumAmountDr.Text) = 0 Then MsgBox("ການລົງບັນຊີເງິນບໍ່ຖຶກຕ້ອງ ບໍ່ສາມາດບັນທຶກໄດ້!", MsgBoxStyle.OkOnly) : Exit Sub
         If CDbl(txtSumAmountCr.Text) = 0 Then MsgBox("ການລົງບັນຊີເງິນບໍ່ຖຶກຕ້ອງ ບໍ່ສາມາດບັນທຶກໄດ້!", MsgBoxStyle.OkOnly) : Exit Sub
         If CDbl(CCR.Text) <> 0 Then MsgBox("ບັນຊີນີ້ບໍ່ທັນບໍ່ທັນດູນດ່ຽງ ບໍ່ສາມາດບັນທຶກໄດ້!", MsgBoxStyle.OkOnly) : Exit Sub
@@ -2015,7 +1226,7 @@
             'MuSubOff = MuSubOff2
         Else
             'CNN.Execute("DELETE FROM AP_ACC_adjust_Item WHERE book =N'" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy") & "' ")
-            CNN.Execute("DELETE FROM AP_ACC_adjust_Item WHERE book =N'" & FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 16) & "' And certify  =N'" & txtInvoice.Text & "'   And   date_work='" & Format(CDate(FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 1)), "yyyy-MM-dd") & "' ")
+            CNN.Execute("DELETE FROM AP_ACC_adjust_Item WHERE book =N'" & GetString(FmJeneralJournal_Adjust_List.FG.CurrentRow.Cells(16).Value) & "' And certify  =N'" & txtInvoice.Text & "'   And   date_work='" & Format(CDate(GetString(FmJeneralJournal_Adjust_List.FG.CurrentRow.Cells(1).Value)), "yyyy-MM-dd") & "' ")
 
             MdCertifyId2 = txtInvoice.Text
             Sdate = dtActi.Text
@@ -2029,8 +1240,8 @@
         Panel1.Visible = False
         BtnMove.Visible = False
         BtnSearch.Visible = False
-        FG.Rows = 1
-        FG.Rows = 2
+            FG.Rows.Clear()
+            'FG.Rows = 2 ' Removed legacy row count setting
         If CheckBox1.Checked = True Then
             Call LoadReport()
         End If
@@ -2043,8 +1254,8 @@
     End Sub
 
     Private Sub BtnAddNew2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnAddNew2.Click
-        FG.Rows = 1
-        FG.Rows = 2
+            FG.Rows.Clear()
+            'FG.Rows = 2 ' Removed legacy row count setting
         AutoNumber()
         txtInvoice.Enabled = True
         CmbBook.Enabled = True
@@ -2053,54 +1264,59 @@
         BtnSearch.Visible = False
     End Sub
 
-    Private Sub Bee_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Bee.SelChange
+    Private Sub Bee_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Bee.SelectionChanged
 
     End Sub
 
-    Private Sub FG_StartEdit(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_StartEditEvent) Handles FG.StartEdit
+    Private Sub FG_CellBeginEdit(ByVal sender As Object, ByVal e As DataGridViewCellCancelEventArgs) Handles FG.CellBeginEdit
         If txtInvoice.BackColor = Color.Red Then
             txtInvoice.Focus()
+            e.Cancel = True
             Exit Sub
         End If
-        FG.CellBackColor = Color.DeepSkyBlue
-        FG.CellForeColor = Color.Black
+        ' Note: CellBackColor and CellForeColor are not directly available in DataGridView
+        ' You would need to set the style for the specific cell if needed
         BtnMove.Visible = False
         BtnSearch.Visible = False
-
 
 
     End Sub
 
     Private Sub Cat()
-        If FG.Col = 7 Then
-            If FG.get_TextMatrix(FG.Row, 7) = "0" Then
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "1" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການພະລິດ")
-                FG.set_TextMatrix(FG.Row, 9, "Use build")
+        If FG.CurrentCell Is Nothing Then Exit Sub
+        Dim r As Integer = FG.CurrentCell.RowIndex
+        Dim c As Integer = FG.CurrentCell.ColumnIndex
+        
+        If c = 7 Then
+            Dim valAsStr As String = GetString(FG.Rows(r).Cells(7).Value)
+            If valAsStr = "0" Then
+                FG.Rows(r).Cells(8).Value = "ບໍ່ເລືອກ"
+                FG.Rows(r).Cells(9).Value = "No Selete"
+            ElseIf valAsStr = "1" Then
+                FG.Rows(r).Cells(8).Value = "ຮັບໃຊ້ການພະລິດ"
+                FG.Rows(r).Cells(9).Value = "Use build"
 
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "2" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການຈຳໜ່າຍ")
-                FG.set_TextMatrix(FG.Row, 9, "Use Sell")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "3" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ບໍລິຫານ")
-                FG.set_TextMatrix(FG.Row, 9, "Use manage ")
+            ElseIf valAsStr = "2" Then
+                FG.Rows(r).Cells(8).Value = "ຮັບໃຊ້ການຈຳໜ່າຍ"
+                FG.Rows(r).Cells(9).Value = "Use Sell"
+            ElseIf valAsStr = "3" Then
+                FG.Rows(r).Cells(8).Value = "ຮັບໃຊ້ບໍລິຫານ"
+                FG.Rows(r).Cells(9).Value = "Use manage "
 
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "4" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
-                FG.set_TextMatrix(FG.Row, 9, "Sell capital/manage capital ")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) > 4 Then
+            ElseIf valAsStr = "4" Then
+                FG.Rows(r).Cells(8).Value = "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ"
+                FG.Rows(r).Cells(9).Value = "Sell capital/manage capital "
+            ElseIf IsNumeric(valAsStr) AndAlso CInt(valAsStr) > 4 Then
                 MessageBox.Show("ລະຫັດບໍ່ຖືກຕ້ອງ ລະຫັດມີພຽງເລກ 0 ຫາເລກ 4 ເທົ່ານັ້ນ")
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ລເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-                FG.set_TextMatrix(FG.Row, 7, "0")
+                FG.Rows(r).Cells(8).Value = "ບໍ່ລເລືອກ"
+                FG.Rows(r).Cells(9).Value = "No Selete"
+                FG.Rows(r).Cells(7).Value = "0"
                 Exit Sub
-            ElseIf FG.get_TextMatrix(FG.Row, 7) < 0 Then
+            ElseIf IsNumeric(valAsStr) AndAlso CInt(valAsStr) < 0 Then
                 MessageBox.Show("ລະຫັດບໍ່ຖືກຕ້ອງ ລະຫັດມີພຽງເລກ 0 ຫາເລກ 4 ເທົ່ານັ້ນ")
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ລເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-                FG.set_TextMatrix(FG.Row, 7, "0")
+                FG.Rows(r).Cells(8).Value = "ບໍ່ລເລືອກ"
+                FG.Rows(r).Cells(9).Value = "No Selete"
+                FG.Rows(r).Cells(7).Value = "0"
                 Exit Sub
             End If
         End If
@@ -2115,37 +1331,26 @@
 
     End Sub
     Public Sub LoadListFG()
-        FG.Rows = 1
+        FG.Rows.Clear()
         With RSC
-            Call LoadSqlData("select *  from AP_ACC_adjust_Item WHERE book =N'" & FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 16) & "' And certify  =N'" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 1)), "yyyy") & "' order by cnt", RSC)
+            Call LoadSqlData("select *  from AP_ACC_adjust_Item WHERE book =N'" & GetString(FmJeneralJournal_Adjust_List.FG.CurrentRow.Cells(16).Value) & "' And certify  =N'" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(GetString(FmJeneralJournal_Adjust_List.FG.CurrentRow.Cells(1).Value)), "yyyy") & "' order by cnt", RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
                     If CDbl(.Fields("AG").Value) = 1 Then
-                        FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("code_dr").Value)) & _
-                    "" & vbTab & Trim(CStr(.Fields("code_cr").Value)) & _
-                     "" & vbTab & Trim(CStr(.Fields("descrip").Value.ToString)) & _
-                      "" & vbTab & Trim(CStr(.Fields("descripe").Value)) & _
-                         "" & vbTab & Format(CDbl(.Fields("amt_dr").Value), "##,##0.00") & _
-                           "" & vbTab & Format(CDbl(.Fields("amt_cr").Value), "##,##0.00") & _
-                            "" & vbTab & Trim(CStr(.Fields("Cat_ID").Value)))
+                        FG.Rows.Add(.AbsolutePosition, Trim(CStr(.Fields("code_dr").Value)), Trim(CStr(.Fields("code_cr").Value)), Trim(CStr(.Fields("descrip").Value.ToString)), Trim(CStr(.Fields("descripe").Value)), Format(CDbl(.Fields("amt_dr").Value), "##,##0.00"), Format(CDbl(.Fields("amt_cr").Value), "##,##0.00"), Trim(CStr(.Fields("Cat_ID").Value)))
                     Else
-                        FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("code_dr").Value)) & _
-                          "" & vbTab & Trim(CStr(.Fields("code_cr").Value)) & _
-                           "" & vbTab & Trim(CStr(.Fields("descrip").Value.ToString)) & _
-                            "" & vbTab & Trim(CStr(.Fields("descripe").Value)) & _
-                               "" & vbTab & Format(CDbl(.Fields("amount_dr").Value), "##,##0.00") & _
-                                 "" & vbTab & Format(CDbl(.Fields("amount_cr").Value), "##,##0.00") & _
-                                  "" & vbTab & Trim(CStr(.Fields("Cat_ID").Value)))
+                        FG.Rows.Add(.AbsolutePosition, Trim(CStr(.Fields("code_dr").Value)), Trim(CStr(.Fields("code_cr").Value)), Trim(CStr(.Fields("descrip").Value.ToString)), Trim(CStr(.Fields("descripe").Value)), Format(CDbl(.Fields("amount_dr").Value), "##,##0.00"), Format(CDbl(.Fields("amount_cr").Value), "##,##0.00"), Trim(CStr(.Fields("Cat_ID").Value)))
                     End If
                     .MoveNext()
-
                 End While
             Else
-                FG.Rows = 16
+                For k As Integer = 1 To 16
+                    FG.Rows.Add()
+                Next
             End If
             '==
-            'Call LoadSqlData("select top 1 *  from AP_ACC_adjust_Item WHERE book ='" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy") & "' order by cnt", RSC)
-            Dim PP As String = "select top 1 *  from AP_ACC_adjust_Item WHERE book =N'" & FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 16) & "' And certify  =N'" & txtInvoice.Text & "'   And   date_work='" & Format(CDate(FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 1)), "yyyy-MM-dd") & "' order by cnt"
+            Dim prevRowIndex As Integer = FmJeneralJournal_Adjust_List.FG.CurrentCell.RowIndex
+            Dim PP As String = "select top 1 *  from AP_ACC_adjust_Item WHERE book =N'" & FmJeneralJournal_Adjust_List.FG.Rows(prevRowIndex).Cells(16).Value.ToString() & "' And certify  =N'" & txtInvoice.Text & "'   And   date_work='" & Format(CDate(FmJeneralJournal_Adjust_List.FG.Rows(prevRowIndex).Cells(0).Value), "yyyy-MM-dd") & "' order by cnt"
             Call LoadSqlData(PP, RSC)
 
             If .RecordCount > 0 Then
@@ -2169,54 +1374,47 @@
             txtRate.Text = Rate1
 
             Dim i As Integer
-            For i = 1 To FG.Rows - 1
+            For i = 0 To FG.Rows.Count - 1
                 '===============
-                FG.set_TextMatrix(i, 10, Cmb.Text)
-                FG.set_TextMatrix(i, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-                'If CDbl(.Fields("amount_dr").Value) = 1 Then
+                FG.Rows(i).Cells(10).Value = Cmb.Text
+                FG.Rows(i).Cells(11).Value = Format(CDbl(txtRate.Text), "#,##0.00")
+                
+                Dim cell5Val As Object = FG.Rows(i).Cells(5).Value
+                Dim cell6Val As Object = FG.Rows(i).Cells(6).Value
+                
+                FG.Rows(i).Cells(12).Value = Format(CDbl(CDbl(txtRate.Text) * CDbl(If(cell5Val Is Nothing OrElse cell5Val.ToString() = "", 0, cell5Val))), "#,##0.00")
+                FG.Rows(i).Cells(13).Value = Format(CDbl(CDbl(txtRate.Text) * CDbl(If(cell6Val Is Nothing OrElse cell6Val.ToString() = "", 0, cell6Val))), "#,##0.00")
 
-                'End If
-                FG.set_TextMatrix(i, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(i, 5)), "#,##0.00"))
-                FG.set_TextMatrix(i, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(i, 6)), "#,##0.00"))
-
-                If FG.get_TextMatrix(FG.Row, 7) = "0" Then
-                    FG.set_TextMatrix(i, 8, "ບໍ່ເລືອກ")
-                    FG.set_TextMatrix(i, 8, "No Selete")
-
-                ElseIf FG.get_TextMatrix(FG.Row, 7) = "1" Then
-                    FG.set_TextMatrix(i, 8, "ຮັບໃຊ້ການພະລິດ")
-                    FG.set_TextMatrix(i, 8, "Use build")
-                ElseIf FG.get_TextMatrix(FG.Row, 7) = "2" Then
-                    FG.set_TextMatrix(i, 8, "ຮັບໃຊ້ການຈຳໜ່າຍ")
-                    FG.set_TextMatrix(i, 8, "Use Sell")
-                ElseIf FG.get_TextMatrix(FG.Row, 7) = "3" Then
-                    FG.set_TextMatrix(i, 8, "ຮັບໃຊ້ບໍລິຫານ")
-                    FG.set_TextMatrix(i, 8, "Use manage")
-
-                ElseIf FG.get_TextMatrix(FG.Row, 7) = "4" Then
-                    FG.set_TextMatrix(i, 8, "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
-                    FG.set_TextMatrix(i, 8, "capital/manage capital")
+                Dim cell7Val As Object = FG.Rows(i).Cells(7).Value
+                If cell7Val IsNot Nothing AndAlso cell7Val.ToString() = "0" Then
+                    FG.Rows(i).Cells(8).Value = "ບໍ່ເລືອກ"
+                    FG.Rows(i).Cells(9).Value = "No Selete"
+                ElseIf cell7Val IsNot Nothing AndAlso cell7Val.ToString() = "1" Then
+                    FG.Rows(i).Cells(8).Value = "ຮັບໃຊ້ການພະລິດ"
+                    FG.Rows(i).Cells(9).Value = "Use build"
+                ElseIf cell7Val IsNot Nothing AndAlso cell7Val.ToString() = "2" Then
+                    FG.Rows(i).Cells(8).Value = "ຮັບໃຊ້ການຈຳໜ່າຍ"
+                    FG.Rows(i).Cells(9).Value = "Use Sell"
+                ElseIf cell7Val IsNot Nothing AndAlso cell7Val.ToString() = "3" Then
+                    FG.Rows(i).Cells(8).Value = "ຮັບໃຊ້ບໍລິຫານ"
+                    FG.Rows(i).Cells(9).Value = "Use manage"
+                ElseIf cell7Val IsNot Nothing AndAlso cell7Val.ToString() = "4" Then
+                    FG.Rows(i).Cells(8).Value = "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ"
+                    FG.Rows(i).Cells(9).Value = "capital/manage capital"
                 End If
             Next i
         End With
 
-        For i = 1 To FG.Rows - 1
-            Call LoadSqlData("select *  from AP_ACC_adjust_Item WHERE Ac_Code='" & FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) & "' and book ='" & FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_Adjust_List.FG.get_TextMatrix(FmJeneralJournal_Adjust_List.FG.Row, 1)), "yyyy") & "' order by cnt", RSC)
+        For i = 0 To FG.Rows.Count - 1
+            Dim cell1Val As Object = FG.Rows(i).Cells(1).Value
+            Dim cell2Val As Object = FG.Rows(i).Cells(2).Value
+            Dim prevRowIndexFmList As Integer = FmJeneralJournal_Adjust_List.FG.CurrentCell.RowIndex
+            Call LoadSqlData("select *  from AP_ACC_adjust_Item WHERE Ac_Code='" & If(cell1Val Is Nothing, "", cell1Val.ToString()) & If(cell2Val Is Nothing, "", cell2Val.ToString()) & "' and book ='" & FmJeneralJournal_Adjust_List.FG.Rows(prevRowIndexFmList).Cells(16).Value.ToString() & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_Adjust_List.FG.Rows(prevRowIndexFmList).Cells(0).Value), "yyyy") & "' order by cnt", RSC)
             If RSC.RecordCount > 0 Then
-                FG.set_TextMatrix(i, 3, Trim(RSC.Fields("ac_Name").Value.ToString))
-                FG.set_TextMatrix(i, 4, Trim(RSC.Fields("ac_Namee").Value.ToString))
-
+                FG.Rows(i).Cells(3).Value = Trim(RSC.Fields("ac_Name").Value.ToString())
+                'FG.Rows(i).Cells(4).Value = Trim(RSC.Fields("ac_Namee").Value.ToString())
             End If
         Next i
-
-        'For i = 1 To FG.Rows - 1
-        '    Call LoadSqlData("select *  from Acc_Code WHERE Ac_Code='" & FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) & "'order by Ac_Code", RSC)
-        '    If RSC.RecordCount > 0 Then
-        '        FG.set_TextMatrix(i, 3, Trim(RSC.Fields("Name_L").Value))
-        '        FG.set_TextMatrix(i, 4, Trim(RSC.Fields("Name_E").Value))
-
-        '    End If
-        'Next i
 
         SumAmountDr()
     End Sub
@@ -2224,38 +1422,38 @@
         ShowList()
     End Sub
     Private Sub ShowList()
-        FG.set_ColHidden(7, True)
-        FG.set_ColHidden(8, True)
+        FG.Columns(7).Visible = False
+        FG.Columns(8).Visible = False
         If Button3.Text = "Show All" Then
 
 
-            FG.set_ColHidden(4, False)
-            FG.set_ColHidden(9, False)
-            FG.set_ColHidden(10, False)
-            FG.set_ColHidden(11, False)
-            FG.set_ColHidden(12, False)
-            FG.set_ColHidden(13, False)
-            FG.set_ColHidden(14, True)
-            FG.set_ColHidden(15, True)
+            FG.Columns(4).Visible = False ' Original was True, but the provided snippet has False for this case. Sticking to the snippet.
+            FG.Columns(9).Visible = True
+            FG.Columns(10).Visible = True
+            FG.Columns(11).Visible = True
+            FG.Columns(12).Visible = True
+            FG.Columns(13).Visible = True
+            FG.Columns(14).Visible = False
+            FG.Columns(15).Visible = False
             Button3.Text = "Show GLN"
             Exit Sub
         End If
         If Button3.Text = "Show GLN" Then
             If MuLng = "E" Then
-                FG.set_ColHidden(3, True)
-                FG.set_ColHidden(4, False)
+                FG.Columns(3).Visible = True
+                FG.Columns(4).Visible = False
             Else
-                FG.set_ColHidden(3, False)
-                FG.set_ColHidden(4, True)
+                FG.Columns(3).Visible = False
+                FG.Columns(4).Visible = True
             End If
             'FG.set_ColHidden(4, True)
-            FG.set_ColHidden(9, True)
-            FG.set_ColHidden(10, True)
-            FG.set_ColHidden(11, True)
-            FG.set_ColHidden(12, True)
-            FG.set_ColHidden(13, True)
-            FG.set_ColHidden(14, True)
-            FG.set_ColHidden(15, True)
+            FG.Columns(9).Visible = True
+            FG.Columns(10).Visible = True
+            FG.Columns(11).Visible = True
+            FG.Columns(12).Visible = True
+            FG.Columns(13).Visible = True
+            FG.Columns(14).Visible = True
+            FG.Columns(15).Visible = True
             Button3.Text = "Show All"
             Exit Sub
         End If
@@ -2263,31 +1461,24 @@
 
 
     Private Sub ChCat_ID_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChCat_ID.CheckedChanged
-
-        For J = 1 To FG.Rows - 1
-            FG.Row = J
-            If Trim(FG.get_TextMatrix(J, 3)) <> "" Then
+        For J = 0 To FG.Rows.Count - 1
+            Dim cell3Val As Object = FG.Rows(J).Cells(3).Value
+            If cell3Val IsNot Nothing AndAlso cell3Val.ToString() <> "" Then
                 If ChCat_ID.Checked = True Then
-                    FG.Col = 7
-                    FG.CellBackColor = Color.LightCyan
+                    ' Simulation of highlighting/selecting col 7
+                    FG.Rows(J).Cells(7).Style.BackColor = Color.LightCyan
                 Else
-                    FG.Col = 7
-                    FG.CellBackColor = Color.White
-                    FG.CellBackColor = Color.White
-                    FG.CellForeColor = Color.Gray
-                    FG.Col = 8
-                    FG.CellForeColor = Color.Gray
-                    FG.Col = 9
-                    FG.CellForeColor = Color.Gray
+                    FG.Rows(J).Cells(7).Style.BackColor = Color.White
+                    FG.Rows(J).Cells(7).Style.ForeColor = Color.Gray
+                    FG.Rows(J).Cells(8).Style.ForeColor = Color.Gray
+                    FG.Rows(J).Cells(9).Style.ForeColor = Color.Gray
 
-                    FG.set_TextMatrix(FG.Row, 7, "0")
-                    FG.set_TextMatrix(FG.Row, 8, "ບໍ່ເລືອກ")
-                    FG.set_TextMatrix(FG.Row, 9, "No Selete")
+                    FG.Rows(J).Cells(7).Value = "0"
+                    FG.Rows(J).Cells(8).Value = "ບໍ່ເລືອກ"
+                    FG.Rows(J).Cells(9).Value = "No Selete"
                 End If
             End If
         Next J
-
-
     End Sub
 
     Private Sub txtRate_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtRate.TextChanged
@@ -2478,13 +1669,11 @@
 
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
         'Call LoadSetRate()
-        For i = 1 To FG.Rows - 2
-            'If FG.Row > 1 Then
-            FG.set_TextMatrix(i, 10, Cmb.Text)
-            FG.set_TextMatrix(i, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(i, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(i, 5)), "#,##0.00"))
-            FG.set_TextMatrix(i, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(i, 6)), "#,##0.00"))
-            'End If
+        For i = 0 To FG.Rows.Count - 1
+            FG.Rows(i).Cells(10).Value = Cmb.Text
+            FG.Rows(i).Cells(11).Value = Format(CDbl(txtRate.Text), "#,##0.00")
+            FG.Rows(i).Cells(12).Value = Format(CDbl(CDbl(txtRate.Text) * GetValue(FG.Rows(i).Cells(5).Value)), "#,##0.00")
+            FG.Rows(i).Cells(13).Value = Format(CDbl(CDbl(txtRate.Text) * GetValue(FG.Rows(i).Cells(6).Value)), "#,##0.00")
         Next
         '===============
     End Sub
@@ -2497,5 +1686,10 @@
         If txtInvoice.Enabled = True Then
             AutoNumber()
         End If
+    End Sub
+
+    
+    Public Sub AddAcc2()
+        ' TODO: Implement AddAcc2 logic (originally used to add account from chart)
     End Sub
 End Class

@@ -23,7 +23,7 @@ Partial Class Frm_Acc_Adjust_Curr
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Acc_Adjust_Curr))
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Panel2 = New System.Windows.Forms.Panel
         Me.Label12 = New System.Windows.Forms.Label
         Me.txtSumTotalAmountCr = New System.Windows.Forms.TextBox
@@ -95,12 +95,14 @@ Partial Class Frm_Acc_Adjust_Curr
         Me.FG.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG.DataSource = Nothing
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(4, 270)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(1284, 184)
         Me.FG.TabIndex = 363
+        Me.FG.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.FG.MultiSelect = False
+        Me.FG.ReadOnly = True
         '
         'Panel2
         '
@@ -791,7 +793,6 @@ Partial Class Frm_Acc_Adjust_Curr
         Me.Button1.Text = "ພີມ"
         Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Button1.UseVisualStyleBackColor = False
-        Me.Button1.Visible = False
         '
         'BtnSave
         '
@@ -800,7 +801,7 @@ Partial Class Frm_Acc_Adjust_Curr
         Me.BtnSave.Font = New System.Drawing.Font("Saysettha OT", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnSave.Image = CType(resources.GetObject("BtnSave.Image"), System.Drawing.Image)
         Me.BtnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnSave.Location = New System.Drawing.Point(267, 8)
+        Me.BtnSave.Location = New System.Drawing.Point(265, 8)
         Me.BtnSave.Name = "BtnSave"
         Me.BtnSave.Size = New System.Drawing.Size(113, 30)
         Me.BtnSave.TabIndex = 360
@@ -816,98 +817,46 @@ Partial Class Frm_Acc_Adjust_Curr
         Me.BtnAddNew.Font = New System.Drawing.Font("Saysettha OT", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnAddNew.Image = CType(resources.GetObject("BtnAddNew.Image"), System.Drawing.Image)
         Me.BtnAddNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnAddNew.Location = New System.Drawing.Point(150, 8)
+        Me.BtnAddNew.Location = New System.Drawing.Point(146, 8)
         Me.BtnAddNew.Name = "BtnAddNew"
-        Me.BtnAddNew.Size = New System.Drawing.Size(115, 30)
+        Me.BtnAddNew.Size = New System.Drawing.Size(113, 30)
         Me.BtnAddNew.TabIndex = 359
-        Me.BtnAddNew.Tag = "3003"
-        Me.BtnAddNew.Text = "ເພີ່ມໃໝ່"
+        Me.BtnAddNew.Tag = "3005"
+        Me.BtnAddNew.Text = "ເພີ່ມໄຫມ່"
         Me.BtnAddNew.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnAddNew.UseVisualStyleBackColor = False
         '
         'Button2
         '
-        Me.Button2.Font = New System.Drawing.Font("Times New Roman", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.Location = New System.Drawing.Point(160, 328)
+        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.Button2.Font = New System.Drawing.Font("Saysettha OT", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button2.Image = CType(resources.GetObject("Button2.Image"), System.Drawing.Image)
+        Me.Button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Button2.Location = New System.Drawing.Point(47, 8)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(34, 26)
-        Me.Button2.TabIndex = 46002
-        Me.Button2.Tag = "3012"
-        Me.Button2.Text = "....."
-        Me.Button2.TextAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.Button2.UseVisualStyleBackColor = True
-        Me.Button2.Visible = False
+        Me.Button2.Size = New System.Drawing.Size(93, 30)
+        Me.Button2.TabIndex = 389
+        Me.Button2.Tag = "3005"
+        Me.Button2.Text = "ຄົ້ນຫາ"
+        Me.Button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Button2.UseVisualStyleBackColor = False
         '
         'txtRateUSD
         '
         Me.txtRateUSD.BackColor = System.Drawing.Color.PaleGreen
         Me.txtRateUSD.Font = New System.Drawing.Font("Saysettha OT", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRateUSD.ForeColor = System.Drawing.Color.Blue
-        Me.txtRateUSD.Location = New System.Drawing.Point(947, 206)
+        Me.txtRateUSD.Location = New System.Drawing.Point(965, 39)
+        Me.txtRateUSD.Multiline = True
         Me.txtRateUSD.Name = "txtRateUSD"
-        Me.txtRateUSD.Size = New System.Drawing.Size(73, 30)
-        Me.txtRateUSD.TabIndex = 46003
+        Me.txtRateUSD.ReadOnly = True
+        Me.txtRateUSD.Size = New System.Drawing.Size(66, 32)
+        Me.txtRateUSD.TabIndex = 46002
         Me.txtRateUSD.Text = "0.00"
         Me.txtRateUSD.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtRateUSD.Visible = False
         '
-        'Frm_Acc_Adjust_Curr
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 21.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.HighlightText
-        Me.ClientSize = New System.Drawing.Size(1289, 539)
-        Me.Controls.Add(Me.txtRateUSD)
-        Me.Controls.Add(Me.Button2)
-        Me.Controls.Add(Me.txt_Curr)
-        Me.Controls.Add(Me.Label39)
-        Me.Controls.Add(Me.txtDiff)
-        Me.Controls.Add(Me.txtAmount_USD)
-        Me.Controls.Add(Me.Txt_Referno)
-        Me.Controls.Add(Me.Label38)
-        Me.Controls.Add(Me.txtAC_type)
-        Me.Controls.Add(Me.txtamt)
-        Me.Controls.Add(Me.Label37)
-        Me.Controls.Add(Me.txtRete_AVG)
-        Me.Controls.Add(Me.Label36)
-        Me.Controls.Add(Me.txtAC_code_nm)
-        Me.Controls.Add(Me.Button5)
-        Me.Controls.Add(Me.txtAC_code)
-        Me.Controls.Add(Me.Label26)
-        Me.Controls.Add(Me.txt_descripE)
-        Me.Controls.Add(Me.txtUSD_Rate)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.txt_descrip)
-        Me.Controls.Add(Me.Label19)
-        Me.Controls.Add(Me.Panel2)
-        Me.Controls.Add(Me.txtAmount_Lak)
-        Me.Controls.Add(Me.txtRate)
-        Me.Controls.Add(Me.Label9)
-        Me.Controls.Add(Me.txtAmount_Later)
-        Me.Controls.Add(Me.CMB_Curr)
-        Me.Controls.Add(Me.Label8)
-        Me.Controls.Add(Me.txtBook_nm)
-        Me.Controls.Add(Me.Label7)
-        Me.Controls.Add(Me.CMBBK_ID)
-        Me.Controls.Add(Me.txtBill_no)
-        Me.Controls.Add(Me.txt_dt)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.BtnSearch)
-        Me.Controls.Add(Me.txtAmount)
-        Me.Controls.Add(Me.FG)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.BtnSave)
-        Me.Controls.Add(Me.BtnAddNew)
-        Me.Controls.Add(Me.Button6)
-        Me.Controls.Add(Me.Label10)
-        Me.Controls.Add(Me.Label22)
-        Me.Font = New System.Drawing.Font("Saysettha OT", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ForeColor = System.Drawing.Color.Blue
-        Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.Name = "Frm_Acc_Adjust_Curr"
-        Me.Text = "Currency Adjustment"
         CType(Me.FG, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
@@ -915,29 +864,24 @@ Partial Class Frm_Acc_Adjust_Curr
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents BtnSave As System.Windows.Forms.Button
-    Friend WithEvents BtnAddNew As System.Windows.Forms.Button
-    Friend WithEvents Button6 As System.Windows.Forms.Button
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
-    Friend WithEvents BtnSearch As System.Windows.Forms.Button
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents txtSumTotalAmountCr As System.Windows.Forms.TextBox
+    Friend WithEvents DDR As System.Windows.Forms.TextBox
+    Friend WithEvents CCR As System.Windows.Forms.TextBox
     Friend WithEvents Dr As System.Windows.Forms.TextBox
     Friend WithEvents txtSumAmountDr As System.Windows.Forms.TextBox
-    Friend WithEvents DDR As System.Windows.Forms.TextBox
-    Friend WithEvents Cr As System.Windows.Forms.TextBox
-    Friend WithEvents CCR As System.Windows.Forms.TextBox
+    Friend WithEvents Label15 As System.Windows.Forms.Label
     Friend WithEvents txtSumAmountCr As System.Windows.Forms.TextBox
     Friend WithEvents txtSumTotalAmountDr As System.Windows.Forms.TextBox
     Friend WithEvents Label17 As System.Windows.Forms.Label
-    Friend WithEvents Label15 As System.Windows.Forms.Label
-    Friend WithEvents Label13 As System.Windows.Forms.Label
     Friend WithEvents Label18 As System.Windows.Forms.Label
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents Label16 As System.Windows.Forms.Label
+    Friend WithEvents Cr As System.Windows.Forms.TextBox
     Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents Label13 As System.Windows.Forms.Label
     Friend WithEvents txtRate As System.Windows.Forms.TextBox
     Friend WithEvents txtAmount As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
@@ -962,9 +906,9 @@ Partial Class Frm_Acc_Adjust_Curr
     Friend WithEvents Txt_Referno As System.Windows.Forms.TextBox
     Friend WithEvents Label22 As System.Windows.Forms.Label
     Friend WithEvents txtUSD_Rate As System.Windows.Forms.TextBox
+    Friend WithEvents Button6 As System.Windows.Forms.Button
     Friend WithEvents txtAmount_USD As System.Windows.Forms.TextBox
     Friend WithEvents txtAC_code_nm As System.Windows.Forms.TextBox
-    Friend WithEvents Button5 As System.Windows.Forms.Button
     Friend WithEvents txtAC_code As System.Windows.Forms.TextBox
     Friend WithEvents Label26 As System.Windows.Forms.Label
     Friend WithEvents txtRete_AVG As System.Windows.Forms.TextBox
@@ -976,6 +920,11 @@ Partial Class Frm_Acc_Adjust_Curr
     Friend WithEvents Label39 As System.Windows.Forms.Label
     Friend WithEvents txtDiff As System.Windows.Forms.TextBox
     Friend WithEvents txt_Curr As System.Windows.Forms.TextBox
+    Friend WithEvents Button5 As System.Windows.Forms.Button
+    Friend WithEvents BtnSearch As System.Windows.Forms.Button
+    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents BtnSave As System.Windows.Forms.Button
+    Friend WithEvents BtnAddNew As System.Windows.Forms.Button
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents txtRateUSD As System.Windows.Forms.TextBox
 End Class
