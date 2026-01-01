@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmLoanClosing
     Inherits System.Windows.Forms.Form
 
@@ -37,7 +37,7 @@ Partial Class FmLoanClosing
         Me.Label17 = New System.Windows.Forms.Label
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.Button3 = New System.Windows.Forms.Button
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.BtnEdit = New System.Windows.Forms.Button
         Me.BtnAddNew = New System.Windows.Forms.Button
         Me.BtnRefresh = New System.Windows.Forms.Button
@@ -210,7 +210,7 @@ Partial Class FmLoanClosing
         Me.FG.DataSource = Nothing
         Me.FG.Location = New System.Drawing.Point(7, 48)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
+
         Me.FG.Size = New System.Drawing.Size(874, 553)
         Me.FG.TabIndex = 14
         '
@@ -483,7 +483,7 @@ Partial Class FmLoanClosing
     Friend WithEvents BtnAddNew2 As System.Windows.Forms.Button
     Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
     Friend WithEvents Date_Work As System.Windows.Forms.TextBox
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents Button1 As System.Windows.Forms.Button
 End Class
