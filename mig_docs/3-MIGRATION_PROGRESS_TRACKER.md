@@ -24,7 +24,7 @@
 ## Remaining Forms to Migrate (36 forms)
 - FmTrialBalanceReport - ✅ Migrated- FmRestorData - ✅ Migrated
 - FmLoanClosing - ✅ Migrated
-- FmNsewJeneralJournal_Adjust
+- FmNsewJeneralJournal_Adjust - ✅ Migrated
 - Office_AP
 - FrmUser
 - FmTrialBalanceReport (in another location)

@@ -1,4 +1,4 @@
-﻿Public Class FmNsewJeneralJournal_Adjust
+Public Class FmNsewJeneralJournal_Adjust
     Dim sql As String
     Dim Rate1 As String
     Dim MdCertifyId, MdCertifyId2, Sdate As String
@@ -547,6 +547,21 @@
         'Off_Usr.SelectedIndex = 0
     End Sub
     Private Sub FmNsewJeneralJournal_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetupGrid()
+        SetupGridBee()
+        LoadCurr()
+        LoadBook()
+        loadOffice_User()
+        ' The original form loads some data into the grid upon load.
+        ' If FmJeneralJournal_Adjust_List is the source of data, then
+        ' the following line would simulate that. Needs further investigation
+        ' if this form is standalone or always opened from a list.
+        ' For now, assume it's opened from the list and data is passed or loaded.
+        ' Dim prevRowIndex As Integer = FmJeneralJournal_Adjust_List.FG.CurrentCell.RowIndex
+        ' txtInvoice.Text = GetString(FmJeneralJournal_Adjust_List.FG.CurrentRow.Cells(4).Value)
+        ' LoadListFG()
+        ' SumAmountDr()
+        ' loadColor()
     End Sub
 
     Private Sub LoadBook()
