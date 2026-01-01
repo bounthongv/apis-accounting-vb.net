@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FrmUser
     Inherits System.Windows.Forms.Form
 
@@ -39,14 +39,14 @@ Partial Class FrmUser
         Me.txtDep_ID = New System.Windows.Forms.TextBox
         Me.txtDep_Nm = New System.Windows.Forms.TextBox
         Me.Button3 = New System.Windows.Forms.Button
-        Me.Fg = New AxVSFlex8U.AxVSFlexGrid
+        Me.Fg = New System.Windows.Forms.DataGridView
         Me.Button1 = New System.Windows.Forms.Button
         Me.BtnDel = New System.Windows.Forms.Button
         Me.BtnSave = New System.Windows.Forms.Button
         Me.BtnAddNew = New System.Windows.Forms.Button
         Me.Button2 = New System.Windows.Forms.Button
         Me.Panel1 = New System.Windows.Forms.Panel
-        Me.FgSec = New AxVSFlex8U.AxVSFlexGrid
+        Me.FgSec = New System.Windows.Forms.DataGridView
         Me.Label8 = New System.Windows.Forms.Label
         Me.Panel3 = New System.Windows.Forms.Panel
         Me.Button5 = New System.Windows.Forms.Button
@@ -58,7 +58,7 @@ Partial Class FrmUser
         Me.txtOldPass = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.Panel4 = New System.Windows.Forms.Panel
-        Me.FgItem = New AxVSFlex8U.AxVSFlexGrid
+        Me.FgItem = New System.Windows.Forms.DataGridView
         Me.Label4 = New System.Windows.Forms.Label
         Me.cmbCompany = New System.Windows.Forms.ComboBox
         Me.Label5 = New System.Windows.Forms.Label
@@ -235,7 +235,7 @@ Partial Class FrmUser
         Me.Fg.DataSource = Nothing
         Me.Fg.Location = New System.Drawing.Point(4, 99)
         Me.Fg.Name = "Fg"
-        Me.Fg.OcxState = CType(resources.GetObject("Fg.OcxState"), System.Windows.Forms.AxHost.State)
+
         Me.Fg.Size = New System.Drawing.Size(964, 420)
         Me.Fg.TabIndex = 86
         '
@@ -309,7 +309,6 @@ Partial Class FrmUser
         Me.FgSec.DataSource = Nothing
         Me.FgSec.Location = New System.Drawing.Point(2, 16)
         Me.FgSec.Name = "FgSec"
-        Me.FgSec.OcxState = CType(resources.GetObject("FgSec.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FgSec.Size = New System.Drawing.Size(410, 254)
         Me.FgSec.TabIndex = 45490
         '
@@ -439,7 +438,7 @@ Partial Class FrmUser
         Me.FgItem.DataSource = Nothing
         Me.FgItem.Location = New System.Drawing.Point(3, 19)
         Me.FgItem.Name = "FgItem"
-        Me.FgItem.OcxState = CType(resources.GetObject("FgItem.OcxState"), System.Windows.Forms.AxHost.State)
+
         Me.FgItem.Size = New System.Drawing.Size(392, 187)
         Me.FgItem.TabIndex = 66
         '
@@ -633,7 +632,7 @@ Partial Class FrmUser
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents txtDep_Nm As System.Windows.Forms.TextBox
     Friend WithEvents Button3 As System.Windows.Forms.Button
-    Friend WithEvents Fg As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents Fg As System.Windows.Forms.DataGridView
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
@@ -645,9 +644,9 @@ Partial Class FrmUser
     Friend WithEvents txtNewPass As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents txtOldPass As System.Windows.Forms.TextBox
-    Friend WithEvents FgSec As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FgSec As System.Windows.Forms.DataGridView
     Friend WithEvents Panel4 As System.Windows.Forms.Panel
-    Friend WithEvents FgItem As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FgItem As System.Windows.Forms.DataGridView
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents cmbCompany As System.Windows.Forms.ComboBox
     Friend WithEvents Label5 As System.Windows.Forms.Label

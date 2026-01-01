@@ -1,4 +1,4 @@
-﻿Public Class FrmUser
+Public Class FrmUser
     Public RSC As New ADODB.Recordset
     Public EditActive As Boolean
     Dim itemfgacc As Boolean
@@ -17,8 +17,7 @@
     End Sub
     Private Sub FrmUser_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SUPD = 0
-        Fg.FormatString = "ລ/ດ|<ລະຫັດຜູ້ໃຊ້|<ລາຍການຜູ້ໃຊ້  |<ສິດໃຊ້ໂປຣແກຣມ|<ພາກສ່ວນ     |<ສາຂາ"
-        FgSec.FormatString = "ລ/ດ|<ລະຫັດພາກສ່ວນ  |<ລາຍການພາກສ່ວນ            "
+        Call SetupGrid()
         Call LoadData()
         Call LoadSection()
         txtUsr_id.Enabled = True
@@ -28,6 +27,65 @@
         Call loadCompany()
         Call LoadSubCompany()
     End Sub
+
+    Private Sub SetupGrid()
+        With Fg
+            .Columns.Clear()
+            .Columns.Add("No", "ລ/ດ")
+            .Columns.Add("UserID", "ລະຫັດຜູ້ໃຊ້")
+            .Columns.Add("UserName", "ລາຍການຜູ້ໃຊ້")
+            .Columns.Add("Permission", "ສິດໃຊ້ໂປຣແກຣມ")
+            .Columns.Add("Section", "ພາກສ່ວນ")
+            .Columns.Add("Branch", "ສາຂາ")
+
+            .AllowUserToAddRows = False
+            .AllowUserToDeleteRows = False
+            .ReadOnly = True
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .MultiSelect = False
+            .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        End With
+
+        With FgSec
+            .Columns.Clear()
+            .Columns.Add("No", "ລ/ດ")
+            .Columns.Add("SecID", "ລະຫັດພາກສ່ວນ")
+            .Columns.Add("SecName", "ລາຍການພາກສ່ວນ")
+
+            .AllowUserToAddRows = False
+            .AllowUserToDeleteRows = False
+            .ReadOnly = True
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .MultiSelect = False
+            .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        End With
+
+        With FgItem
+            .Columns.Clear()
+            .Columns.Add("No", "ລ/ດ")
+            Dim chkCol As New DataGridViewCheckBoxColumn()
+            chkCol.Name = "Ints"
+            chkCol.HeaderText = "Check"
+            .Columns.Add(chkCol)
+            .Columns.Add("SecID", "Sec_ID")
+            .Columns.Add("SecName", "Sec_Nm")
+
+            .AllowUserToAddRows = False
+            .AllowUserToDeleteRows = False
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .MultiSelect = False
+            .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            
+            .ReadOnly = False
+            .Columns(0).ReadOnly = True
+            .Columns(2).ReadOnly = True
+            .Columns(3).ReadOnly = True
+        End With
+    End Sub
+
     Private Sub loadCompany()
         cmbCompany.Items.Clear()
         LoadSqlData("select off_add1 , off_id  from  Ap_office group BY off_id , off_add1", RSC)
@@ -46,34 +104,34 @@
         Else
             Sql = "AND Company='" & MuSubOff & "'"
         End If
-        Fg.Rows = 1
+        Fg.Rows.Clear()
         With rs
             Call LoadSqlData("select AP_Users.Usr_id,AP_Users.Usr_nm,AP_Users.permision,Ap_Section.Sec_Nm,AP_Users.Company from AP_Users" & _
                         " INNER JOIN Ap_Section ON AP_Users.Sec_ID=Ap_Section.Sec_ID " & _
                         " WHERE 1=1 " & Sql & "  order by Usr_id", rs)
             If .RecordCount > 0 Then
                 While Not .EOF()
-                    Fg.AddItem(.AbsolutePosition & _
-                    Chr(9) & (.Fields("Usr_id").Value.ToString) & _
-                    Chr(9) & (.Fields("Usr_nm").Value.ToString) & _
-                    Chr(9) & (.Fields("permision").Value.ToString) & _
-                      Chr(9) & (.Fields("Sec_Nm").Value.ToString) & _
-                    Chr(9) & (.Fields("Company").Value.ToString))
+                    Fg.Rows.Add(.AbsolutePosition, _
+                    .Fields("Usr_id").Value.ToString, _
+                    .Fields("Usr_nm").Value.ToString, _
+                    .Fields("permision").Value.ToString, _
+                    .Fields("Sec_Nm").Value.ToString, _
+                    .Fields("Company").Value.ToString)
                     .MoveNext()
                 End While
             End If
         End With
     End Sub
     Private Sub LoadSection()
-        FgSec.Rows = 1
+        FgSec.Rows.Clear()
         With rs
             Call LoadSqlData("select * from Ap_Section" & _
                         " WHERE Sec_ID > 0  order by Sec_ID", rs)
             If .RecordCount > 0 Then
                 While Not .EOF()
-                    FgSec.AddItem(.AbsolutePosition & _
-                    Chr(9) & (.Fields("Sec_ID").Value.ToString) & _
-                    Chr(9) & (.Fields("Sec_Nm").Value.ToString))
+                    FgSec.Rows.Add(.AbsolutePosition, _
+                    .Fields("Sec_ID").Value.ToString, _
+                    .Fields("Sec_Nm").Value.ToString)
                     .MoveNext()
                 End While
             End If
@@ -238,7 +296,7 @@
 
     End Sub
     Private Sub Button7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDel.Click
-        If Fg.Rows = 2 Then MsgBox("ທ່ານບໍ່ສາມາດລຶບລາຍການນີ້ໄດ້, ເພາະແມ່ນລາຍການສຸດທ້າຍແລ້ວ ", MsgBoxStyle.OkOnly) : Exit Sub
+        If Fg.Rows.Count = 0 Then MsgBox("ທ່ານບໍ່ສາມາດລຶບລາຍການນີ້ໄດ້, ເພາະແມ່ນລາຍການສຸດທ້າຍແລ້ວ ", MsgBoxStyle.OkOnly) : Exit Sub
         Dim Rsch As New ADODB.Recordset
         If MessageBox.Show("ທ່ານຕ້ອງການລຶບລາຍການ '" & (txtUsr_id.Text) & "' ແມ່ນ ຫຼື ບໍ່ ?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
             CNN.BeginTrans()
@@ -259,33 +317,50 @@
     End Sub
 
 
-    Private Sub Fg_MouseUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseUpEvent) Handles Fg.MouseUpEvent
-        If Fg.Row = 0 Then Exit Sub
-        txtUsr_id.Text = Fg.get_TextMatrix(Fg.Row, 1)
-        cmbCompany.Text = Fg.get_TextMatrix(Fg.Row, 5)
-
-
-
-        Call LoadSqlData(" SELECT * FROM AP_Users WHERE Usr_id= '" & Fg.get_TextMatrix(Fg.Row, 1) & "'", RSC)
-        If RSC.RecordCount <> 0 Then
-            cmbCompany.Text = (RSC.Fields("Company").Value.ToString)
-            Sub_Company.Text = (RSC.Fields("Sub_Company").Value.ToString)
-            txtOldPass.Text = (RSC.Fields("PWD").Value.ToString)
-            txtNewPass.Text = (RSC.Fields("PWD").Value.ToString)
-            cmbpermision.Text = (RSC.Fields("permision").Value.ToString)
-            txtUsr_id.Text = (RSC.Fields("Usr_id").Value.ToString)
-            txtUsr_nm.Text = (RSC.Fields("Usr_nm").Value.ToString)
-            txtDep_ID.Text = (RSC.Fields("Sec_id").Value)
-            txtDep_Nm.Text = (RSC.Fields("Sec_Nm").Value.ToString)
-            cmbUsrPermit.Text = (RSC.Fields("UsrPermit").Value.ToString)
-            txtPWD.Text = (RSC.Fields("PWD").Value.ToString)
-            txtConfrim.Text = (RSC.Fields("PWD").Value.ToString)
-            MDCheckForstaff = (RSC.Fields("ForStaff").Value)
-            MDCheckWrite = (RSC.Fields("Write_bit").Value)
-            MDCheckEdit = (RSC.Fields("Edit_bit").Value)
-            MDCheckDelete = (RSC.Fields("Delete_bit").Value)
-
+    Private Sub Fg_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Fg.SelectionChanged
+        If Fg.CurrentRow Is Nothing Then Exit Sub
+        If Fg.CurrentRow.Index < 0 Then Exit Sub
+        
+        Dim usrId As String = ""
+        If Fg.CurrentRow.Cells(1).Value IsNot Nothing Then
+             usrId = Fg.CurrentRow.Cells(1).Value.ToString()
         End If
+
+        If usrId = "" Then Exit Sub
+
+        txtUsr_id.Text = usrId
+        If Fg.CurrentRow.Cells(5).Value IsNot Nothing Then
+             cmbCompany.Text = Fg.CurrentRow.Cells(5).Value.ToString()
+        End If
+
+        txtUsr_id.Enabled = False
+        Dim FGSel As New ADODB.Recordset
+        With FGSel
+            .CursorLocation = ADODB.CursorLocationEnum.adUseClient
+            .Open("Select AP_Users.*,Ap_Section.Sec_Nm From AP_Users" & _
+                  " INNER JOIN Ap_Section ON AP_Users.Sec_id=Ap_Section.Sec_id Where(AP_Users.Usr_id='" & _
+             usrId & "' AND Company='" & MuSubOff & "' )", CNN, _
+             ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
+            If .RecordCount <> 0 Then
+                cmbCompany.Text = (.Fields("Company").Value.ToString)
+                Sub_Company.Text = (.Fields("Sub_Company").Value.ToString)
+                txtOldPass.Text = (.Fields("PWD").Value.ToString)
+                txtNewPass.Text = (.Fields("PWD").Value.ToString)
+                cmbpermision.Text = (.Fields("permision").Value.ToString)
+                txtUsr_id.Text = (.Fields("Usr_id").Value.ToString)
+                txtUsr_nm.Text = (.Fields("Usr_nm").Value.ToString)
+                txtDep_ID.Text = (.Fields("Sec_id").Value)
+                txtDep_Nm.Text = (.Fields("Sec_Nm").Value.ToString)
+                cmbUsrPermit.Text = (.Fields("UsrPermit").Value.ToString)
+                txtPWD.Text = (.Fields("PWD").Value.ToString)
+                txtConfrim.Text = (.Fields("PWD").Value.ToString)
+                MDCheckForstaff = (.Fields("ForStaff").Value)
+                MDCheckWrite = (.Fields("Write_bit").Value)
+                MDCheckEdit = (.Fields("Edit_bit").Value)
+                MDCheckDelete = (.Fields("Delete_bit").Value)
+            End If
+        End With
+
         If cmbpermision.Text = "Admin" Then
             Panel1.Visible = False
             Panel2.Visible = False
@@ -305,43 +380,6 @@
             txtDep_ID.Text = ""
             txtDep_Nm.Text = ""
         End If
-    End Sub
-    Private Sub Fg_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Fg.SelChange
-        If Fg.get_TextMatrix(Fg.Row, 1) = "" Then Exit Sub
-
-
-
-        txtUsr_id.Enabled = False
-        Dim FGSel As New ADODB.Recordset
-        With FGSel
-            .CursorLocation = ADODB.CursorLocationEnum.adUseClient
-            .Open("Select AP_Users.*,Ap_Section.Sec_Nm From AP_Users" & _
-                  " INNER JOIN Ap_Section ON AP_Users.Sec_id=Ap_Section.Sec_id Where(AP_Users.Usr_id='" & _
-        Fg.get_TextMatrix(Fg.Row, 1) & "' AND Company='" & MuSubOff & "' )", CNN, _
-             ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            If .RecordCount <> 0 Then
-                cmbCompany.Text = (.Fields("Company").Value.ToString)
-                Sub_Company.Text = (.Fields("Sub_Company").Value.ToString)
-                txtOldPass.Text = (.Fields("PWD").Value.ToString)
-                txtNewPass.Text = (.Fields("PWD").Value.ToString)
-                cmbpermision.Text = (.Fields("permision").Value.ToString)
-                txtUsr_id.Text = (.Fields("Usr_id").Value.ToString)
-                txtUsr_nm.Text = (.Fields("Usr_nm").Value.ToString)
-                txtDep_ID.Text = (.Fields("Sec_id").Value)
-                txtDep_Nm.Text = (.Fields("Sec_Nm").Value.ToString)
-                cmbUsrPermit.Text = (.Fields("UsrPermit").Value.ToString)
-                txtPWD.Text = (.Fields("PWD").Value.ToString)
-                txtConfrim.Text = (.Fields("PWD").Value.ToString)
-                MDCheckForstaff = (.Fields("ForStaff").Value)
-                MDCheckWrite = (.Fields("Write_bit").Value)
-                MDCheckEdit = (.Fields("Edit_bit").Value)
-                MDCheckDelete = (.Fields("Delete_bit").Value)
-                'MsgBox("dfgh")
-            End If
-        End With
-
-        txtUsr_id.Text = Fg.get_TextMatrix(Fg.Row, 1)
-        cmbCompany.Text = Fg.get_TextMatrix(Fg.Row, 5)
         SUPD = 0
     End Sub
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
@@ -416,32 +454,45 @@
         SUPD = 0
     End Sub
 
-    Private Sub FgSec_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FgSec.DblClick
-        'Panel1.Visible = False
-        'txtDep_ID.Text = FgSec.get_TextMatrix(FgSec.Row, 1)
-        'txtDep_Nm.Text = FgSec.get_TextMatrix(FgSec.Row, 2)
-    End Sub
+    Private Sub FgSec_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FgSec.SelectionChanged
+        If FgSec.CurrentRow Is Nothing Then Exit Sub
+        If FgSec.CurrentRow.Index < 0 Then Exit Sub
+        
+        Dim secId As String = ""
+        If FgSec.CurrentRow.Cells(1).Value IsNot Nothing Then
+             secId = FgSec.CurrentRow.Cells(1).Value.ToString()
+        End If
 
-    Private Sub FgSec_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FgSec.SelChange
-        If FgSec.Row = 0 Then Exit Sub
-        If FgSec.get_TextMatrix(FgSec.Row, 1) = "" Then Exit Sub
-        txtDep_ID.Text = FgSec.get_TextMatrix(FgSec.Row, 1)
-        txtDep_Nm.Text = FgSec.get_TextMatrix(FgSec.Row, 2)
-        FgItem.Rows = 1
+        If secId = "" Then Exit Sub
+        
+        txtDep_ID.Text = secId
+        If FgSec.CurrentRow.Cells(2).Value IsNot Nothing Then
+            txtDep_Nm.Text = FgSec.CurrentRow.Cells(2).Value.ToString()
+        End If
+
+        FgItem.Rows.Clear()
         With rs
             Call LoadSqlData("select * from Ap_Section_Item" & _
-                        " WHERE Sec_ID='" & FgSec.get_TextMatrix(FgSec.Row, 1) & "'  order by Sec_ID", rs)
+                        " WHERE Sec_ID='" & secId & "'  order by Sec_ID", rs)
             If .RecordCount > 0 Then
                 While Not .EOF()
-                    FgItem.AddItem(.AbsolutePosition & _
-                    Chr(9) & (.Fields("Ints").Value) & _
-                    Chr(9) & (.Fields("Sec_ID").Value.ToString) & _
-                    Chr(9) & (.Fields("Sec_Nm").Value.ToString))
+                    Dim checkVal As Boolean = False
+                    Try
+                        If Not IsDBNull(.Fields("Ints").Value) Then
+                             checkVal = CBool(.Fields("Ints").Value)
+                        End If
+                    Catch ex As Exception
+                        checkVal = False
+                    End Try
+
+                    FgItem.Rows.Add(.AbsolutePosition, _
+                    checkVal, _
+                    .Fields("Sec_ID").Value.ToString, _
+                    .Fields("Sec_Nm").Value.ToString)
                     .MoveNext()
                 End While
             End If
         End With
-        FgItem.Row = 1
         Panel4.Visible = True
     End Sub
 
@@ -474,41 +525,46 @@
 
     Private Sub Button9_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim i As Integer
-        For i = 1 To FgItem.Rows - 1
-            If FgItem.get_TextMatrix(i, 1) = True Then
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=1 WHERE Sec_ID='" & FgItem.get_TextMatrix(i, 2) & "'AND Sec_Nm=N'" & FgItem.get_TextMatrix(i, 3) & "' ")
-            ElseIf FgItem.get_TextMatrix(FgItem.Row, 1) = True Then
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=1 WHERE Sec_ID='" & FgItem.get_TextMatrix(FgItem.Row, 2) & "' AND Sec_Nm=N'" & FgItem.get_TextMatrix(FgItem.Row, 3) & "' ")
-            ElseIf FgItem.get_TextMatrix(FgItem.Row, 1) = False Then
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=0 WHERE Sec_ID='" & FgItem.get_TextMatrix(FgItem.Row, 2) & "' AND Sec_Nm=N'" & FgItem.get_TextMatrix(FgItem.Row, 3) & "' ")
-            Else
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=0 WHERE Sec_ID='" & FgItem.get_TextMatrix(i, 2) & "' AND Sec_Nm=N'" & FgItem.get_TextMatrix(i, 3) & "' ")
+        For i = 0 To FgItem.Rows.Count - 1
+            Dim checkVal As Boolean = False
+            If FgItem.Rows(i).Cells(1).Value IsNot Nothing Then
+                checkVal = CBool(FgItem.Rows(i).Cells(1).Value)
             End If
+            
+            Dim secID As String = FgItem.Rows(i).Cells(2).Value.ToString()
+            Dim secName As String = FgItem.Rows(i).Cells(3).Value.ToString()
+            
+            Dim ints As Integer = 0
+            If checkVal Then ints = 1
+            
+            CNN.Execute("UPDATE Ap_Section_Item SET Ints=" & ints & " WHERE Sec_ID='" & secID & "' AND Sec_Nm=N'" & secName & "' ")
         Next i
         MsgBox("ສໍາເລັດຜົນ!", MsgBoxStyle.OkOnly)
     End Sub
 
-    Private Sub FgItem_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FgItem.SelChange
-        Dim i As Integer
-        For i = 1 To FgItem.Rows - 1
-            If FgItem.get_TextMatrix(i, 1) = True Then
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=1 WHERE Sec_ID='" & FgItem.get_TextMatrix(i, 2) & "'AND Sec_Nm=N'" & FgItem.get_TextMatrix(i, 3) & "' ")
-            ElseIf FgItem.get_TextMatrix(FgItem.Row, 1) = True Then
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=1 WHERE Sec_ID='" & FgItem.get_TextMatrix(FgItem.Row, 2) & "' AND Sec_Nm=N'" & FgItem.get_TextMatrix(FgItem.Row, 3) & "' ")
-            ElseIf FgItem.get_TextMatrix(FgItem.Row, 1) = False Then
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=0 WHERE Sec_ID='" & FgItem.get_TextMatrix(FgItem.Row, 2) & "' AND Sec_Nm=N'" & FgItem.get_TextMatrix(FgItem.Row, 3) & "' ")
-            Else
-                CNN.Execute("UPDATE Ap_Section_Item SET Ints=0 WHERE Sec_ID='" & FgItem.get_TextMatrix(i, 2) & "' AND Sec_Nm=N'" & FgItem.get_TextMatrix(i, 3) & "' ")
+    Private Sub FgItem_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FgItem.CellContentClick
+        If e.RowIndex < 0 Then Exit Sub
+        If e.ColumnIndex = 1 Then ' Checkbox column
+             FgItem.CommitEdit(DataGridViewDataErrorContexts.Commit)
+        End If
+    End Sub
+
+    Private Sub FgItem_CellValueChanged(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FgItem.CellValueChanged
+         If e.RowIndex < 0 Then Exit Sub
+         If e.ColumnIndex = 1 Then
+            Dim checkVal As Boolean = False
+            If FgItem.Rows(e.RowIndex).Cells(1).Value IsNot Nothing Then
+                checkVal = CBool(FgItem.Rows(e.RowIndex).Cells(1).Value)
             End If
-        Next i
-
-
-
-
-        'CNN.Execute()
-        'For i = 1 To FgItem.Rows - 1
-        '    CNN.Execute("Insert Into Ap_Section_Item (Sec_ID , Sec_Nm , IntsUsrId , NB)  Values () ")
-        'Next
+            
+            Dim secID As String = FgItem.Rows(e.RowIndex).Cells(2).Value.ToString()
+            Dim secName As String = FgItem.Rows(e.RowIndex).Cells(3).Value.ToString()
+            
+            Dim ints As Integer = 0
+            If checkVal Then ints = 1
+             
+             CNN.Execute("UPDATE Ap_Section_Item SET Ints=" & ints & " WHERE Sec_ID='" & secID & "' AND Sec_Nm=N'" & secName & "' ")
+         End If
     End Sub
 
   

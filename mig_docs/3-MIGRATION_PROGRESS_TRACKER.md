@@ -20,14 +20,16 @@
   15. Frm_Group_accode - ✅ Migrated
   16. FrmUser_DDC - ✅ Migrated
   17. FmJeneralJournal_Adjust_List - ✅ Migrated
+  18.  FmTrialBalanceReport - ✅ Migrated
+  19. FmRestorData - ✅ Migrated
+  20. FmLoanClosing - ✅ Migrated
+  21. FmNsewJeneralJournal_Adjust - ✅ Migrated
+  22. Office_AP - ✅ Migrated
+  23. FrmUser - ✅ Migrated
 
 ## Remaining Forms to Migrate (36 forms)
-- FmTrialBalanceReport - ✅ Migrated- FmRestorData - ✅ Migrated
-- FmLoanClosing - ✅ Migrated
-- FmNsewJeneralJournal_Adjust - ✅ Migrated
-- Office_AP - ✅ Migrated
-- FrmUser
-- FmTrialBalanceReport (in another location)
+
+- FmTrialBalanceReport (in another location) - ✅ Migrated
 - fmShartOfAccDetail
 - fmShartOfAcc
 - FmPostedLedgers_From3

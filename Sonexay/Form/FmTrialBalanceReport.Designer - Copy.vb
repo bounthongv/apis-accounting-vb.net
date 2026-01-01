@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmTrialBalanceReport
     Inherits System.Windows.Forms.Form
 
@@ -41,7 +41,7 @@ Partial Class FmTrialBalanceReport
         Me.DMonth = New System.Windows.Forms.ComboBox
         Me.Lb = New System.Windows.Forms.TextBox
         Me.L5 = New System.Windows.Forms.TextBox
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.BtnRefresh = New System.Windows.Forms.Button
         Me.BtnPreview = New System.Windows.Forms.Button
         Me.BtnExit = New System.Windows.Forms.Button
@@ -247,7 +247,6 @@ Partial Class FmTrialBalanceReport
         Me.FG.DataSource = Nothing
         Me.FG.Location = New System.Drawing.Point(6, 210)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(1006, 514)
         Me.FG.TabIndex = 45532
         '
@@ -489,7 +488,7 @@ Partial Class FmTrialBalanceReport
     Friend WithEvents DMonth As System.Windows.Forms.ComboBox
     Friend WithEvents Lb As System.Windows.Forms.TextBox
     Friend WithEvents L5 As System.Windows.Forms.TextBox
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents BtnRefresh As System.Windows.Forms.Button
     Friend WithEvents RaParent As System.Windows.Forms.CheckBox
     Friend WithEvents BtnExit As System.Windows.Forms.Button

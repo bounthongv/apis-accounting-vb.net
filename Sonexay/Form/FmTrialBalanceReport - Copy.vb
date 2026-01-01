@@ -1,4 +1,4 @@
-﻿Public Class FmTrialBalanceReport
+Public Class FmTrialBalanceReport
     Dim MonthLetter1 As String
     Dim MdStartDate As Date
     Dim MdToDate As Date
@@ -20,12 +20,24 @@
         Call AddData()
         Call LoadListFG()
         Dim i As Integer
-        For i = 1 To FG.Rows - 1
+        For i = 0 To FG.Rows.Count - 1
+            Dim v3, v4, v5, v6 As Double
+            Dim cell3 As Object = FG.Rows(i).Cells(3).Value
+            Dim cell4 As Object = FG.Rows(i).Cells(4).Value
+            Dim cell5 As Object = FG.Rows(i).Cells(5).Value
+            Dim cell6 As Object = FG.Rows(i).Cells(6).Value
 
-            If CDbl(CDbl(FG.get_TextMatrix(i, 3)) + CDbl(FG.get_TextMatrix(i, 5))) - CDbl(CDbl(FG.get_TextMatrix(i, 4)) + CDbl(FG.get_TextMatrix(i, 6))) >= 0 Then
-                FG.set_TextMatrix(i, 7, Format(CDbl(CDbl(FG.get_TextMatrix(i, 3)) + CDbl(FG.get_TextMatrix(i, 5))) - CDbl(CDbl(FG.get_TextMatrix(i, 4)) + CDbl(FG.get_TextMatrix(i, 6))), "##,##0.00"))
+            If cell3 IsNot Nothing AndAlso IsNumeric(cell3) Then v3 = CDbl(cell3)
+            If cell4 IsNot Nothing AndAlso IsNumeric(cell4) Then v4 = CDbl(cell4)
+            If cell5 IsNot Nothing AndAlso IsNumeric(cell5) Then v5 = CDbl(cell5)
+            If cell6 IsNot Nothing AndAlso IsNumeric(cell6) Then v6 = CDbl(cell6)
+
+            If (v3 + v5) - (v4 + v6) >= 0 Then
+                FG.Rows(i).Cells(7).Value = Format((v3 + v5) - (v4 + v6), "##,##0.00")
+                FG.Rows(i).Cells(8).Value = "0.00"
             Else
-                FG.set_TextMatrix(i, 8, Format(CDbl(CDbl(FG.get_TextMatrix(i, 4)) + CDbl(FG.get_TextMatrix(i, 6))) - CDbl(CDbl(FG.get_TextMatrix(i, 3)) + CDbl(FG.get_TextMatrix(i, 5))), "##,##0.00"))
+                FG.Rows(i).Cells(7).Value = "0.00"
+                FG.Rows(i).Cells(8).Value = Format((v4 + v6) - (v3 + v5), "##,##0.00")
             End If
         Next i
     End Sub
@@ -162,15 +174,11 @@
         Call MdiCNum()
     End Sub
     Private Sub FmTrialBalanceReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
         Period.Text = "ງວດທີ 1"
         DMonth.Text = "ມັງກອນ"
         LoadMonth()
-        FG.FormatString = "^ລ/ດ |<ລະຫັດບັນຊີ ||ຍອດຍົກເບື້ອງ (ຫນີ້) |ຍອດຍົກເບື້ອງ (ມີ) | ການເຄື່ອນໄຫວ (ຫນີ້) | ການເຄື່ອນໄຫວ (ມີ) | ຍອດເຫລືອ (ຫນີ້)     | ຍອດເຫລືອ (ມີ)      "
-        FG.ExtendLastCol = True
-
-
-
+        SetupGrid()
+        
         RD.Checked = True
         Ds.Value = MWorkSetting
         Myy.Value = MWorkSetting
@@ -220,6 +228,36 @@
         'Call LoadListFG()
         'Call CaRemain()
     End Sub
+
+    Private Sub SetupGrid()
+        With FG
+            .Columns.Clear()
+            .Rows.Clear()
+            .AllowUserToAddRows = False
+            .AllowUserToDeleteRows = False
+            .ReadOnly = True
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .MultiSelect = False
+            .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+            .RowHeadersVisible = False
+
+            Dim c As DataGridViewColumn
+
+            c = New DataGridViewTextBoxColumn() : c.Name = "No" : c.HeaderText = "ລ/ດ" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter : .Columns.Add(c)
+            c = New DataGridViewTextBoxColumn() : c.Name = "Code" : c.HeaderText = "ລະຫັດບັນຊີ" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft : .Columns.Add(c)
+            c = New DataGridViewTextBoxColumn() : c.Name = "Name" : c.HeaderText = "ເນື້ອນໃນ" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft : .Columns.Add(c)
+            c = New DataGridViewTextBoxColumn() : c.Name = "OpenDr" : c.HeaderText = "ຍອດຍົກເບື້ອງ (ຫນີ້)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : .Columns.Add(c)
+            c = New DataGridViewTextBoxColumn() : c.Name = "OpenCr" : c.HeaderText = "ຍອດຍົກເບື້ອງ (ມີ)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : .Columns.Add(c)
+            c = New DataGridViewTextBoxColumn() : c.Name = "MoveDr" : c.HeaderText = "ການເຄື່ອນໄຫວ (ຫນີ້)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : .Columns.Add(c)
+            c = New DataGridViewTextBoxColumn() : c.Name = "MoveCr" : c.HeaderText = "ການເຄື່ອນໄຫວ (ມີ)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : .Columns.Add(c)
+            c = New DataGridViewTextBoxColumn() : c.Name = "BalDr" : c.HeaderText = "ຍອດເຫລືອ (ຫນີ້)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : .Columns.Add(c)
+            c = New DataGridViewTextBoxColumn() : c.Name = "BalCr" : c.HeaderText = "ຍອດເຫລືອ (ມີ)" : c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight : .Columns.Add(c)
+            c = New DataGridViewTextBoxColumn() : c.Name = "Cnt" : c.HeaderText = "Cnt" : c.Visible = False : .Columns.Add(c)
+            
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        End With
+    End Sub
+
     Private Sub selectLoad()
         DMonth.Enabled = False
         Myy.Enabled = False
@@ -691,19 +729,31 @@
     End Sub
     Private Sub CaRemain()
         Dim i As Integer
-        For i = 1 To FG.Rows - 1
+        For i = 0 To FG.Rows.Count - 1
+            Dim v3, v4, v5, v6 As Double
+            Dim cell3 As Object = FG.Rows(i).Cells(3).Value
+            Dim cell4 As Object = FG.Rows(i).Cells(4).Value
+            Dim cell5 As Object = FG.Rows(i).Cells(5).Value
+            Dim cell6 As Object = FG.Rows(i).Cells(6).Value
 
-            If CDbl(CDbl(FG.get_TextMatrix(i, 3)) + CDbl(FG.get_TextMatrix(i, 5))) - CDbl(CDbl(FG.get_TextMatrix(i, 4)) + CDbl(FG.get_TextMatrix(i, 6))) >= 0 Then
-                FG.set_TextMatrix(i, 7, Format(CDbl(CDbl(FG.get_TextMatrix(i, 3)) + CDbl(FG.get_TextMatrix(i, 5))) - CDbl(CDbl(FG.get_TextMatrix(i, 4)) + CDbl(FG.get_TextMatrix(i, 6))), "##,##0.00"))
+            If cell3 IsNot Nothing AndAlso IsNumeric(cell3) Then v3 = CDbl(cell3)
+            If cell4 IsNot Nothing AndAlso IsNumeric(cell4) Then v4 = CDbl(cell4)
+            If cell5 IsNot Nothing AndAlso IsNumeric(cell5) Then v5 = CDbl(cell5)
+            If cell6 IsNot Nothing AndAlso IsNumeric(cell6) Then v6 = CDbl(cell6)
+
+            If (v3 + v5) - (v4 + v6) >= 0 Then
+                FG.Rows(i).Cells(7).Value = Format((v3 + v5) - (v4 + v6), "##,##0.00")
+                FG.Rows(i).Cells(8).Value = "0.00"
             Else
-                FG.set_TextMatrix(i, 8, Format(CDbl(CDbl(FG.get_TextMatrix(i, 4)) + CDbl(FG.get_TextMatrix(i, 6))) - CDbl(CDbl(FG.get_TextMatrix(i, 3)) + CDbl(FG.get_TextMatrix(i, 5))), "##,##0.00"))
+                FG.Rows(i).Cells(7).Value = "0.00"
+                FG.Rows(i).Cells(8).Value = Format((v4 + v6) - (v3 + v5), "##,##0.00")
             End If
         Next i
     End Sub
 
     Private Sub LoadListFG()
         Dim O_dr, O_cr, Amt_dr, Amt_cr, R_dr, R_Cr As Double
-        FG.Rows = 1
+        FG.Rows.Clear()
         With RSC
             If RaParent.Checked = True Then
                 Call LoadSqlData("SELECT * FROM  Ap_balance_6_ChangParent Order by ac_code", RSC)
@@ -719,22 +769,21 @@
                     Amt_dr = Trim(CDbl(.Fields("amt_dr").Value))
                     'MsgBox(Trim(CDbl(.Fields("amt_cr").Value)))
                     Amt_cr = Trim(CDbl(.Fields("amt_cr").Value))
-                    R_dr = "0,00"
-                    R_Cr = "0,00"
+                    R_dr = 0
+                    R_Cr = 0
 
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("ac_code").Value)) & _
-                                "" & vbTab & Trim(CStr(.Fields("ac_name").Value)) & _
-                                        "" & vbTab & Format(O_dr, "#,##0.00") & _
-                                         "" & vbTab & Format(O_cr, "#,##0.00") & _
-                                          "" & vbTab & Format(Amt_dr, "#,##0.00") & _
-                                             "" & vbTab & Format(Amt_cr, "#,##0.00") & _
-                                                 "" & vbTab & R_dr & _
-                                             "" & vbTab & R_Cr & _
-                                            "" & vbTab & ((.Fields("cnt").Value)))
+                    FG.Rows.Add( .AbsolutePosition, _
+                                Trim(CStr(.Fields("ac_code").Value)), _
+                                Trim(CStr(.Fields("ac_name").Value)), _
+                                Format(O_dr, "#,##0.00"), _
+                                Format(O_cr, "#,##0.00"), _
+                                Format(Amt_dr, "#,##0.00"), _
+                                Format(Amt_cr, "#,##0.00"), _
+                                Format(R_dr, "#,##0.00"), _
+                                Format(R_Cr, "#,##0.00"), _
+                                .Fields("cnt").Value)
                     .MoveNext()
                 End While
-            Else
-                FG.Rows = 2
             End If
         End With
     End Sub
@@ -762,7 +811,7 @@
         Call Close()
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
+    Private Sub FG_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
 
     End Sub
 End Class
