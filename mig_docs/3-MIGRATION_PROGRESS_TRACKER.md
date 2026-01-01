@@ -22,7 +22,7 @@
   17. FmJeneralJournal_Adjust_List - ✅ Migrated
 
 ## Remaining Forms to Migrate (36 forms)
-- FmTrialBalanceReport - ✅ Migrated- FmRestorData
+- FmTrialBalanceReport - ✅ Migrated- FmRestorData - ✅ Migrated
 - FmLoanClosing
 - FmNsewJeneralJournal_Adjust
 - Office_AP

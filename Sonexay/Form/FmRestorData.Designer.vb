@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmRestorData
     Inherits System.Windows.Forms.Form
 
@@ -29,7 +29,7 @@ Partial Class FmRestorData
         Me.txtSaveIn = New System.Windows.Forms.TextBox
         Me.Label5 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.RadioButton1 = New System.Windows.Forms.RadioButton
         Me.RadioButton2 = New System.Windows.Forms.RadioButton
         Me.Panel3 = New System.Windows.Forms.Panel
@@ -113,7 +113,7 @@ Partial Class FmRestorData
         Me.FG.DataSource = Nothing
         Me.FG.Location = New System.Drawing.Point(5, 104)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
+
         Me.FG.Size = New System.Drawing.Size(497, 285)
         Me.FG.TabIndex = 211
         '
@@ -253,7 +253,7 @@ Partial Class FmRestorData
     Friend WithEvents txtSaveIn As System.Windows.Forms.TextBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents RadioButton1 As System.Windows.Forms.RadioButton
     Friend WithEvents RadioButton2 As System.Windows.Forms.RadioButton
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
