@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class fmShartOfAccDetail
     Inherits System.Windows.Forms.Form
 
@@ -24,8 +24,8 @@ Partial Class fmShartOfAccDetail
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(fmShartOfAccDetail))
-        Me.AxVSFlexGrid1 = New AxVSFlex8U.AxVSFlexGrid
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+Me.AxVSFlexGrid1 = New System.Windows.Forms.DataGridView
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.ChAll = New System.Windows.Forms.CheckBox
         Me.Button5 = New System.Windows.Forms.Button
@@ -62,30 +62,40 @@ Partial Class fmShartOfAccDetail
         Me.BackPage = New System.Windows.Forms.Button
         Me.p100 = New System.Windows.Forms.RadioButton
         Me.p50 = New System.Windows.Forms.RadioButton
-        CType(Me.AxVSFlexGrid1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
+Me.AxVSFlexGrid1.SuspendLayout()
+        Me.FG.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.Panel6.SuspendLayout()
         Me.SuspendLayout()
         '
-        'AxVSFlexGrid1
+'AxVSFlexGrid1
         '
-        Me.AxVSFlexGrid1.DataSource = Nothing
+        Me.AxVSFlexGrid1.AllowUserToAddRows = False
+        Me.AxVSFlexGrid1.AllowUserToDeleteRows = False
+        Me.AxVSFlexGrid1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.AxVSFlexGrid1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.AxVSFlexGrid1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.AxVSFlexGrid1.Location = New System.Drawing.Point(12, 54)
         Me.AxVSFlexGrid1.Name = "AxVSFlexGrid1"
-        Me.AxVSFlexGrid1.OcxState = CType(resources.GetObject("AxVSFlexGrid1.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.AxVSFlexGrid1.ReadOnly = True
+        Me.AxVSFlexGrid1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.AxVSFlexGrid1.Size = New System.Drawing.Size(192, 192)
         Me.AxVSFlexGrid1.TabIndex = 0
         '
-        'FG
+'FG
         '
+        Me.FG.AllowUserToAddRows = False
+        Me.FG.AllowUserToDeleteRows = False
         Me.FG.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG.DataSource = Nothing
+        Me.FG.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(10, 41)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.FG.ReadOnly = True
+        Me.FG.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.FG.Size = New System.Drawing.Size(851, 412)
         Me.FG.TabIndex = 1
         '
@@ -514,8 +524,8 @@ Partial Class fmShartOfAccDetail
         Me.Name = "fmShartOfAccDetail"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "fmShartOfAccDetail"
-        CType(Me.AxVSFlexGrid1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).EndInit()
+Me.AxVSFlexGrid1.ResumeLayout(False)
+        Me.FG.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
@@ -526,8 +536,8 @@ Partial Class fmShartOfAccDetail
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents AxVSFlexGrid1 As AxVSFlex8U.AxVSFlexGrid
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+Friend WithEvents AxVSFlexGrid1 As System.Windows.Forms.DataGridView
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents Button6 As System.Windows.Forms.Button
     Friend WithEvents BntNew As System.Windows.Forms.Button

@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class Rate_settingb
     Inherits System.Windows.Forms.Form
 
@@ -45,7 +45,7 @@ Partial Class Rate_settingb
         Me.BtnDel = New System.Windows.Forms.Button
         Me.BtnSave = New System.Windows.Forms.Button
         Me.BtnAddNew = New System.Windows.Forms.Button
-        Me.FG_Rate = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG_Rate = New System.Windows.Forms.DataGridView
         Me.Label6 = New System.Windows.Forms.Label
         Me.Label9 = New System.Windows.Forms.Label
         Me.Panel1.SuspendLayout()
@@ -342,10 +342,10 @@ Partial Class Rate_settingb
         Me.FG_Rate.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG_Rate.DataSource = Nothing
+        Me.FG_Rate.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.FG_Rate.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG_Rate.Location = New System.Drawing.Point(4, 106)
         Me.FG_Rate.Name = "FG_Rate"
-        Me.FG_Rate.OcxState = CType(resources.GetObject("FG_Rate.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG_Rate.Size = New System.Drawing.Size(964, 262)
         Me.FG_Rate.TabIndex = 52
         '
@@ -421,7 +421,7 @@ Partial Class Rate_settingb
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents txtCerrent As System.Windows.Forms.TextBox
     Friend WithEvents DTrate As System.Windows.Forms.DateTimePicker
-    Friend WithEvents FG_Rate As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG_Rate As System.Windows.Forms.DataGridView
     Friend WithEvents txtUSD_THB As System.Windows.Forms.TextBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label

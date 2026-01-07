@@ -1,55 +1,66 @@
 ﻿Option Explicit On
 Option Strict On
+Imports System.Data.OleDb
 Public Class Conection_To_Servee
-    Dim rsProj As New ADODB.Recordset
+    Dim dtProj As New DataTable
     Dim sql As String
     Public editProj As Boolean
-    Public conn As New ADODB.Connection
+    Public conn As New OleDbConnection
     Public Sub Connect()
         'Dim strConn As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source =Conection.mdb;Persist Security Info=False"
         Dim strConn As String = "Provider=Microsoft.Jet.OLEDB.4.0; Data Source = Connection.mdb;Persist Security Info=False;Jet OLEDB:Database Password=2459428"
         Try
             If conn.State = ConnectionState.Open Then conn.Close()
-            conn.Open(strConn)
+            conn.ConnectionString = strConn
+            conn.Open()
         Catch ex As Exception
             MessageBox.Show("ບໍ່ສາມາດເຊື່ອມຕໍ່ກັບຖານຂໍ້ມູນໄດ້ຍ້ອນ: " & vbNewLine _
             & ex.ToString, "ການເຊື່ອມຕໍ່ກັບຖານຂໍ້ມູນຜິດພາດ", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
-    Public Sub loadrs(ByVal sql As String, ByVal rs As ADODB.Recordset)
-        With rs
-            If .State = ConnectionState.Open Then .Close()
-            .ActiveConnection = conn
-            .CursorLocation = ADODB.CursorLocationEnum.adUseClient
-            .CursorType = ADODB.CursorTypeEnum.adOpenForwardOnly
-            .LockType = ADODB.LockTypeEnum.adLockOptimistic
-            .Open(sql)
-            .Requery()
-        End With
-    End Sub
+    Public Function loadrs(ByVal sql As String) As DataTable
+        Dim dt As New DataTable()
+        Try
+            Using cmd As New OleDbCommand(sql, conn)
+                Using adapter As New OleDbDataAdapter(cmd)
+                    adapter.Fill(dt)
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error loading data: " & ex.Message)
+        End Try
+        Return dt
+    End Function
 
     Private Sub btnConect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConect.Click
-        Dim rs As New ADODB.Recordset
-        Call loadrs("select * from Conect where SvID='" & "001" & "'", rs)
+        Dim updateSql As String = "UPDATE Conect SET ServerName = @ServerName, DataBaseName = @DataBaseName, UserName = @UserName, UserPassword = @UserPassword WHERE SvID = @SvID"
 
-        conn.Execute("Update Conect Set ServerName ='" & txtServerName.Text.ToString & "', DataBaseName='" & txtDatabaseName.Text.ToString & "', UserName='" & txtServerUser.Text.ToString & "', UserPassword='" & txtServerPassword.Text.ToString & "' " & _
-                     " WHERE SvID='" & "001" & "' ")
+        Try
+            Using cmd As New OleDbCommand(updateSql, conn)
+                cmd.Parameters.AddWithValue("@ServerName", txtServerName.Text.ToString)
+                cmd.Parameters.AddWithValue("@DataBaseName", txtDatabaseName.Text.ToString)
+                cmd.Parameters.AddWithValue("@UserName", txtServerUser.Text.ToString)
+                cmd.Parameters.AddWithValue("@UserPassword", txtServerPassword.Text.ToString)
+                cmd.Parameters.AddWithValue("@SvID", "001")
 
-        MsgBox("Conect To Server Completed!")
+                cmd.ExecuteNonQuery()
+            End Using
 
-        Me.Close()
-     
+            MsgBox("Conect To Server Completed!")
+            Me.Close()
+        Catch ex As Exception
+            MessageBox.Show("Error updating connection: " & ex.Message)
+        End Try
+
     End Sub
     Private Sub LoadDatabaseServer()
-        Call loadrs("Select * from Conect WHERE SvID='" & "001" & "' ", rsProj)
-        With rsProj
-            If .RecordCount <> 0 Then
-                txtServerName.Text = (.Fields("ServerName").Value.ToString)
-                txtDatabaseName.Text = (.Fields("DatabaseName").Value.ToString)
-                txtServerUser.Text = (.Fields("UserName").Value.ToString)
-                txtServerPassword.Text = (.Fields("UserPassword").Value.ToString)
-            End If
-        End With
+        dtProj = loadrs("SELECT * FROM Conect WHERE SvID='" & "001" & "' ")
+        If dtProj.Rows.Count > 0 Then
+            txtServerName.Text = dtProj.Rows(0)("ServerName").ToString()
+            txtDatabaseName.Text = dtProj.Rows(0)("DatabaseName").ToString()
+            txtServerUser.Text = dtProj.Rows(0)("UserName").ToString()
+            txtServerPassword.Text = dtProj.Rows(0)("UserPassword").ToString()
+        End If
     End Sub
 
     Private Sub Conection_To_Servee_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

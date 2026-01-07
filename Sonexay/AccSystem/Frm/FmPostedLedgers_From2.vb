@@ -1,4 +1,4 @@
-﻿Public Class FmPostedLedgers_From2
+Public Class FmPostedLedgers_From2
     Dim x_i As Integer
     Dim MonthLetter1, Cp As String
     Dim MdStartDate As Date
@@ -21,6 +21,31 @@
             TxtPP.Text = Trim(RSC.Fields("pp").Value.ToString)
         End If
     End Sub
+    Private Sub SetupGrid()
+        FG.AllowUserToAddRows = False
+        FG.AllowUserToDeleteRows = False
+        FG.ReadOnly = True
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.MultiSelect = False
+        FG.RowHeadersVisible = False
+        
+        FG.Columns.Clear()
+        FG.Columns.Add("Col1", "ລ/ດ")
+        FG.Columns.Add("Col2", "ເລກໃບຢັງຢືນ")
+        FG.Columns.Add("Col3", "ລະຫັດບັນຊີ")
+        FG.Columns.Add("Col4", "ຍອດຍົກມູນຄ່າເດີມ")
+        FG.Columns.Add("Col5", "ຍອດຍອກມູນຄ່າເປັນກີບ")
+        FG.Columns.Add("Col6", "ຈົດຫນີ້ມູນຄ່າເດີມ")
+        FG.Columns.Add("Col7", "ຈົດມີມູນຄ່າເດີມ")
+        FG.Columns.Add("Col8", "ດຫນີ້ມູນຄ່າເປັນກີບ")
+        FG.Columns.Add("Col9", "ຈົດມີມູນຄ່າເປັນກີບ")
+        FG.Columns.Add("Col10", "ຍອດເຫລືອ")
+        
+        For Each col As DataGridViewColumn In FG.Columns
+            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Next
+    End Sub
+
     Private Sub AddHeader()
         LoadSqlData("SELECT * FROM Header WHERE ID=N'P01' ", RSC)
         If RSC.RecordCount = 0 Then
@@ -68,7 +93,8 @@
     Private Sub FmPostedLedgers_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         HeaDer()
         Call loadOffice_User()
-        FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
+        FG.AllowUserToResizeColumns = True
+        FG.AllowUserToResizeRows = True
         RD.Checked = True
         Ds.Text = MWorkSetting
         Myy.Text = MWorkSetting
@@ -117,7 +143,7 @@
         'LoadMonth()
         selectLoad()
 
-        FG.FormatString = "^ ລ/ດ |<  ເລກໃບຢັງຢືນ |ລະຫັດບັນຊີ |  ຍອດຍົກມູນຄ່າເດີມ  |ຍອດຍອກມູນຄ່າເປັນກີບ | ຈົດຫນີ້ມູນຄ່າເດີມ | ຈົດມີມູນຄ່າເດີມ  |  ດຫນີ້ມູນຄ່າເປັນກີບ |ຈົດມີມູນຄ່າເປັນກີບ | ຍອດເຫລືອ     |"
+        SetupGrid()
 
         SetControlText(Me)
         Button4.Text = "Export"

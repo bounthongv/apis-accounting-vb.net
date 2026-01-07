@@ -1,4 +1,4 @@
-﻿Public Class FmAmtStatus123
+Public Class FmAmtStatus123
 
     Dim r As String
     Dim CLT_Str, CLT_Last_Str As String
@@ -126,25 +126,25 @@
         Code_Cr = "5"
         Ac_Code = ""
 
-        CNN.Execute("DELETE  Ap_balance_6_col ")
-        CNN.Execute("DELETE FROM Ap_balance_6 ")
-        CNN.Execute("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr   ) " & _
+        DbHelper.ExecuteNonQuery("DELETE  Ap_balance_6_col ")
+        DbHelper.ExecuteNonQuery("DELETE FROM Ap_balance_6 ")
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr   ) " & _
         " select ac_code  ,  0 , 0  , 0  , 0  , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr  from gen_jn  WHERE  gen_jn.date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "' " & Ac_Code & " " & MULook & "  group BY ac_code ")
         Dim S As Date = MdStartDate : S = DateAdd("d", CDbl(-1), MdStartDate)
-        CNN.Execute("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr      ) " & _
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr      ) " & _
         " select  ac_code  ,  0 , 0   , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr  , 0 , 0   from gen_jn  WHERE gen_jn.date_work   BETWEEN '" & "1-1-" & Format(MdStartDate, "yyyy") & "' AND '" & Format(S, "yyyy-MM-dd") & "' " & Ac_Code & " " & MULook & "   group BY ac_code")
-        CNN.Execute("INSERT INTO Ap_balance_6 (  ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr   ) " & _
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 (  ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr   ) " & _
         " select ac_code  , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr   ,  0 , 0  , 0 , 0  from Open_jn WHERE    date_work='" & "1-1-" & Format(MdStartDate, "yyyy") & "' " & Ac_Code & " " & MULook & "   group BY ac_code")
-        CNN.Execute("INSERT INTO Ap_balance_6_col ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr  ) " & _
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6_col ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr  ) " & _
         " select ac_code , sum(open_amt_dr)as open_amt_dr , sum(open_amt_cr) as open_amt_cr , sum(Amt_Last_M_Dr) as Amt_Last_M_Dr , sum(Amt_Last_M_Cr) as Amt_Last_M_Cr , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr  from Ap_balance_6   group BY ac_code")
-        CNN.Execute("Update  Ap_balance_6_col set   open_amt_dr = open_amt_dr  - open_amt_cr , open_amt_cr=0  where open_amt_dr  >= open_amt_cr ")
-        CNN.Execute("Update  Ap_balance_6_col set   open_amt_cr = open_amt_cr  - open_amt_dr , open_amt_dr=0  where open_amt_cr  >= open_amt_dr ")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set   open_amt_dr = open_amt_dr  - open_amt_cr , open_amt_cr=0  where open_amt_dr  >= open_amt_cr ")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set   open_amt_cr = open_amt_cr  - open_amt_dr , open_amt_dr=0  where open_amt_cr  >= open_amt_dr ")
         Call Chang_Incom()
 
 
-        CNN.Execute("Update  Ap_balance_6_col set Rem_cr=0 , Rem_dr= (open_amt_dr + Amt_Last_M_Dr + amt_dr) - (open_amt_cr + Amt_Last_M_Cr + amt_cr) where (open_amt_dr + Amt_Last_M_Dr + amt_dr) >= (open_amt_cr + Amt_Last_M_Cr + amt_cr) ")
-        CNN.Execute("Update  Ap_balance_6_col set Rem_dr=0 , Rem_cr= (open_amt_cr +  Amt_Last_M_Cr + amt_cr) - (open_amt_dr + Amt_Last_M_Dr + amt_dr) where (open_amt_cr + Amt_Last_M_Cr + amt_cr) >= (open_amt_dr + Amt_Last_M_Dr + amt_dr) ")
-        CNN.Execute("update Ap_balance_6_col set Ap_balance_6_col.ac_name=Acc_Code.Name_L from Ap_balance_6_col , Acc_Code where Ap_balance_6_col.Ac_Code = Acc_Code.Ac_Code")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set Rem_cr=0 , Rem_dr= (open_amt_dr + Amt_Last_M_Dr + amt_dr) - (open_amt_cr + Amt_Last_M_Cr + amt_cr) where (open_amt_dr + Amt_Last_M_Dr + amt_dr) >= (open_amt_cr + Amt_Last_M_Cr + amt_cr) ")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set Rem_dr=0 , Rem_cr= (open_amt_cr +  Amt_Last_M_Cr + amt_cr) - (open_amt_dr + Amt_Last_M_Dr + amt_dr) where (open_amt_cr + Amt_Last_M_Cr + amt_cr) >= (open_amt_dr + Amt_Last_M_Dr + amt_dr) ")
+        DbHelper.ExecuteNonQuery("update Ap_balance_6_col set Ap_balance_6_col.ac_name=Acc_Code.Name_L from Ap_balance_6_col , Acc_Code where Ap_balance_6_col.Ac_Code = Acc_Code.Ac_Code")
 
     End Sub
 
@@ -178,8 +178,8 @@
           "Update  Ap_balance_6_col set   open_amt_dr = open_amt_dr  - open_amt_cr , open_amt_cr=0  where open_amt_dr  >= open_amt_cr " & _
            "Update  Ap_balance_6_col set   open_amt_cr = open_amt_cr  - open_amt_dr , open_amt_dr=0  where open_amt_cr  >= open_amt_dr " & _
            "" & _
-            "  insert Into Ap_balance_6_col (Ac_Code , open_amt_dr , open_amt_cr , amt_dr , amt_cr  ) select Ac_Code , open_amt_dr , open_amt_cr ,   amt_cr , amt_dr from Ap_balance_6"
-            CNN.Execute(Insr)
+             "  insert Into Ap_balance_6_col (Ac_Code , open_amt_dr , open_amt_cr , amt_dr , amt_cr  ) select Ac_Code , open_amt_dr , open_amt_cr ,   amt_cr , amt_dr from Ap_balance_6"
+            DbHelper.ExecuteNonQuery(Insr)
         Else
 
             New_Code = New_Code4
@@ -209,9 +209,9 @@
           "  update Ap_balance_6 set  Ap_balance_6.open_amt_dr = Ap_balance_6.open_amt_dr + Ap_balance_6_col.open_amt_dr , Ap_balance_6.open_amt_cr = Ap_balance_6.open_amt_cr + Ap_balance_6_col.open_amt_cr   ,  Ap_balance_6.amt_dr = Ap_balance_6.amt_dr + Ap_balance_6_col.amt_dr    ,  Ap_balance_6.amt_cr = Ap_balance_6.amt_cr + Ap_balance_6_col.amt_cr    from Ap_balance_6 , Ap_balance_6_col   where  Ap_balance_6.Ac_Code = Ap_balance_6_col.Ac_Code      " & _
           "Update  Ap_balance_6_col set   open_amt_dr = open_amt_dr  - open_amt_cr , open_amt_cr=0  where open_amt_dr  >= open_amt_cr " & _
            "Update  Ap_balance_6_col set   open_amt_cr = open_amt_cr  - open_amt_dr , open_amt_dr=0  where open_amt_cr  >= open_amt_dr " & _
-           "" & _
-            "  insert Into Ap_balance_6_col (Ac_Code , open_amt_dr , open_amt_cr , amt_dr , amt_cr  ) select Ac_Code , open_amt_dr , open_amt_cr ,   amt_cr , amt_dr from Ap_balance_6"
-            CNN.Execute(Insr)
+             "" & _
+             "  insert Into Ap_balance_6_col (Ac_Code , open_amt_dr , open_amt_cr , amt_dr , amt_cr  ) select Ac_Code , open_amt_dr , open_amt_cr ,   amt_cr , amt_dr from Ap_balance_6"
+            DbHelper.ExecuteNonQuery(Insr)
         End If
 
 
@@ -221,19 +221,19 @@
     Private Sub BtnPreview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnPreview.Click
         'Click_Last()
         Off_Find = Off_Usr.Text : MuTable = "" : Call Find_Company()
-        CNN.Execute("DELETE  Ap_balance_6_col ")
-        CNN.Execute("DELETE FROM Ap_balance_6 ")
-        CNN.Execute("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr   ) " & _
+        DbHelper.ExecuteNonQuery("DELETE  Ap_balance_6_col ")
+        DbHelper.ExecuteNonQuery("DELETE FROM Ap_balance_6 ")
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr   ) " & _
         " select ac_code  ,  0 , 0  , 0  , 0  , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr  from gen_jn  WHERE  gen_jn.date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "' " & Ac_Code & " " & MULook2 & "  group BY ac_code ")
         Dim S As Date = MdStartDate : S = DateAdd("d", CDbl(-1), MdStartDate)
-        CNN.Execute("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr      ) " & _
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr      ) " & _
         " select  ac_code  ,  0 , 0   , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr  , 0 , 0   from gen_jn  WHERE gen_jn.date_work   BETWEEN '" & "1-1-" & Format(MdStartDate, "yyyy") & "' AND '" & Format(S, "yyyy-MM-dd") & "' " & Ac_Code & " " & MULook2 & "   group BY ac_code")
-        CNN.Execute("INSERT INTO Ap_balance_6 (  ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr   ) " & _
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 (  ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr   ) " & _
         " select ac_code  , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr   ,  0 , 0  , 0 , 0  from Open_jn WHERE    date_work='" & "1-1-" & Format(MdStartDate, "yyyy") & "' " & Ac_Code & " " & MULook2 & "   group BY ac_code")
-        CNN.Execute("INSERT INTO Ap_balance_6_col ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr  ) " & _
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6_col ( ac_code  , open_amt_dr, open_amt_cr , Amt_Last_M_Dr , Amt_Last_M_Cr , amt_dr , amt_cr  ) " & _
         " select ac_code , sum(open_amt_dr)as open_amt_dr , sum(open_amt_cr) as open_amt_cr , sum(Amt_Last_M_Dr) as Amt_Last_M_Dr , sum(Amt_Last_M_Cr) as Amt_Last_M_Cr , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr  from Ap_balance_6   group BY ac_code")
-        CNN.Execute("Update  Ap_balance_6_col set   open_amt_dr = open_amt_dr  - open_amt_cr , open_amt_cr=0  where open_amt_dr  >= open_amt_cr ")
-        CNN.Execute("Update  Ap_balance_6_col set   open_amt_cr = open_amt_cr  - open_amt_dr , open_amt_dr=0  where open_amt_cr  >= open_amt_dr ")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set   open_amt_dr = open_amt_dr  - open_amt_cr , open_amt_cr=0  where open_amt_dr  >= open_amt_cr ")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set   open_amt_cr = open_amt_cr  - open_amt_dr , open_amt_dr=0  where open_amt_cr  >= open_amt_dr ")
         New_Code = "3901000"
         Code_Dr = "4"
         Code_Cr = "5"
@@ -254,81 +254,81 @@
 
         Call Chang_Incom()
 
-        CNN.Execute("update  Ap_balance_6_col set Amt_Last_M_dr = 0 where Amt_Last_M_dr  is null")
-        CNN.Execute("update  Ap_balance_6_col set Amt_Last_M_cr = 0 where Amt_Last_M_cr  is null")
+        DbHelper.ExecuteNonQuery("update  Ap_balance_6_col set Amt_Last_M_dr = 0 where Amt_Last_M_dr  is null")
+        DbHelper.ExecuteNonQuery("update  Ap_balance_6_col set Amt_Last_M_cr = 0 where Amt_Last_M_cr  is null")
 
-        CNN.Execute("Update  Ap_balance_6_col set Rem_cr=0 , Rem_dr= (open_amt_dr + Amt_Last_M_Dr + amt_dr) - (open_amt_cr + Amt_Last_M_Cr + amt_cr) where (open_amt_dr + Amt_Last_M_Dr + amt_dr) >= (open_amt_cr + Amt_Last_M_Cr + amt_cr) ")
-        CNN.Execute("Update  Ap_balance_6_col set Rem_dr=0 , Rem_cr= (open_amt_cr +  Amt_Last_M_Cr + amt_cr) - (open_amt_dr + Amt_Last_M_Dr + amt_dr) where (open_amt_cr + Amt_Last_M_Cr + amt_cr) >= (open_amt_dr + Amt_Last_M_Dr + amt_dr) ")
-        CNN.Execute("update Ap_balance_6_col set Ap_balance_6_col.ac_name=Acc_Code.Name_L from Ap_balance_6_col , Acc_Code where Ap_balance_6_col.Ac_Code = Acc_Code.Ac_Code")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set Rem_cr=0 , Rem_dr= (open_amt_dr + Amt_Last_M_Dr + amt_dr) - (open_amt_cr + Amt_Last_M_Cr + amt_cr) where (open_amt_dr + Amt_Last_M_Dr + amt_dr) >= (open_amt_cr + Amt_Last_M_Cr + amt_cr) ")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set Rem_dr=0 , Rem_cr= (open_amt_cr +  Amt_Last_M_Cr + amt_cr) - (open_amt_dr + Amt_Last_M_Dr + amt_dr) where (open_amt_cr + Amt_Last_M_Cr + amt_cr) >= (open_amt_dr + Amt_Last_M_Dr + amt_dr) ")
+        DbHelper.ExecuteNonQuery("update Ap_balance_6_col set Ap_balance_6_col.ac_name=Acc_Code.Name_L from Ap_balance_6_col , Acc_Code where Ap_balance_6_col.Ac_Code = Acc_Code.Ac_Code")
         Call ChangBalance()
 
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt1=0 ,amt2=0 , Amt3=0 , Amt4=0  ,Amt5=0 ,Amt6=0")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt1=0 ,amt2=0 , Amt3=0 , Amt4=0  ,Amt5=0 ,Amt6=0")
         Dim ds As Date
         ds = DateAdd(DateInterval.Year, -1, MdStartDate)
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3108210%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='01'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt2=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3202%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='01'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt3=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '320%'  And Ac_Code<> '3202' And Year(Date_Work)=" & Year(ds) & ")  where rpt_id='01'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3810000%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='01'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3108210%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='01'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt2=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3202%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='01'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt3=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '320%'  And Ac_Code<> '3202' And Year(Date_Work)=" & Year(ds) & ")  where rpt_id='01'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3810000%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='01'")
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '23626%'  And Ac_Code Like '23636%' And  Year(Date_Work)='" & Year(ds) & "')  where rpt_id='03'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt2=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3202000%'  And  Year(Date_Work)='" & Year(ds) & "')  where rpt_id='04'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3202000%' And  Year(Date_Work)='" & Year(ds) & "') * -1 where rpt_id='04'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '23626%'  And Ac_Code Like '23636%' And  Year(Date_Work)='" & Year(ds) & "')  where rpt_id='03'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt2=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3202000%'  And  Year(Date_Work)='" & Year(ds) & "')  where rpt_id='04'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3202000%' And  Year(Date_Work)='" & Year(ds) & "') * -1 where rpt_id='04'")
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt3=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3203%'  And Ac_Code <> '3202%' And  Year(Date_Work)='" & Year(ds) & "')  where rpt_id='05'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum( Amt_cr) from Gen_jn where Ac_Code Like '3203%'  And Ac_Code <> '3202%' And Year(Date_Work)='" & Year(ds) & "') * -1  where rpt_id='05'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt3=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3203%'  And Ac_Code <> '3202%' And  Year(Date_Work)='" & Year(ds) & "')  where rpt_id='05'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum( Amt_cr) from Gen_jn where Ac_Code Like '3203%'  And Ac_Code <> '3202%' And Year(Date_Work)='" & Year(ds) & "') * -1  where rpt_id='05'")
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt1=  (select sum( Amt_cr) from Gen_jn where Ac_Code Like '3108210%'  And Ac_Code <> '3202%' And Year(Date_Work)='" & Year(ds) & "') * -1  where rpt_id='06'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt1=  (select sum( Amt_cr) from Gen_jn where Ac_Code Like '3108210%'  And Ac_Code <> '3202%' And Year(Date_Work)='" & Year(ds) & "') * -1  where rpt_id='06'")
         'CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_Cr) from Open_jn where Ac_Code Like '3108210%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='07'")
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_Dr) from Gen_jn where Ac_Code Like '3908000%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='07'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_Dr) from Gen_jn where Ac_Code Like '3908000%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='07'")
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt1) from AP_Rpt_Amt_Status  where rpt_id='01' Or rpt_id='06' )  where rpt_id='08'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt4) from AP_Rpt_Amt_Status  where rpt_id='01' Or rpt_id='03' Or rpt_id='04' Or rpt_id='05' Or rpt_id='07' )  where rpt_id='08'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt1) from AP_Rpt_Amt_Status  where rpt_id='01' Or rpt_id='06' )  where rpt_id='08'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt4) from AP_Rpt_Amt_Status  where rpt_id='01' Or rpt_id='03' Or rpt_id='04' Or rpt_id='05' Or rpt_id='07' )  where rpt_id='08'")
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt1) from AP_Rpt_Amt_Status  where rpt_id='08' )  where rpt_id='10'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt4) from AP_Rpt_Amt_Status  where rpt_id='08' )  where rpt_id='10'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt1) from AP_Rpt_Amt_Status  where rpt_id='08' )  where rpt_id='10'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt4) from AP_Rpt_Amt_Status  where rpt_id='08' )  where rpt_id='10'")
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt1) from AP_Rpt_Amt_Status  where rpt_id='10' Or  rpt_id='11' )  where rpt_id='12'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt4) from AP_Rpt_Amt_Status  where rpt_id='10'  Or  rpt_id='11' )  where rpt_id='12'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt1) from AP_Rpt_Amt_Status  where rpt_id='10' Or  rpt_id='11' )  where rpt_id='12'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt4) from AP_Rpt_Amt_Status  where rpt_id='10'  Or  rpt_id='11' )  where rpt_id='12'")
         '============
         ds = DateAdd(DateInterval.Year, 0, MdStartDate)
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3108210%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='12'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt2=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3202%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='12'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt3=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '320%'  And Ac_Code<> '3202' And Year(Date_Work)=" & Year(ds) & ")  where rpt_id='12'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3810000%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='12'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3108210%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='12'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt2=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3202%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='12'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt3=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '320%'  And Ac_Code<> '3202' And Year(Date_Work)=" & Year(ds) & ")  where rpt_id='12'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_Cr+ Amt_Dr) from Open_jn where Ac_Code Like '3810000%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='12'")
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '23626%'   And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='14'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt2=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3202000%'  And  Year(Date_Work)='" & Year(ds) & "')  where rpt_id='15'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3202000%'  And  Year(Date_Work)='" & Year(ds) & "') * -1 where rpt_id='15'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '23626%'   And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='14'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt2=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3202000%'  And  Year(Date_Work)='" & Year(ds) & "')  where rpt_id='15'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3202000%'  And  Year(Date_Work)='" & Year(ds) & "') * -1 where rpt_id='15'")
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt3=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3203%'  And Ac_Code <> '3202%' And  Year(Date_Work)='" & Year(ds) & "') where rpt_id='15'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum( Amt_cr) from Gen_jn where Ac_Code Like '3203%'  And Ac_Code <> '3202%' And  Year(Date_Work)='" & Year(ds) & "') * -1  where rpt_id='16'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt3=  (select sum(Amt_cr) from Gen_jn where Ac_Code Like '3203%'  And Ac_Code <> '3202%' And  Year(Date_Work)='" & Year(ds) & "') where rpt_id='15'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum( Amt_cr) from Gen_jn where Ac_Code Like '3203%'  And Ac_Code <> '3202%' And Year(Date_Work)='" & Year(ds) & "') * -1  where rpt_id='16'")
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt1=  (select sum( Amt_cr) from Gen_jn where Ac_Code Like '3108210%'  And Ac_Code <> '3202%' And  Year(Date_Work)='" & Year(ds) & "') where rpt_id='17'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt1=  (select sum( Amt_cr) from Gen_jn where Ac_Code Like '3108210%'  And Ac_Code <> '3202%' And  Year(Date_Work)='" & Year(ds) & "') where rpt_id='17'")
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_Dr) from Gen_jn where Ac_Code Like '3901000%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='18'")
-
-
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt1) from AP_Rpt_Amt_Status  where rpt_id='12' Or rpt_id='17' )  where rpt_id='19'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt2=  (select sum(Amt2) from AP_Rpt_Amt_Status  where rpt_id='12' Or rpt_id='15' )  where rpt_id='19'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt3=  (select sum(Amt3) from AP_Rpt_Amt_Status  where rpt_id='12' Or rpt_id='16'  )  where rpt_id='19'")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt4) from AP_Rpt_Amt_Status  where rpt_id='12' Or rpt_id='14'  Or rpt_id='15' Or rpt_id='15' Or rpt_id='16' Or rpt_id='18')  where rpt_id='19'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt_Dr) from Gen_jn where Ac_Code Like '3901000%' And Year(Date_Work)='" & Year(ds) & "')  where rpt_id='18'")
 
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt1=0 where amt1 Is null")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt2=0 where amt2 Is null")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt3=0 where amt3 Is null")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=0 where amt4 Is null")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt1=  (select sum(Amt1) from AP_Rpt_Amt_Status  where rpt_id='12' Or rpt_id='17' )  where rpt_id='19'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt2=  (select sum(Amt2) from AP_Rpt_Amt_Status  where rpt_id='12' Or rpt_id='15' )  where rpt_id='19'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt3=  (select sum(Amt3) from AP_Rpt_Amt_Status  where rpt_id='12' Or rpt_id='16'  )  where rpt_id='19'")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=  (select sum(Amt4) from AP_Rpt_Amt_Status  where rpt_id='12' Or rpt_id='14'  Or rpt_id='15' Or rpt_id='15' Or rpt_id='16' Or rpt_id='18')  where rpt_id='19'")
 
 
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt1=0 where amt1 Is null")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt2=0 where amt2 Is null")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt3=0 where amt3 Is null")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt4=0 where amt4 Is null")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt5=0 where amt5 Is null")
-        CNN.Execute("update AP_Rpt_Amt_Status set Amt6=0 where amt6 Is null")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt1=0 where amt1 Is null")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt2=0 where amt2 Is null")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt3=0 where amt3 Is null")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=0 where amt4 Is null")
+
+
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt1=0 where amt1 Is null")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt2=0 where amt2 Is null")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt3=0 where amt3 Is null")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt4=0 where amt4 Is null")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt5=0 where amt5 Is null")
+        DbHelper.ExecuteNonQuery("update AP_Rpt_Amt_Status set Amt6=0 where amt6 Is null")
 
         If CheckBox1.Checked = False Then
             Call LoadReport()
@@ -361,14 +361,14 @@
         Dim RSC17 As New ADODB.Recordset
         LoadSqlData("   select Ac_Code from Ap_balance_6_col  where Ac_Code ='65'", RSC17)
         If RSC17.RecordCount <> 0 Then
-            CNN.Execute(" Update Ap_balance_6_col set Amt_Dr = " & CDbl(Rem_Dr) & "  , Amt_Cr =" & CDbl(Rem_Cr) & " ")
+            DbHelper.ExecuteNonQuery(" Update Ap_balance_6_col set Amt_Dr = " & CDbl(Rem_Dr) & "  , Amt_Cr =" & CDbl(Rem_Cr) & " ")
         Else
-            CNN.Execute("INSERT INTO Ap_balance_6_col ( ac_code ,ac_name , ac_namee , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6_col ( ac_code ,ac_name , ac_namee , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
              "Values('65', N'" & "***" & "', '" & "***" & "', " & _
              " " & CDbl(0) & ", " & CDbl(0) & ", " & CDbl(Rem_Dr) & ", " & CDbl(Rem_Cr) & ",0 )")
         End If
 
-        CNN.Execute(" Delete Ap_balance_6_col  where Ac_Code Like '1%' or Ac_Code Like '2%' or Ac_Code Like '3%'  ")
+        DbHelper.ExecuteNonQuery(" Delete Ap_balance_6_col  where Ac_Code Like '1%' or Ac_Code Like '2%' or Ac_Code Like '3%'  ")
 
     End Sub
     Private Sub SelcectIn()
@@ -397,8 +397,8 @@
         LoadSqlData(" select * from Ap_balance_6_col   where ac_code =  '" & (RSCIn_M.Fields("Ac_Code").Value) & "' ", RSCkk)
         With RSCkk
             Do Until .EOF = True
-                CNN.Execute("Insert into Ap_Rpt_Cashflow_Detail (  Rpt_Id , Ac_Code , Ac_Name , Last_Amt_Dr , Last_Amt_Cr , Amt_Dr , Amt_Cr , Rpt_Type ) values ( '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'   , " & CDbl((.Fields("open_amt_dr").Value)) & " , " & CDbl((.Fields("open_amt_Cr").Value)) & "   , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & " , 'In')")
-                CNN.Execute("update  Ap_Rpt_Cashflow_Item set  Last_amt_dr  =  Last_amt_dr+" & CDbl((.Fields("open_amt_dr").Value)) & " , Last_amt_cr  = Last_amt_cr+" & CDbl((.Fields("open_amt_Cr").Value)) & " , Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'In' ")
+                DbHelper.ExecuteNonQuery("Insert into Ap_Rpt_Cashflow_Detail (  Rpt_Id , Ac_Code , Ac_Name , Last_Amt_Dr , Last_Amt_Cr , Amt_Dr , Amt_Cr , Rpt_Type ) values ( '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'   , " & CDbl((.Fields("open_amt_dr").Value)) & " , " & CDbl((.Fields("open_amt_Cr").Value)) & "   , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & " , 'In')")
+                DbHelper.ExecuteNonQuery("update  Ap_Rpt_Cashflow_Item set  Last_amt_dr  =  Last_amt_dr+" & CDbl((.Fields("open_amt_dr").Value)) & " , Last_amt_cr  = Last_amt_cr+" & CDbl((.Fields("open_amt_Cr").Value)) & " , Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'In' ")
 
                 .MoveNext()
             Loop
@@ -411,8 +411,8 @@
         LoadSqlData(" select * from Ap_balance_6_col   where ac_code =  '" & (RSCIn_M.Fields("Ac_Code").Value) & "' ", RSCkk)
         With RSCkk
             Do Until .EOF = True
-                CNN.Execute("Insert into Ap_Rpt_Cashflow_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  , Last_Amt_Dr , Last_Amt_Cr , Rpt_Type) values (  '" & CStr((RSCIn_M.Fields("Ac_Code").Value)) & "' , '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'  , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & " , 'In' )")
-                CNN.Execute("update  Ap_Rpt_Cashflow_Item set Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'In' ")
+                DbHelper.ExecuteNonQuery("Insert into Ap_Rpt_Cashflow_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  , Last_Amt_Dr , Last_Amt_Cr , Rpt_Type) values (  '" & CStr((RSCIn_M.Fields("Ac_Code").Value)) & "' , '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'  , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & " , 'In' )")
+                DbHelper.ExecuteNonQuery("update  Ap_Rpt_Cashflow_Item set Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'In' ")
                 .MoveNext()
             Loop
         End With
@@ -423,7 +423,7 @@
         LoadSqlData("select Rpt_ID , sum(Last_Amt_Dr) As Last_Amt_Dr , sum(Last_Amt_Cr) As Last_Amt_Cr ,sum(Amt_Dr) As Amt_Dr , sum(Amt_Cr) As Amt_Cr   from Ap_Rpt_Cashflow_Item  where  Rpt_Type = 'In' group by Rpt_ID ", RSC)
         With RSC
             Do Until .EOF = True
-                CNN.Execute("Update Ap_Rpt_Cashflow set " & _
+                DbHelper.ExecuteNonQuery("Update Ap_Rpt_Cashflow set " & _
                             " Amt = '" & CDbl(CDbl((.Fields("Amt_dr").Value)) - CDbl((.Fields("Amt_cr").Value))) & "' " & _
                               " , Last_Amt ='" & CDbl(CDbl((.Fields("Last_Amt_dr").Value)) - CDbl((.Fields("Last_Amt_cr").Value))) & "' " & _
                                " where Rpt_ID = '" & (.Fields("Rpt_ID").Value) & "' ")
@@ -437,7 +437,7 @@
         LoadSqlData("select Rpt_ID, sum(Amt_Dr) As Amt_Dr , sum(Amt_Cr) As Amt_Cr  from Ap_Rpt_Cashflow_Item  where  Rpt_Type = 'In' group by Rpt_ID ", RSC)
         With RSC
             Do Until .EOF = True
-                CNN.Execute("Update Ap_Rpt_Cashflow set " & _
+                DbHelper.ExecuteNonQuery("Update Ap_Rpt_Cashflow set " & _
                             " Last_Amt ='" & CDbl(CDbl((.Fields("Amt_dr").Value)) - CDbl((.Fields("Amt_cr").Value))) & "' " & _
                                " where Rpt_ID = '" & (.Fields("Rpt_ID").Value) & "' ")
                 .MoveNext()
@@ -474,8 +474,8 @@
         LoadSqlData(" select * from Ap_balance_6_col   where ac_code =  '" & (RSCIn_M.Fields("Ac_Code").Value) & "' ", RSCkk)
         With RSCkk
             Do Until .EOF = True
-                CNN.Execute("Insert into Ap_Rpt_Cashflow_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  ,  Last_Amt_Dr , Last_Amt_Cr, Amt_Dr , Amt_Cr , Rpt_Type ) values (  '" & CStr((RSCIn_M.Fields("Ac_Code").Value)) & "' , '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'  ,   " & CDbl((.Fields("Open_Amt_dr").Value)) & " , " & CDbl((.Fields("Open_Amt_cr").Value)) & " , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & " , 'Out' )")
-                CNN.Execute("update  Ap_Rpt_Cashflow_Item set Last_Amt_Dr  =  Last_Amt_Dr+" & CDbl((.Fields("Open_Amt_dr").Value)) & " , Last_Amt_Cr  = Last_Amt_Cr+" & CDbl((.Fields("Open_Amt_cr").Value)) & "  , Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'Out' ")
+                DbHelper.ExecuteNonQuery("Insert into Ap_Rpt_Cashflow_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  ,  Last_Amt_Dr , Last_Amt_Cr, Amt_Dr , Amt_Cr , Rpt_Type ) values (  '" & CStr((RSCIn_M.Fields("Ac_Code").Value)) & "' , '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'  ,   " & CDbl((.Fields("Open_Amt_dr").Value)) & " , " & CDbl((.Fields("Open_Amt_cr").Value)) & " , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & " , 'Out' )")
+                DbHelper.ExecuteNonQuery("update  Ap_Rpt_Cashflow_Item set Last_Amt_Dr  =  Last_Amt_Dr+" & CDbl((.Fields("Open_Amt_dr").Value)) & " , Last_Amt_Cr  = Last_Amt_Cr+" & CDbl((.Fields("Open_Amt_cr").Value)) & "  , Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'Out' ")
 
                 .MoveNext()
             Loop
@@ -488,8 +488,8 @@
         LoadSqlData(" select * from Ap_balance_6_col   where ac_code =  '" & (RSCIn_M.Fields("Ac_Code").Value) & "' ", RSCkk)
         With RSCkk
             Do Until .EOF = True
-                CNN.Execute("Insert into Ap_Rpt_Cashflow_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  , Last_Amt_Dr , Last_Amt_Cr , Rpt_Type) values (  '" & CStr((RSCIn_M.Fields("Ac_Code").Value)) & "' , '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'  , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & ", 'Out')")
-                CNN.Execute("update  Ap_Rpt_Cashflow_Item set Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'Out' ")
+                DbHelper.ExecuteNonQuery("Insert into Ap_Rpt_Cashflow_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  , Last_Amt_Dr , Last_Amt_Cr , Rpt_Type) values (  '" & CStr((RSCIn_M.Fields("Ac_Code").Value)) & "' , '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'  , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & ", 'Out')")
+                DbHelper.ExecuteNonQuery("update  Ap_Rpt_Cashflow_Item set Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'Out' ")
                 .MoveNext()
             Loop
         End With
@@ -516,7 +516,7 @@
         LoadSqlData("select Rpt_ID, sum(Last_Amt_dr) As Last_Amt_Dr , sum(Last_Amt_cr) As Last_Amt_cr , sum(Amt_Dr) As Amt_Dr , sum(Amt_Cr) As Amt_Cr  from Ap_Rpt_Cashflow_Item  where  Rpt_Type = 'Out' group by Rpt_ID ", RSC)
         With RSC
             Do Until .EOF = True
-                CNN.Execute("Update Ap_Rpt_Cashflow set " & _
+                DbHelper.ExecuteNonQuery("Update Ap_Rpt_Cashflow set " & _
                          " Amt ='" & CDbl(CDbl((.Fields("Amt_cr").Value)) - CDbl((.Fields("Amt_dr").Value))) & "' " & _
                            " ,Last_Amt ='" & CDbl(CDbl((.Fields("Last_Amt_cr").Value)) - CDbl((.Fields("Last_Amt_dr").Value))) & "' " & _
                             " where Rpt_ID = '" & (.Fields("Rpt_ID").Value) & "' ")
@@ -531,7 +531,7 @@
         LoadSqlData("select Rpt_ID, sum(Amt_Dr) As Amt_Dr , sum(Amt_Cr) As Amt_Cr  from Ap_Rpt_Cashflow_Item  where  Rpt_Type = 'Out' group by Rpt_ID ", RSC)
         With RSC
             Do Until .EOF = True
-                CNN.Execute("Update Ap_Rpt_Cashflow set " & _
+                DbHelper.ExecuteNonQuery("Update Ap_Rpt_Cashflow set " & _
                          " Last_Amt ='" & CDbl(CDbl((.Fields("Amt_cr").Value)) - CDbl((.Fields("Amt_dr").Value))) & "' " & _
                             " where Rpt_ID = '" & (.Fields("Rpt_ID").Value) & "' ")
                 .MoveNext()
@@ -577,7 +577,7 @@
         With RSC12
             Do Until .EOF = True
                 VCode1 = CStr(Trim(.Fields("ac_Code").Value))
-                CNN.Execute("INSERT INTO Ap_balance_6_col( ac_code   , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
+                DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6_col( ac_code   , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
                  "Values('" & CStr(Trim(.Fields("ac_Code").Value)) & "', " & _
                  " " & CDbl(0) & ", " & CDbl(0) & ", " & CDbl(Trim(.Fields("amt_dr").Value)) & ", " & CDbl(Trim(.Fields("amt_cr").Value)) & ",0 )")
 
@@ -595,7 +595,7 @@
 
 
     Private Sub LoadOpen_Jn12()
-        CNN.Execute("Update Ap_balance_6_col set Quarter_dr=0,Quarter_cr=0")
+        DbHelper.ExecuteNonQuery("Update Ap_balance_6_col set Quarter_dr=0,Quarter_cr=0")
 
         Dim DS, DT As Date
         If Format(MdStartDate, "dd/MM") = "01/01" Then
@@ -638,10 +638,10 @@
         LoadSqlData("   select * from Ap_balance_6  where ac_code = '" & CStr(Trim(RSC12.Fields("ac_code").Value)) & "'  ", RSC14)
 
         If RSC14.RecordCount <> 0 Then
-            CNN.Execute("Update Ap_balance_6_col set Quarter_dr= " & CDbl(Trim(RSC12.Fields("amt_dr").Value)) & "  , Quarter_cr= " & CDbl(Trim(RSC12.Fields("amt_cr").Value)) & "  where ac_code = '" & CStr(Trim(RSC12.Fields("ac_code").Value)) & "'  ")
+            DbHelper.ExecuteNonQuery("Update Ap_balance_6_col set Quarter_dr= " & CDbl(Trim(RSC12.Fields("amt_dr").Value)) & "  , Quarter_cr= " & CDbl(Trim(RSC12.Fields("amt_cr").Value)) & "  where ac_code = '" & CStr(Trim(RSC12.Fields("ac_code").Value)) & "'  ")
         Else
             MsgBox("ggg")
-            CNN.Execute("INSERT INTO Ap_balance_6_col( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status, Quarter_dr , Quarter_cr  ) " & _
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6_col( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status, Quarter_dr , Quarter_cr  ) " & _
               "Values('" & CStr(Trim(RSC12.Fields("ac_Code").Value)) & "', " & _
               " 0 , 0 , 0 , 0,0, " & CDbl(Trim(RSC12.Fields("amt_dr").Value)) & " , " & CDbl(Trim(RSC12.Fields("amt_cr").Value)) & " )")
 
@@ -653,9 +653,9 @@
         With RSC14_1
             Do Until .EOF = True
                 If CDbl(CDbl((.Fields("open_amt_dr").Value)) + CDbl((.Fields("amt_dr").Value))) >= CDbl(CDbl((.Fields("open_amt_cr").Value)) + CDbl((.Fields("amt_cr").Value))) Then
-                    CNN.Execute("Update  Ap_balance_6_col set Rem_cr=0 , Rem_dr=" & CDbl(CDbl(CDbl((.Fields("open_amt_dr").Value)) + CDbl((.Fields("amt_dr").Value))) - CDbl(CDbl((.Fields("open_amt_cr").Value)) + CDbl((.Fields("amt_cr").Value)))) & " where Ac_Code = '" & (.Fields("Ac_Code").Value) & "'")
+                    DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set Rem_cr=0 , Rem_dr=" & CDbl(CDbl(CDbl((.Fields("open_amt_dr").Value)) + CDbl((.Fields("amt_dr").Value))) - CDbl(CDbl((.Fields("open_amt_cr").Value)) + CDbl((.Fields("amt_cr").Value)))) & " where Ac_Code = '" & (.Fields("Ac_Code").Value) & "'")
                 Else
-                    CNN.Execute("Update  Ap_balance_6_col set Rem_dr=0 , Rem_cr=" & CDbl(CDbl(CDbl((.Fields("open_amt_cr").Value)) + CDbl((.Fields("amt_cr").Value))) - CDbl(CDbl((.Fields("open_amt_dr").Value)) + CDbl((.Fields("amt_dr").Value)))) & " where Ac_Code = '" & (.Fields("Ac_Code").Value) & "'")
+                    DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set Rem_dr=0 , Rem_cr=" & CDbl(CDbl(CDbl((.Fields("open_amt_cr").Value)) + CDbl((.Fields("amt_cr").Value))) - CDbl(CDbl((.Fields("open_amt_dr").Value)) + CDbl((.Fields("amt_dr").Value)))) & " where Ac_Code = '" & (.Fields("Ac_Code").Value) & "'")
                 End If
                 .MoveNext()
             Loop
@@ -676,7 +676,7 @@
             Do Until .EOF = True
                 'VCode2 = (.Fields("ac_Code").Value)
                 'MsgBox(VCode)
-                CNN.Execute("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
+                DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
                "Values('" & CStr(Trim(.Fields("ac_Code").Value)) & "', " & _
                " " & CDbl(0) & ", " & CDbl(0) & ", " & CDbl(Trim(.Fields("amt_dr").Value)) & ", " & CDbl(Trim(.Fields("amt_cr").Value)) & ",0 )")
 
@@ -697,7 +697,7 @@
             Do Until .EOF = True
                 VCode3 = (.Fields("ac_Code").Value)
                 'MsgBox((.Fields("amt_dr").Value) & "__" & (.Fields("amt_cr").Value))
-                CNN.Execute("Update Ap_balance_6 set  open_amt_dr='" & CDbl((.Fields("amt_dr").Value)) & "' , open_amt_cr='" & CDbl((.Fields("amt_cr").Value)) & "' where ac_code = '" & (.Fields("ac_Code").Value) & "'")
+                DbHelper.ExecuteNonQuery("Update Ap_balance_6 set  open_amt_dr='" & CDbl((.Fields("amt_dr").Value)) & "' , open_amt_cr='" & CDbl((.Fields("amt_cr").Value)) & "' where ac_code = '" & (.Fields("ac_Code").Value) & "'")
                 LoadOpen_Jn4()
                 .MoveNext()
             Loop
@@ -727,7 +727,7 @@
             LoadSqlData("select ac_code  , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr from Open_jn  WHERE    ac_code='" & VCode3 & "' " & MULook & " group BY ac_code", RSC5)
             If RSC5.RecordCount > 0 Then
                 'MsgBox(CStr(Trim(RSC5.Fields("amt_cr").Value)))
-                CNN.Execute("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
+                DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
              "Values('" & CStr(Trim(RSC5.Fields("ac_Code").Value)) & "',  " & _
              " " & CDbl(RSC5.Fields("amt_dr").Value) & ", " & CDbl(RSC5.Fields("amt_cr").Value) & ", " & CDbl(0) & ", " & CDbl(0) & ",0 )")
             Else
@@ -757,11 +757,11 @@
                 If CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) >= 0 Then
 
                     'MsgBox((.Fields("open_amt_dr").Value) & "++++" & (.Fields("ac_code").Value))
-                    CNN.Execute("Update Ap_balance_6 set rem_dr='" & CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) & "' , rem_cr='" & CDbl(0) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
+                    DbHelper.ExecuteNonQuery("Update Ap_balance_6 set rem_dr='" & CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) & "' , rem_cr='" & CDbl(0) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
                     'MsgBox(.Fields("open_amt_dr").Value)
                 End If
                 If CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) >= 0 Then
-                    CNN.Execute("Update Ap_balance_6 set rem_dr='" & CDbl(0) & "' , rem_cr='" & CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
+                    DbHelper.ExecuteNonQuery("Update Ap_balance_6 set rem_dr='" & CDbl(0) & "' , rem_cr='" & CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) & "' where Accode='" & (.Fields("Ac_Code").Value) & "'")
                 End If
                 'If CDbl(op_cr + amt_cr) = CDbl(op_dr + amt_dr) Then
                 '    'CNN.Execute("Update Ap_balance_6 set rem_dr='" & CDbl(0) & "' , rem_cr='" & CDbl(0) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
@@ -779,7 +779,7 @@
             Do Until .EOF = True
                 VCode7 = (.Fields("ac_Code").Value)
 
-                CNN.Execute("Update Ap_balance_6_col set  open_amt_dr='" & CDbl((.Fields("rem_dr").Value)) & "' , open_amt_cr='" & CDbl((.Fields("rem_cr").Value)) & "' where ac_code = '" & (.Fields("ac_Code").Value) & "'")
+                DbHelper.ExecuteNonQuery("Update Ap_balance_6_col set  open_amt_dr='" & CDbl((.Fields("rem_dr").Value)) & "' , open_amt_cr='" & CDbl((.Fields("rem_cr").Value)) & "' where ac_code = '" & (.Fields("ac_Code").Value) & "'")
                 LoadOpen_Jn8()
                 .MoveNext()
             Loop
@@ -805,7 +805,7 @@
         With RSC9
             LoadSqlData("select ac_code , Rem_dr , Rem_cr from Ap_balance_6  WHERE    ac_code='" & VCode7 & "' ", RSC9)
             If RSC9.RecordCount > 0 Then
-                CNN.Execute("INSERT INTO Ap_balance_6_col ( ac_code ,ac_name , ac_namee , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
+                DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6_col ( ac_code ,ac_name , ac_namee , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
                 "Values('" & CStr(Trim(RSC9.Fields("ac_Code").Value)) & "', N'" & "***" & "', '" & "***" & "', " & _
                 " " & CDbl(RSC9.Fields("rem_dr").Value) & ", " & CDbl(RSC9.Fields("rem_cr").Value) & ", " & CDbl(0) & ", " & CDbl(0) & ",0 )")
             Else
@@ -813,7 +813,7 @@
         End With
     End Sub
     Private Sub LoadOpen_Jn15()
-        CNN.Execute("update Ap_balance_6_col set Ap_balance_6_col.ac_name=Acc_Code.Name_L from Ap_balance_6_col , Acc_Code where Ap_balance_6_col.Ac_Code = Acc_Code.Ac_Code")
+        DbHelper.ExecuteNonQuery("update Ap_balance_6_col set Ap_balance_6_col.ac_name=Acc_Code.Name_L from Ap_balance_6_col , Acc_Code where Ap_balance_6_col.Ac_Code = Acc_Code.Ac_Code")
 
         'Dim RSC10 As New ADODB.Recordset
         'AmtOpenDR = 0
@@ -843,7 +843,7 @@
                 amt_cr11 = CDbl((.Fields("Amt_cr").Value))
                 If CDbl(op_dr11 + op_cr11) = 0 Then
                     If CDbl(amt_dr11 + amt_cr11) = 0 Then
-                        CNN.Execute("delete Ap_balance_6_col  where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
+                        DbHelper.ExecuteNonQuery("delete Ap_balance_6_col  where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
                     End If
 
                 End If
@@ -1192,10 +1192,10 @@
                 amt_cr = CDbl((.Fields("Amt_cr").Value))
                 'MsgBox(amt_cr)
                 If CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) >= 0 Then
-                    CNN.Execute("Update Ap_Rpt_Cashflow_Item set amt_dr='" & CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) & "' , amt_cr='" & CDbl(0) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
+                    DbHelper.ExecuteNonQuery("Update Ap_Rpt_Cashflow_Item set amt_dr='" & CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) & "' , amt_cr='" & CDbl(0) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
                 End If
                 If CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) >= 0 Then
-                    CNN.Execute("Update Ap_Rpt_Cashflow_Item set amt_dr='" & CDbl(0) & "' , amt_cr='" & CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
+                    DbHelper.ExecuteNonQuery("Update Ap_Rpt_Cashflow_Item set amt_dr='" & CDbl(0) & "' , amt_cr='" & CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
                 End If
                 'CNN.Execute("update Ap_Rpt_Cashflow_Item set amt_dr  =  " & CDbl((.Fields("amt_dr").Value)) & " , amt_cr  = " & CDbl((.Fields("amt_cr").Value)) & "   where Ac_code=  '" & (.Fields("Ac_code").Value) & "' ")
                 .MoveNext()

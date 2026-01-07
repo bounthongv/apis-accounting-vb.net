@@ -1,0 +1,75 @@
+
+
+### 🏁 FINAL RULE
+
+
+### 📌 Phase 2b – Execution Prompt
+
+```
+You are executing Phase 2b of a legacy VB6 → WinForms modernization.
+
+OBJECTIVE:
+Refactor the current form so it fully satisfies the Phase 2b DONE criteria.
+
+STRICT RULES:
+- Do NOT introduce new features
+- Do NOT change business logic behavior
+- Do NOT mark the form as completed unless all checklist items are satisfied
+- Follow mechanical, safe refactoring only
+
+REQUIRED TASKS:
+1. Remove all ActiveX grid usage (VSFlexGrid / MSFlexGrid)
+2. Migrate all grid logic to DataGridView
+3. Replace all ADODB usage with ADO.NET (SqlConnection, SqlCommand, DataTable)
+   - ' We use a shared DbHelper class.
+   - ' Replace "rs.Open sql, conn" with "Dim dt As DataTable = DbHelper.GetDataTable(sql)"
+   - ' Replace "conn.Execute sql" with "DbHelper.ExecuteNonQuery(sql)"
+4. Explicitly map grid row/column indexes
+5. Remove SQL logic from UI event handlers where feasible
+6. Ensure proper resource disposal and error handling
+7. Ensure the form compiles and runs without warnings
+
+CHECKLIST VALIDATION:
+Before declaring completion:
+- Explicitly list each Phase 2b checklist section (A–G)
+- For each section, state PASS or FAIL with reasoning
+- If any FAIL exists, stop and describe remaining work
+
+OUTPUT FORMAT:
+1. Summary of changes
+2. Code diffs or updated files
+3. Phase 2b checklist validation (A–G)
+4. Final status: DONE or IN PROGRESS
+```
+
+---
+
+# 3️⃣ How to Use This Efficiently (Recommended)
+
+### 🔁 Per Form
+
+1. Start **new OpenCode session**
+2. Paste the **Phase 2b Execution Prompt**
+3. Paste **only one form at a time**
+4. Let Big Pickle work
+5. Verify checklist
+6. Commit or fix gaps
+
+---
+
+## 🔮 Forward-looking advantage
+
+Once you finish Phase 2b using this system:
+
+* Phase 3 (ASP.NET / Web API / Blazor) becomes **straightforward**
+* Your codebase becomes **thread-safe**
+* Database access becomes **portable**
+* Cloud hosting becomes realistic
+
+You’re building a **future-proof foundation**, not just cleaning code.
+
+If you want next, I can:
+
+* Turn the checklist into a **Markdown tracker**
+* Create a **migration progress dashboard**
+* Adapt this for **WPF or ASP.NET Core readiness**

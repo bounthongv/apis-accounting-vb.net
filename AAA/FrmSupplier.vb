@@ -74,7 +74,7 @@ Public Class FrmSupplier
         End If
 
         If MessageBox.Show("ທ່ານຕ້ອງລຶບລະຫັດ " & selectedCode & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            CNN.Execute("DELETE FROM Supplier WHERE Code=N'" & selectedCode & "'")
+            DbHelper.ExecuteNonQuery("DELETE FROM Supplier WHERE Code=N'" & selectedCode & "'")
 
             LoadListFG()
             Call AddNew()
@@ -85,32 +85,31 @@ Public Class FrmSupplier
         ' Clear existing rows
         FG.Rows.Clear()
 
-        With RSC
-            Call LoadSqlData("SELECT * FROM  Supplier order by Code ASC  ", RSC)
-            If .RecordCount > 0 Then
-                While Not .EOF
-                    ' Add a new row to the DataGridView
-                    Dim rowIndex As Integer = FG.Rows.Add()
-                    Dim currentRow As DataGridViewRow = FG.Rows(rowIndex)
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM  Supplier order by Code ASC")
+        If dt.Rows.Count > 0 Then
+            Dim rowNum As Integer = 1
+            For Each row As DataRow In dt.Rows
+                ' Add a new row to the DataGridView
+                Dim rowIndex As Integer = FG.Rows.Add()
+                Dim currentRow As DataGridViewRow = FG.Rows(rowIndex)
 
-                    ' Populate the cells with data
-                    currentRow.Cells(0).Value = .AbsolutePosition
-                    currentRow.Cells(1).Value = Trim(CStr(.Fields("Code").Value))
-                    currentRow.Cells(2).Value = Trim(CStr(.Fields("Name").Value.ToString))
-                    currentRow.Cells(3).Value = Trim(CStr(.Fields("NameE").Value.ToString))
-                    currentRow.Cells(4).Value = Trim(CStr(.Fields("Tel").Value.ToString))
-                    currentRow.Cells(5).Value = Trim(CStr(.Fields("Fax").Value.ToString))
-                    currentRow.Cells(6).Value = Trim(CStr(.Fields("Email").Value.ToString))
-                    currentRow.Cells(7).Value = "" ' Website column - not in the query
-                    currentRow.Cells(8).Value = Trim(CStr(.Fields("Other").Value.ToString))
+                ' Populate the cells with data
+                currentRow.Cells(0).Value = rowNum
+                currentRow.Cells(1).Value = DbHelper.GetStr(row("Code"))
+                currentRow.Cells(2).Value = DbHelper.GetStr(row("Name"))
+                currentRow.Cells(3).Value = DbHelper.GetStr(row("NameE"))
+                currentRow.Cells(4).Value = DbHelper.GetStr(row("Tel"))
+                currentRow.Cells(5).Value = DbHelper.GetStr(row("Fax"))
+                currentRow.Cells(6).Value = DbHelper.GetStr(row("Email"))
+                currentRow.Cells(7).Value = "" ' Website column - not in the query
+                currentRow.Cells(8).Value = DbHelper.GetStr(row("Other"))
 
-                    .MoveNext()
-                End While
-            Else
-                ' Add an empty row if no data
-                FG.Rows.Add()
-            End If
-        End With
+                rowNum += 1
+            Next
+        Else
+            ' Add an empty row if no data
+            FG.Rows.Add()
+        End If
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
@@ -118,23 +117,22 @@ Public Class FrmSupplier
         If TxtCode.Text = "" Then MsgBox("", MsgBoxStyle.Exclamation) : TxtCode.Focus() : Exit Sub
 
         If TxtCode.Enabled = True Then
-            Call LoadSqlData("SELECT * FROM Supplier WHERE Code =N'" & Trim(TxtCode.Text) & "'", RSC)
-            If RSC.RecordCount <> 0 Then
+            Dim dtCheck As DataTable = DbHelper.GetDataTable("SELECT * FROM Supplier WHERE Code =N'" & Trim(TxtCode.Text) & "'")
+            If dtCheck.Rows.Count <> 0 Then
                 MsgBox("ລະຫັດມີແລ້ວ!", MsgBoxStyle.Exclamation) : TxtCode.Focus() : Exit Sub
             End If
         End If
 
 
-        Call LoadSqlData("SELECT * FROM Supplier WHERE Code =N'" & Trim(TxtCode.Text) & "'", RSC)
-        If RSC.RecordCount = 0 Then
-            CNN.Execute("INSERT INTO Supplier( Code, Name, NameE, Address, AddressE, Tel, Fax, Email, Other) " & _
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Supplier WHERE Code =N'" & Trim(TxtCode.Text) & "'")
+        If dt.Rows.Count = 0 Then
+            DbHelper.ExecuteNonQuery("INSERT INTO Supplier( Code, Name, NameE, Address, AddressE, Tel, Fax, Email, Other) " & _
                 "Values(N'" & Trim(TxtCode.Text) & "',N'" & Trim(TxtName.Text) & "' , N'" & Trim(TxtNameE.Text) & "' ,N'" & Trim(TxtAdd.Text) & "',N'" & Trim(TxtAddE.Text) & "',N'" & Trim(TxtTel.Text) & "',N'" & Trim(TxtFax.Text) & "',N'" & Trim(TxtEmail.Text) & "',N'" & Trim(TxtOther.Text) & "')")
         Else
-            CNN.Execute("UPDATE Supplier SET  Name=N'" & Trim(TxtName.Text) & "' , NameE=N'" & Trim(TxtNameE.Text) & "' ,Address=N'" & Trim(TxtAdd.Text) & "',AddressE=N'" & Trim(TxtAddE.Text) & "'," & _
+            DbHelper.ExecuteNonQuery("UPDATE Supplier SET  Name=N'" & Trim(TxtName.Text) & "' , NameE=N'" & Trim(TxtNameE.Text) & "' ,Address=N'" & Trim(TxtAdd.Text) & "',AddressE=N'" & Trim(TxtAddE.Text) & "'," & _
                         "Tel=N'" & Trim(TxtTel.Text) & "',Fax=N'" & Trim(TxtFax.Text) & "',Email=N'" & Trim(TxtEmail.Text) & "',Other=N'" & Trim(TxtOther.Text) & "'  " & _
                         " WHERE Code =N'" & Trim(TxtCode.Text) & "'")
         End If
-        If RSC.State = ConnectionState.Open Then RSC.Close()
         MsgBox("ການບັນທຶກສຳເລັດ!", MsgBoxStyle.OkOnly)
         TxtCode.Focus()
         LoadListFG()
@@ -150,19 +148,19 @@ Public Class FrmSupplier
     End Sub
 
     Private Sub LoadText()
-        Call LoadSqlData("SELECT * FROM Supplier WHERE Code =N'" & Trim(TxtCode.Text) & "'", RSC)
-        If RSC.RecordCount = 0 Then
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Supplier WHERE Code =N'" & Trim(TxtCode.Text) & "'")
+        If dt.Rows.Count = 0 Then
             AddNew()
         Else
-            TxtCode.Text = Trim(RSC.Fields("Code").Value.ToString)
-            TxtName.Text = Trim(RSC.Fields("Name").Value.ToString)
-            TxtNameE.Text = Trim(RSC.Fields("NameE").Value.ToString)
-            TxtAdd.Text = Trim(RSC.Fields("Address").Value.ToString)
-            TxtAddE.Text = Trim(RSC.Fields("AddressE").Value.ToString)
-            TxtTel.Text = Trim(RSC.Fields("Tel").Value.ToString)
-            TxtFax.Text = Trim(RSC.Fields("Fax").Value.ToString)
-            TxtEmail.Text = Trim(RSC.Fields("Email").Value.ToString)
-            TxtOther.Text = Trim(RSC.Fields("Other").Value.ToString)
+            TxtCode.Text = DbHelper.GetStr(dt.Rows(0)("Code"))
+            TxtName.Text = DbHelper.GetStr(dt.Rows(0)("Name"))
+            TxtNameE.Text = DbHelper.GetStr(dt.Rows(0)("NameE"))
+            TxtAdd.Text = DbHelper.GetStr(dt.Rows(0)("Address"))
+            TxtAddE.Text = DbHelper.GetStr(dt.Rows(0)("AddressE"))
+            TxtTel.Text = DbHelper.GetStr(dt.Rows(0)("Tel"))
+            TxtFax.Text = DbHelper.GetStr(dt.Rows(0)("Fax"))
+            TxtEmail.Text = DbHelper.GetStr(dt.Rows(0)("Email"))
+            TxtOther.Text = DbHelper.GetStr(dt.Rows(0)("Other"))
         End If
     End Sub
 End Class

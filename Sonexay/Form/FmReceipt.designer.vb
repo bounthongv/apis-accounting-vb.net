@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmReceipt
     Inherits System.Windows.Forms.Form
 
@@ -29,8 +29,8 @@ Partial Class FmReceipt
         Me.Button2 = New System.Windows.Forms.Button
         Me.Label13 = New System.Windows.Forms.Label
         Me.ComboBox3 = New System.Windows.Forms.ComboBox
-        Me.FG2 = New AxVSFlex8U.AxVSFlexGrid
-        Me.FG1 = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG2 = New System.Windows.Forms.DataGridView
+        Me.FG1 = New System.Windows.Forms.DataGridView
         Me.BtnPreview = New System.Windows.Forms.Button
         Me.Label3 = New System.Windows.Forms.Label
         Me.TextBox2 = New System.Windows.Forms.TextBox
@@ -68,7 +68,7 @@ Partial Class FmReceipt
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.Label14 = New System.Windows.Forms.Label
-        Me.FGPaper = New AxVSFlex8U.AxVSFlexGrid
+        Me.FGPaper = New System.Windows.Forms.DataGridView
         Me.Label8 = New System.Windows.Forms.Label
         Me.Unit = New System.Windows.Forms.TextBox
         Me.Label12 = New System.Windows.Forms.Label
@@ -79,7 +79,7 @@ Partial Class FmReceipt
         Me.Label1 = New System.Windows.Forms.Label
         Me.TotalLAK = New System.Windows.Forms.TextBox
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.FGRate = New AxVSFlex8U.AxVSFlexGrid
+        Me.FGRate = New System.Windows.Forms.DataGridView
         Me.Label9 = New System.Windows.Forms.Label
         Me.Label10 = New System.Windows.Forms.Label
         Me.Button3 = New System.Windows.Forms.Button
@@ -102,14 +102,14 @@ Partial Class FmReceipt
         Me.Label4 = New System.Windows.Forms.Label
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
-        CType(Me.FG2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FG1, System.ComponentModel.ISupportInitialize).BeginInit()
+        ' DataGridView - no BeginInit needed
+        ' DataGridView - no BeginInit needed
         Me.TabPage2.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
-        CType(Me.FGPaper, System.ComponentModel.ISupportInitialize).BeginInit()
+        ' DataGridView - no BeginInit needed
         Me.GroupBox1.SuspendLayout()
-        CType(Me.FGRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        ' DataGridView - no BeginInit needed
         Me.SuspendLayout()
         '
         'TabControl1
@@ -209,7 +209,7 @@ Partial Class FmReceipt
         Me.FG2.DataSource = Nothing
         Me.FG2.Location = New System.Drawing.Point(7, 112)
         Me.FG2.Name = "FG2"
-        Me.FG2.OcxState = CType(resources.GetObject("FG2.OcxState"), System.Windows.Forms.AxHost.State)
+        ' DataGridView - no OcxState property
         Me.FG2.Size = New System.Drawing.Size(238, 400)
         Me.FG2.TabIndex = 276
         '
@@ -221,7 +221,7 @@ Partial Class FmReceipt
         Me.FG1.DataSource = Nothing
         Me.FG1.Location = New System.Drawing.Point(251, 113)
         Me.FG1.Name = "FG1"
-        Me.FG1.OcxState = CType(resources.GetObject("FG1.OcxState"), System.Windows.Forms.AxHost.State)
+        ' DataGridView - no OcxState property
         Me.FG1.Size = New System.Drawing.Size(784, 403)
         Me.FG1.TabIndex = 275
         '
@@ -652,7 +652,7 @@ Partial Class FmReceipt
         Me.FGPaper.DataSource = Nothing
         Me.FGPaper.Location = New System.Drawing.Point(3, 15)
         Me.FGPaper.Name = "FGPaper"
-        Me.FGPaper.OcxState = CType(resources.GetObject("FGPaper.OcxState"), System.Windows.Forms.AxHost.State)
+        ' DataGridView - no OcxState property
         Me.FGPaper.Size = New System.Drawing.Size(784, 342)
         Me.FGPaper.TabIndex = 267
         '
@@ -773,7 +773,7 @@ Partial Class FmReceipt
         Me.FGRate.DataSource = Nothing
         Me.FGRate.Location = New System.Drawing.Point(4, 16)
         Me.FGRate.Name = "FGRate"
-        Me.FGRate.OcxState = CType(resources.GetObject("FGRate.OcxState"), System.Windows.Forms.AxHost.State)
+        ' DataGridView - no OcxState property
         Me.FGRate.Size = New System.Drawing.Size(190, 411)
         Me.FGRate.TabIndex = 0
         '
@@ -999,17 +999,17 @@ Partial Class FmReceipt
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
-        CType(Me.FG2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FG1, System.ComponentModel.ISupportInitialize).EndInit()
+        ' DataGridView - no EndInit needed
+        ' DataGridView - no EndInit needed
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
-        CType(Me.FGPaper, System.ComponentModel.ISupportInitialize).EndInit()
+        ' DataGridView - no EndInit needed
         Me.GroupBox1.ResumeLayout(False)
-        CType(Me.FGRate, System.ComponentModel.ISupportInitialize).EndInit()
+        ' DataGridView - no EndInit needed
         Me.ResumeLayout(False)
 
     End Sub
@@ -1053,7 +1053,7 @@ Partial Class FmReceipt
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents Curr As System.Windows.Forms.TextBox
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents FGRate As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FGRate As System.Windows.Forms.DataGridView
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtAmt_letter As System.Windows.Forms.TextBox
     Friend WithEvents TotalLAK As System.Windows.Forms.TextBox
@@ -1071,9 +1071,9 @@ Partial Class FmReceipt
     Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents BtnPreview As System.Windows.Forms.Button
-    Friend WithEvents FG1 As AxVSFlex8U.AxVSFlexGrid
-    Friend WithEvents FG2 As AxVSFlex8U.AxVSFlexGrid
-    Friend WithEvents FGPaper As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG1 As System.Windows.Forms.DataGridView
+    Friend WithEvents FG2 As System.Windows.Forms.DataGridView
+    Friend WithEvents FGPaper As System.Windows.Forms.DataGridView
     Friend WithEvents TextBox11 As System.Windows.Forms.TextBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents RadioButton2 As System.Windows.Forms.RadioButton

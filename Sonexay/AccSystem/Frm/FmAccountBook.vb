@@ -1,35 +1,58 @@
-﻿Public Class FmAccountBook
+Public Class FmAccountBook
+    Private Sub SetupGrid()
+        FG.AllowUserToAddRows = False
+        FG.AllowUserToDeleteRows = False
+        FG.ReadOnly = True
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.MultiSelect = False
+        FG.RowHeadersVisible = False
+        
+        FG.Columns.Clear()
+        FG.Columns.Add("Col0", "ລ/ດ")
+        FG.Columns.Add("Col1", "ລະຫັດປື້ມ´")
+        FG.Columns.Add("Col2", "ຊື່ປື້ບັນຊີ")
+        
+        For Each col As DataGridViewColumn In FG.Columns
+            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Next
+    End Sub
+
     Private Sub FmAccountBook_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
+        FG.AllowUserToResizeColumns = True
+        FG.AllowUserToResizeRows = True
 
         txtid.Enabled = True
         Cty.Text = "Acc"
         LoadListFG()
-        FG.FormatString = "^ລ/ດ|< ລະຫັດປື້ມ´ |< ຊື່ປື້ບັນຊີ                                           "
+        SetupGrid()
         SetControlText(Me)
     End Sub
     Public Sub LoadListFG()
-        FG.Rows = 1
+        FG.Rows.Clear()
         With RSC
             Call LoadSqlData("SELECT * FROM  Books where Type='" & Cty.Text & "' ", RSC)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("bookid").Value)) & _
-                      "" & vbTab & ((.Fields("bookname").Value)))
+                    Dim row As Integer = FG.Rows.Add()
+                    FG.Rows(row).Cells(0).Value = .AbsolutePosition
+                    FG.Rows(row).Cells(1).Value = Trim(CStr(.Fields("bookid").Value))
+                    FG.Rows(row).Cells(2).Value = (.Fields("bookname").Value)
                     .MoveNext()
                 End While
             Else
-                FG.Rows = 16
+                ' DataGridView doesn't need to pre-allocate empty rows
             End If
         End With
     End Sub
 
    
 
-    Private Sub FG_ClickEvent(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.ClickEvent
-        txtid.Enabled = False
-        txtid.Text = FG.get_TextMatrix(FG.Row, 1)
-        txtName.Text = FG.get_TextMatrix(FG.Row, 2)
+    Private Sub FG_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG.CellClick
+        If e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 Then
+            txtid.Enabled = False
+            txtid.Text = FG.Rows(e.RowIndex).Cells(1).Value?.ToString()
+            txtName.Text = FG.Rows(e.RowIndex).Cells(2).Value?.ToString()
+        End If
     End Sub
  
 

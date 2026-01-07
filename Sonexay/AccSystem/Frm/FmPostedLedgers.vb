@@ -1,4 +1,4 @@
-﻿Public Class FmPostedLedgers
+Public Class FmPostedLedgers
     Dim x_i As Integer
     Dim MonthLetter1, Cp As String
     Dim MdStartDate As Date
@@ -8,54 +8,72 @@
     Dim s As Double
     Dim k As String
     Dim VCode1, VCode2, VCode3, VCode4, VCode5, VCode6, VCode7, VCode8, VCode9 As String
-    Dim RSC21 As New ADODB.Recordset
+    'Dim RSC21 As New ADODB.Recordset
     Dim ACCNO, AccNm, Curr As String
-    Private Sub HeaDer()
-        LoadSqlData("SELECT * FROM Header WHERE ID=N'P01' ", RSC)
-        If RSC.RecordCount <> 0 Then
-            TxtHeader.Text = Trim(RSC.Fields("Nm").Value.ToString)
-            TxtS1.Text = Trim(RSC.Fields("S1").Value.ToString)
-            TxtS2.Text = Trim(RSC.Fields("S2").Value.ToString)
-            TxtS3.Text = Trim(RSC.Fields("S3").Value.ToString)
-            TxtS4.Text = Trim(RSC.Fields("S4").Value.ToString)
-            TxtPP.Text = Trim(RSC.Fields("pp").Value.ToString)
+Private Sub HeaDer()
+        Dim dtHeader As DataTable = DbHelper.GetDataTable("SELECT * FROM Header WHERE ID=N'P01' ")
+If dtHeader.Rows.Count > 0 Then
+            TxtHeader.Text = Trim(dtHeader.Rows(0)("Nm").ToString())
+            TxtS1.Text = Trim(dtHeader.Rows(0)("S1").ToString())
+            TxtS2.Text = Trim(dtHeader.Rows(0)("S2").ToString())
+            TxtS3.Text = Trim(dtHeader.Rows(0)("S3").ToString())
+            TxtS4.Text = Trim(dtHeader.Rows(0)("S4").ToString())
+            TxtPP.Text = Trim(dtHeader.Rows(0)("pp").ToString())
         End If
     End Sub
-    Private Sub AddHeader()
-        LoadSqlData("SELECT * FROM Header WHERE ID=N'P01' ", RSC)
-        If RSC.RecordCount = 0 Then
-            CNN.Execute("INSERT INTO Header(ID,Nm,S1,S2,S3,S4,PP) " & _
+    Private Sub SetupGrid()
+        FG.AllowUserToAddRows = False
+        FG.AllowUserToDeleteRows = False
+        FG.ReadOnly = True
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.MultiSelect = False
+        FG.RowHeadersVisible = False
+        
+        FG.Columns.Clear()
+        FG.Columns.Add("Col1", "ລ/ດ")
+        FG.Columns.Add("Col2", "ເລກໃບຢັງຢືນ")
+        FG.Columns.Add("Col3", "ລະຫັດບັນຊີ")
+        FG.Columns.Add("Col4", "ຍອດຍົກມູນຄ່າເດີມ")
+        FG.Columns.Add("Col5", "ຍອດຍອກມູນຄ່າເປັນກີບ")
+        FG.Columns.Add("Col6", "ຈົດຫນີ້ມູນຄ່າເດີມ")
+        FG.Columns.Add("Col7", "ຈົດມີມູນຄ່າເດີມ")
+        FG.Columns.Add("Col8", "ດຫນີ້ມູນຄ່າເປັນກີບ")
+        FG.Columns.Add("Col9", "ຈົດມີມູນຄ່າເປັນກີບ")
+        FG.Columns.Add("Col10", "ຍອດເຫລືອ")
+        
+        For Each col As DataGridViewColumn In FG.Columns
+            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Next
+    End Sub
+
+Private Sub AddHeader()
+        Dim dtHeader As DataTable = DbHelper.GetDataTable("SELECT * FROM Header WHERE ID=N'P01' ")
+        If dtHeader.Rows.Count = 0 Then
+            DbHelper.ExecuteNonQuery("INSERT INTO Header(ID,Nm,S1,S2,S3,S4,PP) " & _
                         " values('P01',N'" & TxtHeader.Text & "',N'" & TxtS1.Text & "',N'" & TxtS2.Text & "',N'" & TxtS3.Text & "',N'" & TxtS4.Text & "',N'" & TxtPP.Text & "') ")
         Else
-            CNN.Execute("UPDATE Header set Nm=N'" & TxtHeader.Text & "',S1=N'" & TxtS1.Text & "',S2=N'" & TxtS2.Text & "',S3=N'" & TxtS3.Text & "',S4=N'" & TxtS4.Text & "',PP=N'" & TxtPP.Text & "' " & _
+            DbHelper.ExecuteNonQuery("UPDATE Header set Nm=N'" & TxtHeader.Text & "',S1=N'" & TxtS1.Text & "',S2=N'" & TxtS2.Text & "',S3=N'" & TxtS3.Text & "',S4=N'" & TxtS4.Text & "',PP=N'" & TxtPP.Text & "' " & _
                         " where ID='P01' ")
         End If
     End Sub
-    Private Sub loadOffice_User()
+Private Sub loadOffice_User()
         Off_Usr.Items.Clear()
-        LoadSqlData("select sub_id , off_add2  from  Ap_office  Order by sub_id", RSC)
-        With RSC
-            Do Until .EOF = True
-                Off_Usr.Items.Add((.Fields("sub_id").Value) & " " & (.Fields("off_add2").Value))
-                .MoveNext()
-            Loop
-        End With
+        Dim dtOffice As DataTable = DbHelper.GetDataTable("select sub_id , off_add2  from  Ap_office  Order by sub_id")
+        For Each row As DataRow In dtOffice.Rows
+            Off_Usr.Items.Add((row("sub_id").ToString()) & " " & (row("off_add2").ToString()))
+        Next
         Off_Usr.Text = FmLogin.Sub_Company.Text
     End Sub
 
-    Private Sub Ins()
-
-        Dim RSC21 As New ADODB.Recordset
+Private Sub Ins()
+        
+        Dim dtPostLedgers As DataTable = DbHelper.GetDataTable("SELECT * FROM  Ap_PostedLedgers where ac_Code= '" & k & "'  order by certify asc ")
         Dim x As Double
-        Call LoadSqlData("SELECT * FROM  Ap_PostedLedgers where ac_Code= '" & k & "'  order by certify asc ", RSC21)
-        With RSC21
-            Do Until .EOF = True
-                x = CDbl(CDbl(s) + CDbl((RSC21.Fields("amt_dr").Value))) - CDbl((RSC21.Fields("amt_cr").Value))
-                CNN.Execute("update Ap_PostedLedgers set remain ='" & CDbl(x) & "'   where cnt = '" & (RSC21.Fields("cnt").Value) & "' ")
-                s = x
-                .MoveNext()
-            Loop
-        End With
+        For Each row As DataRow In dtPostLedgers.Rows
+            x = CDbl(CDbl(s) + CDbl((row("amt_dr").ToString()))) - CDbl((row("amt_cr").ToString()))
+            DbHelper.ExecuteNonQuery("update Ap_PostedLedgers set remain ='" & CDbl(x) & "'   where cnt = '" & (row("cnt").ToString()) & "' ")
+            s = x
+        Next
 
     End Sub
   
@@ -68,7 +86,8 @@
     Private Sub FmPostedLedgers_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         HeaDer()
         Call loadOffice_User()
-        FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
+        FG.AllowUserToResizeColumns = True
+        FG.AllowUserToResizeRows = True
         RD.Checked = True
         Ds.Text = MWorkSetting
         Myy.Text = MWorkSetting
@@ -117,7 +136,7 @@
         'LoadMonth()
         selectLoad()
 
-        FG.FormatString = "^ ລ/ດ |<  ເລກໃບຢັງຢືນ |ລະຫັດບັນຊີ |  ຍອດຍົກມູນຄ່າເດີມ  |ຍອດຍອກມູນຄ່າເປັນກີບ | ຈົດຫນີ້ມູນຄ່າເດີມ | ຈົດມີມູນຄ່າເດີມ  |  ດຫນີ້ມູນຄ່າເປັນກີບ |ຈົດມີມູນຄ່າເປັນກີບ | ຍອດເຫລືອ     |"
+        SetupGrid()
 
         SetControlText(Me)
         Button4.Text = "Export"
@@ -375,9 +394,9 @@
             LngId = 7064 : CallLngStr() : s3 = LngStr
             'Lb.Text = s3 & " " & yy.Text
         End If
-        CNN.Execute("DELETE  Ap_PostedLedgers ")
-        CNN.Execute("DELETE  Ap_Ope_PostedLedgers_Group ")
-        CNN.Execute("DELETE FROM Ap_Open_PostedLedgers ")
+        DbHelper.ExecuteNonQuery("DELETE  Ap_PostedLedgers ")
+        DbHelper.ExecuteNonQuery("DELETE  Ap_Ope_PostedLedgers_Group ")
+        DbHelper.ExecuteNonQuery("DELETE FROM Ap_Open_PostedLedgers ")
 
 
         Dim B_Curr As String = ""
@@ -397,138 +416,138 @@
                 Dim s11 As String = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr , Curr   ) " & _
                           "select ac_code , sum(amount_dr) , sum(amount_cr) ,  sum(amt_Dr) / " & CDbl(txtRate2.Text) & " , sum(amt_cr) / " & CDbl(txtRate2.Text) & " , Curr  from gen_jn " & _
                           " WHERE 1=1  and date_work   BETWEEN '" & "" & Format(MdStartDate, "yyyy") & "-1-1' AND '" & Format(S, "yyyy-MM-dd") & "' " & MULook2 & "  group BY ac_code , Curr "
-                CNN.Execute(s11)
+                DbHelper.ExecuteNonQuery(s11)
                 'Dim s22 As String = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr , Curr   ) " & _
                 '          "select ac_code , sum(amount_dr) , sum(amount_cr) ,  sum(amount_dr) , sum(amount_cr) , Curr  from gen_jn " & _
                 '          " WHERE 1=1  and date_work   BETWEEN '" & "" & Format(MdStartDate, "yyyy") & "-1-1' AND '" & Format(S, "yyyy-MM-dd") & "' " & MULook2 & "  group BY ac_code , Curr "
-                'CNN.Execute(s22)
+                'DbHelper.ExecuteNonQuery(s22)
                 Dim aa As String
                 Off_Find = Off_Usr.Text : MuTable = "Open_jn." : Call Find_Company()
                 aa = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr  , Curr  ) " & _
                  "select ac_code , amount_dr , amount_cr , sum(amt_Dr) / " & CDbl(txtRate2.Text) & " , sum(amt_cr) / " & CDbl(txtRate2.Text) & " , Curr from Open_jn  " & _
                  " WHERE 1=1 and date_work='" & "" & Format(MdStartDate, "yyyy") & "-1-1' " & MULook2 & "  "
-                CNN.Execute(aa)
+                DbHelper.ExecuteNonQuery(aa)
                 'aa = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr  , Curr  ) " & _
                 '"select ac_code , amount_dr , amount_cr , sum(amt_Dr) / " & CDbl(txtRate2.Text) & " , sum(amt_cr) / " & CDbl(txtRate2.Text) & " , Curr from Open_jn  " & _
                 '" WHERE 1=1 and date_work='" & "" & Format(MdStartDate, "yyyy") & "-1-1' " & MULook2 & "  "
-                'CNN.Execute(aa)
+                'DbHelper.ExecuteNonQuery(aa)
                 Off_Find = Off_Usr.Text : MuTable = "gen_jn." : Call Find_Company()
                 aa = " INSERT INTO Ap_PostedLedgers( ac_code , ac_name , date_work , descrip , Open_amount , open_amt , amount_dr , amount_cr , amt_dr , amt_cr , certify , remain , Status ,  curr ) " & _
                        "select ac_code ,'' ,date_work, descrip ,0 ,0 ,amount_dr ,amount_cr , sum(amt_Dr) / " & CDbl(txtRate2.Text) & " , sum(amt_cr) / " & CDbl(txtRate2.Text) & " ,certify, 0 , 0 ,  Curr  from gen_jn   " & _
                        "  WHERE  1=1 and date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "' " & MULook2 & "   "
-                CNN.Execute(aa)
+                DbHelper.ExecuteNonQuery(aa)
             ElseIf CheckBox5.Checked = True Then
                 Dim s11 As String = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr , Curr   ) " & _
                          "select ac_code , sum(amount_dr) , sum(amount_cr) ,  sum(amt_Dr) / " & CDbl(txtRate.Text) & " , sum(amt_cr) / " & CDbl(txtRate.Text) & " , Curr  from gen_jn " & _
                          " WHERE 1=1  and date_work   BETWEEN '" & "" & Format(MdStartDate, "yyyy") & "-1-1' AND '" & Format(S, "yyyy-MM-dd") & "' " & MULook2 & "  group BY ac_code , Curr "
-                CNN.Execute(s11)
+                DbHelper.ExecuteNonQuery(s11)
                 Dim aa As String
                 Off_Find = Off_Usr.Text : MuTable = "Open_jn." : Call Find_Company()
                 aa = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr  , Curr  ) " & _
                  "select ac_code , amount_dr , amount_cr , sum(amt_Dr) / " & CDbl(txtRate.Text) & " , sum(amt_cr) / " & CDbl(txtRate.Text) & " , Curr from Open_jn  " & _
                  " WHERE 1=1 and date_work='" & "" & Format(MdStartDate, "yyyy") & "-1-1' " & MULook2 & "  "
-                CNN.Execute(aa)
+                DbHelper.ExecuteNonQuery(aa)
                 Off_Find = Off_Usr.Text : MuTable = "gen_jn." : Call Find_Company()
                 aa = " INSERT INTO Ap_PostedLedgers( ac_code , ac_name , date_work , descrip , Open_amount , open_amt , amount_dr , amount_cr , amt_dr , amt_cr , certify , remain , Status ,  curr ) " & _
                        "select ac_code ,'' ,date_work, descrip ,0 ,0 ,amount_dr ,amount_cr , sum(amt_Dr) / " & CDbl(txtRate.Text) & " , sum(amt_cr) / " & CDbl(txtRate.Text) & " ,certify, 0 , 0 ,  Curr  from gen_jn   " & _
                        "  WHERE  1=1 and date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "' " & MULook2 & "   "
-                CNN.Execute(aa)
+                DbHelper.ExecuteNonQuery(aa)
             Else
 
                 Dim s11 As String = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr , Curr   ) " & _
                     "select ac_code , sum(amount_dr) , sum(amount_cr) ,  sum(Amt_dr) , sum(Amt_Cr) , Curr  from gen_jn " & _
                     " WHERE 1=1 and date_work BETWEEN '" & "" & Format(MdStartDate, "yyyy") & "-1-1' AND '" & Format(S, "yyyy-MM-dd") & "' " & MULook2 & "  group BY ac_code , Curr "
-                CNN.Execute(s11)
+                DbHelper.ExecuteNonQuery(s11)
 
                 Dim aa As String
                 Off_Find = Off_Usr.Text : MuTable = "Open_jn." : Call Find_Company()
-                aa = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr  , Curr  ) " & _
+            aa = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr  , Curr  ) " & _
                  "select ac_code , amount_dr , amount_cr , amt_dr , amt_cr , Curr from Open_jn  WHERE  1=1 and date_work='" & "" & Format(MdStartDate, "yyyy") & "-1-1' " & MULook2 & "  "
-                CNN.Execute(aa)
+            DbHelper.ExecuteNonQuery(aa)
                 Off_Find = Off_Usr.Text : MuTable = "gen_jn." : Call Find_Company()
-                aa = " INSERT INTO Ap_PostedLedgers( ac_code , ac_name , date_work , descrip , Open_amount , open_amt , amount_dr , amount_cr , amt_dr , amt_cr , certify , remain , Status ,  curr ) " & _
+            aa = " INSERT INTO Ap_PostedLedgers( ac_code , ac_name , date_work , descrip , Open_amount , open_amt , amount_dr , amount_cr , amt_dr , amt_cr , certify , remain , Status ,  curr ) " & _
                        "select ac_code ,'' ,date_work, descrip ,0 ,0 ,amount_dr ,amount_cr , amt_dr , amt_cr ,certify, 0 , 0 ,  Curr  from gen_jn   " & _
                        "  WHERE 1=1 and date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "' " & MULook2 & "   "
-                CNN.Execute(aa)
+            DbHelper.ExecuteNonQuery(aa)
 
             End If
         Else
             Dim s11 As String = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr , Curr   ) " & _
                       "select ac_code , sum(amount_dr) , sum(amount_cr) ,  sum(amount_dr) , sum(amount_cr) , Curr  from gen_jn WHERE 1=1 " & B_Curr & " and     gen_jn.date_work   BETWEEN '" & "" & Format(MdStartDate, "yyyy") & "-1-1' AND '" & Format(S, "yyyy-MM-dd") & "' " & MULook2 & "  group BY ac_code , Curr "
-            CNN.Execute(s11)
+            DbHelper.ExecuteNonQuery(s11)
 
             Dim aa As String
             Off_Find = Off_Usr.Text : MuTable = "Open_jn." : Call Find_Company()
             aa = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr  , Curr  ) " & _
              "select ac_code , amount_dr , amount_cr , amount_dr , amount_cr , Curr from Open_jn  WHERE  1=1 " & B_Curr & " and date_work='" & "" & Format(MdStartDate, "yyyy") & "-1-1' " & MULook2 & "  "
-            CNN.Execute(aa)
+            DbHelper.ExecuteNonQuery(aa)
             Off_Find = Off_Usr.Text : MuTable = "gen_jn." : Call Find_Company()
             aa = " INSERT INTO Ap_PostedLedgers( ac_code , ac_name , date_work , descrip , Open_amount , open_amt , amount_dr , amount_cr , amt_dr , amt_cr , certify , remain , Status ,  curr ) " & _
                    "select ac_code ,'' ,date_work, descrip ,0 ,0 ,amount_dr ,amount_cr , amount_dr , amount_cr ,certify, 0 , 0 ,  Curr  from gen_jn    WHERE 1=1 " & B_Curr & " and date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "' " & MULook2 & "   "
-            CNN.Execute(aa)
+            DbHelper.ExecuteNonQuery(aa)
 
         End If
    
-        CNN.Execute("Delete Ap_Ope_PostedLedgers_Group ")
-        CNN.Execute("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code  ,Amount, Amt  )" & _
+        DbHelper.ExecuteNonQuery("Delete Ap_Ope_PostedLedgers_Group ")
+        DbHelper.ExecuteNonQuery("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code  ,Amount, Amt  )" & _
                      " Select Ac_Code ,Sum(Amount_Dr - Amount_Cr)  ,Sum(Amt_Dr - Amt_Cr)  from Ap_Open_PostedLedgers group by Ac_Code ")
-        CNN.Execute("Update Ap_PostedLedgers set  Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt  , Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount  From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code   ")
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set  Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt  , Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount  From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code   ")
 
-        CNN.Execute("Delete Ap_Ope_PostedLedgers_Group ")
-        CNN.Execute("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code , Amount  , Amt )" & _
+        DbHelper.ExecuteNonQuery("Delete Ap_Ope_PostedLedgers_Group ")
+        DbHelper.ExecuteNonQuery("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code , Amount  , Amt )" & _
                   " Select Ac_Code ,Sum(Amount_Dr - Amount_Cr)   ,Sum(Amt_Dr - Amt_Cr)   from Ap_Open_PostedLedgers group by Ac_Code ")
-        CNN.Execute("Update Ap_PostedLedgers set Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount , Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt   From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code  ")
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount , Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt   From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code  ")
 
-        CNN.Execute(" delete Ap_PostedLedgers_Rem ")
-        CNN.Execute(" insert into Ap_PostedLedgers_Rem  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
+        DbHelper.ExecuteNonQuery(" delete Ap_PostedLedgers_Rem ")
+        DbHelper.ExecuteNonQuery(" insert into Ap_PostedLedgers_Rem  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
          " select ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work from Ap_PostedLedgers order by  Ac_Code,Date_Work , certify ,cnt Asc  ")
-        CNN.Execute("delete Ap_PostedLedgers   ")
-        CNN.Execute("insert into Ap_PostedLedgers  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
+        DbHelper.ExecuteNonQuery("delete Ap_PostedLedgers   ")
+        DbHelper.ExecuteNonQuery("insert into Ap_PostedLedgers  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
          " select ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work from Ap_PostedLedgers_Rem order by cnt   ")
 
-        CNN.Execute(" delete Ap_PostedLedgers_Rem ")
-        CNN.Execute(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
-          " select Ac_Code , cnt,Open_amt+(select SUM(Amt_Dr-Amt_cr) from Ap_PostedLedgers  where Ac_Code = x.ac_code    And cnt <= x.cnt )as Rem from Ap_PostedLedgers as x  order by  cnt Asc  ")
+        DbHelper.ExecuteNonQuery(" delete Ap_PostedLedgers_Rem ")
+        DbHelper.ExecuteNonQuery(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
+           " select Ac_Code , cnt,Open_amt+(select SUM(Amt_Dr-Amt_cr) from Ap_PostedLedgers  where Ac_Code = x.ac_code    And cnt <= x.cnt )as Rem from Ap_PostedLedgers as x  order by  cnt Asc  ")
 
-     
-        CNN.Execute("Update Ap_PostedLedgers set Ap_PostedLedgers.remain = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
+      
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set Ap_PostedLedgers.remain = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
             "  update	 Ap_PostedLedgers set remain=0 where remain is null ")
  
-        CNN.Execute(" Update Ap_PostedLedgers set Open_dr = 0 where  Open_dr is Null Update Ap_PostedLedgers set Open_cr = 0 where  Open_cr is Null Update Ap_PostedLedgers set Open_amount = 0 where  Open_amount is Null Update Ap_PostedLedgers set open_amt = 0 where  open_amt is Null Update Ap_PostedLedgers set amount_dr = 0 where  amount_dr is Null Update Ap_PostedLedgers set amount_cr = 0 where  amount_cr is Null Update Ap_PostedLedgers set amt_dr = 0 where  amt_dr is Null Update Ap_PostedLedgers set amt_cr = 0 where  amt_cr is Null Update Ap_PostedLedgers set remain = 0 where  remain is Null ")
+        DbHelper.ExecuteNonQuery(" Update Ap_PostedLedgers set Open_dr = 0 where  Open_dr is Null Update Ap_PostedLedgers set Open_cr = 0 where  Open_cr is Null Update Ap_PostedLedgers set Open_amount = 0 where  Open_amount is Null Update Ap_PostedLedgers set open_amt = 0 where  open_amt is Null Update Ap_PostedLedgers set amount_dr = 0 where  amount_dr is Null Update Ap_PostedLedgers set amount_cr = 0 where  amount_cr is Null Update Ap_PostedLedgers set amt_dr = 0 where  amt_dr is Null Update Ap_PostedLedgers set amt_cr = 0 where  amt_cr is Null Update Ap_PostedLedgers set remain = 0 where  remain is Null ")
 
         If CheckBox1.Checked = True Then
-            CNN.Execute(" delete Ap_PostedLedgers_Rem ")
-            CNN.Execute(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
+            DbHelper.ExecuteNonQuery(" delete Ap_PostedLedgers_Rem ")
+            DbHelper.ExecuteNonQuery(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
               " select Ac_Code , cnt,Open_amount+(select SUM(Amount_Dr-Amount_cr) from Ap_PostedLedgers  where Ac_Code = x.ac_code    And cnt <= x.cnt )as Rem_Curr from Ap_PostedLedgers as x  order by  cnt Asc  ")
-            CNN.Execute("Update Ap_PostedLedgers set Ap_PostedLedgers.Rem_Curr = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
+            DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set Ap_PostedLedgers.Rem_Curr = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
                 " update Ap_PostedLedgers set remain=0 where remain is null ")
         End If
 
         Off_Find = Off_Usr.Text : MuTable = "Open_jn." : Call Find_Company()
-        CNN.Execute("update Open_jn set Lck=0 where year(date_work)= " & Format(MdStartDate, "yyyy") & "  " & MULook2 & "")
-        CNN.Execute("update Open_jn set Lck=1 from Open_jn, Ap_PostedLedgers   where year(Open_jn.date_work)= " & Format(MdStartDate, "yyyy") & " And  Open_jn.ac_code =  Ap_PostedLedgers.ac_code " & MULook2 & "")
+        DbHelper.ExecuteNonQuery("update Open_jn set Lck=0 where year(date_work)= " & Format(MdStartDate, "yyyy") & "  " & MULook2 & "")
+        DbHelper.ExecuteNonQuery("update Open_jn set Lck=1 from Open_jn, Ap_PostedLedgers   where year(Open_jn.date_work)= " & Format(MdStartDate, "yyyy") & " And  Open_jn.ac_code =  Ap_PostedLedgers.ac_code " & MULook2 & "")
         If CMB_Curr.SelectedIndex = 0 Then
             Dim s7 As String = " Insert into Ap_PostedLedgers (ac_code,Open_dr,Open_Cr,Open_amount,open_amt,amount_dr,amount_cr,amt_dr,amt_cr,Curr,remain,Rem_Curr,Status)  " & _
                              "select ac_code,0,0, Sum(amount_dr-amount_cr),Sum(amt_dr-amt_cr),0,0,0,0,Curr,0,0,0 from Open_jn where   1=1 " & B_Curr & " and  Lck=0 And year(date_work)= " & Format(MdStartDate, "yyyy") & "  " & MULook2 & " Group by ac_code , Curr"
-            CNN.Execute(s7)
+            DbHelper.ExecuteNonQuery(s7)
         Else
             Dim s7 As String = " Insert into Ap_PostedLedgers (ac_code,Open_dr,Open_Cr,Open_amount,open_amt,amount_dr,amount_cr,amt_dr,amt_cr,Curr,remain,Rem_Curr,Status)  " & _
                          "select ac_code,0,0, Sum(amount_dr-amount_cr),Sum(amt_dr-amt_cr),0,0,0,0,Curr,0,0,0 from Open_jn where   1=1 " & B_Curr & " and  Lck=0 And year(date_work)= " & Format(MdStartDate, "yyyy") & "  " & MULook2 & " Group by ac_code , Curr"
-            CNN.Execute(s7)
+            DbHelper.ExecuteNonQuery(s7)
         End If
 
 
-        CNN.Execute("Update Ap_PostedLedgers set open_amt = Ap_Ope_PostedLedgers_Group.Amt from Ap_PostedLedgers ,Ap_Ope_PostedLedgers_Group  where  Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code")
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set open_amt = Ap_Ope_PostedLedgers_Group.Amt from Ap_PostedLedgers ,Ap_Ope_PostedLedgers_Group  where  Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code")
 
-        'CNN.Execute("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=Acc_Code.Name_L from Ap_PostedLedgers , Acc_Code where Ap_PostedLedgers.Ac_Code = Acc_Code.Ac_Code")
+        'DbHelper.ExecuteNonQuery("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=Acc_Code.Name_L from Ap_PostedLedgers , Acc_Code where Ap_PostedLedgers.Ac_Code = Acc_Code.Ac_Code")
         If MuLng = "L" Then
-            CNN.Execute("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=gen_jn.ac_name, Ap_PostedLedgers.last_user=gen_jn.last_user from Ap_PostedLedgers , gen_jn where Ap_PostedLedgers.Ac_Code = gen_jn.Ac_Code and   Ap_PostedLedgers.certify =gen_jn.certify ")
+            DbHelper.ExecuteNonQuery("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=gen_jn.ac_name, Ap_PostedLedgers.last_user=gen_jn.last_user from Ap_PostedLedgers , gen_jn where Ap_PostedLedgers.Ac_Code = gen_jn.Ac_Code and   Ap_PostedLedgers.certify =gen_jn.certify ")
         Else
-            CNN.Execute("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=gen_jn.ac_namee, Ap_PostedLedgers.last_user=gen_jn.last_user from Ap_PostedLedgers , gen_jn where Ap_PostedLedgers.Ac_Code = gen_jn.Ac_Code and   Ap_PostedLedgers.certify =gen_jn.certify ")
+            DbHelper.ExecuteNonQuery("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=gen_jn.ac_namee, Ap_PostedLedgers.last_user=gen_jn.last_user from Ap_PostedLedgers , gen_jn where Ap_PostedLedgers.Ac_Code = gen_jn.Ac_Code and   Ap_PostedLedgers.certify =gen_jn.certify ")
 
         End If
         If ChDs.Checked = False Then
-            CNN.Execute("update Ap_PostedLedgers set descrip = ac_name")
+            DbHelper.ExecuteNonQuery("update Ap_PostedLedgers set descrip = ac_name")
 
         End If
         Call Office()
@@ -563,13 +582,8 @@
             SLF = "SELECT  " & MuLngRpt & "  *   FROM Ap_PostedLedgers       order by  Ac_Code,Date_Work , certify ,cnt     asc "
         End If
         Call LoadLoGO()
-        Dim Rs As New ADODB.Recordset
-        With Rs
-            If .State = ConnectionState.Open Then .Close()
-            .Open(SLF, CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
-            If .EOF Then Exit Sub
-        End With
+        Dim dtRs As DataTable = DbHelper.GetDataTable(SLF)
+        If dtRs.Rows.Count = 0 Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
 
         If CMB_Curr.Text = "LAK" Then
             CURR01 = "ຫົວໜ່ວຍ : ກີບ"
@@ -601,7 +615,7 @@
             myText2 = CType(Rpt.ReportDefinition.ReportObjects.Item("Text3"), CrystalDecisions.CrystalReports.Engine.TextObject)
             myText2.Text = CURR01
 
-            Rpt.SetDataSource(Rs)
+            Rpt.SetDataSource(dtRs)
             FmPreview.ReportViewer.ReportSource = Rpt
         Else
             Dim Rpt As New Object
@@ -633,7 +647,7 @@
             myText2 = CType(Rpt.ReportDefinition.ReportObjects.Item("Text3"), CrystalDecisions.CrystalReports.Engine.TextObject)
             myText2.Text = CURR01
 
-            Rpt.SetDataSource(Rs)
+            Rpt.SetDataSource(dtRs)
             FmPreview.ReportViewer.ReportSource = Rpt
         End If
         FmPreview.ReportViewer.DisplayGroupTree = False
@@ -718,79 +732,79 @@
             LngId = 7064 : CallLngStr() : s3 = LngStr
             Lb.Text = s3 & " " & yy.Text
         End If
-        CNN.Execute("DELETE  Ap_PostedLedgers ")
-        CNN.Execute("DELETE  Ap_Ope_PostedLedgers_Group ")
-        CNN.Execute("DELETE FROM Ap_Open_PostedLedgers ")
+        DbHelper.ExecuteNonQuery("DELETE  Ap_PostedLedgers ")
+        DbHelper.ExecuteNonQuery("DELETE  Ap_Ope_PostedLedgers_Group ")
+        DbHelper.ExecuteNonQuery("DELETE FROM Ap_Open_PostedLedgers ")
         Dim S As Date
         S = MdStartDate
         S = DateAdd("d", CDbl(-1), MdStartDate)
-        Off_Find = Off_Usr.Text : MuTable = "gen_jn." : Call Find_Company()
-        Dim s11 As String = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr , Curr   ) " & _
-         "select ac_code , sum(amount_dr) , sum(amount_cr) ,  sum(amt_dr) , sum(amt_cr) , Curr  from gen_jn WHERE   gen_jn.date_work   BETWEEN '" & "" & Format(MdStartDate, "yyyy") & "-1-1' AND '" & Format(S, "yyyy-MM-dd") & "' " & MULook2 & "  group BY ac_code , Curr "
-        CNN.Execute(s11)
+         Off_Find = Off_Usr.Text : MuTable = "gen_jn." : Call Find_Company()
+         Dim s11 As String = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr , Curr   ) " & _
+          "select ac_code , sum(amount_dr) , sum(amount_cr) ,  sum(amt_dr) , sum(amt_cr) , Curr  from gen_jn WHERE   gen_jn.date_work   BETWEEN '" & "" & Format(MdStartDate, "yyyy") & "-1-1' AND '" & Format(S, "yyyy-MM-dd") & "' " & MULook2 & "  group BY ac_code , Curr "
+         DbHelper.ExecuteNonQuery(s11)
         Dim aa As String
         Off_Find = Off_Usr.Text : MuTable = "Open_jn." : Call Find_Company()
-        aa = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr  , Curr  ) " & _
+         aa = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr  , Curr  ) " & _
          "select ac_code , amount_dr , amount_cr , amt_dr , amt_cr , Curr from Open_jn  WHERE    date_work='" & "" & Format(MdStartDate, "yyyy") & "-1-1' " & MULook2 & "  "
-        CNN.Execute(aa)
+         DbHelper.ExecuteNonQuery(aa)
         Off_Find = Off_Usr.Text : MuTable = "gen_jn." : Call Find_Company()
-        aa = " INSERT INTO Ap_PostedLedgers( ac_code , ac_name , date_work , descrip , Open_amount , open_amt , amount_dr , amount_cr , amt_dr , amt_cr , certify , remain , Status ,  curr ) " & _
-               "select ac_code ,'' ,date_work, descrip ,0 ,0 ,amount_dr ,amount_cr , amt_dr , amt_cr ,certify, 0 , 0 ,  Curr  from gen_jn    WHERE  gen_jn.date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "' " & MULook2 & "   "
-        CNN.Execute(aa)
+         aa = " INSERT INTO Ap_PostedLedgers( ac_code , ac_name , date_work , descrip , Open_amount , open_amt , amount_dr , amount_cr , amt_dr , amt_cr , certify , remain , Status ,  curr ) " & _
+                "select ac_code ,'' ,date_work, descrip ,0 ,0 ,amount_dr ,amount_cr , amt_dr , amt_cr ,certify, 0 , 0 ,  Curr  from gen_jn    WHERE  gen_jn.date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "' " & MULook2 & "   "
+         DbHelper.ExecuteNonQuery(aa)
 
-        CNN.Execute("Delete Ap_Ope_PostedLedgers_Group ")
-        CNN.Execute("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code  ,Amount, Amt  )" & _
+         DbHelper.ExecuteNonQuery("Delete Ap_Ope_PostedLedgers_Group ")
+         DbHelper.ExecuteNonQuery("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code  ,Amount, Amt  )" & _
                      " Select Ac_Code ,Sum(Amount_Dr - Amount_Cr)  ,Sum(Amt_Dr - Amt_Cr)  from Ap_Open_PostedLedgers group by Ac_Code ")
-        CNN.Execute("Update Ap_PostedLedgers set  Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt  , Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount  From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code   ")
+         DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set  Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt  , Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount  From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code   ")
 
-        CNN.Execute("Delete Ap_Ope_PostedLedgers_Group ")
-        CNN.Execute("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code , Amount  , Amt )" & _
+        DbHelper.ExecuteNonQuery("Delete Ap_Ope_PostedLedgers_Group ")
+        DbHelper.ExecuteNonQuery("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code , Amount  , Amt )" & _
                   " Select Ac_Code ,Sum(Amount_Dr - Amount_Cr)   ,Sum(Amt_Dr - Amt_Cr)   from Ap_Open_PostedLedgers group by Ac_Code ")
-        CNN.Execute("Update Ap_PostedLedgers set Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount , Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt   From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code  ")
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount , Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt   From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code  ")
 
-        CNN.Execute(" delete Ap_PostedLedgers_Rem ")
-        CNN.Execute(" insert into Ap_PostedLedgers_Rem  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
+        DbHelper.ExecuteNonQuery(" delete Ap_PostedLedgers_Rem ")
+        DbHelper.ExecuteNonQuery(" insert into Ap_PostedLedgers_Rem  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
          " select ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work from Ap_PostedLedgers order by  Ac_Code,Date_Work , certify ,cnt Asc  ")
-        CNN.Execute("delete Ap_PostedLedgers   ")
-        CNN.Execute("insert into Ap_PostedLedgers  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
+        DbHelper.ExecuteNonQuery("delete Ap_PostedLedgers   ")
+        DbHelper.ExecuteNonQuery("insert into Ap_PostedLedgers  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
          " select ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work from Ap_PostedLedgers_Rem order by cnt   ")
 
-        CNN.Execute(" delete Ap_PostedLedgers_Rem ")
-        CNN.Execute(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
+        DbHelper.ExecuteNonQuery(" delete Ap_PostedLedgers_Rem ")
+        DbHelper.ExecuteNonQuery(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
           " select Ac_Code , cnt,Open_amt+(select SUM(Amt_Dr-Amt_cr) from Ap_PostedLedgers  where Ac_Code = x.ac_code    And cnt <= x.cnt )as Rem from Ap_PostedLedgers as x  order by  cnt Asc  ")
 
 
-        CNN.Execute("Update Ap_PostedLedgers set Ap_PostedLedgers.remain = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set Ap_PostedLedgers.remain = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
             "  update	 Ap_PostedLedgers set remain=0 where remain is null ")
 
-        CNN.Execute(" Update Ap_PostedLedgers set Open_dr = 0 where  Open_dr is Null Update Ap_PostedLedgers set Open_cr = 0 where  Open_cr is Null Update Ap_PostedLedgers set Open_amount = 0 where  Open_amount is Null Update Ap_PostedLedgers set open_amt = 0 where  open_amt is Null Update Ap_PostedLedgers set amount_dr = 0 where  amount_dr is Null Update Ap_PostedLedgers set amount_cr = 0 where  amount_cr is Null Update Ap_PostedLedgers set amt_dr = 0 where  amt_dr is Null Update Ap_PostedLedgers set amt_cr = 0 where  amt_cr is Null Update Ap_PostedLedgers set remain = 0 where  remain is Null ")
+        DbHelper.ExecuteNonQuery(" Update Ap_PostedLedgers set Open_dr = 0 where  Open_dr is Null Update Ap_PostedLedgers set Open_cr = 0 where  Open_cr is Null Update Ap_PostedLedgers set Open_amount = 0 where  Open_amount is Null Update Ap_PostedLedgers set open_amt = 0 where  open_amt is Null Update Ap_PostedLedgers set amount_dr = 0 where  amount_dr is Null Update Ap_PostedLedgers set amount_cr = 0 where  amount_cr is Null Update Ap_PostedLedgers set amt_dr = 0 where  amt_dr is Null Update Ap_PostedLedgers set amt_cr = 0 where  amt_cr is Null Update Ap_PostedLedgers set remain = 0 where  remain is Null ")
 
         If CheckBox1.Checked = True Then
-            CNN.Execute(" delete Ap_PostedLedgers_Rem ")
-            CNN.Execute(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
+            DbHelper.ExecuteNonQuery(" delete Ap_PostedLedgers_Rem ")
+            DbHelper.ExecuteNonQuery(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
               " select Ac_Code , cnt,Open_amount+(select SUM(Amount_Dr-Amount_cr) from Ap_PostedLedgers  where Ac_Code = x.ac_code    And cnt <= x.cnt )as Rem_Curr from Ap_PostedLedgers as x  order by  cnt Asc  ")
-            CNN.Execute("Update Ap_PostedLedgers set Ap_PostedLedgers.Rem_Curr = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
+            DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set Ap_PostedLedgers.Rem_Curr = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
                 "  update	 Ap_PostedLedgers set remain=0 where remain is null ")
         End If
 
-        'CNN.Execute("Update Ap_Ope_PostedLedgers_Group set Lck = 1")
-        'CNN.Execute(" Update Ap_Ope_PostedLedgers_Group set Lck = 0 from   Ap_Ope_PostedLedgers_Group , Ap_PostedLedgers where  Ap_Ope_PostedLedgers_Group.Ac_Code= Ap_PostedLedgers.Ac_Code ")
-        'CNN.Execute("INSERT INTO Ap_PostedLedgers( ac_code , Open_amount , open_amt    ) select  ac_code ,  Amount , Amt   from  Ap_Ope_PostedLedgers_Group where Lck = 1 ")
+        'DbHelper.ExecuteNonQuery("Update Ap_Ope_PostedLedgers_Group set Lck = 1")
+        'DbHelper.ExecuteNonQuery(" Update Ap_Ope_PostedLedgers_Group set Lck = 0 from   Ap_Ope_PostedLedgers_Group , Ap_PostedLedgers where  Ap_Ope_PostedLedgers_Group.Ac_Code= Ap_PostedLedgers.Ac_Code ")
+        'DbHelper.ExecuteNonQuery("INSERT INTO Ap_PostedLedgers( ac_code , Open_amount , open_amt    ) select  ac_code ,  Amount , Amt   from  Ap_Ope_PostedLedgers_Group where Lck = 1 ")
 
         Off_Find = Off_Usr.Text : MuTable = "Open_jn." : Call Find_Company()
-        CNN.Execute("update Open_jn set Lck=0 where year(date_work)= " & Format(MdStartDate, "yyyy") & "  " & MULook2 & "")
-        CNN.Execute("update Open_jn set Lck=1 from Open_jn, Ap_PostedLedgers   where year(Open_jn.date_work)= " & Format(MdStartDate, "yyyy") & " And  Open_jn.ac_code =  Ap_PostedLedgers.ac_code " & MULook2 & "")
+        DbHelper.ExecuteNonQuery("update Open_jn set Lck=0 where year(date_work)= " & Format(MdStartDate, "yyyy") & "  " & MULook2 & "")
+        DbHelper.ExecuteNonQuery("update Open_jn set Lck=1 from Open_jn, Ap_PostedLedgers   where year(Open_jn.date_work)= " & Format(MdStartDate, "yyyy") & " And  Open_jn.ac_code =  Ap_PostedLedgers.ac_code " & MULook2 & "")
         Dim s7 As String = " Insert into Ap_PostedLedgers (ac_code,Open_dr,Open_Cr,Open_amount,open_amt,amount_dr,amount_cr,amt_dr,amt_cr,Curr,remain,Rem_Curr,Status)  " & _
                     "select ac_code,0,0, Sum(amount_dr-amount_cr),Sum(amt_dr-amt_cr),0,0,0,0,Curr,0,0,0 from Open_jn where Lck=0 And year(date_work)= " & Format(MdStartDate, "yyyy") & "  " & MULook2 & " Group by ac_code , Curr"
-        CNN.Execute(s7)
+        DbHelper.ExecuteNonQuery(s7)
 
-        CNN.Execute("Update Ap_PostedLedgers set open_amt = Ap_Ope_PostedLedgers_Group.Amt from Ap_PostedLedgers ,Ap_Ope_PostedLedgers_Group  where  Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code")
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set open_amt = Ap_Ope_PostedLedgers_Group.Amt from Ap_PostedLedgers ,Ap_Ope_PostedLedgers_Group  where  Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code")
 
-        'CNN.Execute("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=Acc_Code.Name_L from Ap_PostedLedgers , Acc_Code where Ap_PostedLedgers.Ac_Code = Acc_Code.Ac_Code")
-        CNN.Execute("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=gen_jn.ac_name from Ap_PostedLedgers , gen_jn where Ap_PostedLedgers.Ac_Code = gen_jn.Ac_Code and   Ap_PostedLedgers.certify =gen_jn.certify ")
+        'DbHelper.ExecuteNonQuery("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=Acc_Code.Name_L from Ap_PostedLedgers , Acc_Code where Ap_PostedLedgers.Ac_Code = Acc_Code.Ac_Code")
+        DbHelper.ExecuteNonQuery("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=gen_jn.ac_name from Ap_PostedLedgers , gen_jn where Ap_PostedLedgers.Ac_Code = gen_jn.Ac_Code and   Ap_PostedLedgers.certify =gen_jn.certify ")
 
         If ChDs.Checked = False Then
-            CNN.Execute("update Ap_PostedLedgers set descrip = ac_name")
+            DbHelper.ExecuteNonQuery("update Ap_PostedLedgers set descrip = ac_name")
 
         End If
         Call Office()
@@ -825,13 +839,8 @@
             SLF = "SELECT  " & MuLngRpt & "  *   FROM Ap_PostedLedgers       order by  Ac_Code,Date_Work , certify ,cnt     asc "
         End If
         Call LoadLoGO()
-        Dim Rs As New ADODB.Recordset
-        With Rs
-            If .State = ConnectionState.Open Then .Close()
-            .Open(SLF, CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
-            If .EOF Then Exit Sub
-        End With
+        Dim dtRs As DataTable = DbHelper.GetDataTable(SLF)
+        If dtRs.Rows.Count = 0 Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
         If CheckBox1.Checked = True Then
             Dim Rpt As New CryPostedLedgersCurr
             If MdShowLOGO = 1 Then
@@ -851,7 +860,7 @@
             myText2.Text = TxtPP.Text
 
 
-            Rpt.SetDataSource(Rs)
+            Rpt.SetDataSource(dtRs)
             FmPreview.ReportViewer.ReportSource = Rpt
         Else
             Dim Rpt As New CryPostedLedgers
@@ -871,7 +880,7 @@
             myText2 = CType(Rpt.ReportDefinition.ReportObjects.Item("pp"), CrystalDecisions.CrystalReports.Engine.TextObject)
             myText2.Text = TxtPP.Text
 
-            Rpt.SetDataSource(Rs)
+            Rpt.SetDataSource(dtRs)
             FmPreview.ReportViewer.ReportSource = Rpt
         End If
     
@@ -887,10 +896,9 @@
 
     Private Sub CMB_Curr_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CMB_Curr.SelectedIndexChanged
 
-        Dim rs As New ADODB.Recordset
-        Call LoadSqlData("Select * From Curr_For_Rate Where   Curr =N'" & Trim(CMB_Curr.Text) & "'", rs)
-        If rs.RecordCount > 0 Then
-            txtcurr_name2.Text = Trim(rs("Curr_name").Value.ToString)
+        Dim dtCurr As DataTable = DbHelper.GetDataTable("Select * From Curr_For_Rate Where   Curr =N'" & Trim(CMB_Curr.Text) & "'")
+        If dtCurr.Rows.Count > 0 Then
+            txtcurr_name2.Text = Trim(dtCurr.Rows(0)("Curr_name").ToString())
         End If
 
         MDRate_DT = " and rate_dt<='" & Format(Dt.Value, "yyyy-MM-dd") & "'  "
@@ -939,16 +947,16 @@
         selectLoad()
         Load_all()
         Dim aa As String = ""
-        CNN.Execute(" update RPT_Bank_Book set  Referno =gen_jn.Referno from gen_jn where  RPT_Bank_Book.certify= gen_jn.certify and RPT_Bank_Book.cat_id= gen_jn.cnt  ")
+        DbHelper.ExecuteNonQuery(" update RPT_Bank_Book set  Referno =gen_jn.Referno from gen_jn where  RPT_Bank_Book.certify= gen_jn.certify and RPT_Bank_Book.cat_id= gen_jn.cnt  ")
         aa = "update RPT_Ledgers set  Referno =gen_jn.Referno from gen_jn where  RPT_Ledgers.certify= gen_jn.certify and RPT_Ledgers.cat_id= gen_jn.cnt    " & _
                      " and   RPT_Ledgers. Date_work = gen_jn.Date_work  and   RPT_Ledgers.Ac_code  = gen_jn.Ac_code and  RPT_Ledgers.amt_dr  + RPT_Ledgers.amt_cr   = gen_jn.amount  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
-        'CNN.Execute("update RPT_Bank_Book set  Ac_code_N =ACC_CODE.AC_CODE2 from ACC_CODE where  RPT_Bank_Book.Ac_code= ACC_CODE.AC_CODE ")
-        'CNN.Execute("update RPT_Bank_Book set  Ac_code_dr_N =ACC_CODE.AC_CODE2 from ACC_CODE where  RPT_Bank_Book.Ac_code= ACC_CODE.AC_CODE ")
-        'CNN.Execute("update RPT_Bank_Book set  Ac_code_cr_N =ACC_CODE.AC_CODE2 from ACC_CODE where  RPT_Bank_Book.Ac_code= ACC_CODE.AC_CODE ")
+        'DbHelper.ExecuteNonQuery("update RPT_Bank_Book set  Ac_code_N =ACC_CODE.AC_CODE2 from ACC_CODE where  RPT_Bank_Book.Ac_code= ACC_CODE.AC_CODE ")
+        'DbHelper.ExecuteNonQuery("update RPT_Bank_Book set  Ac_code_dr_N =ACC_CODE.AC_CODE2 from ACC_CODE where  RPT_Bank_Book.Ac_code= ACC_CODE.AC_CODE ")
+        'DbHelper.ExecuteNonQuery("update RPT_Bank_Book set  Ac_code_cr_N =ACC_CODE.AC_CODE2 from ACC_CODE where  RPT_Bank_Book.Ac_code= ACC_CODE.AC_CODE ")
 
-        Dim rs As New ADODB.Recordset
+        Dim dtRs As DataTable
 
         Call Office()
         MuLngRpt = RptSjOff
@@ -984,20 +992,20 @@
 
         If Cfrom.Text <> "" Then
             'Dim ss As String = " SELECT  " & mformat & "  as mformat  ,     RPT_Bank_Book.*   where 1=1       order by   date_work "
-            'Call LoadSqlData(ss, rs)
+            'Call LoadSqlData(ss, dtRs)
             'left(ac_code,'" & Len(Cfrom.Text) & "')>='" & Cfrom.Text & "' and  left(ac_code,'" & Len(Cto.Text) & "')<='" & Cto.Text & "'   order by  cnt    asc 
             Dim ss As String = " SELECT  " & mformat & "  as mformat  ,  " & MuLngRpt & "  RPT_Bank_Book.* from RPT_Bank_Book   " & _
                   " where 1=1 and  left(ac_code,'" & Len(Cfrom.Text) & "')>='" & Cfrom.Text & "' and  left(ac_code,'" & Len(Cto.Text) & "')<='" & Cto.Text & "'   order by  cnt    asc  "
-            Call LoadSqlData(ss, rs)
+            dtRs = DbHelper.GetDataTable(ss)
         Else
             Dim ss As String = " SELECT  " & mformat & "  as mformat  ,  " & MuLngRpt & "   RPT_Bank_Book.*  from RPT_Bank_Book  where 1=1   order by   date_work "
-            Call LoadSqlData(ss, rs)
+            dtRs = DbHelper.GetDataTable(ss)
 
 
 
         End If
         Call LoadLoGO()
-        If rs.RecordCount = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
+        If dtRs.Rows.Count = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
 
         'Dim Rpt As New CryPostedLedgersCurr
         Dim Rpt As New CrystalReport_posted_ledgers_ALL()
@@ -1021,7 +1029,7 @@
         myText2 = CType(Rpt.ReportDefinition.ReportObjects.Item("pp"), CrystalDecisions.CrystalReports.Engine.TextObject)
         myText2.Text = TxtPP.Text
 
-        Rpt.SetDataSource(rs)
+        Rpt.SetDataSource(dtRs)
         Rpt.Refresh()
         frm1.ReportViewer.ReportSource = Rpt
         frm1.ReportViewer.DisplayGroupTree = False
@@ -1037,11 +1045,11 @@
         Dim aa As String
         'Dim M_Month1 As Integer
         aa = "    delete RPT_Bank_Book "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "    delete RPT_Bank_Book_insert "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "    delete RPT_Bank_Book_Group "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         CNN.CommandTimeout = 0
         Dim S As Date
         'MdStartDate = Format(CDate(dpFromDate.Value), "dd-MM-yyyy")
@@ -1051,96 +1059,96 @@
         aa = "  insert into   RPT_Bank_Book_insert (Ac_code,opening,opening_USD)   SELECT Ac_code,sum(amt_dr-amt_cr) ,sum(amount_dr-amount_cr) from  gen_jn   " & _
                " INNER JOIN AP_Office on gen_jn.company = AP_Office .sub_ID     " & _
              " where 1=1 " & sql & "  and date_work   <  '" & Format(MdStartDate, "yyyy-MM-dd") & "'  and  Year(date_work)='" & Format(MdStartDate, "yyyy") & "'   group by Ac_code "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         aa = " insert into   RPT_Bank_Book_insert (Ac_code,opening,opening_USD) SELECT  ac_code,sum(amt_dr-amt_cr) ,sum(amount_dr-amount_cr)   from Open_jn      " & _
                " INNER JOIN AP_Office on Open_jn.company = AP_Office .sub_ID     " & _
              " where 1=1 " & sql & "   and   year(date_work)='" & Format(MdStartDate, "yyyy") & "'  group by Ac_code"
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         ' aa = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr  , Curr  ) " & _
         '"select ac_code , amount_dr , amount_cr , amt_dr , amt_cr , Curr from Open_jn  WHERE  1=1 " & B_Curr & " and     date_work='" & "" & Format(MdStartDate, "yyyy") & "-1-1' " & MULook2 & "  "
-        ' CNN.Execute(aa)
+        ' DbHelper.ExecuteNonQuery(aa)
 
         aa = "  insert into   RPT_Bank_Book_Group (Ac_code,opening,opening_USD) select Ac_code,sum(opening),sum(opening_USD) from   RPT_Bank_Book_insert group by Ac_code "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = " insert into  RPT_Bank_Book (Date_work,certify,descrip,Ac_code,Ac_nm,amt_dr,amt_cr,amt_USD_dr,amt_USD_cr,Curr_i,Rate_i,Cat_ID,cheque_no,Com_id)   " & _
               "   SELECT  Date_work,certify,descrip,ac_code,Ac_name,amt_dr,amt_cr,amount_dr,amount_cr,Curr_i,Rate_i,gen_jn.cnt,cheque_no,Com_id   from  gen_jn   " & _
                " INNER JOIN AP_Office on gen_jn.company = AP_Office .sub_ID     " & _
              " where 1=1 " & sql & "   and Date_work BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'   "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         CNN.CommandTimeout = 0
         aa = " update RPT_Bank_Book set opening = RPT_Bank_Book_Group.opening, opening_USD = RPT_Bank_Book_Group.opening_USD from RPT_Bank_Book_Group where RPT_Bank_Book.Ac_code=RPT_Bank_Book_Group.Ac_code "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "  update	 RPT_Bank_Book set opening=0 where opening is null  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "  update	 RPT_Bank_Book set opening_USD=0 where opening_USD is null  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         aa = "  update	 RPT_Bank_Book set Rem =0 where Rem  is null  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "  update	 RPT_Bank_Book set Rem_USD=0 where Rem_USD is null  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         aa = " update RPT_Bank_Book set opening_USD = RPT_Bank_Book_Group.opening_USD from RPT_Bank_Book_Group where RPT_Bank_Book.Ac_code=RPT_Bank_Book_Group.Ac_code "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "  update	 RPT_Bank_Book set opening_USD=0 where opening_USD is null  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         CNN.CommandTimeout = 0
 
         aa = "update RPT_Bank_Book set lck=0"
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = " insert into RPT_Bank_Book (Date_work,certify,descrip,Ac_code,Ac_nm,amt_dr,amt_cr,amt_USD_dr,amt_USD_cr,Curr_i,Rate_i,Activity_id,Cat_ID,cheque_no,Com_id, opening,opening_USD, rem, lck) " & _
   " select Date_work,certify,descrip,Ac_code,Ac_nm,amt_dr,amt_cr,amt_USD_dr,amt_USD_cr,Curr_i,Rate_i,Activity_id,Cat_ID,cheque_no,Com_id, opening,opening_USD, 0, 1 from RPT_Bank_Book order by AC_CODE,Date_work,substring(certify,2,10),cnt  " & _
   "  delete RPT_Bank_Book where lck=0"
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         aa = "  update	 RPT_Bank_Book set opening=0 where opening is null  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "  update	 RPT_Bank_Book set opening_USD=0 where opening_USD is null  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "  update	 RPT_Bank_Book set Rem_USD=0 where Rem_USD is null  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         aa = "   delete RPT_Bank_Book_Rem  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "     insert into RPT_Bank_Book_Rem (Ac_Code , cnt_Mat ,rem,rem_USD )  " & _
 "   select Ac_Code , cnt,opening+(select SUM(Amt_Dr-Amt_cr) from RPT_Bank_Book  where Ac_Code = x.ac_code    And cnt <= x.cnt )as Rem  ,opening_USD+(select SUM(Amt_USD_Dr-Amt_USD_cr) " & _
 "   from RPT_Bank_Book  where Ac_Code = x.ac_code    And cnt <= x.cnt )as Rem_USD  from RPT_Bank_Book as x  order by  cnt Asc    "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "   Update RPT_Bank_Book set RPT_Bank_Book.rem = RPT_Bank_Book_Rem.rem, RPT_Bank_Book.rem_USD = RPT_Bank_Book_Rem.rem_USD from RPT_Bank_Book , RPT_Bank_Book_Rem where  RPT_Bank_Book.cnt = RPT_Bank_Book_Rem.cnt_Mat    " & _
   "       update	 RPT_Bank_Book set rem=0 where rem is null  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         CNN.CommandTimeout = 0
 
         aa = " delete  RPT_Bank_Book_Group  from RPT_Bank_Book_Group as a ,RPT_Bank_Book as b where a.ac_code =b.Ac_code "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = " insert into  RPT_Bank_Book (Ac_code,opening,amt_dr,amt_cr,rem,opening_USD,rem_USD)   " & _
             "   SELECT ac_code,opening,0,0,opening,opening_USD,opening_USD  from  RPT_Bank_Book_Group   "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "   update RPT_Bank_Book set ac_nm =  ACC_CODE.Name_L from ACC_CODE where RPT_Bank_Book.Ac_code= ACC_CODE.AC_CODE"
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
 
         '======== ອັບເດດເລກບັນຊີ ================
         aa = "      update  RPT_Bank_Book set RPT_Bank_Book.Ac_code_dr = gen_jn.code_dr from RPT_Bank_Book,gen_jn " & _
         "  where RPT_Bank_Book.certify = gen_jn.certify and gen_jn.code_dr <>'' "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         CNN.CommandTimeout = 0
         aa = "   update  RPT_Bank_Book set RPT_Bank_Book.Ac_code_cr = gen_jn.code_cr from RPT_Bank_Book,gen_jn " & _
       "  where RPT_Bank_Book.certify = gen_jn.certify and gen_jn.code_cr <>'' "
-        CNN.Execute(aa)
-        CNN.Execute(" update	 RPT_Bank_Book set amt_USD_dr=0   where amt_USD_dr is null  ")
-        CNN.Execute(" update	 RPT_Bank_Book set amt_USD_cr=0  where amt_USD_cr is null ")
+        DbHelper.ExecuteNonQuery(aa)
+        DbHelper.ExecuteNonQuery(" update	 RPT_Bank_Book set amt_USD_dr=0   where amt_USD_dr is null  ")
+        DbHelper.ExecuteNonQuery(" update	 RPT_Bank_Book set amt_USD_cr=0  where amt_USD_cr is null ")
 
     End Sub
     Private Sub LoadFG_AC_CODE()
         'MdStartDate = Format(CDate(Ds.Value), "dd-MM-yyyy")
         'MdToDate = Format(CDate(Dt.Value), "dd-MM-yyyy")
 
-        CNN.Execute("DELETE  Ap_PostedLedgers ")
-        CNN.Execute("DELETE  Ap_Ope_PostedLedgers_Group ")
-        CNN.Execute("DELETE FROM Ap_Open_PostedLedgers ")
+        DbHelper.ExecuteNonQuery("DELETE  Ap_PostedLedgers ")
+        DbHelper.ExecuteNonQuery("DELETE  Ap_Ope_PostedLedgers_Group ")
+        DbHelper.ExecuteNonQuery("DELETE FROM Ap_Open_PostedLedgers ")
         Dim S As Date
         S = MdStartDate
         S = DateAdd("d", CDbl(-1), MdStartDate)
@@ -1161,77 +1169,77 @@
 
         Dim s11 As String = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr , Curr   ) " & _
          "select Ac_Code , sum(amount_dr) , sum(amount_cr) ,  sum(amt_dr) , sum(amt_cr) , Curr  from gen_jn WHERE  1=1   " & Cur & "  " & ACCN & "  and gen_jn.date_work   BETWEEN '" & "" & Format(MdStartDate, "yyyy") & "-1-1' AND '" & Format(S, "yyyy-MM-dd") & "'   group BY Ac_Code , Curr "
-        CNN.Execute(s11)
+        DbHelper.ExecuteNonQuery(s11)
         Dim aa As String
         MuTable = "Open_jn." : Call Find_Company()
         aa = "INSERT INTO Ap_Open_PostedLedgers( ac_code , Amount_Dr , Amount_Cr , Amt_Dr , Amt_Cr  , Curr  ) " & _
          "select ac_code , amount_dr , amount_cr , amt_dr , amt_cr , Curr from Open_jn  WHERE  1=1  " & Cur & "  " & ACCN & "   and date_work='" & "" & Format(MdStartDate, "yyyy") & "-1-1'    "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         MuTable = "gen_jn." : Call Find_Company()
         aa = " INSERT INTO Ap_PostedLedgers( ac_code , ac_name , date_work , descrip , Open_amount , open_amt , amount_dr , amount_cr , amt_dr , amt_cr , certify , remain , Status ,  curr ) " & _
                "select ac_code ,'' ,date_work, descrip ,0 ,0 ,amount_dr ,amount_cr , amt_dr , amt_cr ,certify, 0 , 0 ,  Curr  from gen_jn    WHERE   1=1  " & Cur & "  " & ACCN & "   and gen_jn.date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'   "
-        CNN.Execute(aa)
-        CNN.Execute("UPDATE Ap_PostedLedgers set ac_code='" & Cfrom.Text & "' ")
-        CNN.Execute("UPDATE Ap_Open_PostedLedgers set ac_code='" & Cfrom.Text & "' ")
+        DbHelper.ExecuteNonQuery(aa)
+        DbHelper.ExecuteNonQuery("UPDATE Ap_PostedLedgers set ac_code='" & Cfrom.Text & "' ")
+        DbHelper.ExecuteNonQuery("UPDATE Ap_Open_PostedLedgers set ac_code='" & Cfrom.Text & "' ")
 
-        CNN.Execute("Delete Ap_Ope_PostedLedgers_Group ")
-        CNN.Execute("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code  ,Amount, Amt  )" & _
+        DbHelper.ExecuteNonQuery("Delete Ap_Ope_PostedLedgers_Group ")
+        DbHelper.ExecuteNonQuery("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code  ,Amount, Amt  )" & _
                      " Select Ac_Code ,Sum(Amount_Dr - Amount_Cr)  ,Sum(Amt_Dr - Amt_Cr)  from Ap_Open_PostedLedgers group by Ac_Code ")
-        CNN.Execute("Update Ap_PostedLedgers set  Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt  , Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount  From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code   ")
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set  Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt  , Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount  From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code   ")
 
-        CNN.Execute("Delete Ap_Ope_PostedLedgers_Group ")
-        CNN.Execute("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code , Amount  , Amt )" & _
+        DbHelper.ExecuteNonQuery("Delete Ap_Ope_PostedLedgers_Group ")
+        DbHelper.ExecuteNonQuery("Insert Into Ap_Ope_PostedLedgers_Group (Ac_Code , Amount  , Amt )" & _
                   " Select Ac_Code ,Sum(Amount_Dr - Amount_Cr)   ,Sum(Amt_Dr - Amt_Cr)   from Ap_Open_PostedLedgers group by Ac_Code ")
-        CNN.Execute("Update Ap_PostedLedgers set Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount , Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt   From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code  ")
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set Ap_PostedLedgers.Open_Amount = Ap_Ope_PostedLedgers_Group.Amount , Ap_PostedLedgers.Open_Amt = Ap_Ope_PostedLedgers_Group.Amt   From Ap_PostedLedgers , Ap_Ope_PostedLedgers_Group  Where Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code  ")
 
-        CNN.Execute(" delete Ap_PostedLedgers_Rem ")
-        CNN.Execute(" insert into Ap_PostedLedgers_Rem  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
+        DbHelper.ExecuteNonQuery(" delete Ap_PostedLedgers_Rem ")
+        DbHelper.ExecuteNonQuery(" insert into Ap_PostedLedgers_Rem  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
          " select ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work from Ap_PostedLedgers order by  Ac_Code,Date_Work , certify ,cnt Asc  ")
-        CNN.Execute("delete Ap_PostedLedgers   ")
+        DbHelper.ExecuteNonQuery("delete Ap_PostedLedgers   ")
 
 
         Dim KK As String = "insert into Ap_PostedLedgers  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
    " select ac_code, '', '', 'Opening Balance', 0, 0, 0, 0, 0, 0, 0, 0, Open_amount, '', '', '','" & Format(MdStartDate, "yyyy-MM-dd") & "' from Ap_PostedLedgers_Rem group by ac_code,Open_amount  "
-        CNN.Execute(KK)
-        CNN.Execute("UPDATE Ap_PostedLedgers set ac_code='" & Cfrom.Text & "' ")
+        DbHelper.ExecuteNonQuery(KK)
+        DbHelper.ExecuteNonQuery("UPDATE Ap_PostedLedgers set ac_code='" & Cfrom.Text & "' ")
 
-        CNN.Execute("insert into Ap_PostedLedgers  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
+        DbHelper.ExecuteNonQuery("insert into Ap_PostedLedgers  (ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work)  " & _
          " select ac_code, certify, ac_name, descrip, Open_dr, Open_cr, Open_amount, open_amt, amount_dr, amount_cr, amt_dr, amt_cr, remain, Status, curr, Lck, date_work from Ap_PostedLedgers_Rem order by cnt   ")
 
-        'CNN.Execute("UPDATE Ap_PostedLedgers set ac_code='" & TxtAccCode.Text & "' ")
+        'DbHelper.ExecuteNonQuery("UPDATE Ap_PostedLedgers set ac_code='" & TxtAccCode.Text & "' ")
 
-        CNN.Execute(" delete Ap_PostedLedgers_Rem ")
-        CNN.Execute(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
+        DbHelper.ExecuteNonQuery(" delete Ap_PostedLedgers_Rem ")
+        DbHelper.ExecuteNonQuery(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
           " select Ac_Code , cnt,Open_amt+(select SUM(Amt_Dr-Amt_cr) from Ap_PostedLedgers  where Ac_Code = x.ac_code    And cnt <= x.cnt )as Rem from Ap_PostedLedgers as x  order by  cnt Asc  ")
 
 
-        CNN.Execute("Update Ap_PostedLedgers set Ap_PostedLedgers.remain = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set Ap_PostedLedgers.remain = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
             "  update	 Ap_PostedLedgers set remain=0 where remain is null ")
 
-        CNN.Execute(" Update Ap_PostedLedgers set Open_dr = 0 where  Open_dr is Null Update Ap_PostedLedgers set Open_cr = 0 where  Open_cr is Null Update Ap_PostedLedgers set Open_amount = 0 where  Open_amount is Null Update Ap_PostedLedgers set open_amt = 0 where  open_amt is Null Update Ap_PostedLedgers set amount_dr = 0 where  amount_dr is Null Update Ap_PostedLedgers set amount_cr = 0 where  amount_cr is Null Update Ap_PostedLedgers set amt_dr = 0 where  amt_dr is Null Update Ap_PostedLedgers set amt_cr = 0 where  amt_cr is Null Update Ap_PostedLedgers set remain = 0 where  remain is Null ")
+        DbHelper.ExecuteNonQuery(" Update Ap_PostedLedgers set Open_dr = 0 where  Open_dr is Null Update Ap_PostedLedgers set Open_cr = 0 where  Open_cr is Null Update Ap_PostedLedgers set Open_amount = 0 where  Open_amount is Null Update Ap_PostedLedgers set open_amt = 0 where  open_amt is Null Update Ap_PostedLedgers set amount_dr = 0 where  amount_dr is Null Update Ap_PostedLedgers set amount_cr = 0 where  amount_cr is Null Update Ap_PostedLedgers set amt_dr = 0 where  amt_dr is Null Update Ap_PostedLedgers set amt_cr = 0 where  amt_cr is Null Update Ap_PostedLedgers set remain = 0 where  remain is Null ")
 
         'If CheckBox1.Checked = True Then
-        '    CNN.Execute(" delete Ap_PostedLedgers_Rem ")
-        '    CNN.Execute(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
+        '    DbHelper.ExecuteNonQuery(" delete Ap_PostedLedgers_Rem ")
+        '    DbHelper.ExecuteNonQuery(" insert into Ap_PostedLedgers_Rem (Ac_Code , cnt_Mat ,remain )  " & _
         '      " select Ac_Code , cnt,Open_amount+(select SUM(Amount_Dr-Amount_cr) from Ap_PostedLedgers  where Ac_Code = x.ac_code    And cnt <= x.cnt )as Rem_Curr from Ap_PostedLedgers as x  order by  cnt Asc  ")
-        '    CNN.Execute("Update Ap_PostedLedgers set Ap_PostedLedgers.Rem_Curr = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
+        '    DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set Ap_PostedLedgers.Rem_Curr = Ap_PostedLedgers_Rem.remain from Ap_PostedLedgers , Ap_PostedLedgers_Rem where  Ap_PostedLedgers.cnt = Ap_PostedLedgers_Rem.cnt_Mat  " & _
         '        "  update	 Ap_PostedLedgers set remain=0 where remain is null ")
         'End If
 
 
         MuTable = "Open_jn." : Call Find_Company()
-        CNN.Execute("update Open_jn set Lck=0 where year(date_work)= " & Format(MdStartDate, "yyyy") & "  ")
-        CNN.Execute("update Open_jn set Lck=1 from Open_jn, Ap_PostedLedgers   where year(Open_jn.date_work)= " & Format(MdStartDate, "yyyy") & " And  Open_jn.ac_code =  Ap_PostedLedgers.ac_code ")
+        DbHelper.ExecuteNonQuery("update Open_jn set Lck=0 where year(date_work)= " & Format(MdStartDate, "yyyy") & "  ")
+        DbHelper.ExecuteNonQuery("update Open_jn set Lck=1 from Open_jn, Ap_PostedLedgers   where year(Open_jn.date_work)= " & Format(MdStartDate, "yyyy") & " And  Open_jn.ac_code =  Ap_PostedLedgers.ac_code ")
         Dim s7 As String = " Insert into Ap_PostedLedgers (ac_code,Open_dr,Open_Cr,Open_amount,open_amt,amount_dr,amount_cr,amt_dr,amt_cr,Curr,remain,Rem_Curr,Status)  " & _
                     "select ac_code,0,0, Sum(amount_dr-amount_cr),Sum(amt_dr-amt_cr),0,0,0,0,Curr,0,0,0 from Open_jn where  1=1  " & Cur & "  and ac_code='" & Cfrom.Text & "' and Lck=0 And year(date_work)= " & Format(MdStartDate, "yyyy") & "  Group by ac_code , Curr"
-        CNN.Execute(s7)
-        CNN.Execute("UPDATE Ap_PostedLedgers set ac_code='" & Cfrom.Text & "' ")
-        CNN.Execute("Update Ap_PostedLedgers set open_amt = Ap_Ope_PostedLedgers_Group.Amt from Ap_PostedLedgers ,Ap_Ope_PostedLedgers_Group  where  Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code")
+        DbHelper.ExecuteNonQuery(s7)
+        DbHelper.ExecuteNonQuery("UPDATE Ap_PostedLedgers set ac_code='" & Cfrom.Text & "' ")
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set open_amt = Ap_Ope_PostedLedgers_Group.Amt from Ap_PostedLedgers ,Ap_Ope_PostedLedgers_Group  where  Ap_PostedLedgers.Ac_Code = Ap_Ope_PostedLedgers_Group.Ac_Code")
 
-        'CNN.Execute("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=Acc_Code.Name_L from Ap_PostedLedgers , Acc_Code where Ap_PostedLedgers.Ac_Code = Acc_Code.Ac_Code")
-        CNN.Execute("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=gen_jn.ac_name from Ap_PostedLedgers , gen_jn where Ap_PostedLedgers.Ac_Code = gen_jn.Ac_Code and   Ap_PostedLedgers.certify =gen_jn.certify ")
+        'DbHelper.ExecuteNonQuery("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=Acc_Code.Name_L from Ap_PostedLedgers , Acc_Code where Ap_PostedLedgers.Ac_Code = Acc_Code.Ac_Code")
+        DbHelper.ExecuteNonQuery("update Ap_PostedLedgers set Ap_PostedLedgers.ac_name=gen_jn.ac_name from Ap_PostedLedgers , gen_jn where Ap_PostedLedgers.Ac_Code = gen_jn.Ac_Code and   Ap_PostedLedgers.certify =gen_jn.certify ")
 
-        CNN.Execute("Update Ap_PostedLedgers set remain = open_amt where Descrip=N'Opening Balance' ")
+        DbHelper.ExecuteNonQuery("Update Ap_PostedLedgers set remain = open_amt where Descrip=N'Opening Balance' ")
 
         'LoadListFG_AC_Code()
         'Call loadColor()
@@ -1251,12 +1259,10 @@
             ACCNO = "01-" & Cfrom.Text
         End If
         Curr = CMB_Curr.Text
-        Dim rs As New ADODB.Recordset
-        Dim sa As String = " SELECT    *  from Acc_Code   WHERE 1=1 AND  AC_CODE=N'" & Cfrom.Text & "' "
-        Call LoadSqlData(sa, rs)
-        If rs.RecordCount <> 0 Then
+        Dim dtAcc As DataTable = DbHelper.GetDataTable(" SELECT    *  from Acc_Code   WHERE 1=1 AND  AC_CODE=N'" & Cfrom.Text & "' ")
+        If dtAcc.Rows.Count <> 0 Then
             'TxtAccCode.Text = (.Fields("AC_CODE").Value.ToString)
-            AccNm = (rs.Fields("Name_L").Value.ToString) & " / " & (rs.Fields("Name_E").Value.ToString)
+            AccNm = (dtAcc.Rows(0)("Name_L").ToString()) & " / " & (dtAcc.Rows(0)("Name_E").ToString())
 
         End If
 
@@ -1265,13 +1271,8 @@
         Dim AAA As String = " For the Period " & Ds.Text & " - " & Dt.Text
         SLF = "SELECT N'" & TxtS1.Text & "'  as TxtS1,N'" & TxtS2.Text & "'  as TxtS2,N'" & TxtS3.Text & "'  as TxtS3,N'" & TxtS4.Text & "'  as TxtS4,N'" & TxtPP.Text & "'  as TxtPP, N'" & ACCNO & "'  as ACCN  , N'" & Curr & "'  as Curr  , N'" & AccNm & "'  as AccNm  ,  N'" & AAA & "'  as DD  , N'" & MDSgn1 & "' as S1,N'" & MDSgn2 & "' as S2,N'" & MDSgn3 & "' as S3, N'" & MDSgn4 & "' as S4,  N'" & MDSgn5 & "' as S5,   N'" & MDSgn6 & "' as S6,  N'" & RptPro & "' as pp, " & mformat & "  as mformat  ,    *   FROM Ap_PostedLedgers Order by CNT asc "
         'Dim Rs As New ADODB.Recordset
-        Dim RSN As New ADODB.Recordset
-        With RSN
-            If .State = ConnectionState.Open Then .Close()
-            .Open(SLF, CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
-            If .EOF Then Exit Sub
-        End With
+        Dim dtRSN As DataTable = DbHelper.GetDataTable(SLF)
+        If dtRSN.Rows.Count = 0 Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
         Dim FrmPreview As New FmPreview : FrmClosing()
         Dim Rpt As New Object
         Rpt = New Acc_Statement_Ac_Code
@@ -1279,7 +1280,7 @@
             Rpt.Subreports(0).SetDataSource(RsLOGO)
         End If
 
-        Rpt.SetDataSource(RSN)
+        Rpt.SetDataSource(dtRSN)
         Rpt.Refresh()
         FrmPreview.ReportViewer.ReportSource = Rpt
         FrmPreview.ReportViewer.DisplayGroupTree = False

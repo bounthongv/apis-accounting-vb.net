@@ -1,4 +1,4 @@
-﻿Imports System.IO
+Imports System.IO
 
 Module MuLangauge
     Public sFileName1 As String
@@ -33,15 +33,18 @@ Module MuLangauge
 
     Public Sub LoadLngnnn()
         Lng = 0
-        LoadAcData("select LngID, LngL , LngE from  Langauge   Order by LngID", RSC)
-        With RSC
-            Do Until .EOF = True
-                LngL(CLng((.Fields("LngID").Value))) = (.Fields("LngL").Value)
-                LngE(CLng((.Fields("LngID").Value))) = (.Fields("LngE").Value)
+        Try
+            Dim dt As DataTable = GetDataTable("select LngID, LngL, LngE from Langauge Order by LngID")
+            For Each row As DataRow In dt.Rows
+                LngL(CInt(row("LngID").Value)) = row("LngL").Value
+                LngE(CInt(row("LngID").Value)) = row("LngE").Value
                 Lng = Lng + 1
-                .MoveNext()
-            Loop
-        End With
+            Next
+        Catch ex As Exception
+            MsgBox("Error loading languages: " & ex.Message)
+        End Try
+        LoadImageLocation()
+        
     End Sub
     Public Function ChgeLang(ByVal LangValue As Long) As String
         ChgeLang = IIf(Lang = False, LngL(LangValue), LngE(LangValue))
@@ -130,15 +133,13 @@ Module MuLangauge
     End Sub
     Public Sub LoadLng()
         Lng = 0
-        LoadAcData("select LngID, LngL , LngE from  Langauge   Order by LngID", RSC)
-        With RSC
-            Do Until .EOF = True
-                LngL(CLng((.Fields("LngID").Value))) = (.Fields("LngL").Value)
-                LngE(CLng((.Fields("LngID").Value))) = (.Fields("LngE").Value)
-                Lng = Lng + 1
-                .MoveNext()
-            Loop
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("select LngID, LngL , LngE from  Langauge   Order by LngID")
+        For Each row As DataRow In dt.Rows
+            Dim lngId As Integer = CInt(row("LngID"))
+            LngL(lngId) = row("LngL").ToString()
+            LngE(lngId) = row("LngE").ToString()
+            Lng = Lng + 1
+        Next
         LoadImageLocation()
  
     End Sub

@@ -1,15 +1,18 @@
-﻿
+
+Imports System.Data
+Imports System.Data.SqlClient
+
 Public Class FmMain
     Dim sql As String
     Dim StrFIlePath As String
     Dim StrFilename As String
-    Dim rs As New ADODB.Recordset
+    ' Dim rs As New ADODB.Recordset ' REMOVED - ADODB migration
     Dim ImageSlno As Integer
     Dim ImageSlno2 As Integer
     Dim s As Integer
     Dim SPW As String = ""
     Dim SUSID As String = ""
-    Dim con As New OleDb.OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0; Data Source = Connection.mdb;Persist Security Info=False;Jet OLEDB:Database Password=2459428") ' connection srting 
+    Dim con As New OleDb.OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0; Data Source = Connection.mdb;Persist Security Info=False;Jet OLEDB:Database Password=2459428") ' connection srting
     Private Sub FmMain_FormClosed(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
         Application.Exit()
     End Sub
@@ -26,19 +29,16 @@ Public Class FmMain
     End Sub
 
     Public Sub LoadHideMenu()
-        Call LoadSqlData("  SELECT Ints,cnt  FROM Ap_Section_Item where Ints = '0' order by cnt ", RSC)
-        With RSC
-            Do Until .EOF = True
-                If (.Fields("cnt").Value) = 1 Then
-                    MnOff.Visible = False
-                ElseIf (.Fields("cnt").Value) = 2 Then
-                    MnOffSub.Visible = False
-                ElseIf (.Fields("cnt").Value) = 3 Then
-                    MnDateSeting.Visible = False
-                End If
-                .MoveNext()
-            Loop
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("  SELECT Ints,cnt  FROM Ap_Section_Item where Ints = '0' order by cnt ")
+        For Each row As DataRow In dt.Rows
+            If (DbHelper.GetStr(row("cnt"))) = "1" Then
+                MnOff.Visible = False
+            ElseIf (DbHelper.GetStr(row("cnt"))) = "2" Then
+                MnOffSub.Visible = False
+            ElseIf (DbHelper.GetStr(row("cnt"))) = "3" Then
+                MnDateSeting.Visible = False
+            End If
+        Next
 
     End Sub
 
@@ -93,23 +93,17 @@ Public Class FmMain
     End Sub
 
     Public Sub Load_Curr()
-        Dim rs As New ADODB.Recordset
-        With rs
-            Call LoadSqlData("SELECT * FROM Curr", rs)
-            If .RecordCount <> 0 Then
-                MDCurr = (.Fields("Curr").Value)
-            End If
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Curr")
+        If dt.Rows.Count <> 0 Then
+            MDCurr = DbHelper.GetStr(dt.Rows(0)("Curr"))
+        End If
 
     End Sub
     Public Sub Login()
-        Dim rsProj As New ADODB.Recordset
-        With rsProj
-            Call LoadSqlData("select Sec_ID from AP_Users where Usr_id='" & MUserID & "'  ", rsProj)
-            If rsProj.RecordCount <> 0 Then
-                MSection = (.Fields("Sec_ID").Value)
-            End If
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("select Sec_ID from AP_Users where Usr_id='" & MUserID & "'  ")
+        If dt.Rows.Count <> 0 Then
+            MSection = DbHelper.GetStr(dt.Rows(0)("Sec_ID"))
+        End If
 
         If MSection = 1 Then
             'MnDailyEntry.Visible = True
@@ -118,20 +112,20 @@ Public Class FmMain
             MnAt.Visible = False
 
             '====================================================================
-            Call LoadSqlData(" SELECT Ints FROM Ap_Section_Item WHERE Sec_ID ='" & MSection & "' AND Sec_Nm=N'" & "ລະຫັດບັນຊີ" & "'", RSC)
-            If RSC.RecordCount <> 0 Then
-                MD1 = RSC.Fields("Ints").Value
+            Dim dtSec1 As DataTable = DbHelper.GetDataTable(" SELECT Ints FROM Ap_Section_Item WHERE Sec_ID ='" & MSection & "' AND Sec_Nm=N'" & "ລະຫັດບັນຊີ" & "'")
+            If dtSec1.Rows.Count <> 0 Then
+                MD1 = DbHelper.GetStr(dtSec1.Rows(0)("Ints"))
             End If
-            If MD1 = 1 Then
+            If MD1 = "1" Then
                 ToolStripMenuItem18.Visible = True
             Else
                 ToolStripMenuItem18.Visible = False
             End If
 
             '=====================================================================
-            Call LoadSqlData(" SELECT Ints FROM Ap_Section_Item WHERE Sec_ID ='" & MSection & "' AND Sec_Nm=N'" & "ການແລກປ່ຽນເງິນຕາ" & "'", RSC)
-            If RSC.RecordCount <> 0 Then
-                MD1 = RSC.Fields("Ints").Value
+            Dim dtSec2 As DataTable = DbHelper.GetDataTable(" SELECT Ints FROM Ap_Section_Item WHERE Sec_ID ='" & MSection & "' AND Sec_Nm=N'" & "ການແລກປ່ຽນເງິນຕາ" & "'")
+            If dtSec2.Rows.Count <> 0 Then
+                MD1 = DbHelper.GetStr(dtSec2.Rows(0)("Ints"))
             End If
 
 
@@ -143,35 +137,34 @@ Public Class FmMain
     End Sub
 
     Private Sub LoadImage()
-        Call LoadAcData("select * from TblImage where BackID='" & "00001" & "'", rs)
-        If rs.RecordCount = 0 Then
+        Dim dt As DataTable = DbHelper.GetDataTable("select * from TblImage where BackID='" & "00001" & "'")
+        If dt.Rows.Count = 0 Then
             Exit Sub
         Else
-            On Error GoTo hang
-hang:
-            If Err.Number = 0 Then
-                Me.BackgroundImage = Image.FromFile(rs.Fields("FileAddress").Value.ToString)
-                VSysError = False
-            Else
+            Try
+                If dt.Rows(0)("FileAddress") IsNot DBNull.Value Then
+                    Me.BackgroundImage = Image.FromFile(DbHelper.GetStr(dt.Rows(0)("FileAddress")))
+                    VSysError = False
+                End If
+            Catch ex As Exception
                 VSysError = True
-                MessageBox.Show("No Background " & (rs.Fields("FileAddress").Value.ToString) & "  in data base please Select Image To Background")
+                MessageBox.Show("No Background " & (DbHelper.GetStr(dt.Rows(0)("FileAddress"))) & "  in data base please Select Image To Background")
                 OpenFileDialog1.ShowDialog()
                 StrFilename = OpenFileDialog1.SafeFileName
                 StrFIlePath = OpenFileDialog1.FileName
                 If StrFIlePath = "" Or StrFIlePath = "OpenFileDialog1" Then Exit Sub
-                conn.Execute("UPDATE TblImage SET FileAddress ='" & StrFIlePath & "' ," & _
+                DbHelper.ExecuteNonQuery("UPDATE TblImage SET FileAddress ='" & StrFIlePath & "' ," & _
                                        " FileNmae='" & StrFIlePath & "' " & _
                                       " WHERE BackID='" & "00001" & "' ")
-                Call LoadAcData("select * from TblImage where BackID='" & "00001" & "'", rs)
-                If rs.RecordCount <> 0 Then
-                    While Not rs.EOF
-                        Me.BackgroundImage = Image.FromFile(rs.Fields("FileAddress").Value.ToString)
+                Dim dt2 As DataTable = DbHelper.GetDataTable("select * from TblImage where BackID='" & "00001" & "'")
+                If dt2.Rows.Count <> 0 Then
+                    For Each row As DataRow In dt2.Rows
+                        Me.BackgroundImage = Image.FromFile(DbHelper.GetStr(row("FileAddress")))
                         Me.BackgroundImageLayout = ImageLayout.Stretch
-                        rs.MoveNext()
-                    End While
+                    Next
                 End If
 
-            End If
+            End Try
             Me.BackgroundImageLayout = ImageLayout.Stretch
         End If
     End Sub
@@ -348,7 +341,7 @@ hang:
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
         'If txtConfrimPass.Text = "" Then MsgBox("ກະລຸນາຢືນຢັນລະຫັດຜ່ານຂອງທ່ານ", MsgBoxStyle.OkOnly) : txtConfrimPass.Focus() : Exit Sub
         If txtConfrimPass.Text <> txtNewPass.Text Then MsgBox("ລະຫັດຜ່ານຂອງທ່ານບໍ່ຖືກຕ້ອງມກະລຸນາປ່ຽນ", MsgBoxStyle.OkOnly) : txtConfrimPass.Text = "" : Exit Sub
-        CNN.Execute("UPDATE AP_Users SET " & _
+        DbHelper.ExecuteNonQuery("UPDATE AP_Users SET " & _
                 " PWD=N'" & txtNewPass.Text & "'," & _
                 " lst_updt=Getdate()," & _
                 " lst_usr=N'" & MDServerUser & "'," & _
@@ -507,9 +500,10 @@ hang:
 
             Dim svl As String
             svl = ""
-            Dim srNum As New ADODB.Recordset
-            Call LoadSqlData("SELECT  ImgType , Img_Id , cnt FROM Ap_Image where ImgType='User' and Img_Id= '" & FmLogin.txtUserId.Text & "' ", srNum)
-            svl = Val(srNum.Fields("cnt").Value.ToString)
+            Dim dtImg As DataTable = DbHelper.GetDataTable("SELECT  ImgType , Img_Id , cnt FROM Ap_Image where ImgType='User' and Img_Id= '" & FmLogin.txtUserId.Text & "' ")
+            If dtImg.Rows.Count > 0 Then
+                svl = DbHelper.GetStr(dtImg.Rows(0)("cnt"))
+            End If
             If svl = "" Then
                 Fm_Image.Img_ID.Text = FmLogin.txtUserId.Text
                 Fm_Image.ImgType.Text = "User"
@@ -557,13 +551,11 @@ hang:
     End Sub
 
     Private Sub ToolStripMenuItem30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MnChangPsw.Click
-        Call LoadSqlData("select * from AP_Users where Usr_id='" & MUserID & "' ", rs)
-        With rs
-            If .RecordCount <> 0 Then
-                TextBox1.Text = MUserID & " / " & MuSubOff
-                txtOldPass.Text = rs.Fields("PWD").Value
-            End If
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("select * from AP_Users where Usr_id='" & MUserID & "' ")
+        If dt.Rows.Count <> 0 Then
+            TextBox1.Text = MUserID & " / " & MuSubOff
+            txtOldPass.Text = DbHelper.GetStr(dt.Rows(0)("PWD"))
+        End If
         Panel3.Visible = True
     End Sub
 
@@ -954,8 +946,8 @@ hang:
         FmRptPro_New.ShowDialog()
     End Sub
     Private Sub Label22_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label22.Click
-        CNN.Execute("delete Caculate_Rpt_Update  ")
-        CNN.Execute("insert into Caculate_Rpt_Update (Rpt_Id,CLT_Amt)  " & _
+        DbHelper.ExecuteNonQuery("delete Caculate_Rpt_Update  ")
+        DbHelper.ExecuteNonQuery("insert into Caculate_Rpt_Update (Rpt_Id,CLT_Amt)  " & _
 "select Rpt_Id , STUFF((  select ' '+b.CLT_Amt from Caculate_Rpt b   where b.Rpt_Id = a.Rpt_Id    " & _
 "order by b.cnt for xml path('a'), type).value('.','nvarchar(max)'),1,1,'') As  CLT_Amt      " & _
 " from Caculate_Rpt a where CLT_Amt <>''group by Rpt_Id ")
@@ -1312,20 +1304,16 @@ hang:
         Call ConnectAccess()
  
 
-        Dim Conn As New ADODB.Connection
-        Dim rsProj As New ADODB.Recordset
-        Call LoadAcData("Select * from Conect ", rsProj)
-        With rsProj
-            If .RecordCount <> 0 Then
-                MDServerName = (.Fields("ServerName").Value.ToString)
-                MDDatabaName = (.Fields("DatabaseName").Value.ToString)
-                MDServerUser = (.Fields("UserName").Value.ToString)
-                MDServerPassword = (.Fields("UserPassword").Value.ToString)
-                MDSeriaAccess = (.Fields("PartitionSeria").Value.ToString)
-                'SPW = CStr((.Fields("SavePassword").Value.ToString))
-                'SUSID = CStr((.Fields("SaveUserID").Value.ToString))
-            End If
-        End With
+        Dim dtProj As DataTable = DbHelper.GetDataTable("Select * from Conect ")
+        If dtProj.Rows.Count <> 0 Then
+            MDServerName = DbHelper.GetStr(dtProj.Rows(0)("ServerName"))
+            MDDatabaName = DbHelper.GetStr(dtProj.Rows(0)("DatabaseName"))
+            MDServerUser = DbHelper.GetStr(dtProj.Rows(0)("UserName"))
+            MDServerPassword = DbHelper.GetStr(dtProj.Rows(0)("UserPassword"))
+            MDSeriaAccess = DbHelper.GetStr(dtProj.Rows(0)("PartitionSeria"))
+            'SPW = CStr((DbHelper.GetStr(dtProj.Rows(0)("SavePassword"))))
+            'SUSID = CStr((DbHelper.GetStr(dtProj.Rows(0)("SaveUserID"))))
+        End If
 
         'Dim rsProj2 As New ADODB.Recordset
         'Call LoadAcData("Select * from Conect where SvID='002' ", rsProj2)

@@ -1,4 +1,14 @@
-﻿Module MDOffice
+Imports System.Data.SqlClient
+Module MDOffice
+
+    ' Using DbHelper functions for database operations
+    Private Function GetDataTable(sql As String) As DataTable
+        Return DbHelper.GetDataTable(sql)
+    End Function
+
+    Private Function ExecuteNonQuery(sql As String) As Integer
+        Return DbHelper.ExecuteNonQuery(sql)
+    End Function
     Public Usr, AssetID, ASName As String
     Public COM, IMageID, SqlPrint As String
     Public MDWrite, MDDelete As Integer
@@ -11,7 +21,6 @@
     Public CURR01 As String
     Public MuOff2, MuOff, MuOffDep, RptSjOff, RptPro As String
     Public MULOGO As PictureBox
-    Public RsLOGO As New ADODB.Recordset
     Public MdCertifyAuto As String
     Public Snt As String
     Public MdShowLOGO As String
@@ -48,83 +57,105 @@
 
     Public Sub LoadLoGO()
         If MdShowLOGO = 1 Then
-            With RsLOGO
-                If .State = ConnectionState.Open Then .Close()
-                .Open(" Select * from  Ap_Image  where Img_Id = 'a' And ImgType='LOGO' ", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-                If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
-                If .EOF Then Exit Sub
-            End With
+            Try
+                Dim sql As String = "Select * from Ap_Image where Img_Id = 'a' And ImgType='LOGO'"
+                Dim dt As DataTable = GetDataTable(sql)
+                If dt.Rows.Count = 0 Then 
+                    MsgBox("ບໍ່ມີຂໍ້ມູນ") 
+                    Exit Sub
+                End If
+            Catch ex As Exception
+                MsgBox("Error loading logo: " & ex.Message)
+                Exit Sub
+            End Try
         End If
     End Sub
 
     Public Sub CHKVNK()
-
-        Dim W As String = Format(CDate(MWorkSetting), "ddd")
-        If W = "Wed" Then
-            System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath & "\CHKVNK.exe")
-        End If
-        If W = "Thu" Then
-            conn.Execute("Update MbDtUse Set Snt='1'")
-        End If
+        Try
+            Dim W As String = Format(CDate(MWorkSetting), "ddd")
+            If W = "Wed" Then
+                System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath & "\CHKVNK.exe")
+            End If
+            If W = "Thu" Then
+                ExecuteNonQuery("Update MbDtUse Set Snt='1'")
+            End If
+        Catch ex As Exception
+            MsgBox("Error in CHKVNK: " & ex.Message)
+        End Try
     End Sub
     Public Sub Office()
         'Call LoadLoGO()
-        Dim Rs As New ADODB.Recordset
-        With Rs
+        Try
             If MuLng = "L" Then
-                Call LoadSqlData("SELECT ShowLogo, place , CertifyAuto ,  off_name , DepNm, DepNme, tel , fax , Place , Off_Add1 , Sign1 , Sign2 , Sign3  , Sign4 , Sign5, Sign6,MD00 " & _
-                  "FROM Ap_office " & _
-                  " WHERE Sub_id ='" & MuSubOff & "' ORDER BY Sub_id ", Rs)
-                If .RecordCount = 0 Then Exit Sub
-                MdCertifyAuto = CDbl((.Fields("CertifyAuto").Value))
-                MdShowLOGO = CDbl((.Fields("ShowLogo").Value))
-                MuOff = Trim(.Fields("off_name").Value) & vbCrLf & "" & _
-                 "" & Trim(.Fields("Place").Value) & vbCrLf & "" & _
-                "" & Trim(.Fields("tel").Value) & Trim(.Fields("fax").Value) & ""
-                MuOff = Trim(.Fields("off_name").Value.ToString)
-                MuOffDep = Trim(.Fields("DepNm").Value.ToString)
+                Dim sql As String = "SELECT ShowLogo, place, CertifyAuto, off_name, DepNm, DepNme, tel, fax, Place, Off_Add1, Sign1, Sign2, Sign3, Sign4, Sign5, Sign6, MD00 FROM Ap_office WHERE Sub_id ='" & MuSubOff & "' ORDER BY Sub_id"
+                Dim dt As DataTable = GetDataTable(sql)
+                If dt.Rows.Count = 0 Then Exit Sub
+                
+                Dim row As DataRow = dt.Rows(0)
+                MdCertifyAuto = CDbl(DbHelper.GetStr(row("CertifyAuto")))
+                MdShowLOGO = CDbl(DbHelper.GetStr(row("ShowLogo")))
+                MuOff = Trim(DbHelper.GetStr(row("off_name"))) & vbCrLf & "" & _
+                 "" & Trim(DbHelper.GetStr(row("Place"))) & vbCrLf & "" & _
+                 "" & Trim(DbHelper.GetStr(row("tel"))) & Trim(DbHelper.GetStr(row("fax"))) & ""
+                MuOff = Trim(DbHelper.GetStr(row("off_name")))
+                MuOffDep = Trim(DbHelper.GetStr(row("DepNm")))
                 'RptPro = Trim(.Fields("Off_Add1").Value) & " ວັນທີ : ......../......../............  , "
-                RptPro = " ທີ່......................................., ວັນທີ : ......../......../............  , "
-                MDSgn1 = Trim(.Fields("Sign1").Value.ToString)
-                MDSgn2 = Trim(.Fields("Sign2").Value.ToString)
-                MDSgn3 = Trim(.Fields("Sign3").Value.ToString)
-                MDSgn4 = Trim(.Fields("Sign4").Value.ToString)
-                MDSgn5 = Trim(.Fields("Sign5").Value.ToString)
-                MDSgn6 = Trim(.Fields("Sign6").Value.ToString)
-                MDACC00 = Trim(.Fields("MD00").Value.ToString)
-                MuOffNEW = Trim(.Fields("off_name").Value.ToString)
-                MDRegister = Trim(.Fields("tel").Value.ToString)
-                MDOffAdd = Trim(.Fields("place").Value.ToString)
-                MuOff2 = Trim(.Fields("off_name").Value) & vbCrLf & "" & _
-                 "" & Trim(.Fields("Place").Value) & vbCrLf & "" & _
-                "" & Trim(.Fields("tel").Value) & ""
-            Else
-                Call LoadSqlData("SELECT CertifyAuto ,  off_namee ,  DepNm, DepNme,  tel , fax , Placee , Off_Adde1, Sign1e , Sign2e , Sign3e , Sign4e , Sign5e , Sign6e ,MD00  " & _
-                            "FROM Ap_office " & _
-                            " WHERE Sub_id ='" & MuSubOff & "' ORDER BY Sub_id ", Rs)
-                If .RecordCount = 0 Then Exit Sub
-                MdCertifyAuto = CDbl((.Fields("CertifyAuto").Value))
-                MuOff = Trim(.Fields("off_namee").Value) & vbCrLf & "" & _
-                 "" & Trim(.Fields("Placee").Value) & vbCrLf & "" & _
-                "" & Trim(.Fields("tel").Value) & Trim(.Fields("fax").Value) & ""
-                MuOff = Trim(.Fields("off_namee").Value.ToString)
-                MuOffDep = Trim(.Fields("DepNmE").Value.ToString)
+                RptPro = " Date : ......../......../............  , "
+                MDSgn1 = Trim(DbHelper.GetStr(row("Sign1")))
+                MDSgn2 = Trim(DbHelper.GetStr(row("Sign2")))
+                MDSgn3 = Trim(DbHelper.GetStr(row("Sign3")))
+                MDSgn4 = Trim(DbHelper.GetStr(row("Sign4")))
+                MDSgn5 = Trim(DbHelper.GetStr(row("Sign5")))
+                MDSgn6 = Trim(DbHelper.GetStr(row("Sign6")))
+                MDACC00 = Trim(DbHelper.GetStr(row("MD00")))
+                MuOffNEW = Trim(DbHelper.GetStr(row("off_name")))
+                MDRegister = Trim(DbHelper.GetStr(row("tel")))
+                MDOffAdd = Trim(DbHelper.GetStr(row("place")))
+                MuOff2 = Trim(DbHelper.GetStr(row("off_name"))) & vbCrLf & "" & _
+                 "" & Trim(DbHelper.GetStr(row("Place"))) & vbCrLf & "" & _
+                 "" & Trim(DbHelper.GetStr(row("tel"))) & ""
+                MuOff = Trim(DbHelper.GetStr(row("off_name")))
+                MuOffDep = Trim(DbHelper.GetStr(row("DepNm")))
 
-                RptPro = Trim(.Fields("Off_Adde1").Value) & " Date : ......../......../............  , "
-                MDSgn1 = Trim(.Fields("Sign1e").Value.ToString)
-                MDSgn2 = Trim(.Fields("Sign2e").Value.ToString)
-                MDSgn3 = Trim(.Fields("Sign3e").Value.ToString)
-                MDSgn4 = Trim(.Fields("Sign4e").Value.ToString)
-                MDSgn5 = Trim(.Fields("Sign5e").Value.ToString)
-                MDSgn6 = Trim(.Fields("Sign6e").Value.ToString)
-                MDACC00 = Trim(.Fields("MD00").Value.ToString)
+                RptPro = " Date : ......../......../............  , "
+                MDSgn1 = Trim(DbHelper.GetStr(row("Sign1")))
+                MDSgn2 = Trim(DbHelper.GetStr(row("Sign2")))
+                MDSgn3 = Trim(DbHelper.GetStr(row("Sign3")))
+                MDSgn4 = Trim(DbHelper.GetStr(row("Sign4")))
+                MDSgn5 = Trim(DbHelper.GetStr(row("Sign5")))
+                MDSgn6 = Trim(DbHelper.GetStr(row("Sign6")))
+                MDACC00 = Trim(DbHelper.GetStr(row("MD00")))
+            Else
+                Dim sqlE As String = "SELECT CertifyAuto, off_namee, DepNm, DepNme, tel, fax, Placee, Off_Adde1, Sign1e, Sign2e, Sign3e, Sign4e, Sign5e, Sign6e, MD00 FROM Ap_office WHERE Sub_id ='" & MuSubOff & "' ORDER BY Sub_id"
+                Dim dtE As DataTable = GetDataTable(sqlE)
+                If dtE.Rows.Count = 0 Then Exit Sub
+                
+                Dim rowE As DataRow = dtE.Rows(0)
+                MdCertifyAuto = CDbl(DbHelper.GetStr(rowE("CertifyAuto")))
+                MuOff = Trim(DbHelper.GetStr(rowE("off_namee"))) & vbCrLf & "" & _
+                 "" & Trim(DbHelper.GetStr(rowE("Placee"))) & vbCrLf & "" & _
+                 "" & Trim(DbHelper.GetStr(rowE("tel"))) & Trim(DbHelper.GetStr(rowE("fax"))) & ""
+                MuOff = Trim(DbHelper.GetStr(rowE("off_namee")))
+                MuOffDep = Trim(DbHelper.GetStr(rowE("DepNmE")))
+
+                RptPro = Trim(DbHelper.GetStr(rowE("Off_Adde1"))) & " Date : ......../......../............  , "
+                MDSgn1 = Trim(DbHelper.GetStr(rowE("Sign1e")))
+                MDSgn2 = Trim(DbHelper.GetStr(rowE("Sign2e")))
+                MDSgn3 = Trim(DbHelper.GetStr(rowE("Sign3e")))
+                MDSgn4 = Trim(DbHelper.GetStr(rowE("Sign4e")))
+                MDSgn5 = Trim(DbHelper.GetStr(rowE("Sign5e")))
+                MDSgn6 = Trim(DbHelper.GetStr(rowE("Sign6e")))
+                MDACC00 = Trim(DbHelper.GetStr(rowE("MD00")))
             End If
 
-        End With
-        RptSjOff = "N'" & MuOff2 & "' As RptSjOff , N'" & MuOffDep & "' As RptSjDep , N'" & RptPro & "' As RptPro  , N'" & MDSgn1 & "' As RptSign1  , N'" & MDSgn2 & "' As RptSign2  , N'" & MDSgn3 & "' As RptSign3   , N'" & MDSgn4 & "' As RptSign4  , N'" & MDSgn5 & "' As RptSign5  , N'" & MDSgn6 & "' As RptSign6 , "
+            RptSjOff = "N'" & MuOff2 & "' As RptSjOff , N'" & MuOffDep & "' As RptSjDep , N'" & RptPro & "' As RptPro  , N'" & MDSgn1 & "' As RptSign1  , N'" & MDSgn2 & "' As RptSign2  , N'" & MDSgn3 & "' As RptSign3   , N'" & MDSgn4 & "' As RptSign4  , N'" & MDSgn5 & "' As RptSign5  , N'" & MDSgn6 & "' As RptSign6  , "
 
-        'LoadLoGO()
-        'CHKVNK()
+            'LoadLoGO()
+            'CHKVNK()
+        Catch ex As Exception
+            MsgBox("Error loading office data: " & ex.Message)
+        End Try
     End Sub
 
 

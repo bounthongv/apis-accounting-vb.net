@@ -1,64 +1,80 @@
-﻿Public Class FmIncome_Old
+Imports System.Windows.Forms
+Imports System.Drawing
+
+Public Class FmIncome_Old
 
 
     Public Sub LoadListFG()
-        FG.Rows = 1
-        With RSC
-            'Call LoadData("select *  from Open_jn WHERE ac_code<>''  " & Sql & "order by ac_code", RSC)
-            FG.FormatString = "^ລ/ດ |< ລະຫັດ    |<ເນື້ອໃນ (ພາສາລາວ)                      |<ເນື້ອໃນ (ພາສາອັງກິດ)     |<         |<|< "
+        FG.Rows.Clear()
+        FG.Columns.Clear()
+        
+        ' Setup columns
+        FG.Columns.Add("Col0", "ລ/ດ")
+        FG.Columns.Add("Col1", "ລະຫັດ")
+        FG.Columns.Add("Col2", "ເນື້ອໃນ (ພາສາລາວ)")
+        FG.Columns.Add("Col3", "ເນື້ອໃນ (ພາສາອັງກິດ)")
+        FG.Columns.Add("Col4", "")
+        FG.Columns.Add("Col5", "")
+        FG.Columns.Add("Col6", "")
 
-            Call LoadSqlData("SELECT * FROM  Ap_Rpt_Income_Old order by  CNT ASC  ", RSC)
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Ap_Rpt_Income_Old order by CNT ASC")
 
-            If .RecordCount > 0 Then
-                While Not .EOF
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("Rpt_ID").Value.ToString)) & _
-                                    "" & vbTab & (CStr(.Fields("Description").Value.ToString)) & _
-                                       "" & vbTab & Trim(CStr(.Fields("Descriptione").Value.ToString)) & _
-                                          "" & vbTab & Trim(CStr(.Fields("Chart_of_Accounts_Codes").Value.ToString)) & _
-                                             "" & vbTab & Trim(CStr(.Fields("Grp").Value.ToString)) & _
-                                        "" & vbTab & Trim(CStr(.Fields("Grp_Nme").Value.ToString)))
-                    .MoveNext()
-                End While
-            Else
-            End If
-        End With
-        FG.Rows = CDbl(FG.Rows) + 1
+        If dt.Rows.Count > 0 Then
+            For i As Integer = 0 To dt.Rows.Count - 1
+                FG.Rows.Add((i + 1).ToString(),
+                            GetStr(dt.Rows(i)("Rpt_ID")),
+                            GetStr(dt.Rows(i)("Description")),
+                            GetStr(dt.Rows(i)("Descriptione")),
+                            GetStr(dt.Rows(i)("Chart_of_Accounts_Codes")),
+                            GetStr(dt.Rows(i)("Grp")),
+                            GetStr(dt.Rows(i)("Grp_Nme")))
+            Next
+        End If
+        
+        ' Add empty row
+        FG.Rows.Add()
     End Sub
 
 
 
 
 
-    Public Sub MouseDownEvent()
-        AC_Code.Text = FG2.get_TextMatrix(FG2.Row, 2)
-        Rpt_Type.Text = FG2.get_TextMatrix(FG2.Row, 5)
-        TXTCNT.Text = FG2.get_TextMatrix(FG2.Row, 6)
-        If FG2.Col = 5 Then
-            FG2.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-            'MsgBox(FG.Col)
-        Else
-            FG2.Editable = VSFlex8U.EditableSettings.flexEDNone
+Public Sub MouseDownEvent()
+        If FG2.CurrentCell IsNot Nothing AndAlso FG2.CurrentCell.RowIndex >= 0 AndAlso FG2.CurrentCell.RowIndex < FG2.Rows.Count - 1 Then
+            AC_Code.Text = GetStr(FG2.Rows(FG2.CurrentCell.RowIndex).Cells(2).Value)
+            Rpt_Type.Text = GetStr(FG2.Rows(FG2.CurrentCell.RowIndex).Cells(5).Value)
+            TXTCNT.Text = GetStr(FG2.Rows(FG2.CurrentCell.RowIndex).Cells(6).Value)
         End If
+        
+        If FG2.CurrentCell IsNot Nothing AndAlso FG2.CurrentCell.ColumnIndex = 5 Then
+            FG2.ReadOnly = False
+        Else
+            FG2.ReadOnly = True
+        End If
+        
         BtnSearch.Visible = True
         Select Case MouseButtons
             Case Windows.Forms.MouseButtons.Right
-                FG2.EditCell()
+                If FG2.CurrentCell IsNot Nothing AndAlso FG2.CurrentCell.RowIndex >= 0 Then
+                    FG2.BeginEdit(False)
+                End If
             Case Windows.Forms.MouseButtons.Left
-                'MsgBox(FG.Col)
-                If FG2.Col = 2 Then
+                If FG2.CurrentCell IsNot Nothing AndAlso FG2.CurrentCell.ColumnIndex = 2 Then
                     BtnSearch.Visible = True
                 Else
                     BtnSearch.Visible = False
                 End If
-                If FG2.Row = FG2.Rows - 1 Then
+                If FG2.CurrentCell IsNot Nothing AndAlso FG2.CurrentCell.RowIndex = FG2.Rows.Count - 1 Then
                     BtnMove.Visible = False
                 Else
                     BtnMove.Visible = True
                 End If
-                BtnSearch.Left = CInt(FG2.Left + (FG2.CellLeft / 15) + (FG2.CellWidth / 22.8))
-                BtnSearch.Top = CInt((FG2.CellTop / 15) + FG2.Top)
-                'BtnMove.Left = CInt(FG.Left + (FG.CellLeft / 15) + (FG.CellWidth / 22.8))
-                BtnMove.Top = CInt((FG2.CellTop / 15) + FG2.Top)
+                If FG2.CurrentCell IsNot Nothing AndAlso FG2.CurrentCell.RowIndex >= 0 Then
+                    Dim cellRect As Rectangle = FG2.GetCellDisplayRectangle(FG2.CurrentCell.ColumnIndex, FG2.CurrentCell.RowIndex, False)
+                    BtnSearch.Left = FG2.Left + cellRect.Left
+                    BtnSearch.Top = FG2.Top + cellRect.Top
+                    BtnMove.Top = FG2.Top + cellRect.Top
+                End If
         End Select
     End Sub
 
@@ -66,148 +82,121 @@
 
 
 
-    Private Sub loadBankItem()
-        FG2.Rows = 1
-        With RSC
-            'Call LoadData("select *  from Open_jn WHERE ac_code<>''  " & Sql & "order by ac_code", RSC)
-            FG2.FormatString = "^ລ/ດ |< ລະຫັດ   |<ລະຫັດບັນຊີ    |<ຊື່ບັນຊີ(ພາສາລາວ)                               |<ຊື່ບັນຊີ(ພາສາອັງກິດ)                  |<ສະຖານະພາບ|<CNT   "
-            Call LoadSqlData("SELECT * FROM  Ap_Rpt_Income_Item_Old where Rpt_ID=N'" & TextBox1.Text & "' Order by Ac_Code ", RSC)
-            If .RecordCount > 0 Then
-                While Not .EOF
-                    FG2.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("Rpt_ID").Value.ToString)) & _
-                    "" & vbTab & Trim(CStr(.Fields("Ac_Code").Value.ToString)) & _
-                       "" & vbTab & Trim(CStr(.Fields("Ac_Name").Value.ToString)) & _
-                                 "" & vbTab & Trim(CStr(.Fields("Ac_NameE").Value.ToString)) & _
-                                          "" & vbTab & Trim(CStr(.Fields("Rpt_Type").Value.ToString)) & _
-                    "" & vbTab & Trim(CStr(.Fields("CNT").Value.ToString)))
-                    .MoveNext()
-                End While
-            Else
-            End If
-        End With
-        FG2.Rows = CDbl(FG2.Rows) + 1
+Private Sub loadBankItem()
+        FG2.Rows.Clear()
+        FG2.Columns.Clear()
+        
+        ' Setup columns
+        FG2.Columns.Add("Col0", "ລ/ດ")
+        FG2.Columns.Add("Col1", "ລະຫັດ")
+        FG2.Columns.Add("Col2", "ລະຫັດບັນຊີ")
+        FG2.Columns.Add("Col3", "ຊື່ບັນຊີ(ພາສາລາວ)")
+        FG2.Columns.Add("Col4", "ຊື່ບັນຊີ(ພາສາອັງກິດ)")
+        FG2.Columns.Add("Col5", "ສະຖານະພາບ")
+        FG2.Columns.Add("Col6", "CNT")
+
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Ap_Rpt_Income_Item_Old where Rpt_ID=N'" & TextBox1.Text & "' Order by Ac_Code")
+        
+        If dt.Rows.Count > 0 Then
+            For i As Integer = 0 To dt.Rows.Count - 1
+                FG2.Rows.Add((i + 1).ToString(),
+                            GetStr(dt.Rows(i)("Rpt_ID")),
+                            GetStr(dt.Rows(i)("Ac_Code")),
+                            GetStr(dt.Rows(i)("Ac_Name")),
+                            GetStr(dt.Rows(i)("Ac_NameE")),
+                            GetStr(dt.Rows(i)("Rpt_Type")),
+                            GetStr(dt.Rows(i)("CNT")))
+            Next
+        End If
+        
+        ' Add empty row
+        FG2.Rows.Add()
     End Sub
 
-    Private Sub FG2_AfterCollapse(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterCollapseEvent) Handles FG2.AfterCollapse
-
-    End Sub
-
-    Private Sub FG2_AfterEdit(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterEditEvent) Handles FG2.AfterEdit
+Private Sub FG2_CellEndEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles FG2.CellEndEdit
         Button2.Enabled = True
     End Sub
 
-    Private Sub FG2_AfterMoveColumn(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterMoveColumnEvent) Handles FG2.AfterMoveColumn
-
-    End Sub
-
-    Private Sub FG2_AfterMoveRow(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterMoveRowEvent) Handles FG2.AfterMoveRow
-
-    End Sub
-
-    Private Sub FG2_AfterRowColChange(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterRowColChangeEvent) Handles FG2.AfterRowColChange
-
-    End Sub
-
-    Private Sub FG2_AfterScroll(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterScrollEvent) Handles FG2.AfterScroll
+    Private Sub FG2_Scroll(ByVal sender As Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles FG2.Scroll
         BtnSearch.Visible = False
         BtnMove.Visible = False
     End Sub
 
-    Private Sub FG2_AfterSelChange(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterSelChangeEvent) Handles FG2.AfterSelChange
-
-    End Sub
-
-    Private Sub FG2_AfterSort(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterSortEvent) Handles FG2.AfterSort
-        'BtnSearch.Visible = False
-        'BtnMove.Visible = False
-    End Sub
-
-    Private Sub FG2_AfterUserFreeze(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG2.AfterUserFreeze
-
-    End Sub
-
-    Private Sub FG2_AfterUserResize(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterUserResizeEvent) Handles FG2.AfterUserResize
-
-    End Sub
-
-    Private Sub FG2_MouseDownEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseDownEvent) Handles FG2.MouseDownEvent
+    Private Sub FG2_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles FG2.MouseDown
         MouseDownEvent()
     End Sub
 
-    Private Sub FG2_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG2.SelChange
-
-    End Sub
-
-    Private Sub BtnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSearch.Click
+Private Sub BtnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSearch.Click
         fmShartOfAccDetail.txtSty.Text = "FmInCome"
         MDSearchAcccode = ""
         fmShartOfAccDetail.ShowDialog()
         FG.Focus()
-        CNN.Execute("delete Ap_Rpt_Income_Item_Old where Rpt_ID =N'" & TextBox1.Text & "' ")
-        Dim i As Integer
-        For i = 1 To FG2.Rows - 1
-
-            If FG2.get_TextMatrix(i, 1) = "" And FG2.get_TextMatrix(i, 2) = "" Then
-                Exit Sub
+        DbHelper.ExecuteNonQuery("delete Ap_Rpt_Income_Item_Old where Rpt_ID =N'" & TextBox1.Text & "' ")
+        
+        For i As Integer = 0 To FG2.Rows.Count - 2 ' Skip last empty row
+            If GetStr(FG2.Rows(i).Cells(1).Value) = "" AndAlso GetStr(FG2.Rows(i).Cells(2).Value) = "" Then
+                Exit For
             End If
-            CNN.Execute("INSERT INTO Ap_Rpt_Income_Item_Old( Rpt_ID,  Ac_Code , Ac_Name , Ac_NameE   , BLS , Rpt_Type ) " & _
-                 "Values('" & FG2.get_TextMatrix(i, 1) & "', N'" & FG2.get_TextMatrix(i, 2) & "', N'" & FG2.get_TextMatrix(i, 3) & "','" & FG2.get_TextMatrix(i, 4) & "','" & "ALL" & "' , '" & FG2.get_TextMatrix(i, 5) & "')")
-        Next i
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Rpt_Income_Item_Old( Rpt_ID,  Ac_Code , Ac_Name , Ac_NameE   , BLS , Rpt_Type ) " & _
+                 "Values('" & GetStr(FG2.Rows(i).Cells(1).Value) & "', N'" & GetStr(FG2.Rows(i).Cells(2).Value) & "', N'" & GetStr(FG2.Rows(i).Cells(3).Value) & "','" & GetStr(FG2.Rows(i).Cells(4).Value) & "','" & "ALL" & "' , '" & GetStr(FG2.Rows(i).Cells(5).Value) & "')")
+        Next
     End Sub
 
-    Private Sub FmBankReportId_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+Private Sub FmBankReportId_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Button2.Enabled = False
         BtnMove.Visible = False
         BtnSearch.Visible = False
         FG.Size = New System.Drawing.Size(519, 378)
         LoadListFG()
-        FG.AutoResize = True
+        FG.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
     End Sub
 
-    Private Sub BtnMove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnMove.Click
-        CNN.Execute("delete Ap_Rpt_Income_Item_Old where Ac_Code like '" & AC_Code.Text & "%' And Rpt_ID =N'" & RPT_ID.Text & "' And Rpt_Type =N'" & Rpt_Type.Text & "' and CNT=N'" & TXTCNT.Text & "' ")
+Private Sub BtnMove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnMove.Click
+        DbHelper.ExecuteNonQuery("delete Ap_Rpt_Income_Item_Old where Ac_Code like '" & AC_Code.Text & "%' And Rpt_ID =N'" & RPT_ID.Text & "' And Rpt_Type =N'" & Rpt_Type.Text & "' and CNT=N'" & TXTCNT.Text & "' ")
         BtnMove.Visible = False
-        Call loadBankItem()
+        loadBankItem()
     End Sub
 
-    Private Sub FG_MouseDownEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseDownEvent) Handles FG.MouseDownEvent
+Private Sub FG_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles FG.MouseDown
         Select Case MouseButtons
             Case Windows.Forms.MouseButtons.Right
             Case Windows.Forms.MouseButtons.Left
-                If FG.Row = FG.Rows - 1 Then
+                If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.RowIndex = FG.Rows.Count - 1 Then
                     Button1.Visible = False
                 Else
                     Button1.Visible = True
                 End If
-                Button1.Top = CInt((FG.CellTop / 15) + FG.Top)
+                If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.RowIndex >= 0 Then
+                    Dim cellRect As Rectangle = FG.GetCellDisplayRectangle(0, FG.CurrentCell.RowIndex, False)
+                    Button1.Top = FG.Top + cellRect.Top
+                End If
         End Select
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        TextBox1.Text = FG.get_TextMatrix(FG.Row, 1)
-        RPT_ID.Text = FG.get_TextMatrix(FG.Row, 1)
-        Call loadBankItem()
+Private Sub FG_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.RowIndex >= 0 AndAlso FG.CurrentCell.RowIndex < FG.Rows.Count - 1 Then
+            TextBox1.Text = GetStr(FG.Rows(FG.CurrentCell.RowIndex).Cells(1).Value)
+            RPT_ID.Text = GetStr(FG.Rows(FG.CurrentCell.RowIndex).Cells(1).Value)
+            loadBankItem()
+        End If
 
         Button2.Enabled = False
         BtnMove.Visible = False
         BtnSearch.Visible = False
     End Sub
 
-    Private Sub BtnEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnEdit.Click
+Private Sub BtnEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnEdit.Click
         Button2.Enabled = False
         BtnMove.Visible = False
         BtnSearch.Visible = False
         MsgBox("ການບັນຶກສຳເລັດຜົນ")
-        'CNN.Execute("delete Ap_Rpt_Income")
-        Dim i As Integer
-        For i = 1 To FG.Rows - 1
-            If FG.get_TextMatrix(i, 1) = "" And FG.get_TextMatrix(i, 2) = "" Then
-                Exit Sub
+        
+        For i As Integer = 0 To FG.Rows.Count - 2 ' Skip last empty row
+            If GetStr(FG.Rows(i).Cells(1).Value) = "" AndAlso GetStr(FG.Rows(i).Cells(2).Value) = "" Then
+                Exit For
             End If
-            CNN.Execute("Update Ap_Rpt_Income_Old Set  Description = N'" & Apostrophe(FG.get_TextMatrix(i, 2)) & "' ,  Descriptione = N'" & Apostrophe(FG.get_TextMatrix(i, 3)) & "' , Chart_of_Accounts_Codes = N'" & FG.get_TextMatrix(i, 4) & "'  Where Rpt_ID = '" & FG.get_TextMatrix(i, 1) & "'")
-            'CNN.Execute("INSERT INTO Ap_Rpt_Income( Rpt_ID,  Description , Descriptione    , Chart_of_Accounts_Codes , Grp , Grp_Nme ) " & _
-            '"Values('" & FG.get_TextMatrix(i, 1) & "', N'" & Apostrophe(FG.get_TextMatrix(i, 2)) & "','" & Apostrophe(FG.get_TextMatrix(i, 3)) & "',N'" & Apostrophe(FG.get_TextMatrix(i, 4)) & "' ,N'" & Apostrophe(FG.get_TextMatrix(i, 5)) & "' ,N'" & Apostrophe(FG.get_TextMatrix(i, 6)) & "')")
-        Next i
+            DbHelper.ExecuteNonQuery("Update Ap_Rpt_Income_Old Set  Description = N'" & Apostrophe(GetStr(FG.Rows(i).Cells(2).Value)) & "' ,  Descriptione = N'" & Apostrophe(GetStr(FG.Rows(i).Cells(3).Value)) & "' , Chart_of_Accounts_Codes = N'" & GetStr(FG.Rows(i).Cells(4).Value) & "'  Where Rpt_ID = '" & GetStr(FG.Rows(i).Cells(1).Value) & "'")
+        Next
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
@@ -225,10 +214,11 @@
         'Next i
     End Sub
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-        FG.RemoveItem()
+Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.RowIndex >= 0 AndAlso FG.CurrentCell.RowIndex < FG.Rows.Count - 1 Then
+            FG.Rows.RemoveAt(FG.CurrentCell.RowIndex)
+        End If
         Button1.Visible = False
-
     End Sub
     Private Sub BtnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnExit.Click
 
@@ -244,58 +234,48 @@
 
     End Sub
 
-    Private Sub AC_Code_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles AC_Code.KeyPress
+Private Sub AC_Code_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles AC_Code.KeyPress
         If e.KeyChar = Chr(13) Then
-
-
-            LoadSqlData("Select top 1 Rpt_ID , Ac_Code from Ap_Rpt_Income_Item_Old where  Ac_Code like '" & AC_Code.Text & "%'  And Rpt_ID <> '" & RPT_ID.Text & "'  ", RSC)
-            If RSC.RecordCount <> 0 Then
-                MsgBox("ເລກບັນຊີ " & Trim(CStr(RSC.Fields("Ac_Code").Value.ToString)) & " ມີຢູ່ " & Trim(CStr(RSC.Fields("Rpt_ID").Value.ToString)) & " ແລ້ວ")
+            Dim dt As DataTable = DbHelper.GetDataTable("Select top 1 Rpt_ID , Ac_Code from Ap_Rpt_Income_Item_Old where  Ac_Code like '" & AC_Code.Text & "%'  And Rpt_ID <> '" & RPT_ID.Text & "'")
+            If dt.Rows.Count > 0 Then
+                MsgBox("ເລກບັນຊີ " & GetStr(dt.Rows(0)("Ac_Code")) & " ມີຢູ່ " & GetStr(dt.Rows(0)("Rpt_ID")) & " ແລ້ວ")
                 Exit Sub
             End If
 
-
-
-
-
-
-            CNN.Execute("delete Ap_Rpt_Income_Item_Old where Ac_Code like '" & AC_Code.Text & "%' And Rpt_ID = '" & RPT_ID.Text & "' And Rpt_Type = '" & Rpt_Type.Text & "'  insert into Ap_Rpt_Income_Item_Old (Rpt_ID , Ac_Code , Ac_Name, Rpt_Type) select '" & RPT_ID.Text & "' ,  Ac_Code , Name_L , '" & Rpt_Type.Text & "' from Acc_Code where Ac_Code like '" & AC_Code.Text & "%' and acc_type=N'ບັນຊີແມ່ (P)' ")
-            TextBox1.Text = FG.get_TextMatrix(FG.Row, 1)
-            Call loadBankItem()
+            DbHelper.ExecuteNonQuery("delete Ap_Rpt_Income_Item_Old where Ac_Code like '" & AC_Code.Text & "%' And Rpt_ID = '" & RPT_ID.Text & "' And Rpt_Type = '" & Rpt_Type.Text & "'  insert into Ap_Rpt_Income_Item_Old (Rpt_ID , Ac_Code , Ac_Name, Rpt_Type) select '" & RPT_ID.Text & "' ,  Ac_Code , Name_L , '" & Rpt_Type.Text & "' from Acc_Code where Ac_Code like '" & AC_Code.Text & "%' and acc_type=N'ບັນຊີແມ່ (P)' ")
+            
+            If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.RowIndex >= 0 AndAlso FG.CurrentCell.RowIndex < FG.Rows.Count - 1 Then
+                TextBox1.Text = GetStr(FG.Rows(FG.CurrentCell.RowIndex).Cells(1).Value)
+            End If
+            loadBankItem()
         End If
-
-        'If e.KeyChar = Chr(13) Then
-        '    CNN.Execute("delete Ap_Rpt_Income_Item where Ac_Code like '" & AC_Code.Text & "%' And Rpt_ID = '" & RPT_ID.Text & "' An Rpt_Type = '" & Rpt_Type.Text & "'  insert into Ap_Rpt_Income_Item (Rpt_ID , Ac_Code , Ac_Name, Rpt_Type) select '" & RPT_ID.Text & "' ,  Ac_Code , Name_L from Acc_Code where Ac_Code like '" & AC_Code.Text & "%' , '" & Rpt_Type.Text & "' ", )
-        '    TextBox1.Text = FG.get_TextMatrix(FG.Row, 1)
-        '    Call loadBankItem()
-        'End If
     End Sub
 
     Private Sub AC_Code_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AC_Code.TextChanged
 
     End Sub
 
-    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        CNN.Execute("delete Ap_Rpt_Income_Item_Old where  Rpt_ID=N'" & RPT_ID.Text & "'   ")
-        TextBox1.Text = FG.get_TextMatrix(FG.Row, 1)
-        Call loadBankItem()
+Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
+        DbHelper.ExecuteNonQuery("delete Ap_Rpt_Income_Item_Old where  Rpt_ID=N'" & RPT_ID.Text & "'   ")
+        If FG.CurrentRowIndex >= 0 AndAlso FG.CurrentRowIndex < FG.Rows.Count - 1 Then
+            TextBox1.Text = GetStr(FG.Rows(FG.CurrentRowIndex).Cells(1).Value)
+        End If
+        loadBankItem()
     End Sub
 
-    Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
-        CNN.Execute("delete Ap_Rpt_Item")
-        With RSC
-            Call LoadSqlData("SELECT * FROM  Ap_Rpt_Income_Item_Old  Order by Ac_Code  ", RSC)
-            If .RecordCount > 0 Then
-                While Not .EOF
-                    CNN.Execute("delete Ap_Rpt_Item where Ac_Code like '" & Trim(CStr(.Fields("Ac_Code").Value.ToString)) & "%' And Rpt_ID = '" & Trim(CStr(.Fields("Rpt_ID").Value.ToString)) & "' And Rpt_Type = '" & Trim(CStr(.Fields("Rpt_Type").Value.ToString)) & "' " & _
-                                " insert into Ap_Rpt_Item (Rpt_ID , Ac_Code , Ac_Name, Rpt_Type) select '" & Trim(CStr(.Fields("Rpt_ID").Value.ToString)) & "' ,  Ac_Code , Name_L , '" & Trim(CStr(.Fields("Rpt_Type").Value.ToString)) & "' from Acc_Code where Ac_Code like '" & Trim(CStr(.Fields("Ac_Code").Value.ToString)) & "%'  ")
-                    .MoveNext()
-                End While
-            Else
-            End If
-        End With
-        CNN.Execute("delete Ap_Rpt_Income_Item_Old")
-        CNN.Execute(" insert into Ap_Rpt_Income_Item_Old  (Rpt_ID , Ac_Code , Ac_Name, Rpt_Type) select Rpt_ID , Ac_Code , Ac_Name, Rpt_Type from Ap_Rpt_Item")
+Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
+        DbHelper.ExecuteNonQuery("delete Ap_Rpt_Item")
+        
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Ap_Rpt_Income_Item_Old Order by Ac_Code")
+        If dt.Rows.Count > 0 Then
+            For i As Integer = 0 To dt.Rows.Count - 1
+                DbHelper.ExecuteNonQuery("delete Ap_Rpt_Item where Ac_Code like '" & GetStr(dt.Rows(i)("Ac_Code")) & "%' And Rpt_ID = '" & GetStr(dt.Rows(i)("Rpt_ID")) & "' And Rpt_Type = '" & GetStr(dt.Rows(i)("Rpt_Type")) & "' " & _
+                            " insert into Ap_Rpt_Item (Rpt_ID , Ac_Code , Ac_Name, Rpt_Type) select '" & GetStr(dt.Rows(i)("Rpt_ID")) & "' ,  Ac_Code , Name_L , '" & GetStr(dt.Rows(i)("Rpt_Type")) & "' from Acc_Code where Ac_Code like '" & GetStr(dt.Rows(i)("Ac_Code")) & "%'  ")
+            Next
+        End If
+        
+        DbHelper.ExecuteNonQuery("delete Ap_Rpt_Income_Item_Old")
+        DbHelper.ExecuteNonQuery(" insert into Ap_Rpt_Income_Item_Old  (Rpt_ID , Ac_Code , Ac_Name, Rpt_Type) select Rpt_ID , Ac_Code , Ac_Name, Rpt_Type from Ap_Rpt_Item")
         MsgBox("Ok")
     End Sub
 End Class

@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmClosing
     Inherits System.Windows.Forms.Form
 
@@ -31,7 +31,7 @@ Partial Class FmClosing
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.yy = New System.Windows.Forms.DateTimePicker
         Me.Label3 = New System.Windows.Forms.Label
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.Button2 = New System.Windows.Forms.Button
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar
@@ -133,10 +133,11 @@ Partial Class FmClosing
         '
         'FG
         '
-        Me.FG.DataSource = Nothing
+        Me.FG.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.FG.BackgroundColor = System.Drawing.Color.White
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(7, 22)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(451, 192)
         Me.FG.TabIndex = 45555
         '
@@ -263,7 +264,7 @@ Partial Class FmClosing
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents yy As System.Windows.Forms.DateTimePicker
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar

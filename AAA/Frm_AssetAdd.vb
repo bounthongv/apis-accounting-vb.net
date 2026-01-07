@@ -1,4 +1,4 @@
-﻿Public Class Frm_AssetAdd
+Public Class Frm_AssetAdd
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         Me.Close()
@@ -45,26 +45,22 @@
     End Sub
 
     Private Sub LdGrp()
-        Dim gRS As New ADODB.Recordset
+        Dim dt As DataTable = DbHelper.GetDataTable("Select * from Groups Order by Group_ID")
         txtGrpNm.Items.Clear()
         If Lang = True Then
             txtGrpNm.Items.Add("All Group")
-            Call LoadSqlData("Select * from Groups Order by Group_ID", gRS)
-            If gRS.RecordCount <> 0 Then
-                While Not gRS.EOF
-                    txtGrpNm.Items.Add(gRS.Fields("Group_NmE").Value.ToString)
-                    gRS.MoveNext()
-                End While
+            If dt.Rows.Count > 0 Then
+                For Each row As DataRow In dt.Rows
+                    txtGrpNm.Items.Add(DbHelper.GetStr(row("Group_NmE")))
+                Next
             End If
             txtGrpNm.SelectedIndex = 0
         Else
             txtGrpNm.Items.Add("ທັງໝົດ ")
-            Call LoadSqlData("Select * from Groups Order by Group_ID", gRS)
-            If gRS.RecordCount <> 0 Then
-                While Not gRS.EOF
-                    txtGrpNm.Items.Add(gRS.Fields("Group_Nm").Value.ToString)
-                    gRS.MoveNext()
-                End While
+            If dt.Rows.Count > 0 Then
+                For Each row As DataRow In dt.Rows
+                    txtGrpNm.Items.Add(DbHelper.GetStr(row("Group_Nm")))
+                Next
             End If
             txtGrpNm.SelectedIndex = 0
         End If
@@ -110,24 +106,23 @@
         ' Clear existing rows
         FG.Rows.Clear()
 
-        With RSC
-            Call LoadSqlData("SELECT * FROM  Adjustment_List where 1=1 " & GrpNM & " order by Code ASC  ", RSC)
-            If .RecordCount > 0 Then
-                While Not .EOF
-                    FG.Rows.Add(.AbsolutePosition, _
-                        Trim(CStr(.Fields("Code").Value)), _
-                        Trim(CStr(.Fields("Name").Value.ToString)), _
-                        Trim(CStr(.Fields("NameE").Value.ToString)), _
-                        Format(CDbl(Trim(.Fields("Value").Value)), "##,##0.00"), _
-                        Format(CDbl(Trim(.Fields("Remain").Value)), "##,##0.00"), _
-                        Format(CDate(Trim(.Fields("DateIn").Value)), "dd/MM/yyyy"), _
-                        Trim(CStr(.Fields("Period").Value.ToString)), _
-                        Trim(CStr(.Fields("Dr").Value.ToString)), _
-                        Trim(CStr(.Fields("Cr").Value.ToString)))
-                    .MoveNext()
-                End While
-            End If
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM  Adjustment_List where 1=1 " & GrpNM & " order by Code ASC")
+        If dt.Rows.Count > 0 Then
+            Dim rowNum As Integer = 1
+            For Each row As DataRow In dt.Rows
+                FG.Rows.Add(rowNum, _
+                    DbHelper.GetStr(row("Code")), _
+                    DbHelper.GetStr(row("Name")), _
+                    DbHelper.GetStr(row("NameE")), _
+                    Format(CDbl(DbHelper.GetStr(row("Value"))), "##,##0.00"), _
+                    Format(CDbl(DbHelper.GetStr(row("Remain"))), "##,##0.00"), _
+                    Format(CDate(DbHelper.GetStr(row("DateIn"))), "dd/MM/yyyy"), _
+                    DbHelper.GetStr(row("Period")), _
+                    DbHelper.GetStr(row("Dr")), _
+                    DbHelper.GetStr(row("Cr")))
+                rowNum += 1
+            Next
+        End If
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
@@ -141,26 +136,24 @@
         If TxtCode.Text = "" Then MsgBox("", MsgBoxStyle.Exclamation) : TxtCode.Focus() : Exit Sub
 
         If TxtCode.Enabled = True Then
-            Call LoadSqlData("SELECT * FROM Adjustment_List WHERE Code =N'" & Trim(TxtCode.Text) & "'", RSC)
-            If RSC.RecordCount <> 0 Then
+            Dim dtCheck As DataTable = DbHelper.GetDataTable("SELECT * FROM Adjustment_List WHERE Code =N'" & Trim(TxtCode.Text) & "'")
+            If dtCheck.Rows.Count <> 0 Then
                 MsgBox("ລະຫັດມີແລ້ວ!", MsgBoxStyle.Exclamation) : TxtCode.Focus() : Exit Sub
             End If
         End If
 
 
-        Call LoadSqlData("SELECT * FROM Adjustment_List WHERE Code =N'" & Trim(TxtCode.Text) & "'", RSC)
-        If RSC.RecordCount = 0 Then
-            CNN.Execute("INSERT INTO Adjustment_List(Code, GrpID, GrpIDNm, Name, NameE, Desription, DateIn, Period, Value, Remain, Dr, DrNm, Cr, CrNm) " & _
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Adjustment_List WHERE Code =N'" & Trim(TxtCode.Text) & "'")
+        If dt.Rows.Count = 0 Then
+            DbHelper.ExecuteNonQuery("INSERT INTO Adjustment_List(Code, GrpID, GrpIDNm, Name, NameE, Desription, DateIn, Period, Value, Remain, Dr, DrNm, Cr, CrNm) " & _
                 "Values(N'" & Trim(TxtCode.Text) & "',N'" & Trim(txtGrp.Text) & "',N'" & Trim(txtGrpNm.Text) & "' ,N'" & Trim(TxtName.Text) & "' , N'" & Trim(TxtNameE.Text) & "' ,N'" & Trim(TxtDesription.Text) & "','" & Format(DateIn.Value, "yyyy-MM-dd") & "'," & CDbl(TxtPeriod.Text) & "," & CDbl(TxtValue.Text) & "," & CDbl(TxtRemain.Text) & ",N'" & Trim(TxtDr.Text) & "',N'" & Trim(TxtDrNm.Text) & "',N'" & Trim(TxtCr.Text) & "',N'" & Trim(TxtCrNm.Text) & "')")
         Else
-            CNN.Execute("DELETE Adjustment_List WHERE Code =N'" & Trim(TxtCode.Text) & "' ")
-            CNN.Execute("INSERT INTO Adjustment_List(Code, GrpID, GrpIDNm, Name, NameE, Desription, DateIn, Period, Value, Remain, Dr, DrNm, Cr, CrNm) " & _
+            DbHelper.ExecuteNonQuery("DELETE Adjustment_List WHERE Code =N'" & Trim(TxtCode.Text) & "' ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Adjustment_List(Code, GrpID, GrpIDNm, Name, NameE, Desription, DateIn, Period, Value, Remain, Dr, DrNm, Cr, CrNm) " & _
              "Values(N'" & Trim(TxtCode.Text) & "',N'" & Trim(txtGrp.Text) & "',N'" & Trim(txtGrpNm.Text) & "' ,N'" & Trim(TxtName.Text) & "' , N'" & Trim(TxtNameE.Text) & "' ,N'" & Trim(TxtDesription.Text) & "','" & Format(DateIn.Value, "yyyy-MM-dd") & "'," & CDbl(TxtPeriod.Text) & "," & CDbl(TxtValue.Text) & "," & CDbl(TxtRemain.Text) & ",N'" & Trim(TxtDr.Text) & "',N'" & Trim(TxtDrNm.Text) & "',N'" & Trim(TxtCr.Text) & "',N'" & Trim(TxtCrNm.Text) & "')")
 
         End If
-        CNN.Execute("UPDATE Adjustment_List set day=Value/Period  WHERE Code =N'" & Trim(TxtCode.Text) & "'  ")
-
-        If RSC.State = ConnectionState.Open Then RSC.Close()
+        DbHelper.ExecuteNonQuery("UPDATE Adjustment_List set day=Value/Period  WHERE Code =N'" & Trim(TxtCode.Text) & "'  ")
         MsgBox("ການບັນທຶກສຳເລັດ!", MsgBoxStyle.OkOnly)
         TxtCode.Focus()
         LoadListFG()
@@ -180,42 +173,41 @@
         End Try
     End Sub
     Private Sub LoadText()
-        Call LoadSqlData("SELECT * FROM Adjustment_List WHERE Code =N'" & Trim(TxtCode.Text) & "'", RSC)
-        If RSC.RecordCount = 0 Then
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Adjustment_List WHERE Code =N'" & Trim(TxtCode.Text) & "'")
+        If dt.Rows.Count = 0 Then
             AddNew()
         Else
-            TxtCode.Text = Trim(RSC.Fields("Code").Value.ToString)
-            TxtName.Text = Trim(RSC.Fields("Name").Value.ToString)
-            TxtNameE.Text = Trim(RSC.Fields("NameE").Value.ToString)
+            TxtCode.Text = DbHelper.GetStr(dt.Rows(0)("Code"))
+            TxtName.Text = DbHelper.GetStr(dt.Rows(0)("Name"))
+            TxtNameE.Text = DbHelper.GetStr(dt.Rows(0)("NameE"))
 
-            TxtValue.Text = Format(RSC.Fields("Value").Value, "#,##0.00")
-            TxtRemain.Text = Format(RSC.Fields("Remain").Value, "#,##0.00")
-            TxtPeriod.Text = Format(RSC.Fields("Period").Value, "#,##0.00")
+            TxtValue.Text = Format(CDbl(DbHelper.GetStr(dt.Rows(0)("Value"))), "#,##0.00")
+            TxtRemain.Text = Format(CDbl(DbHelper.GetStr(dt.Rows(0)("Remain"))), "#,##0.00")
+            TxtPeriod.Text = Format(CDbl(DbHelper.GetStr(dt.Rows(0)("Period"))), "#,##0.00")
 
-            DateIn.Value = Format(RSC.Fields("DateIn").Value, "dd/MM/yyyy")
-            TxtDr.Text = Trim(RSC.Fields("Dr").Value.ToString)
-            TxtDrNm.Text = Trim(RSC.Fields("DrNm").Value.ToString)
-            TxtCr.Text = Trim(RSC.Fields("Cr").Value.ToString)
-            TxtCrNm.Text = Trim(RSC.Fields("CrNm").Value.ToString)
-            TxtDesription.Text = Trim(RSC.Fields("Desription").Value.ToString)
-            txtGrp.Text = Trim(RSC.Fields("GrpID").Value.ToString)
-            txtGrpNm.Text = Trim(RSC.Fields("GrpIDNm").Value.ToString)
+            DateIn.Value = CDate(DbHelper.GetStr(dt.Rows(0)("DateIn")))
+            TxtDr.Text = DbHelper.GetStr(dt.Rows(0)("Dr"))
+            TxtDrNm.Text = DbHelper.GetStr(dt.Rows(0)("DrNm"))
+            TxtCr.Text = DbHelper.GetStr(dt.Rows(0)("Cr"))
+            TxtCrNm.Text = DbHelper.GetStr(dt.Rows(0)("CrNm"))
+            TxtDesription.Text = DbHelper.GetStr(dt.Rows(0)("Desription"))
+            txtGrp.Text = DbHelper.GetStr(dt.Rows(0)("GrpID"))
+            txtGrpNm.Text = DbHelper.GetStr(dt.Rows(0)("GrpIDNm"))
         End If
     End Sub
 
     Private Sub txtGrpNm_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtGrpNm.SelectedIndexChanged
-        Dim gRS As New ADODB.Recordset
         If Lang = True Then
-            Call LoadSqlData("select * from Groups Where Group_NmE=N'" & Trim(txtGrpNm.Text) & "'", gRS)
-            If gRS.RecordCount <> 0 Then
-                txtGrp.Text = Trim(gRS.Fields("Group_ID").Value.ToString)
+            Dim dt As DataTable = DbHelper.GetDataTable("select * from Groups Where Group_NmE=N'" & Trim(txtGrpNm.Text) & "'")
+            If dt.Rows.Count > 0 Then
+                txtGrp.Text = DbHelper.GetStr(dt.Rows(0)("Group_ID"))
             Else
                 txtGrp.Text = ""
             End If
         Else
-            Call LoadSqlData("select * from Groups Where Group_Nm=N'" & Trim(txtGrpNm.Text) & "' ", gRS)
-            If gRS.RecordCount <> 0 Then
-                txtGrp.Text = Trim(gRS.Fields("Group_ID").Value.ToString)
+            Dim dt As DataTable = DbHelper.GetDataTable("select * from Groups Where Group_Nm=N'" & Trim(txtGrpNm.Text) & "' ")
+            If dt.Rows.Count > 0 Then
+                txtGrp.Text = DbHelper.GetStr(dt.Rows(0)("Group_ID"))
             Else
                 txtGrp.Text = ""
             End If
@@ -238,9 +230,9 @@
 
     Private Sub TxtDr_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TxtDr.KeyPress
         If e.KeyChar = Chr(13) Then
-            Call LoadSqlData("SELECT * FROM ACC_CODE WHERE AC_CODE=N'" & TxtDr.Text & "' ", RSC)
-            If RSC.RecordCount <> 0 Then
-                TxtDrNm.Text = Trim(RSC.Fields("Name_L").Value.ToString)
+            Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM ACC_CODE WHERE AC_CODE=N'" & TxtDr.Text & "' ")
+            If dt.Rows.Count > 0 Then
+                TxtDrNm.Text = DbHelper.GetStr(dt.Rows(0)("Name_L"))
             Else
                 MsgBox("ເລກບັນຊີບໍ່ມີໃນລາລະບານ", MsgBoxStyle.Exclamation) : TxtDr.Focus() : Exit Sub
             End If
@@ -255,9 +247,9 @@
 
     Private Sub TxtCr_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TxtCr.KeyPress
         If e.KeyChar = Chr(13) Then
-            Call LoadSqlData("SELECT * FROM ACC_CODE WHERE AC_CODE=N'" & TxtCr.Text & "' ", RSC)
-            If RSC.RecordCount <> 0 Then
-                TxtCrNm.Text = Trim(RSC.Fields("Name_L").Value.ToString)
+            Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM ACC_CODE WHERE AC_CODE=N'" & TxtCr.Text & "' ")
+            If dt.Rows.Count > 0 Then
+                TxtCrNm.Text = DbHelper.GetStr(dt.Rows(0)("Name_L"))
             Else
                 MsgBox("ເລກບັນຊີບໍ່ມີໃນລາລະບານ", MsgBoxStyle.Exclamation) : TxtCr.Focus() : Exit Sub
             End If

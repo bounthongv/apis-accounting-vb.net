@@ -33,9 +33,9 @@
         FG.Rows = CDbl(FG.Rows) + 1
     End Sub
 
-    Private Sub FG_MouseDownEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseDownEvent) Handles FG.MouseDownEvent
-        If FG.Col > 3 And FG.Col < 10 Then
-            RPT_ID.Text = FG.get_TextMatrix(FG.Row, 1) & "/0" & FG.Col - 3
+    Private Sub FG_CellMouseDown(ByVal sender As Object, ByVal e As DataGridViewCellMouseEventArgs) Handles FG.CellMouseDown
+        If e.ColumnIndex > 3 And e.ColumnIndex < 10 Then
+            RPT_ID.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString() & "/0" & e.ColumnIndex - 3
             Call loadBankItem()
         Else
             'RPT_ID.Text = ""
@@ -69,13 +69,15 @@
     End Sub
 
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        RPT_ID.Text = FG.get_TextMatrix(FG.Row, 1)
-        If FG.Col = 2 Or FG.Col = 3 Then
-            FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-            'MsgBox(FG.Col)
-        Else
-            FG.Editable = VSFlex8U.EditableSettings.flexEDNone
+    Private Sub FG_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
+        If FG.CurrentRow IsNot Nothing AndAlso FG.CurrentCell IsNot Nothing Then
+            RPT_ID.Text = FG.CurrentRow.Cells(1).Value.ToString()
+            If FG.CurrentCell.ColumnIndex = 2 Or FG.CurrentCell.ColumnIndex = 3 Then
+                ' DataGridView is always editable by default, no equivalent to VSFlexGrid.Editable needed
+                'MsgBox(FG.CurrentCell.ColumnIndex)
+            Else
+                ' DataGridView is always editable by default, no equivalent to VSFlexGrid.Editable needed
+            End If
         End If
         'MsgBox(RPT_ID.Text)
     End Sub
@@ -118,11 +120,11 @@
         Call loadBankItem()
     End Sub
 
-    Private Sub FG2_MouseDownEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseDownEvent) Handles FG2.MouseDownEvent
+    Private Sub FG2_CellMouseDown(ByVal sender As Object, ByVal e As DataGridViewCellMouseEventArgs) Handles FG2.CellMouseDown
         MouseDownEvent()
     End Sub
 
-    Private Sub FG2_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG2.SelChange
+    Private Sub FG2_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG2.SelectionChanged
 
     End Sub
     Public Sub MouseDownEvent()

@@ -1,4 +1,6 @@
-﻿Public Class Frm_F08Edit
+Imports System.Data.SqlClient
+
+Public Class Frm_F08Edit
 
     Private Sub Frm_F08Edit_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetupGrid()
@@ -40,22 +42,24 @@
 
     Private Sub AAA()
         FG.Rows.Clear()
-        With RSC
-            Call LoadSqlData("SELECT * FROM RPT_F08 Order by ItemID asc ", RSC)
-            If .RecordCount > 0 Then
-                While Not .EOF
-                    FG.Rows.Add(.AbsolutePosition, _
-                                Trim(CStr(.Fields("ItemID").Value)), _
-                                Trim(CStr(.Fields("Itemnm").Value)), _
-                                Trim(CStr(.Fields("Vala").Value)), _
-                                ((.Fields("int").Value)), _
-                                ((.Fields("SaveNm").Value)), _
-                                ((.Fields("Save_Vala").Value)), _
-                                ((.Fields("Save_Int").Value)))
-                    .MoveNext()
-                End While
+        'With RSC
+            'Call LoadSqlData("SELECT * FROM RPT_F08 Order by ItemID asc ", RSC)
+            Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM RPT_F08 Order by ItemID asc ")
+            If dt.Rows.Count > 0 Then
+                Dim i As Integer = 0
+                For Each row As DataRow In dt.Rows
+                    i += 1
+                    FG.Rows.Add(i, _
+                                Trim(row("ItemID").ToString), _
+                                Trim(row("Itemnm").ToString), _
+                                Trim(row("Vala").ToString), _
+                                (row("int").ToString), _
+                                (row("SaveNm").ToString), _
+                                (row("Save_Vala").ToString), _
+                                (row("Save_Int").ToString))
+                Next
             End If
-        End With
+        'End With
     End Sub
 
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
@@ -74,7 +78,8 @@
         Dim itemNm As String = If(FG.Rows(e.RowIndex).Cells(2).Value Is Nothing, "", FG.Rows(e.RowIndex).Cells(2).Value.ToString())
         
         If MessageBox.Show("ທ່ານຕ້ອງການລືບລາຍການ'" & itemId & itemNm & "' ນີ້ ແທ້ ຫຼື ບໍ່ ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-            CNN.Execute(" DELETE RPT_F08 where  ItemID=N'" & itemId & "' ")
+            'CNN.Execute(" DELETE RPT_F08 where  ItemID=N'" & itemId & "' ")
+            DbHelper.ExecuteNonQuery(" DELETE RPT_F08 where  ItemID=N'" & itemId & "' ")
             FG.Rows.RemoveAt(e.RowIndex)
         End If
     End Sub
@@ -85,7 +90,7 @@
     End Sub
 
     Private Sub Save_item()
-        Dim Rschk As New ADODB.Recordset
+        'Dim Rschk As New ADODB.Recordset
         Dim i As Integer
         
         For i = 0 To FG.Rows.Count - 1
@@ -93,7 +98,8 @@
             If itemId = "" Then Continue For
             
             Dim sk As String = "Select * FROM RPT_F08 where  ItemID=N'" & itemId & "'   "
-            Call LoadSqlData(sk, Rschk)
+            'Call LoadSqlData(sk, Rschk)
+            Dim dt As DataTable = DbHelper.GetDataTable(sk)
             
             Dim v1 As String = If(FG.Rows(i).Cells(1).Value Is Nothing, "", FG.Rows(i).Cells(1).Value.ToString())
             Dim v2 As String = If(FG.Rows(i).Cells(2).Value Is Nothing, "", FG.Rows(i).Cells(2).Value.ToString())
@@ -103,23 +109,26 @@
             Dim v6 As String = If(FG.Rows(i).Cells(6).Value Is Nothing, "", FG.Rows(i).Cells(6).Value.ToString())
             Dim v7 As String = If(FG.Rows(i).Cells(7).Value Is Nothing, "0", FG.Rows(i).Cells(7).Value.ToString())
 
-            If Rschk.RecordCount = 0 Then
+            If dt.Rows.Count = 0 Then
                 Dim sa As String = "INSERT INTO RPT_F08 ( ItemID, ItemNM, Vala, Int,SaveNm, Save_Vala, Save_Int ) " & _
                 " VALUES (  N'" & v1 & "'," & _
                  " N'" & v2 & "'," & _
                   " N'" & v3 & "'," & _
                     " N'" & v4 & "',N'" & v5 & "',N'" & v6 & "',N'" & v7 & "') "
-                CNN.Execute(sa)
+                'CNN.Execute(sa)
+                DbHelper.ExecuteNonQuery(sa)
             Else
                 Dim UPPP As String = " UPDATE RPT_F08 set ItemNM=N'" & v2 & "'," & _
                   " Vala=N'" & v3 & "'," & _
                     " Int=N'" & v4 & "',SaveNm=N'" & v5 & "',Save_Vala=N'" & v6 & "',Save_Int=N'" & v7 & "' " & _
                     " where ItemID=N'" & v1 & "' "
-                CNN.Execute(UPPP)
+                'CNN.Execute(UPPP)
+                DbHelper.ExecuteNonQuery(UPPP)
             End If
         Next i
         
-        CNN.Execute("DELETE FROM RPT_F08 where  ItemID=''  ") 
+        'CNN.Execute("DELETE FROM RPT_F08 where  ItemID=''  ") 
+        DbHelper.ExecuteNonQuery("DELETE FROM RPT_F08 where  ItemID=''  ")
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click

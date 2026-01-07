@@ -1,11 +1,80 @@
-﻿Imports System.Data.SqlClient
+Imports System.Data.SqlClient
 
 Public Class FmCalcu
 
     Dim sd As String
     Dim int As Integer = 0
+    
+    ' Setup DataGridView helper functions
+    Private Function GetGridValue(ByVal grid As DataGridView, ByVal row As Integer, ByVal col As Integer) As String
+        Try
+            If grid.RowCount <= row OrElse row < 0 Then Return ""
+            If grid.ColumnCount <= col OrElse col < 0 Then Return ""
+            If grid.Rows(row).Cells(col).Value Is Nothing Then Return ""
+            Return grid.Rows(row).Cells(col).Value.ToString()
+        Catch ex As Exception
+            Return ""
+        End Try
+    End Function
+    
+    Private Sub SetGridValue(ByVal grid As DataGridView, ByVal row As Integer, ByVal col As Integer, ByVal value As Object)
+        Try
+            If row < 0 Then Exit Sub
+            While grid.RowCount <= row
+                grid.Rows.Add()
+            End While
+            If col < grid.ColumnCount Then
+                grid.Rows(row).Cells(col).Value = value
+            End If
+        Catch ex As Exception
+            ' Ignore
+        End Try
+    End Sub
+    
+    Private Sub FmCalcu_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Try
+            SetupGrid()
+        Catch ex As Exception
+            ' Ignore
+        End Try
+    End Sub
+    
+    Private Sub SetupGrid()
+        Try
+            FG.AllowUserToAddRows = True
+            FG.AllowUserToDeleteRows = True
+            FG.ReadOnly = False
+            
+            ' Setup columns for calculator grid
+            FG.Columns.Clear()
+            FG.Columns.Add("Col0", "#")
+            FG.Columns.Add("Col1", "Label1")
+            FG.Columns.Add("Col2", "Label2")
+            FG.Columns.Add("Col3", "Label3")
+            FG.Columns.Add("Col4", "Label4")
+            FG.Columns.Add("Col5", "Label6")
+            FG.Columns.Add("Col6", "Value1")
+            FG.Columns.Add("Col7", "Operator")
+            FG.Columns.Add("Col8", "Value2")
+            FG.Columns.Add("Col9", "Result")
+            
+            ' Auto-size columns
+            For Each col As DataGridViewColumn In FG.Columns
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            Next
+            
+            ' Set default grid size
+            If FG.Rows.Count = 0 Then
+                For i As Integer = 0 To 4
+                    FG.Rows.Add()
+                Next
+            End If
+        Catch ex As Exception
+            ' Ignore
+        End Try
+    End Sub
 
-    Private Sub Button20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button20.Click
+Private Sub Button20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button20.Click
         Calcu()
         Dim int2 As Integer
         int2 = int + 1
@@ -17,17 +86,20 @@ Public Class FmCalcu
             ListBox1.Items.Add("0" & int2 & "... (" & TextBox1.Text & ") " & TextBox4.Text & " (" & TextBox2.Text & " )" & " =  " & TextBox3.Text)
         End If
         Letter()
-        FG.Rows = FG.Rows + 1
-        FG.set_TextMatrix(FG.Rows - 1, 1, Label1.Text)
-        FG.set_TextMatrix(FG.Rows - 1, 2, Label2.Text)
-        FG.set_TextMatrix(FG.Rows - 1, 3, Label3.Text)
-        FG.set_TextMatrix(FG.Rows - 1, 4, Label6.Text)
-        FG.set_TextMatrix(FG.Rows - 1, 5, Label4.Text)
-
-        FG.set_TextMatrix(FG.Rows - 1, 6, TextBox1.Text)
-        FG.set_TextMatrix(FG.Rows - 1, 7, TextBox4.Text)
-        FG.set_TextMatrix(FG.Rows - 1, 8, TextBox2.Text)
-        FG.set_TextMatrix(FG.Rows - 1, 9, TextBox3.Text)
+        
+        ' Add new row to grid
+        Dim rowIndex As Integer = If(FG.Rows.Count > 0, FG.Rows.Count - 1, 0)
+        
+        ' Set grid values
+        SetGridValue(FG, rowIndex, 0, rowIndex + 1)
+        SetGridValue(FG, rowIndex, 1, Label1.Text)
+        SetGridValue(FG, rowIndex, 2, Label2.Text)
+        SetGridValue(FG, rowIndex, 3, Label3.Text)
+        SetGridValue(FG, rowIndex, 4, Label4.Text)
+        SetGridValue(FG, rowIndex, 5, TextBox1.Text)
+        SetGridValue(FG, rowIndex, 6, TextBox4.Text)
+        SetGridValue(FG, rowIndex, 7, TextBox2.Text)
+        SetGridValue(FG, rowIndex, 8, TextBox3.Text)
     End Sub
     Private Sub Calcu()
         If TextBox4.Text = "+" Then
@@ -116,19 +188,18 @@ Public Class FmCalcu
                 ListBox1.Items.Add(int2 & "... (" & TextBox1.Text & ") " & TextBox4.Text & " (" & TextBox2.Text & " )" & " =  " & TextBox3.Text)
             Else
                 ListBox1.Items.Add("0" & int2 & "... (" & TextBox1.Text & ") " & TextBox4.Text & " (" & TextBox2.Text & " )" & " =  " & TextBox3.Text)
-            End If
-            FG.Rows = FG.Rows + 1
-            FG.set_TextMatrix(FG.Rows - 1, 1, Label1.Text)
-            FG.set_TextMatrix(FG.Rows - 1, 2, Label2.Text)
-            FG.set_TextMatrix(FG.Rows - 1, 3, Label3.Text)
-            FG.set_TextMatrix(FG.Rows - 1, 4, Label6.Text)
-            FG.set_TextMatrix(FG.Rows - 1, 5, Label4.Text)
-
-
-            FG.set_TextMatrix(FG.Rows - 1, 6, TextBox1.Text)
-            FG.set_TextMatrix(FG.Rows - 1, 7, TextBox4.Text)
-            FG.set_TextMatrix(FG.Rows - 1, 8, TextBox2.Text)
-            FG.set_TextMatrix(FG.Rows - 1, 9, TextBox3.Text)
+End If
+            FG.Rows.Add()
+            Dim rowIndex As Integer = FG.Rows.Count - 1
+            SetGridValue(FG, rowIndex, 1, Label1.Text)
+            SetGridValue(FG, rowIndex, 2, Label2.Text)
+            SetGridValue(FG, rowIndex, 3, Label3.Text)
+            SetGridValue(FG, rowIndex, 4, Label4.Text)
+            SetGridValue(FG, rowIndex, 5, Label6.Text)
+            SetGridValue(FG, rowIndex, 6, TextBox1.Text)
+            SetGridValue(FG, rowIndex, 7, TextBox4.Text)
+            SetGridValue(FG, rowIndex, 8, TextBox2.Text)
+            SetGridValue(FG, rowIndex, 9, TextBox3.Text)
 
 
 
@@ -225,14 +296,12 @@ Public Class FmCalcu
     End Sub
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-        FG.Cols = 20
+        SetupGrid()
         Label1.Text = ""
         Label2.Text = ""
         Label3.Text = ""
         Label4.Text = ""
         Label6.Text = ""
-        FG.Rows = 1
         Button11_Click(sender, e)
     End Sub
 
@@ -248,7 +317,7 @@ Public Class FmCalcu
         TextBox1.Focus()
         Letter()
         sd = 1
-        FG.Rows = 1
+        FG.Rows.Clear()
         'Button11_Click(sender, e)
 
     End Sub
@@ -585,20 +654,25 @@ Public Class FmCalcu
     End Sub
 
     Private Sub ListBox1_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListBox1.DoubleClick
-        TextBox1.Text = FG.get_TextMatrix(CDbl(ListBox1.SelectedIndex) + 1, 6)
-        TextBox4.Text = FG.get_TextMatrix(CDbl(ListBox1.SelectedIndex) + 1, 7)
-        TextBox2.Text = FG.get_TextMatrix(CDbl(ListBox1.SelectedIndex) + 1, 8)
-        TextBox3.Text = FG.get_TextMatrix(CDbl(ListBox1.SelectedIndex) + 1, 9)
+        Dim rowIndex As Integer = ListBox1.SelectedIndex
+        If rowIndex >= 0 AndAlso rowIndex < FG.Rows.Count Then
+            TextBox1.Text = GetGridValue(FG, rowIndex, 6)
+            TextBox4.Text = GetGridValue(FG, rowIndex, 7)
+            TextBox2.Text = GetGridValue(FG, rowIndex, 8)
+            TextBox3.Text = GetGridValue(FG, rowIndex, 9)
+        End If
         TextBox1.Focus()
     End Sub
 
     Private Sub ListBox1_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles ListBox1.MouseDown
-        'MsgBox(CDbl(ListBox1.SelectedIndex) + 1)
-        Label1.Text = FG.get_TextMatrix(CDbl(ListBox1.SelectedIndex) + 1, 1)
-        Label2.Text = FG.get_TextMatrix(CDbl(ListBox1.SelectedIndex) + 1, 2)
-        Label3.Text = FG.get_TextMatrix(CDbl(ListBox1.SelectedIndex) + 1, 3)
-        Label6.Text = FG.get_TextMatrix(CDbl(ListBox1.SelectedIndex) + 1, 4)
-        Label4.Text = FG.get_TextMatrix(CDbl(ListBox1.SelectedIndex) + 1, 5)
+        Dim rowIndex As Integer = ListBox1.SelectedIndex
+        If rowIndex >= 0 AndAlso rowIndex < FG.Rows.Count Then
+            Label1.Text = GetGridValue(FG, rowIndex, 1)
+            Label2.Text = GetGridValue(FG, rowIndex, 2)
+            Label3.Text = GetGridValue(FG, rowIndex, 3)
+            Label6.Text = GetGridValue(FG, rowIndex, 4)
+            Label4.Text = GetGridValue(FG, rowIndex, 5)
+        End If
     End Sub
 
     Private Sub ListBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListBox1.SelectedIndexChanged
@@ -612,7 +686,4 @@ Public Class FmCalcu
 
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
 End Class

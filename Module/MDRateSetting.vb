@@ -1,4 +1,5 @@
-﻿Module MDRateSetting
+Imports System.Data.SqlClient
+Module MDRateSetting
     Public MDJPY, MDLAK, MDTHB, MDUSD, MDEUR, MDUSD_LAK, MDTHB_LAK, MDEUR_LAK, MDEUR_THB, MDUSD_THB, MDEUR_USD As Double
     Public MDJPY_LAK, MDJPY_THB, MDJPY_USA As Double
     'Public MD_Rate As Double
@@ -8,7 +9,6 @@
     Public StrDate As Date
     Public StrMM As Date
     Public Sub RateSetting()
-        Dim Rs As New ADODB.Recordset
 
         MD_Rate = 1
         MDLAK = 1
@@ -22,75 +22,70 @@
         MDUSD_THB = 1
         MDEUR_USD = 1
 
-        With Rs
-            Call LoadSqlData("select top 1  * from AP_Rate_history where 1=1  " & MDRate_DT & " " & SS_Curr & " " & MDR_Curr & "   ORDER BY rate_dt DESC ", Rs)
-            If .RecordCount > 0 Then
-                StrDate = Trim(.Fields("rate_dt").Value)
-                MD_Rate = (.Fields("Rate").Value)
-                MD_Rate2 = (.Fields("Rate2").Value)
-                MDLAK = Trim(.Fields("Rate").Value)
-                MDTHB = Trim(.Fields("Rate").Value)
-                MDUSD = Trim(.Fields("Rate").Value)
-                MDEUR = Trim(.Fields("Rate").Value)
-                MDUSD_LAK = (.Fields("Rate").Value)
-                MDTHB_LAK = (.Fields("Rate").Value)
-                MDEUR_LAK = (.Fields("Rate").Value)
-                MDEUR_THB = (.Fields("Rate").Value)
-                MDUSD_THB = (.Fields("Rate").Value)
-                MDEUR_USD = (.Fields("Rate").Value)
-                MDRate_Curr = Trim(.Fields("Curr").Value)
+        Try
+            Dim dt As DataTable = DbHelper.GetDataTable("select top 1  * from AP_Rate_history where 1=1  " & MDRate_DT & " " & SS_Curr & " " & MDR_Curr & "   ORDER BY rate_dt DESC ")
+            If dt.Rows.Count > 0 Then
+                Dim row As DataRow = dt.Rows(0)
+                StrDate = Trim(row("rate_dt").ToString())
+                MD_Rate = Convert.ToDouble(row("Rate"))
+                MD_Rate2 = Convert.ToDouble(row("Rate2"))
+                MDLAK = Convert.ToDouble(row("Rate"))
+                MDTHB = Convert.ToDouble(row("Rate"))
+                MDUSD = Convert.ToDouble(row("Rate"))
+                MDEUR = Convert.ToDouble(row("Rate"))
+                MDUSD_LAK = Convert.ToDouble(row("Rate"))
+                MDTHB_LAK = Convert.ToDouble(row("Rate"))
+                MDEUR_LAK = Convert.ToDouble(row("Rate"))
+                MDEUR_THB = Convert.ToDouble(row("Rate"))
+                MDUSD_THB = Convert.ToDouble(row("Rate"))
+                MDEUR_USD = Convert.ToDouble(row("Rate"))
+                MDRate_Curr = Trim(row("Curr").ToString())
 
             Else
                 MD_Rate = 1
-                Call LoadSqlData("select * from AP_Rate_history where com_id='00'  ORDER BY rate_dt DESC ", Rs)
-                If Rs.RecordCount > 0 Then
-
-                    MD_Rate = (.Fields("Rate").Value)
-                    MD_Rate2 = (.Fields("Rate2").Value)
-                    'Call LoadRs("select * from AP_Rate WHERE status=1", Rs)
-                    MDLAK = Trim(.Fields("Rate").Value.ToString)
-                    MDTHB = Trim(.Fields("Rate").Value)
-                    MDUSD = Trim(.Fields("Rate").Value)
-                    MDEUR = Trim(.Fields("Rate").Value)
-                    MDUSD_LAK = (.Fields("Rate").Value)
-                    MDTHB_LAK = (.Fields("Rate").Value)
-                    MDEUR_LAK = (.Fields("Rate").Value)
-                    MDEUR_THB = (.Fields("Rate").Value)
-                    MDUSD_THB = (.Fields("Rate").Value)
-                    MDEUR_USD = (.Fields("Rate").Value)
-                    MDRate_Curr = Trim(.Fields("Curr").Value)
-
+                Dim dt2 As DataTable = DbHelper.GetDataTable("select * from AP_Rate_history where com_id='00'  ORDER BY rate_dt DESC ")
+                If dt2.Rows.Count > 0 Then
+                    Dim row As DataRow = dt2.Rows(0)
+                    MD_Rate = Convert.ToDouble(row("Rate"))
+                    MD_Rate2 = Convert.ToDouble(row("Rate2"))
+                    MDLAK = Convert.ToDouble(row("Rate"))
+                    MDTHB = Convert.ToDouble(row("Rate"))
+                    MDUSD = Convert.ToDouble(row("Rate"))
+                    MDEUR = Convert.ToDouble(row("Rate"))
+                    MDUSD_LAK = Convert.ToDouble(row("Rate"))
+                    MDTHB_LAK = Convert.ToDouble(row("Rate"))
+                    MDEUR_LAK = Convert.ToDouble(row("Rate"))
+                    MDEUR_THB = Convert.ToDouble(row("Rate"))
+                    MDUSD_THB = Convert.ToDouble(row("Rate"))
+                    MDEUR_USD = Convert.ToDouble(row("Rate"))
+                    MDRate_Curr = Trim(row("Curr").ToString())
                 End If
-
             End If
-        End With
+        Catch ex As Exception
+            VSysError = True
+            MessageBox.Show("Database Error in RateSetting: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
         '==============================================
 
-        Dim Rss As New ADODB.Recordset
-        With Rss
+        Dim dtUSD As DataTable = DbHelper.GetDataTable("select top 1  * from AP_Rate_history where 1=1  " & MDRate_DT & "  and curr='USD' ORDER BY rate_dt DESC ")
+        If dtUSD.Rows.Count > 0 Then
+            MDUSD_LAK = Convert.ToDouble(Trim(dtUSD.Rows(0)("Rate").ToString()))
 
-
-            Call LoadSqlData("select top 1  * from AP_Rate_history where 1=1  " & MDRate_DT & "  and curr='USD' ORDER BY rate_dt DESC ", Rss)
-            If .RecordCount > 0 Then
-                MDUSD_LAK = Trim(.Fields("Rate").Value)
-
-            Else
-                MDUSD_LAK = 1
-            End If
-        End With
+        Else
+            MDUSD_LAK = 1
+        End If
 
         'If MDUSD_LAK = 0 Then
         '    MDUSD_LAK = 8000
         'End If
     End Sub
     Public Sub RateSetting1()
-        Dim Rs As New ADODB.Recordset
-        With Rs
-            Call LoadSqlData("select * from APListCurrency ORDER BY TimeUpdate DESC ", Rs)
-            If .RecordCount > 0 Then
-                StrDate = Trim(.Fields("TimeUpdate").Value)
-                MDUSD_LAK1 = Trim(.Fields("Rate_LAK").Value)
-                .MoveNext()
+        Try
+            Dim dt As DataTable = DbHelper.GetDataTable("select * from APListCurrency ORDER BY TimeUpdate DESC ")
+            If dt.Rows.Count > 0 Then
+                Dim row As DataRow = dt.Rows(0)
+                StrDate = Trim(row("TimeUpdate").ToString())
+                MDUSD_LAK1 = Convert.ToDouble(row("Rate_LAK"))
             Else
                 '            Call LoadRs("select * from AP_Rate WHERE status=1", Rs)
                 '            MDLAK = Trim(.Fields("LAK").Value)
@@ -110,6 +105,9 @@
                 '            MDRate_Curr = Trim(.Fields("Curr").Value)
                 '            .MoveNext()
             End If
-        End With
+        Catch ex As Exception
+            VSysError = True
+            MessageBox.Show("Database Error in RateSetting1: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 End Module

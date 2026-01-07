@@ -1,4 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
+Imports MySql.Data.MySqlClient
 Imports System.Configuration
 Imports System.Data.SqlClient
 Imports System.Net
@@ -28,6 +28,48 @@ Public Class FmJeneralJournal_List
     Dim Amount_In_Word As String
     Dim MDUPASET As String
     Dim MDUPASETAMT As Double = 0
+
+    ' DataGridView Helper Methods
+    Private Function GetGridValue(ByVal grid As DataGridView, ByVal row As Integer, ByVal col As Integer) As String
+        If row >= 0 AndAlso row < grid.RowCount AndAlso col >= 0 AndAlso col < grid.ColumnCount Then
+            If grid.Rows(row).Cells(col).Value IsNot Nothing Then
+                Return grid.Rows(row).Cells(col).Value.ToString()
+            End If
+        End If
+        Return ""
+    End Function
+
+    Private Sub SetGridValue(ByVal grid As DataGridView, ByVal row As Integer, ByVal col As Integer, ByVal value As String)
+        If row >= 0 AndAlso row < grid.RowCount AndAlso col >= 0 AndAlso col < grid.ColumnCount Then
+            grid.Rows(row).Cells(col).Value = value
+        End If
+    End Sub
+
+    Private Sub SetupGrid()
+        ' Clear existing columns
+        FG.Columns.Clear()
+
+        ' Add columns based on FormatString from original code
+        FG.Columns.Add("Col0", "ລ/ດ")
+        FG.Columns.Add("Col1", "ວດ")
+        FG.Columns.Add("Col2", "ວັນ")
+        FG.Columns.Add("Col3", "ປະຈຳວັນ")
+        FG.Columns.Add("Col4", "ວັນ")
+        FG.Columns.Add("Col5", "ລະຫັດ")
+        FG.Columns.Add("Col6", "ວັນ")
+        FG.Columns.Add("Col7", "ວັນ")
+        FG.Columns.Add("Col8", "ວັນ")
+        FG.Columns.Add("Col9", "ວັນ")
+        FG.Columns.Add("Col10", "ວັນ")
+        FG.Columns.Add("Col11", "ວັນ")
+        FG.Columns.Add("Col12", "ວັນ")
+        FG.Columns.Add("Col13", "ວັນ")
+
+        ' Set column properties
+        For i As Integer = 0 To FG.Columns.Count - 1
+            FG.Columns(i).AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
+        Next
+    End Sub
     Private Sub BntNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BntNew.Click
         Panel4.Visible = False
         FmNsewJeneralJournal.txtInvoice.Enabled = True
@@ -444,13 +486,10 @@ Public Class FmJeneralJournal_List
     End Sub
     Private Sub loadOffice_User()
         Off_Usr.Items.Clear()
-        LoadSqlData("select sub_id , off_add2  from  Ap_office  Order by sub_id", RSC)
-        With RSC
-            Do Until .EOF = True
-                Off_Usr.Items.Add((.Fields("sub_id").Value) & " " & (.Fields("off_add2").Value))
-                .MoveNext()
-            Loop
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("select sub_id , off_add2  from  Ap_office  Order by sub_id")
+        For Each row As DataRow In dt.Rows
+            Off_Usr.Items.Add((DbHelper.GetStr(row("sub_id"))) & " " & DbHelper.GetStr(row("off_add2")))
+        Next
         Off_Usr.Text = FmLogin.Sub_Company.Text
     End Sub
 
@@ -460,13 +499,10 @@ Public Class FmJeneralJournal_List
     Private Sub loadCompany()
 
         cmbCompany.Items.Clear()
-        LoadSqlData("select off_add1 , off_id  from  Ap_office group BY off_id , off_add1", RSC)
-        With RSC
-            Do Until .EOF = True
-                cmbCompany.Items.Add((.Fields("off_id").Value) & " " & (.Fields("off_add1").Value))
-                .MoveNext()
-            Loop
-        End With
+        Dim dt2 As DataTable = DbHelper.GetDataTable("select off_add1 , off_id  from  Ap_office group BY off_id , off_add1")
+        For Each row As DataRow In dt2.Rows
+            cmbCompany.Items.Add((DbHelper.GetStr(row("off_id"))) & " " & DbHelper.GetStr(row("off_add1")))
+        Next
         CmbCompany.SelectedIndex = FmLogin.cmbCompany.SelectedIndex
         If MPermit = "User" Then
             CmbCompany.Enabled = False
@@ -517,41 +553,42 @@ Public Class FmJeneralJournal_List
 
 
     Private Sub FmJeneralJournal_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetupGrid()
 
-        CNN.Execute("   update gen_jn set Rate_USD=rate where curr='USD' and Rate_USD is null ")
-        CNN.Execute("  update gen_jn set Rate_USD=0 where   Rate_USD is null ")
-        CNN.Execute("  update gen_jn set amt_USD_Dr=amount_dr  where curr='USD' and (amt_USD_Dr=0 or amt_USD_Dr is null) ")
-        CNN.Execute("  update gen_jn set amt_USD_cr= amount_Cr   where curr='USD'  and (amt_USD_cr=0 or amt_USD_cr is null) ")
-        CNN.Execute("  update gen_jn set amt_USD_Dr= amt_dr/Rate_USD  where curr='LAK' and Rate_USD<>0")
-        CNN.Execute("  update gen_jn set amt_USD_cr= amt_cr/Rate_USD    where curr='LAK'  and Rate_USD<>0")
+        DbHelper.ExecuteNonQuery("   update gen_jn set Rate_USD=rate where curr='USD' and Rate_USD is null ")
+        DbHelper.ExecuteNonQuery("  update gen_jn set Rate_USD=0 where   Rate_USD is null ")
+        DbHelper.ExecuteNonQuery("  update gen_jn set amt_USD_Dr=amount_dr  where curr='USD' and (amt_USD_Dr=0 or amt_USD_Dr is null) ")
+        DbHelper.ExecuteNonQuery("  update gen_jn set amt_USD_cr= amount_Cr   where curr='USD'  and (amt_USD_cr=0 or amt_USD_cr is null) ")
+        DbHelper.ExecuteNonQuery("  update gen_jn set amt_USD_Dr= amt_dr/Rate_USD  where curr='LAK' and Rate_USD<>0")
+        DbHelper.ExecuteNonQuery("  update gen_jn set amt_USD_cr= amt_cr/Rate_USD    where curr='LAK'  and Rate_USD<>0")
         '==============OPEN=====
-        CNN.Execute("   update Open_jn set Rate_USD=rate where curr='USD' and Rate_USD is null ")
-        CNN.Execute("  update Open_jn set Rate_USD=0 where   Rate_USD is null ")
-        CNN.Execute("  update Open_jn set amt_USD_Dr=amount_dr  where curr='USD' and (amt_USD_Dr=0 or amt_USD_Dr is null) ")
-        CNN.Execute("  update Open_jn set amt_USD_cr= amount_Cr   where curr='USD'  and (amt_USD_cr=0 or amt_USD_cr is null) ")
-        CNN.Execute("  update Open_jn set amt_USD_Dr= amt_dr/Rate_USD  where curr='LAK' and Rate_USD<>0")
-        CNN.Execute("  update Open_jn set amt_USD_cr= amt_cr/Rate_USD    where curr='LAK'  and Rate_USD<>0")
+        DbHelper.ExecuteNonQuery("   update Open_jn set Rate_USD=rate where curr='USD' and Rate_USD is null ")
+        DbHelper.ExecuteNonQuery("  update Open_jn set Rate_USD=0 where   Rate_USD is null ")
+        DbHelper.ExecuteNonQuery("  update Open_jn set amt_USD_Dr=amount_dr  where curr='USD' and (amt_USD_Dr=0 or amt_USD_Dr is null) ")
+        DbHelper.ExecuteNonQuery("  update Open_jn set amt_USD_cr= amount_Cr   where curr='USD'  and (amt_USD_cr=0 or amt_USD_cr is null) ")
+        DbHelper.ExecuteNonQuery("  update Open_jn set amt_USD_Dr= amt_dr/Rate_USD  where curr='LAK' and Rate_USD<>0")
+        DbHelper.ExecuteNonQuery("  update Open_jn set amt_USD_cr= amt_cr/Rate_USD    where curr='LAK'  and Rate_USD<>0")
         '==============Adjust=====
-        CNN.Execute("   update AP_ACC_adjust_Item set Rate_USD=rate where curr='USD' and Rate_USD is null ")
-        CNN.Execute("  update AP_ACC_adjust_Item set Rate_USD=0 where   Rate_USD is null ")
-        CNN.Execute("  update AP_ACC_adjust_Item set amt_USD_Dr=amount_dr  where curr='USD' and (amt_USD_Dr=0 or amt_USD_Dr is null) ")
-        CNN.Execute("  update AP_ACC_adjust_Item set amt_USD_cr= amount_Cr   where curr='USD'  and (amt_USD_cr=0 or amt_USD_cr is null) ")
+        DbHelper.ExecuteNonQuery("   update AP_ACC_adjust_Item set Rate_USD=rate where curr='USD' and Rate_USD is null ")
+        DbHelper.ExecuteNonQuery("  update AP_ACC_adjust_Item set Rate_USD=0 where   Rate_USD is null ")
+        DbHelper.ExecuteNonQuery("  update AP_ACC_adjust_Item set amt_USD_Dr=amount_dr  where curr='USD' and (amt_USD_Dr=0 or amt_USD_Dr is null) ")
+        DbHelper.ExecuteNonQuery("  update AP_ACC_adjust_Item set amt_USD_cr= amount_Cr   where curr='USD'  and (amt_USD_cr=0 or amt_USD_cr is null) ")
 
-        CNN.Execute("  update AP_ACC_adjust_Item set amt_USD_Dr= amt_dr/Rate_USD  where curr='LAK' and Rate_USD<>0")
-        CNN.Execute("  update AP_ACC_adjust_Item set amt_USD_cr= amt_cr/Rate_USD    where curr='LAK'  and Rate_USD<>0")
+        DbHelper.ExecuteNonQuery("  update AP_ACC_adjust_Item set amt_USD_Dr= amt_dr/Rate_USD  where curr='LAK' and Rate_USD<>0")
+        DbHelper.ExecuteNonQuery("  update AP_ACC_adjust_Item set amt_USD_cr= amt_cr/Rate_USD    where curr='LAK'  and Rate_USD<>0")
 
 
-        CNN.Execute("update gen_jn set gen_jn.ac_name=Acc_Code.name_L,gen_jn.ac_namee=Acc_Code.name_E from Acc_Code,gen_jn where gen_jn.Ac_Code=Acc_Code.Ac_Code and  gen_jn.ac_name is null ")
+        DbHelper.ExecuteNonQuery("update gen_jn set gen_jn.ac_name=Acc_Code.name_L,gen_jn.ac_namee=Acc_Code.name_E from Acc_Code,gen_jn where gen_jn.Ac_Code=Acc_Code.Ac_Code and  gen_jn.ac_name is null ")
         certify.Checked = True
         MDESC.Checked = False
-        FG.BackColorBkg = Color.White
+        FG.BackgroundColor = Color.White
         SetControlText(Me)
         Call loadCompany()
         LoadSubCompany()
         Off_Usr.Text = FmLogin.Sub_Company.Text
-        FG.GridColor = Color.RoyalBlue
-        FG.ForeColorFixed = Color.Blue
-        FG.BackColorFixed = Color.LightGray
+        ' FG.GridColor - property not available in DataGridView = Color.RoyalBlue
+        ' FG.ForeColorFixed - property not available in DataGridView
+        ' FG.BackColorFixed - property not available in DataGridView
         'Me.FG.Size = New System.Drawing.Size(20, 32)
         'FG.Anchor = AnchorStyles.Left
         'FG.Anchor = AnchorStyles.Top
@@ -563,17 +600,17 @@ Public Class FmJeneralJournal_List
         Nme.Visible = True
         'RadioButton14.Checked = True
         'LoadMonthSQL()
-        FG.Rows = 1
+        FG.CurrentRow.Indexs = 1
 
         'LoadBooks()
-        FG.Rows = 2
+        FG.CurrentRow.Indexs = 2
         'CntNB = "certify , cnt"
         'SQL = " AND month(gen_jn.date_work   ) BETWEEN '" & "11" & "' AND '" & "11" & "' AND year(gen_jn.date_work )='" & 2010 & "' AND gen_jn.Company='" & MuSubOff & "' " & SR & " "
         'Load_M()
-        'FG.Rows = 13
+        'FG.CurrentRow.Indexs = 13
         'Panel1.Anchor = AnchorStyles.Bottom And AnchorStyles.Left
-        FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
-        FG.ExtendLastCol = True
+' FG.AllowUserResizing - property not available in DataGridView
+        ' FG.ExtendLastCol - property not available in DataGridView
         MDInvoiceNo = ""
         'FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
         'FormOpening2()
@@ -582,50 +619,45 @@ Public Class FmJeneralJournal_List
         date_work.Text = "ວັນທີ"
     End Sub
     Private Sub LoadBooks()
-        Dim rst As New ADODB.Recordset
         ComboBox1.Items.Clear()
-        Comm = New ADODB.Command
-        Comm.ActiveConnection = CNN
-        Comm.CommandText = "SELECT * FROM books WHERE bookid <> N'" & "" & "'"
-        rst = Comm.Execute
-
-        If rst.RecordCount <> 0 Then
-            ComboBox1.Items.Add("<All>  ທັງໝົດ (All books)")
-            While Not rst.EOF()
-                ComboBox1.Items.Add(Trim(rst.Fields("bookid").Value))
-                rst.MoveNext()
-            End While
-            ComboBox1.Text = "<All>  ທັງໝົດ (All books)"
-        End If
+        Try
+            Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM books WHERE bookid <> N'" & "" & "'")
+            If dt.Rows.Count <> 0 Then
+                ComboBox1.Items.Add("<All>  ທັງໝົດ (All books)")
+                For Each row As DataRow In dt.Rows
+                    ComboBox1.Items.Add(Trim(row("bookid").ToString()))
+                Next
+                ComboBox1.Text = "<All>  ທັງໝົດ (All books)"
+            End If
+        Catch ex As Exception
+            VSysError = True
+            MessageBox.Show("Database Error in LoadBooks: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
     Private Sub LoadsLurr()
-        Dim rst As New ADODB.Recordset
         ComboBox1.Items.Clear()
-        Comm = New ADODB.Command
-        Comm.ActiveConnection = CNN
-        Comm.CommandText = "SELECT curr FROM Ap_RateSeting WHERE curr <> N'" & "" & "'"
-        rst = Comm.Execute
-
-        If rst.RecordCount <> 0 Then
-            ComboBox1.Items.Add("<All>  ທັງໝົດ")
-            While Not rst.EOF()
-                ComboBox1.Items.Add(Trim(rst.Fields("curr").Value))
-                rst.MoveNext()
-            End While
-            ComboBox1.Text = "<All>  ທັງໝົດ"
-        End If
+        Try
+            Dim dt As DataTable = DbHelper.GetDataTable("SELECT curr FROM Ap_RateSeting WHERE curr <> N'" & "" & "'")
+            If dt.Rows.Count <> 0 Then
+                ComboBox1.Items.Add("<All>  ທັງໝົດ")
+                For Each row As DataRow In dt.Rows
+                    ComboBox1.Items.Add(Trim(row("curr").ToString()))
+                Next
+                ComboBox1.Text = "<All>  ທັງໝົດ"
+            End If
+        Catch ex As Exception
+            VSysError = True
+            MessageBox.Show("Database Error in LoadsLurr: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 
     Private Sub ComboBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         txtBook.Text = ""
-        LoadSqlData("SELECT * FROM books WHERE bookname  = N'" & ComboBox1.Text & "'", RSC)
-        With RSC
-            Do Until .EOF = True
-                txtBook.Text = Trim(.Fields("bookid").Value)
-                .MoveNext()
-            Loop
-        End With
+        Dim dtBook As DataTable = DbHelper.GetDataTable("SELECT * FROM books WHERE bookname  = N'" & ComboBox1.Text & "'")
+        If dtBook.Rows.Count > 0 Then
+            txtBook.Text = Trim(dtBook.Rows(0)("bookid").ToString())
+        End If
         If ComboBox1.Text = "" Then
             txtBook.Text = "All"
         End If
@@ -646,59 +678,61 @@ Public Class FmJeneralJournal_List
         End If
         txtDescrip.Text = ""
         txtAc_Code.Text = ""
-        txtAc_Code.Text = FG.get_TextMatrix(FG.Row, 4)
-        txtCurr.Text = FG.get_TextMatrix(FG.Row, 9)
-        Dim str As String = ", Amount = " & FG.get_TextMatrix(FG.Row, 4) & ": " & FG.get_TextMatrix(FG.Row, 9)
+        txtAc_Code.Text = GetGridValue(FG, FG.CurrentRow.Index, 4)
+        txtCurr.Text = GetGridValue(FG, FG.CurrentRow.Index, 9)
+        Dim str As String = ", Amount = " & GetGridValue(FG, FG.CurrentRow.Index, 4) & ": " & GetGridValue(FG, FG.CurrentRow.Index, 9)
         If MuLng = "L" Then
 
-            LoadSqlData("SELECT AG  , descrip     FROM gen_jn WHERE cnt = '" & FG.get_TextMatrix(FG.Row, 13) & "' " & MULook2 & "  order by cnt", RSC)
-            If RSC.RecordCount <> 0 Then
-                AG = Trim(RSC.Fields("AG").Value)
-                txtDescrip.Text = Trim(RSC.Fields("descrip").Value) & ", ມູນຄ່າ: " & FG.get_TextMatrix(FG.Row, 5) & ": " & FG.get_TextMatrix(FG.Row, 9)
+            Dim dt3 As DataTable = DbHelper.GetDataTable("SELECT AG  , descrip     FROM gen_jn WHERE cnt = '" & GetGridValue(FG, FG.CurrentRow.Index, 13) & "' " & MULook2 & "  order by cnt")
+            If dt3.Rows.Count <> 0 Then
+                AG = Trim(DbHelper.GetStr(dt3.Rows(0)("AG")))
+                txtDescrip.Text = Trim(DbHelper.GetStr(dt3.Rows(0)("descrip"))) & ", ມູນຄ່າ: " & GetGridValue(FG, FG.CurrentRow.Index, 5) & ": " & GetGridValue(FG, FG.CurrentRow.Index, 9)
             End If
-            LoadSqlData("SELECT   Name_L  FROM Acc_Code WHERE Ac_Code = '" & txtAc_Code.Text & "'", RSC)
-            If RSC.RecordCount <> 0 Then
-
-                Ac_Name.Text = Trim(RSC.Fields("Name_L").Value)
+            Dim dt4 As DataTable = DbHelper.GetDataTable("SELECT   Name_L  FROM Acc_Code WHERE Ac_Code = '" & txtAc_Code.Text & "'")
+            If dt4.Rows.Count <> 0 Then
+                Ac_Name.Text = Trim(DbHelper.GetStr(dt4.Rows(0)("Name_L")))
                 'x = Ac_Name.Text
                 'MsgBox(x)
             End If
 
             '========================
         Else
-            LoadSqlData("SELECT AG  , descripe    FROM gen_jn WHERE cnt = '" & FG.get_TextMatrix(FG.Row, 13) & "' " & MULook2 & "  order by cnt", RSC)
-            If RSC.RecordCount <> 0 Then
-
-                AG = Trim(RSC.Fields("AG").Value)
-                txtDescrip.Text = Trim(RSC.Fields("descripe").Value) & ", Amount: " & FG.get_TextMatrix(FG.Row, 5) & ": " & FG.get_TextMatrix(FG.Row, 9)
+            Dim dt5 As DataTable = DbHelper.GetDataTable("SELECT AG  , descripe    FROM gen_jn WHERE cnt = '" & GetGridValue(FG, FG.CurrentRow.Index, 13) & "' " & MULook2 & "  order by cnt")
+            If dt5.Rows.Count <> 0 Then
+                AG = Trim(DbHelper.GetStr(dt5.Rows(0)("AG")))
+                txtDescrip.Text = Trim(DbHelper.GetStr(dt5.Rows(0)("descripe"))) & ", Amount: " & GetGridValue(FG, FG.CurrentRow.Index, 5) & ": " & GetGridValue(FG, FG.CurrentRow.Index, 9)
             End If
-            LoadSqlData("SELECT   Name_E FROM Acc_Code WHERE Ac_Code = '" & txtAc_Code.Text & "'", RSC)
-            If RSC.RecordCount <> 0 Then
-                Ac_Name.Text = Trim(RSC.Fields("Name_E").Value)
+            Dim dt6 As DataTable = DbHelper.GetDataTable("SELECT   Name_E FROM Acc_Code WHERE Ac_Code = '" & txtAc_Code.Text & "'")
+            If dt6.Rows.Count <> 0 Then
+                Ac_Name.Text = Trim(DbHelper.GetStr(dt6.Rows(0)("Name_E")))
                 'x = Ac_Name.Text
             End If
         End If
 
-        Dim RSC1 As New ADODB.Recordset
-        Dim s As String = "SELECT sum(Amt_dr) as Amt_dr   , sum(Amt_cr) as Amt_cr    FROM gen_jn WHERE ac_code = '" & txtAc_Code.Text & "' and gen_jn.date_work BETWEEN '" & Format(dts.Value, "yyyy-MM-dd") & "' AND '" & Format(dtt.Value, "yyyy-MM-dd") & "'   " & MULook2 & "  "
-        LoadSqlData(s, RSC1)
-        If RSC1.RecordCount <> 0 Then
-            SumDr.Text = Format(CDbl(Trim(RSC1.Fields("Amt_dr").Value)), "#,##0.00")
-            SumCr.Text = Format(CDbl(Trim(RSC1.Fields("Amt_cr").Value)), "#,##0.00")
-        End If
+        ' Dim RSC1 As New ADODB.Recordset ' REMOVED - ADODB migration
+        Try
+            Dim s As String = "SELECT sum(Amt_dr) as Amt_dr   , sum(Amt_cr) as Amt_cr    FROM gen_jn WHERE ac_code = '" & txtAc_Code.Text & "' and gen_jn.date_work BETWEEN '" & Format(dts.Value, "yyyy-MM-dd") & "' AND '" & Format(dtt.Value, "yyyy-MM-dd") & "'   " & MULook2 & "  "
+            Dim dt1 As DataTable = DbHelper.GetDataTable(s)
+            If dt1.Rows.Count <> 0 Then
+                SumDr.Text = Format(CDbl(dt1.Rows(0)("Amt_dr").ToString()), "#,##0.00")
+                SumCr.Text = Format(CDbl(dt1.Rows(0)("Amt_cr").ToString()), "#,##0.00")
+            End If
 
-        LoadSqlData("select  amount_dr , amount_cr from Open_jn where ac_code='" & txtAc_Code.Text & "'   and  year(Date_work)= '" & Format(CDate(dts.Value), "yyyy") & "'  " & MULook2 & "   ", RSC)
-        Op = 0
-        If RSC.RecordCount <> 0 Then
-            Op = CDbl(Trim(RSC.Fields("amount_dr").Value)) - CDbl(Trim(RSC.Fields("amount_cr").Value))
-        End If
-        Dim dss As Date
-        dss = DateAdd(DateInterval.Day, -1, dts.Value)
-        Dim RSC2 As New ADODB.Recordset
-        LoadSqlData("select SUM(amount_dr) AS amount_dr ,SUM(amount_cr) AS amount_cr from Gen_jn where ac_code=N'" & txtAc_Code.Text & "'  And gen_jn.date_work   BETWEEN '" & "1-1-" & Format(dts.Value, "yyyy") & "' AND '" & Format(dss, "yyyy-MM-dd") & "' " & MULook2 & " group by ac_code ", RSC2)
-        If RSC2.RecordCount <> 0 Then
-            Op = Op + CDbl(CDbl(Trim(RSC2.Fields("amount_dr").Value)) - CDbl(Trim(RSC2.Fields("amount_Cr").Value)))
-        End If
+            Dim dtOpen As DataTable = DbHelper.GetDataTable("select  amount_dr , amount_cr from Open_jn where ac_code='" & txtAc_Code.Text & "'   and  year(Date_work)= '" & Format(CDate(dts.Value), "yyyy") & "'  " & MULook2 & "   ")
+            Op = 0
+            If dtOpen.Rows.Count <> 0 Then
+                Op = CDbl(dtOpen.Rows(0)("amount_dr").ToString()) - CDbl(dtOpen.Rows(0)("amount_cr").ToString())
+            End If
+            Dim dss As Date
+            dss = DateAdd(DateInterval.Day, -1, dts.Value)
+            Dim dt2 As DataTable = DbHelper.GetDataTable("select SUM(amount_dr) AS amount_dr ,SUM(amount_cr) AS amount_cr from Gen_jn where ac_code=N'" & txtAc_Code.Text & "'  And gen_jn.date_work   BETWEEN '" & "1-1-" & Format(dts.Value, "yyyy") & "' AND '" & Format(dss, "yyyy-MM-dd") & "' " & MULook2 & " group by ac_code ")
+            If dt2.Rows.Count <> 0 Then
+                Op = Op + CDbl(CDbl(dt2.Rows(0)("amount_dr").ToString()) - CDbl(dt2.Rows(0)("amount_Cr").ToString()))
+            End If
+        Catch ex As Exception
+            VSysError = True
+            MessageBox.Show("Database Error: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
         If Op >= 0 Then
             Open_jn.ForeColor = Color.Black
@@ -715,11 +749,11 @@ Public Class FmJeneralJournal_List
         TotalCr.Text = "0.00"
         Balance.Text = "0.00"
         Dim s As String = "SELECT sum(Amt_dr) as Amt_dr , sum(Amt_cr) as Amt_cr   FROM gen_jn WHERE gen_jn.date_work BETWEEN '" & Format(dts.Value, "yyyy-MM-dd") & "' AND '" & Format(dtt.Value, "yyyy-MM-dd") & "'   " & MULook2 & "  "
-        LoadSqlData(s, RSC)
+        Dim dtTemp As DataTable = DbHelper.GetDataTable(s)
 
-        If RSC.RecordCount <> 0 Then
-            TotalDr.Text = (Trim(RSC.Fields("Amt_cr").Value.ToString))
-            TotalCr.Text = (Trim(RSC.Fields("Amt_cr").Value.ToString))
+        If dtTemp.Rows.Count <> 0 Then
+            TotalDr.Text = DbHelper.GetStr(dtTemp.Rows(0)("Amt_dr"))
+            TotalCr.Text = DbHelper.GetStr(dtTemp.Rows(0)("Amt_cr"))
         End If
         If TotalDr.Text = "" Then
             TotalDr.Text = "0.00"
@@ -812,11 +846,11 @@ Public Class FmJeneralJournal_List
     End Sub
 
     Private Sub FG_ClickEvent(ByVal sender As Object, ByVal e As System.EventArgs)
-        LockData = FG.get_TextMatrix(FG.Row, 13)
-        If FG.get_TextMatrix(FG.Row, 14) = 1 Then
+        LockData = GetGridValue(FG, FG.CurrentRow.Index, 13)
+        If GetGridValue(FG, FG.CurrentRow.Index, 14) = 1 Then
             Button1.Text = "ປົດລອກ"
         End If
-        If FG.get_TextMatrix(FG.Row, 14) = 0 Then
+        If GetGridValue(FG, FG.CurrentRow.Index, 14) = 0 Then
             Button1.Text = "ລອກຂໍ້ມູນ"
         End If
 
@@ -858,8 +892,9 @@ Public Class FmJeneralJournal_List
             MsgBox("ບັນຊີນີ້ໄດ້ປິດບັນຊີໄປແລ້ວກບໍ່ສາມາດແກ້ໄຂໄດ້")
             Exit Sub
         End If
-        Call LoadSqlData("SELECT * FROM gen_jn where certify=N'" & MDInvoiceNo & "' and My_Lock=1 ", RSC)
-        If RSC.RecordCount <> 0 Then
+
+        Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT * FROM gen_jn where certify=N'" & MDInvoiceNo & "' and My_Lock=1 ")
+        If dtTemp.Rows.Count <> 0 Then
             MsgBox("ລາຍການນີ້ບໍ່ສາມາດແກ້ໄຂໄດ້", MsgBoxStyle.Exclamation)
             Exit Sub
         End If
@@ -894,18 +929,18 @@ Public Class FmJeneralJournal_List
 
         If MessageBox.Show("ທ່ານຕ້ອງການລຶບ  " & MDInvoiceNo & " ຫລືບໍ່?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
 
-            'CNN.Execute("delete gen_jn where certify =N'" & MDInvoiceNo & "' And   date_work='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy-MM-dd") & "' ")
-            CNN.Execute("delete gen_jn where certify =N'" & MDInvoiceNo & "' and  ReferNO =N'" & MDInvoice_RefNo & "'   And   date_work='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy-MM-dd") & "' ")
+            'DbHelper.ExecuteNonQuery("delete gen_jn where certify =N'" & MDInvoiceNo & "' And   date_work='" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy-MM-dd") & "' ")
+            DbHelper.ExecuteNonQuery("delete gen_jn where certify =N'" & MDInvoiceNo & "' and  ReferNO =N'" & MDInvoice_RefNo & "'   And   date_work='" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy-MM-dd") & "' ")
 
-            CNN.Execute("update Adjustment_List set  Remain=Remain+ " & CDbl(MDUPASETAMT) & "  where Code=N'" & Trim(MDUPASET) & "' ")
+            DbHelper.ExecuteNonQuery("update Adjustment_List set  Remain=Remain+ " & CDbl(MDUPASETAMT) & "  where Code=N'" & Trim(MDUPASET) & "' ")
 
         End If
         MDInvoiceNo = ""
         LoadMonthSQL()
     End Sub
 
-    Private Sub FG_AfterRowColChange(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterRowColChangeEvent) Handles FG.AfterRowColChange
-        If FG.Rows > 7 Then
+    Private Sub FG_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles FG.SelectionChanged
+        If FG.CurrentRow.Indexs > 7 Then
             LngId = "8008" : CallLngStr()
             FG.FormatString = LngStr
         Else
@@ -914,19 +949,19 @@ Public Class FmJeneralJournal_List
         End If
     End Sub
 
-    Private Sub FG_AfterScroll(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterScrollEvent) Handles FG.AfterScroll
+    Private Sub FG_Scroll(ByVal sender As Object, ByVal e As ScrollEventArgs) Handles FG.Scroll
         BtnSearch.Visible = False
     End Sub
 
-    Private Sub FG_ClickEvent1(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.ClickEvent
-        MDInvoiceDT = FG.get_TextMatrix(FG.Row, 1)
-        MDInvoiceNo = FG.get_TextMatrix(FG.Row, 2)
+    Private Sub FG_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG.CellClick
+        MDInvoiceDT = GetGridValue(FG, FG.CurrentRow.Index, 1)
+        MDInvoiceNo = GetGridValue(FG, FG.CurrentRow.Index, 2)
         'Call Load_Gen_Jn()
 
-        'MessageBox.Show(FG.get_TextMatrix(FG.Row, 2))
+        'MessageBox.Show(GetGridValue(FG, FG.CurrentRow.Index, 2))
     End Sub
 
-    Private Sub FG_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.DblClick
+    Private Sub FG_CellDoubleClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG.CellDoubleClick
         If MDInvoiceNo <> "" Then
             FmNsewJeneralJournal.txtInvoice.Enabled = False
             FmNsewJeneralJournal.CmbBook.Enabled = False
@@ -938,18 +973,18 @@ Public Class FmJeneralJournal_List
     End Sub
 
     Private Sub AssetUP()
-        Call LoadSqlData("SELECT * FROM gen_jn where certify=N'" & MDInvoiceNo & "' and My_Lock=1 ", RSC)
-        If RSC.RecordCount <> 0 Then
-            MDUPASET = Trim(RSC.Fields("Referno_Item").Value.ToString)
-            MDUPASETAMT = Format(CDbl(RSC.Fields("amount").Value), "#,##0.00")
+        Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT * FROM gen_jn where certify=N'" & MDInvoiceNo & "' and My_Lock=1 ")
+        If dtTemp.Rows.Count <> 0 Then
+            MDUPASET = DbHelper.GetStr(dtTemp.Rows(0)("Referno_Item"))
+            MDUPASETAMT = Format(CDbl(DbHelper.GetStr(dtTemp.Rows(0)("amount"))), "#,##0.00")
         Else
             MDUPASET = ""
             MDUPASETAMT = 0
         End If
     End Sub
-    Private Sub FG_MouseUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseUpEvent) Handles FG.MouseUpEvent
+    Private Sub FG_MouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles FG.MouseUp
 
-        FG.FocusRect = VSFlex8U.FocusRectSettings.flexFocusSolid
+        ' FG.FocusRect - property not available in DataGridView
         If x > 0 Then
             x0 = x
             s0 = TextBox1.Text
@@ -957,23 +992,23 @@ Public Class FmJeneralJournal_List
         If y > 0 Then
             y0 = y
         End If
-        x = FG.Col
-        y = FG.Row
-        MDInvoiceDT = FG.get_TextMatrix(FG.Row, 1)
-        MDInvoiceNo = FG.get_TextMatrix(FG.Row, 2)
-        MDInvoice_RefNo = FG.get_TextMatrix(FG.Row, 3)
-        TextBox1.Text = FG.get_TextMatrix(FG.Row, 2)
+        x = FG.CurrentCell.ColumnIndex
+        y = FG.CurrentRow.Index
+        MDInvoiceDT = GetGridValue(FG, FG.CurrentRow.Index, 1)
+        MDInvoiceNo = GetGridValue(FG, FG.CurrentRow.Index, 2)
+        MDInvoice_RefNo = GetGridValue(FG, FG.CurrentRow.Index, 3)
+        TextBox1.Text = GetGridValue(FG, FG.CurrentRow.Index, 2)
         Call AssetUP()
         If MuLng = "L" Then
-            txtDescrip.Text = FG.get_TextMatrix(FG.Row, 6) & ", ມູນຄ່າ: " & FG.get_TextMatrix(FG.Row, 5) & ": " & FG.get_TextMatrix(FG.Row, 9)
+            txtDescrip.Text = GetGridValue(FG, FG.CurrentRow.Index, 6) & ", ມູນຄ່າ: " & GetGridValue(FG, FG.CurrentRow.Index, 5) & ": " & GetGridValue(FG, FG.CurrentRow.Index, 9)
         Else
-            txtDescrip.Text = FG.get_TextMatrix(FG.Row, 6) & ", Amout: " & FG.get_TextMatrix(FG.Row, 5) & ": " & FG.get_TextMatrix(FG.Row, 9)
+            txtDescrip.Text = GetGridValue(FG, FG.CurrentRow.Index, 6) & ", Amout: " & GetGridValue(FG, FG.CurrentRow.Index, 5) & ": " & GetGridValue(FG, FG.CurrentRow.Index, 9)
         End If
 
 
 
         LockData = ""
-        LockData = FG.get_TextMatrix(FG.Row, 14)
+        LockData = GetGridValue(FG, FG.CurrentRow.Index, 14)
         If LockData = 1 Then
             RadioButton17.Checked = False
             RadioButton18.Checked = True
@@ -987,8 +1022,8 @@ Public Class FmJeneralJournal_List
             LngId = "3008" : CallLngStr() : Button1.Text = LngStr
         End If
         'Remain.Text = "0.00"
-        If FG.Row > 0 Then
-            If FG.Col = 4 Then
+        If FG.CurrentRow.Index > 0 Then
+            If FG.CurrentCell.ColumnIndex = 4 Then
                 Call Load_Gen_Jn()
                 Remain.Text = CDbl(CDbl(Open_jn.Text) + CDbl(SumDr.Text)) - CDbl(SumCr.Text)
 
@@ -1019,22 +1054,22 @@ Public Class FmJeneralJournal_List
             Dim ne As Integer
             For ne = Rs2 To Rt2
                 If Trim(FG.get_TextMatrix(ne, 2)) = s0 Then
-                    FG.Row = ne
-                    FG.Col = 2
-                    FG.CellBackColor = Color.White
-                    FG.Col = 4
-                    FG.CellBackColor = Color.White
+                    FG.CurrentRow.Index = ne
+                    FG.CurrentCell.ColumnIndex = 2
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
+                    FG.CurrentCell.ColumnIndex = 4
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
                     'MsgBox(Trim(FG.get_TextMatrix(J, 2)))
                     If Trim(FG.get_TextMatrix(ne, 10)) <> 0 Then
-                        FG.Col = 7
-                        FG.CellBackColor = Color.White
-                        FG.Col = 10
-                        FG.CellBackColor = Color.White
+                        FG.CurrentCell.ColumnIndex = 7
+                        FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
+                        FG.CurrentCell.ColumnIndex = 10
+                        FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
                     Else
-                        FG.Col = 8
-                        FG.CellBackColor = Color.White
-                        FG.Col = 11
-                        FG.CellBackColor = Color.White
+                        FG.CurrentCell.ColumnIndex = 8
+                        FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
+                        FG.CurrentCell.ColumnIndex = 11
+                        FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
                     End If
                 End If
             Next ne
@@ -1050,67 +1085,67 @@ Public Class FmJeneralJournal_List
             For J = Rs1 To Rt1
                 'MsgBox(J & " = " & FG.get_TextMatrix(J, 4))
                 If Trim(FG.get_TextMatrix(J, 2)) = TextBox1.Text Then
-                    FG.Row = J
-                    FG.Col = 2
-                    FG.CellBackColor = Color.SkyBlue
-                    FG.Col = 4
-                    FG.CellBackColor = Color.SkyBlue
+                    FG.CurrentRow.Index = J
+                    FG.CurrentCell.ColumnIndex = 2
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
+                    FG.CurrentCell.ColumnIndex = 4
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
                     'MsgBox(Trim(FG.get_TextMatrix(J, 2)))
                     If Trim(FG.get_TextMatrix(J, 10)) <> 0 Then
-                        FG.Col = 7
-                        FG.CellBackColor = Color.SkyBlue
-                        FG.Col = 10
-                        FG.CellBackColor = Color.SkyBlue
+                        FG.CurrentCell.ColumnIndex = 7
+                        FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
+                        FG.CurrentCell.ColumnIndex = 10
+                        FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
                     Else
-                        FG.Col = 8
-                        FG.CellBackColor = Color.SkyBlue
-                        FG.Col = 11
-                        FG.CellBackColor = Color.SkyBlue
+                        FG.CurrentCell.ColumnIndex = 8
+                        FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
+                        FG.CurrentCell.ColumnIndex = 11
+                        FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
                     End If
                 End If
             Next J
 
 
-            If Trim(FG.get_TextMatrix(FG.Rows - 1, 2)) = TextBox1.Text <> 0 Then
-                FG.Row = FG.Rows - 1
-                FG.Col = 2
-                FG.CellBackColor = Color.SkyBlue
-                FG.Col = 4
-                FG.CellBackColor = Color.SkyBlue
+            If Trim(FG.get_TextMatrix(FG.CurrentRow.Indexs - 1, 2)) = TextBox1.Text <> 0 Then
+                FG.CurrentRow.Index = FG.CurrentRow.Indexs - 1
+                FG.CurrentCell.ColumnIndex = 2
+                FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
+                FG.CurrentCell.ColumnIndex = 4
+                FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
                 'MsgBox(Trim(FG.get_TextMatrix(J, 2)))
-                If Trim(FG.get_TextMatrix(FG.Rows - 1, 10)) <> 0 Then
-                    FG.Col = 7
-                    FG.CellBackColor = Color.SkyBlue
-                    FG.Col = 10
-                    FG.CellBackColor = Color.SkyBlue
+                If Trim(FG.get_TextMatrix(FG.CurrentRow.Indexs - 1, 10)) <> 0 Then
+                    FG.CurrentCell.ColumnIndex = 7
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
+                    FG.CurrentCell.ColumnIndex = 10
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
                 Else
-                    FG.Col = 8
-                    FG.CellBackColor = Color.SkyBlue
-                    FG.Col = 11
-                    FG.CellBackColor = Color.SkyBlue
+                    FG.CurrentCell.ColumnIndex = 8
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
+                    FG.CurrentCell.ColumnIndex = 11
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.SkyBlue
                 End If
             Else
-                FG.Row = FG.Rows - 1
-                FG.Col = 2
-                FG.CellBackColor = Color.White
-                FG.Col = 4
-                FG.CellBackColor = Color.White
+                FG.CurrentRow.Index = FG.CurrentRow.Indexs - 1
+                FG.CurrentCell.ColumnIndex = 2
+                FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
+                FG.CurrentCell.ColumnIndex = 4
+                FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
                 'MsgBox(Trim(FG.get_TextMatrix(J, 2)))
-                If Trim(FG.get_TextMatrix(FG.Rows - 1, 10)) <> 0 Then
-                    FG.Col = 7
-                    FG.CellBackColor = Color.White
-                    FG.Col = 10
-                    FG.CellBackColor = Color.White
+                If Trim(FG.get_TextMatrix(FG.CurrentRow.Indexs - 1, 10)) <> 0 Then
+                    FG.CurrentCell.ColumnIndex = 7
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
+                    FG.CurrentCell.ColumnIndex = 10
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
                 Else
-                    FG.Col = 8
-                    FG.CellBackColor = Color.White
-                    FG.Col = 11
-                    FG.CellBackColor = Color.White
+                    FG.CurrentCell.ColumnIndex = 8
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
+                    FG.CurrentCell.ColumnIndex = 11
+                    FG.CurrentRow.DefaultCellStyle.BackColor = Color.White
                 End If
             End If
         End If
-        FG.Col = x
-        FG.Row = y
+        FG.CurrentCell.ColumnIndex = x
+        FG.CurrentRow.Index = y
         'If MDInvoiceNo <> "" Then
 
         CMS2.Enabled = True
@@ -1120,9 +1155,9 @@ Public Class FmJeneralJournal_List
 
     Private Sub ForIs2()
 
-        If y0 = FG.Rows - 1 Then
-            If FG.get_TextMatrix(FG.Rows - 1, 2) <> FG.get_TextMatrix(FG.Rows - 2, 2) Then
-                Rs2 = FG.Rows - 1
+        If y0 = FG.CurrentRow.Indexs - 1 Then
+            If FG.get_TextMatrix(FG.CurrentRow.Indexs - 1, 2) <> FG.get_TextMatrix(FG.CurrentRow.Indexs - 2, 2) Then
+                Rs2 = FG.CurrentRow.Indexs - 1
             End If
         End If
         Dim x0k As Integer = y0
@@ -1139,11 +1174,11 @@ Public Class FmJeneralJournal_List
     End Sub
 
     Private Sub ForIt2()
-        If y0 = FG.Rows - 1 Then
-            Rt2 = FG.Rows - 1
+        If y0 = FG.CurrentRow.Indexs - 1 Then
+            Rt2 = FG.CurrentRow.Indexs - 1
             Exit Sub
         End If
-        For i = y0 To FG.Rows - 1
+        For i = y0 To FG.CurrentRow.Indexs - 1
             Rt2 = i - 1
             s = FG.get_TextMatrix(i, 2)
             If s <> s0 Then
@@ -1153,9 +1188,9 @@ Public Class FmJeneralJournal_List
     End Sub
     Private Sub ForIs1()
 
-        If y = FG.Rows - 1 Then
-            If FG.get_TextMatrix(FG.Rows - 1, 2) <> FG.get_TextMatrix(FG.Rows - 2, 2) Then
-                Rs1 = FG.Rows - 1
+        If y = FG.CurrentRow.Indexs - 1 Then
+            If FG.get_TextMatrix(FG.CurrentRow.Indexs - 1, 2) <> FG.get_TextMatrix(FG.CurrentRow.Indexs - 2, 2) Then
+                Rs1 = FG.CurrentRow.Indexs - 1
             End If
         End If
         Dim x As Integer = y
@@ -1175,7 +1210,7 @@ Public Class FmJeneralJournal_List
 
 
 
-        For i = y To FG.Rows - 1
+        For i = y To FG.CurrentRow.Indexs - 1
             Rt1 = i - 1
             s = FG.get_TextMatrix(i, 2)
             If s <> TextBox1.Text Then
@@ -1183,7 +1218,7 @@ Public Class FmJeneralJournal_List
             End If
         Next
     End Sub
-    Private Sub FG_SelChange_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
+    Private Sub FG_SelectionChanged_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
 
     End Sub
     Private Sub ReportGen_jn()
@@ -1204,41 +1239,38 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "1" & "' AND '" & "1" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
-                   " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
+                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
-                End While
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                Next
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
-                End While
+            Dim dtTemp2 As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp2.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp2.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                Next
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp3 As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp3.Rows.Count > 0 Then
+                For Each row As DataRow In dtTemp3.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_Dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_Cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
-                End While
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                Next
             Else
                 Exit Sub
             End If
@@ -1249,41 +1281,38 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "2" & "' AND '" & "2" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
-                   " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
+                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
-                End While
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                Next
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
-                End While
+            Dim dtTemp2 As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp2.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp2.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                Next
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp3 As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp3.Rows.Count > 0 Then
+                For Each row As DataRow In dtTemp3.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_Dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_Cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
-                End While
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                Next
             Else
                 Exit Sub
             End If
@@ -1294,41 +1323,38 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "3" & "' AND '" & "3" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
-                   " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
+                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
-                End While
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                Next
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
-                End While
+            Dim dtTemp2 As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp2.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp2.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                Next
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp3 As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp3.Rows.Count > 0 Then
+                For Each row As DataRow In dtTemp3.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_Dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_Cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
-                End While
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                Next
             Else
                 Exit Sub
             End If
@@ -1339,40 +1365,40 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "4" & "' AND '" & "4" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp.Rows.Count > 1 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                    Next
                 End While
             Else
                 Exit Sub
@@ -1384,40 +1410,40 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "5" & "' AND '" & "5" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp.Rows.Count > 1 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                    Next
                 End While
             Else
                 Exit Sub
@@ -1429,40 +1455,40 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "6" & "' AND '" & "6" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp.Rows.Count > 1 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                    Next
                 End While
             Else
                 Exit Sub
@@ -1474,40 +1500,40 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "7" & "' AND '" & "7" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp.Rows.Count > 1 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                    Next
                 End While
             Else
                 Exit Sub
@@ -1519,40 +1545,40 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "8" & "' AND '" & "8" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp.Rows.Count > 1 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                    Next
                 End While
             Else
                 Exit Sub
@@ -1564,40 +1590,40 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "9" & "' AND '" & "9" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp.Rows.Count > 1 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                    Next
                 End While
             Else
                 Exit Sub
@@ -1609,40 +1635,40 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "10" & "' AND '" & "10" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp.Rows.Count > 1 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                    Next
                 End While
             Else
                 Exit Sub
@@ -1654,40 +1680,40 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "11" & "' AND '" & "11" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp.Rows.Count > 1 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                    Next
                 End While
             Else
                 Exit Sub
@@ -1699,40 +1725,40 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND month(Open_jn.date_work   ) BETWEEN '" & "12" & "' AND '" & "12" & "' AND year(Open_jn.date_work )='" & Yrl & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp.Rows.Count > 1 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                    Next
                 End While
             Else
                 Exit Sub
@@ -1744,40 +1770,40 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND year(Open_jn.date_work ) BETWEEN '" & Year(dts.Value) & "' AND '" & Year(dtt.Value) - 1 & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp.Rows.Count > 1 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                    Next
                 End While
             Else
                 Exit Sub
@@ -1789,40 +1815,40 @@ Public Class FmJeneralJournal_List
             Open_jn = " AND Open_jn.date_work   BETWEEN '" & Format(dts.Value, "yyyy-MM-dd") & "' AND '" & Format(dtt.Value, "yyyy-MM-dd") & "'AND Open_jn.Company=N'" & MuSubOff & "' "
             'StartLoadDataList()
             '=====================
-            CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-            CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+            DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+            DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
                    " SELECT date_work,code_dr,code_cr,ac_code,certify,descrip,0,amount_dr,amount_cr,0,Last_User,Last_Update,Company " & _
                    " FROM gen_jn  WHERE 1=1 " & Gen_jn & " ")
             '==============================
-            Call LoadSqlData("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
-                  " FROM Open_jn   GROUP BY Open_jn.ac_code ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'   ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT Open_jn.ac_code, SUM(ISNULL(Open_jn.amount_dr,0)) AS amount_dr ,SUM(ISNULL(Open_jn.amount_cr,0)) AS amount_cr  " & _
+                  " FROM Open_jn   GROUP BY Open_jn.ac_code ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'   ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '===========================
-            Call LoadSqlData("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
-               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ", RSC)
-            If RSC.RecordCount <> 0 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(RSC.Fields("amount_Dr").Value) & "-" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE Certify=N'" & RSC.Fields("Certify").Value & "' AND Company=N'" & RSC.Fields("Company").Value & "'  ")
-                    RSC.MoveNext()
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT SUM(amount_dr) AS amount_dr,SUM(amount_cr) as amount_cr,Company,Certify  " & _
+               " FROM gen_jn  WHERE 1=1 " & LopGen_jn & " GROUP BY Company,Certify ")
+            If dtTemp.Rows.Count <> 0 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Open_Amt + (" & CDbl(DbHelper.GetStr(row("amount_dr"))) & "-" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE Certify=N'" & DbHelper.GetStr(row("Certify")) & "' AND Company=N'" & DbHelper.GetStr(row("Company")) & "'  ")
+                    Next
                 End While
             Else
                 Exit Sub
             End If
             '=======================================
-            Call LoadSqlData("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn", RSC)
-            If RSC.RecordCount > 1 Then
-                While Not RSC.EOF
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(RSC.Fields("Open_Amt").Value) & "+" & CDbl(RSC.Fields("amount_Dr").Value) & " -" & CDbl(RSC.Fields("amount_Cr").Value) & " ) WHERE ac_code='" & RSC.Fields("ac_code").Value.ToString & "'  ")
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT ac_code, Open_Amt, amount_Dr, amount_Cr FROM Ap_Sum_Gen_jn")
+            If dtTemp.Rows.Count > 1 Then
+                For Each row As DataRow In dtTemp.Rows
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Rem_Amt= +( " & CDbl(DbHelper.GetStr(row("Open_Amt"))) & "+" & CDbl(DbHelper.GetStr(row("amount_dr"))) & " -" & CDbl(DbHelper.GetStr(row("amount_cr"))) & " ) WHERE ac_code='" & DbHelper.GetStr(row("ac_code")) & "'  ")
 
-                    CNN.Execute("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
-                    RSC.MoveNext()
+                    DbHelper.ExecuteNonQuery("UPDATE Ap_Sum_Gen_jn SET Open_Amt=Rem_Amt  ")
+                    Next
                 End While
             Else
                 Exit Sub
@@ -1831,8 +1857,8 @@ Public Class FmJeneralJournal_List
 
         '================================ReportGen_jn==================================
 
-        'CNN.Execute(" DELETE FROM Ap_Sum_Gen_jn ")
-        'CNN.Execute("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
+        'DbHelper.ExecuteNonQuery(" DELETE FROM Ap_Sum_Gen_jn ")
+        'DbHelper.ExecuteNonQuery("INSERT INTO Ap_Sum_Gen_jn ( date_work,code_dr, code_cr, ac_code, Certify,descrip,Open_Amt, amount_Dr, amount_Cr, Rem_Amt,Last_User ,Last_Update,Company)" & _
         '          " SELECT date_work,code_dr,code_cr,ac_code,0,0,Sum(amount_dr-amount_cr),0,0,0,Last_User,Last_Update,Company " & _
         '          " FROM Open_jn   WHERE 1=1 " & Open_jn & " GROUP BY date_work,code_dr,code_cr,ac_code,Last_User,Last_Update,Company  " & _
         '          " UNION ALL " & _
@@ -1877,13 +1903,18 @@ Public Class FmJeneralJournal_List
         Call LoadLoGO()
 
         If CheckBox1.Checked = False Then
-            Dim Rs As New ADODB.Recordset
-            With Rs
-                If .State = ConnectionState.Open Then .Close()
-                .Open("  " & SLF & "  " & SQL & "order by  gen_jn.cnt ", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-                If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Label5.Visible = False : Exit Sub
-                If .EOF Then Exit Sub
-            End With
+            Dim dt As DataTable
+            Try
+                dt = DbHelper.GetDataTable("  " & SLF & "  " & SQL & "order by  gen_jn.cnt ")
+                If dt.Rows.Count = 0 Then 
+                    MsgBox("ບໍ່ມີຂໍ້ມູນ") : Label5.Visible = False : Exit Sub
+                End If
+            Catch ex As Exception
+                VSysError = True
+                MessageBox.Show("Database Error: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Label5.Visible = False
+                Exit Sub
+            End Try
             Dim FrmPreview As New FmPreview : FrmClosing()
             'Dim Rpt As New CryGeneralLedgers
             Dim Rpt As New CrystalReport_General_Jurnal_Curr_List_P
@@ -1891,7 +1922,7 @@ Public Class FmJeneralJournal_List
                 Rpt.Subreports(0).SetDataSource(RsLOGO)
             End If
 
-            Rpt.SetDataSource(Rs)
+            Rpt.SetDataSource(dt)
             FrmPreview.ReportViewer.ReportSource = Rpt
             FrmPreview.ReportViewer.DisplayGroupTree = False
             FrmPreview.MdiParent = FmMain
@@ -1901,13 +1932,18 @@ Public Class FmJeneralJournal_List
             FrmPreview.Focus()
         Else
             '========
-            Dim Rs As New ADODB.Recordset
-            With Rs
-                If .State = ConnectionState.Open Then .Close()
-                .Open("  " & SLF & "  " & SQL & "    " & "" & " ", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-                If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Label5.Visible = False : Exit Sub
-                If .EOF Then Exit Sub
-            End With
+            Dim dt As DataTable
+            Try
+                dt = DbHelper.GetDataTable("  " & SLF & "  " & SQL & "    " & "" & " ")
+                If dt.Rows.Count = 0 Then 
+                    MsgBox("ບໍ່ມີຂໍ້ມູນ") : Label5.Visible = False : Exit Sub
+                End If
+            Catch ex As Exception
+                VSysError = True
+                MessageBox.Show("Database Error: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Label5.Visible = False
+                Exit Sub
+            End Try
             Dim FrmPreview As New FmPreview : FrmClosing()
             'Dim Rpt As New CryGeneralLedgersUser
             Dim Rpt As New CrystalReport_General_Jurnal_Curr_List_P_Curr
@@ -1915,7 +1951,7 @@ Public Class FmJeneralJournal_List
                 Rpt.Subreports(0).SetDataSource(RsLOGO)
             End If
 
-            Rpt.SetDataSource(Rs)
+        Rpt.SetDataSource(dtReport)
             FrmPreview.ReportViewer.ReportSource = Rpt
             FrmPreview.ReportViewer.DisplayGroupTree = False
             FrmPreview.MdiParent = FmMain
@@ -2268,7 +2304,7 @@ Public Class FmJeneralJournal_List
         ''Dim srNum As New ADODB.Recordset
         ''Dim mNum As Integer = 0
         ' ''If IsNumeric(Microsoft.VisualBasic.Right(txtNewId.Text, 7)) = False Then MsgBox("7 ໂຕທາງທ້າຍຕ້ອງເປັນໂຕເລກເທົານັ້ນ") : txtNewId.BackColor = Color.Red : txtNewId.Focus() : Exit Sub
-        ''Call LoadSqlData("SELECT top 1 Right(certify,7) As  certify   FROM  gen_jn where  book ='" & CmbBook2.Text & "' And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "'   Order by  Right(certify,7) DESC", srNum)
+        ''Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT top 1 Right(certify,7) As  certify   FROM  gen_jn where  book ='" & CmbBook2.Text & "' And  year(date_work)='" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy") & "'   Order by  Right(certify,7) DESC", srNum)
         ''If srNum.RecordCount = 0 Then
         ''    mNum = 0
         ''Else
@@ -2312,8 +2348,8 @@ Public Class FmJeneralJournal_List
 
 
 
-        Call LoadSqlData("SELECT AC_CODE FROM Gen_jn WHERE   book ='" & CmbBook2.Text & "' And  certify = N'" & txtNewId.Text & "' And  year(date_work)=" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & " ", RSC)
-        If RSC.RecordCount > 0 Then
+        Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT AC_CODE FROM Gen_jn WHERE   book ='" & CmbBook2.Text & "' And  certify = N'" & txtNewId.Text & "' And  year(date_work)=" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy") & " ")
+        If dtTemp.Rows.Count > 0 Then
             MsgBox("ເລກລະຫັດ : " & Trim(txtNewId.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
             txtNewId.Focus()
             If RSC.State = ConnectionState.Open Then RSC.Close()
@@ -2327,15 +2363,15 @@ Public Class FmJeneralJournal_List
 
 
 
-        'Call LoadSqlData("select *  from Gen_jn WHERE cnt<>''  " & SQL & "order by certify", RSC)
-        ''Call LoadData("SELECT * FROM  Gen_jn", RSC)
-        'If RSC.RecordCount > 0 Then
+        'Dim dtTemp As DataTable = DbHelper.GetDataTable("select *  from Gen_jn WHERE cnt<>''  " & SQL & "order by certify")
+        ''Call LoadData("SELECT * FROM  Gen_jn")
+        'If dtTemp.Rows.Count > 0 Then
 
         'End If
 
 
         If MessageBox.Show("ທ່ານຕ້ອງການປ່ຽນລະຫັດ " & txtOldId.Text & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            CNN.Execute("UPDATE gen_jn SET book='" & CmbBook2.Text & "',certify= N'" & txtNewId.Text & "' WHERE   book =N'" & FG.get_TextMatrix(FG.Row, 16) & "' And  certify  =N'" & MDInvoiceNo & "'   And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "' ")
+            DbHelper.ExecuteNonQuery("UPDATE gen_jn SET book='" & CmbBook2.Text & "',certify= N'" & txtNewId.Text & "' WHERE   book =N'" & FG.get_TextMatrix(FG.CurrentRow.Index, 16) & "' And  certify  =N'" & MDInvoiceNo & "'   And  year(date_work)='" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy") & "' ")
 
         End If
 
@@ -2356,25 +2392,20 @@ Public Class FmJeneralJournal_List
 
 
 
-        Dim rst As New ADODB.Recordset
         CmbBook2.Items.Clear()
-        Comm = New ADODB.Command
-        Comm.ActiveConnection = CNN
-        Comm.CommandText = "SELECT * FROM books WHERE bookid <> '" & "" & "'"
-        rst = Comm.Execute
-        If rst.RecordCount <> 0 Then
-            While Not rst.EOF()
-                CmbBook2.Items.Add(Trim(rst.Fields("bookid").Value))
-                rst.MoveNext()
-            End While
+        Dim dtBooks As DataTable = DbHelper.GetDataTable("SELECT * FROM books WHERE bookid <> ''")
+        If dtBooks.Rows.Count <> 0 Then
+            For Each row As DataRow In dtBooks.Rows
+                CmbBook2.Items.Add(Trim(DbHelper.GetStr(row("bookid"))))
+            Next
         End If
 
         CmbBook2.Text = "GL"
-        Call LoadSqlData("select book , certify from gen_jn WHERE   book ='" & FG.get_TextMatrix(FG.Row, 16) & "' And  certify  = '" & MDInvoiceNo & "'   And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "' order by cnt", RSC)
+        Dim dtTemp As DataTable = DbHelper.GetDataTable("select book , certify from gen_jn WHERE   book ='" & FG.get_TextMatrix(FG.CurrentRow.Index, 16) & "' And  certify  = '" & MDInvoiceNo & "'   And  year(date_work)='" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy") & "' order by cnt")
 
-        If RSC.RecordCount > 0 Then
-            txtOldId.Text = Trim(RSC.Fields("certify").Value)
-            Books.Text = Trim(RSC.Fields("book").Value)
+        If dtTemp.Rows.Count > 0 Then
+            txtOldId.Text = DbHelper.GetStr(dtTemp.Rows(0)("certify"))
+            Books.Text = DbHelper.GetStr(dtTemp.Rows(0)("book"))
         End If
         CmbBook2.Text = Books.Text
     End Sub
@@ -2435,15 +2466,8 @@ Public Class FmJeneralJournal_List
         SLF = MuLngRpt & "   gen_jn.last_user,  gen_jn.Rate_USD, gen_jn.company ,gen_jn.Date_Work , gen_jn.Curr, gen_jn.certify, gen_jn.referno, gen_jn.ac_code, gen_jn.descrip , gen_jn.descripe , gen_jn.amount_dr, gen_jn.amount_cr, gen_jn.amt_dr, gen_jn.amt_cr, gen_jn.ac_name  AS Name_L , gen_jn.ac_namee AS Name_E  "
         'SLF = MuLngRpt & " gen_jn.company ,gen_jn.Date_Work , gen_jn.certify, gen_jn.ac_code, gen_jn.descrip , gen_jn.descripe , gen_jn.amt_dr, gen_jn.amt_cr, Acc_Code.Name_L AS Name_L , Acc_Code.Name_E AS Name_E  "
         Call LoadLoGO()
-        Dim Rs As New ADODB.Recordset
-        With Rs
-            If .State = ConnectionState.Open Then .Close()
-            .Open("SELECT   " & SLF & "   FROM gen_jn INNER JOIN Acc_Code ON gen_jn.ac_code = Acc_Code.Ac_Code WHERE gen_jn.certify = N'" & MDInvoiceNo & "' And  year(date_work)=" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "  order by gen_jn.cnt ASC", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            '.Open("SELECT   " & SLF & "   FROM gen_jn   WHERE gen_jn.certify = N'" & MDInvoiceNo & "' And  year(date_work)=" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "  order by gen_jn.cnt", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-
-            If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
-            If .EOF Then Exit Sub
-        End With
+        Dim dtReport As DataTable = DbHelper.GetDataTable("SELECT   " & SLF & "   FROM gen_jn INNER JOIN Acc_Code ON gen_jn.ac_code = Acc_Code.Ac_Code WHERE gen_jn.certify = N'" & MDInvoiceNo & "' And  year(date_work)=" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy") & "  order by gen_jn.cnt ASC")
+        If dtReport.Rows.Count = 0 Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
         Dim FrmPreview As New FmPreview : FrmClosing()
         Dim Rpt As New CryNewsJerneralJournal
         If MdShowLOGO = 1 Then
@@ -2536,78 +2560,78 @@ Public Class FmJeneralJournal_List
             Dim J As Integer
             FG.Redraw = False
 
-            For J = 1 To FG.Rows - 1
-                FG.Row = J
+            For J = 1 To FG.CurrentRow.Indexs - 1
+                FG.CurrentRow.Index = J
                 If Trim(FG.get_TextMatrix(J, 4)) <> "" Then
                     If Trim(FG.get_TextMatrix(J, 10)) <> 0 Then
-                        FG.Col = 7
+                        FG.CurrentCell.ColumnIndex = 7
                         FG.CellFontBold = True
-                        FG.Col = 10
+                        FG.CurrentCell.ColumnIndex = 10
                         FG.CellFontBold = True
                     Else
-                        FG.Col = 8
+                        FG.CurrentCell.ColumnIndex = 8
                         FG.CellFontBold = True
-                        FG.Col = 11
+                        FG.CurrentCell.ColumnIndex = 11
                         FG.CellFontBold = True
                     End If
-                    FG.Col = 4
+                    FG.CurrentCell.ColumnIndex = 4
                     FG.CellFontBold = True
                 End If
                 'MsgBox(Trim(FG.get_TextMatrix(J, 14)))
                 Dim C1 As String = "255, 192, 128"
                 Dim C2 As Color = Color.Red
                 If FG.get_TextMatrix(J, 14) = 1 Then
-                    FG.Col = 1
+                    FG.CurrentCell.ColumnIndex = 1
                     FG.CellForeColor = C2
                     'FG.CellForeColor = Color.FromArgb(C1)
-                    FG.Col = 2
+                    FG.CurrentCell.ColumnIndex = 2
                     FG.CellForeColor = C2
-                    FG.Col = 3
+                    FG.CurrentCell.ColumnIndex = 3
                     FG.CellForeColor = C2
-                    FG.Col = 4
+                    FG.CurrentCell.ColumnIndex = 4
                     FG.CellForeColor = C2
-                    FG.Col = 6
+                    FG.CurrentCell.ColumnIndex = 6
                     FG.CellForeColor = C2
-                    FG.Col = 7
+                    FG.CurrentCell.ColumnIndex = 7
                     FG.CellForeColor = C2
-                    FG.Col = 8
+                    FG.CurrentCell.ColumnIndex = 8
                     FG.CellForeColor = C2
-                    FG.Col = 9
+                    FG.CurrentCell.ColumnIndex = 9
                     FG.CellForeColor = C2
-                    FG.Col = 10
+                    FG.CurrentCell.ColumnIndex = 10
 
                     FG.CellForeColor = C2
-                    FG.Col = 11
+                    FG.CurrentCell.ColumnIndex = 11
                     FG.CellForeColor = C2
-                    FG.Col = 12
+                    FG.CurrentCell.ColumnIndex = 12
                     FG.CellForeColor = C2
                 End If
 
                 If FG.get_TextMatrix(J, 14) = 2 Then
                     C2 = Color.Gray
-                    FG.Col = 1
+                    FG.CurrentCell.ColumnIndex = 1
                     FG.CellForeColor = C2
                     'FG.CellForeColor = Color.FromArgb(C1)
-                    FG.Col = 2
+                    FG.CurrentCell.ColumnIndex = 2
                     FG.CellForeColor = C2
-                    FG.Col = 3
+                    FG.CurrentCell.ColumnIndex = 3
                     FG.CellForeColor = C2
-                    FG.Col = 4
+                    FG.CurrentCell.ColumnIndex = 4
                     FG.CellForeColor = C2
-                    FG.Col = 6
+                    FG.CurrentCell.ColumnIndex = 6
                     FG.CellForeColor = C2
-                    FG.Col = 7
+                    FG.CurrentCell.ColumnIndex = 7
                     FG.CellForeColor = C2
-                    FG.Col = 8
+                    FG.CurrentCell.ColumnIndex = 8
                     FG.CellForeColor = C2
-                    FG.Col = 9
+                    FG.CurrentCell.ColumnIndex = 9
                     FG.CellForeColor = C2
-                    FG.Col = 10
+                    FG.CurrentCell.ColumnIndex = 10
 
                     FG.CellForeColor = C2
-                    FG.Col = 11
+                    FG.CurrentCell.ColumnIndex = 11
                     FG.CellForeColor = C2
-                    FG.Col = 12
+                    FG.CurrentCell.ColumnIndex = 12
                     FG.CellForeColor = C2
                 End If
 
@@ -2646,10 +2670,10 @@ Public Class FmJeneralJournal_List
         Label5.BringToFront()
         x0 = 0
         y0 = 0
-        Dim RsLoad As New ADODB.Recordset
-        Dim rssum As New ADODB.Recordset
+        'Dim RsLoad As New ADODB.Recordset
+        'Dim rssum As New ADODB.Recordset
         Dim i As Integer
-        FG.Rows = 1
+        FG.CurrentRow.Index = 1
         Dim x As String
         PageNum = PageNum - 1
         Dim MS As String = "And Company = '" & MuSubOff & "'"
@@ -2660,9 +2684,9 @@ Public Class FmJeneralJournal_List
             MULook2 = ""
         Else
             If OfUsr2 = "00" Then
-                MULook2 = "  And  Left(gen_jn.company,2)= '" & OfUsr3 & "' "
+                MULook2 = "  And  Left(company,2)= '" & OfUsr3 & "' "
             Else
-                MULook2 = "  And  gen_jn.company= '" & OfUsr1 & "'   "
+                MULook2 = "  And company= '" & OfUsr1 & "'   "
             End If
         End If
 
@@ -2673,73 +2697,66 @@ Public Class FmJeneralJournal_List
             API = ""
         End If
 
-        CNN.Execute("UPDATE gen_jn set company=office_ID where company is null ")
-        CNN.Execute("UPDATE gen_jn set lock=4 where lock is null ")
+        DbHelper.ExecuteNonQuery("UPDATE gen_jn set company=office_ID where company is null ")
+        DbHelper.ExecuteNonQuery("UPDATE gen_jn set lock=4 where lock is null ")
 
-        CNN.Execute("update gen_jn set Rate_USD=rate where curr='USD' and Rate_USD is null ")
-        CNN.Execute("update gen_jn set Rate_USD=0 where   Rate_USD is null ")
+        DbHelper.ExecuteNonQuery("update gen_jn set Rate_USD=rate where curr='USD' and Rate_USD is null ")
+        DbHelper.ExecuteNonQuery("update gen_jn set Rate_USD=0 where   Rate_USD is null ")
 
-        CNN.Execute("update Gen_jn set Gen_jn.Ac_namee=Acc_Code.Name_E from Gen_jn,Acc_Code where Acc_Code.ac_code=Gen_jn.ac_code and Gen_jn.Ac_namee is null")
+        DbHelper.ExecuteNonQuery("update Gen_jn set Gen_jn.Ac_namee=Acc_Code.Name_E from Gen_jn,Acc_Code where Acc_Code.ac_code=Gen_jn.ac_code and Gen_jn.Ac_namee is null")
 
         SQL = " AND gen_jn.date_work   BETWEEN '" & Format(dts.Value, "yyyy-MM-dd") & "' AND '" & Format(dtt.Value, "yyyy-MM-dd") & "'  " & SR & " " & MULook2 & " "
 
         x = " date_work , certify , referno , cheque_no , Ac_code,Ac_name, Ac_namee, code_dr , code_cr , descrip , descripe , amount_dr , amount_cr , amount ,  amt_dr , amt_cr  ,  curr , cnt , lock  , book, Company "
         Dim L As String = "select " & x & "  from Gen_jn WHERE certify<>''  " & SQL & " " & API & " order by " & CntNB & ""
         BtnSearch.Visible = False
-        LoadSqlData(L, RSC)
+        Dim dtTemp As DataTable = DbHelper.GetDataTable(L)
 
-        With RSC
-            If .RecordCount <> 0 Then
-                .MoveFirst()
-                .Move(RowPerPage * PageNum)
-                LbPage.Text = Int(.RecordCount)
-                If Int(.RecordCount Mod RowPerPage) = 0 Then
-                    Last_page = Int(.RecordCount / DividePage)
-                Else
-                    Last_page = Int(.RecordCount / DividePage) + 1
-                    If P = Last_page Then RowPerPage = (.RecordCount Mod RowPerPage)
-                End If
-                FG.Redraw = False
-                FG.Rows = 1
-                'MsgBox("ss")
-                px = 0
-                CMS2.Enabled = False
-                CMS3.Enabled = False
-                'Label5.Visible = True
-                For i = 0 To RowPerPage - 1
-                    Dim s As String
-                    'If MuLng = "L" Then s = Trim(CStr(.Fields("Ac_name").Value.ToString)) Else s = Trim(CStr(.Fields("Ac_namee").Value.ToString))
-                    If MuLng = "L" Then s = Trim(CStr(.Fields("descrip").Value.ToString)) Else s = Trim(CStr(.Fields("descripe").Value.ToString))
-
-                    'End If
-                    FG.AddItem(.AbsolutePosition & vbTab & Format(CDate(Trim(.Fields("date_work").Value)), "dd/MM/yyyy") & _
-                                "" & vbTab & Trim(CStr(.Fields("certify").Value.ToString)) & _
-                                 "" & vbTab & Trim(CStr(.Fields("referno").Value.ToString)) & _
-                                "" & vbTab & Trim(CStr(.Fields("Ac_code").Value)) & _
-                               "" & vbTab & Format(CDbl(Trim(.Fields("amount").Value)), "##,##0.00") & _
-                                 "" & vbTab & s & _
-                                 "" & vbTab & Format(CDbl(Trim(.Fields("amount_dr").Value)), "##,##0.00") & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amount_cr").Value)), "##,##0.00") & _
-                                     "" & vbTab & Trim(CStr(.Fields("curr").Value)) & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00") & _
-                                  "" & vbTab & Format(CDbl(Trim(.Fields("amt_cr").Value)), "##,##0.00") & _
-                                 "" & vbTab & Trim(CStr(.Fields("company").Value)) & _
-                                    "" & vbTab & Trim(CStr(.Fields("cnt").Value)) & _
-                                   "" & vbTab & Trim(CStr(.Fields("lock").Value)) & _
-                                    "" & vbTab & "" & _
-                                      "" & vbTab & Trim(CStr(.Fields("book").Value.ToString)) & _
-                                "" & vbTab & Trim(CStr(.Fields("referno").Value.ToString)))
-                    'MsgBox(Trim(CStr(.Fields("lock").Value)))
-                    .MoveNext()
-                Next i
-                FG.Row = FG.Rows - 1
-                FG.Redraw = True
-                lblpage_total.Text = P & "/" & Int(Last_page)
+        If dtTemp.Rows.Count <> 0 Then
+            Dim startIndex As Integer = RowPerPage * PageNum
+            LbPage.Text = dtTemp.Rows.Count
+            If dtTemp.Rows.Count Mod RowPerPage = 0 Then
+                Last_page = dtTemp.Rows.Count / DividePage
             Else
-                FG.Rows = 1
-                FG.Rows = 2
+                Last_page = dtTemp.Rows.Count / DividePage + 1
+                If P = Last_page Then RowPerPage = dtTemp.Rows.Count Mod RowPerPage
             End If
-        End With
+            FG.Redraw = False
+            FG.CurrentRow.Index = 1
+            px = 0
+            CMS2.Enabled = False
+            CMS3.Enabled = False
+            For i = 0 To RowPerPage - 1
+                Dim rowIndex = startIndex + i
+                If rowIndex >= dtTemp.Rows.Count Then Exit For
+                Dim row = dtTemp.Rows(rowIndex)
+                Dim s As String
+                If MuLng = "L" Then s = DbHelper.GetStr(row("descrip")) Else s = DbHelper.GetStr(row("descripe"))
+                FG.AddItem((rowIndex + 1) & vbTab & Format(CDate(DbHelper.GetStr(row("date_work"))), "dd/MM/yyyy") & _
+                            "" & vbTab & DbHelper.GetStr(row("certify")) & _
+                             "" & vbTab & DbHelper.GetStr(row("referno")) & _
+                            "" & vbTab & DbHelper.GetStr(row("Ac_code")) & _
+                           "" & vbTab & Format(CDbl(DbHelper.GetStr(row("amount"))), "##,##0.00") & _
+                             "" & vbTab & s & _
+                             "" & vbTab & Format(CDbl(DbHelper.GetStr(row("amount_dr"))), "##,##0.00") & _
+                              "" & vbTab & Format(CDbl(DbHelper.GetStr(row("amount_cr"))), "##,##0.00") & _
+                                 "" & vbTab & DbHelper.GetStr(row("curr")) & _
+                              "" & vbTab & Format(CDbl(DbHelper.GetStr(row("amt_dr"))), "##,##0.00") & _
+                              "" & vbTab & Format(CDbl(DbHelper.GetStr(row("amt_cr"))), "##,##0.00") & _
+                             "" & vbTab & DbHelper.GetStr(row("company")) & _
+                                "" & vbTab & DbHelper.GetStr(row("cnt")) & _
+                               "" & vbTab & DbHelper.GetStr(row("lock")) & _
+                                "" & vbTab & "" & _
+                                  "" & vbTab & DbHelper.GetStr(row("book")) & _
+                            "" & vbTab & DbHelper.GetStr(row("referno")))
+            Next i
+            FG.CurrentRow.Index = FG.CurrentRow.Index - 1
+            FG.Redraw = True
+            lblpage_total.Text = P & "/" & Last_page
+        Else
+            FG.CurrentRow.Index = 1
+            FG.CurrentRow.Index = 2
+        End If
 
 
 
@@ -2749,7 +2766,7 @@ Public Class FmJeneralJournal_List
             NextPage.Enabled = True
             LasthPage.Enabled = True
             EnterPage.Enabled = True
-            LbPage.Text = FG.get_TextMatrix(1, 0) & " To " & FG.get_TextMatrix(FG.Rows - 1, 0) & ", Of " & LbPage.Text
+            LbPage.Text = FG.get_TextMatrix(1, 0) & " To " & FG.get_TextMatrix(FG.CurrentRow.Indexs - 1, 0) & ", Of " & LbPage.Text
             If P = 1 Then
                 FirstPage.Enabled = False
                 BackPage.Enabled = False
@@ -3496,13 +3513,10 @@ Public Class FmJeneralJournal_List
     End Sub
     Private Sub LoadSubCompany()
         Off_Usr.Items.Clear()
-        LoadSqlData("select sub_id , off_id , off_add2  from  Ap_office where off_id ='" & Mid(cmbCompany.Text, 1, 2) & "' group BY  sub_id  ,off_id , off_add2", RSC)
-        With RSC
-            Do Until .EOF = True
-                Off_Usr.Items.Add((.Fields("sub_id").Value) & " " & (.Fields("off_add2").Value))
-                .MoveNext()
-            Loop
-        End With
+        Dim dtTemp As DataTable = DbHelper.GetDataTable("select sub_id , off_id , off_add2  from  Ap_office where off_id ='" & Mid(cmbCompany.Text, 1, 2) & "' group BY  sub_id  ,off_id , off_add2")
+        For Each row As DataRow In dtTemp.Rows
+            Off_Usr.Items.Add(DbHelper.GetStr(row("sub_id")) & " " & DbHelper.GetStr(row("off_add2")))
+        Next
 
         Off_Usr.SelectedIndex = FmLogin.Sub_Company.SelectedIndex
         Off_Id = Mid(cmbCompany.Text, 1, 2)
@@ -3612,7 +3626,7 @@ Public Class FmJeneralJournal_List
 
         If MessageBox.Show("ທ່ານຕ້ອງການລຶບ  " & MDInvoiceNo & " ຫລືບໍ່?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
 
-            CNN.Execute("delete gen_jn where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "' ")
+            DbHelper.ExecuteNonQuery("delete gen_jn where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy") & "' ")
 
         End If
         MDInvoiceNo = ""
@@ -3732,18 +3746,18 @@ Public Class FmJeneralJournal_List
     End Sub
 
     Private Sub TT()
-        Call LoadSqlData("select top 1 count(cnt) as cnt from gen_jn", RSC)
-        If RSC.RecordCount > 0 Then
-            TextBox2.Text = CDbl(Trim(RSC.Fields("cnt").Value))
+        Dim dtTemp As DataTable = DbHelper.GetDataTable("select top 1 count(cnt) as cnt from gen_jn")
+        If dtTemp.Rows.Count > 0 Then
+            TextBox2.Text = CDbl(DbHelper.GetStr(dtTemp.Rows(0)("cnt")))
         End If
     End Sub
     Private Sub Button13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         TT()
 
         TextBox4.Text = CDbl(TextBox2.Text) / (txtSC15.Text)
-        FG.Rows = 1
+        FG.CurrentRow.Indexs = 1
         With RSC
-            Call LoadSqlData("SELECT top " & txtSC15.Text & " * FROM  Gen_Jn Order by cnt", RSC)
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT top " & txtSC15.Text & " * FROM  Gen_Jn Order by cnt")
             If .RecordCount > 0 Then
                 While Not .EOF
                     'kkkkkk
@@ -3773,7 +3787,7 @@ Public Class FmJeneralJournal_List
                     .MoveNext()
                 End While
             Else
-                FG.Rows = 16
+                FG.CurrentRow.Indexs = 16
             End If
         End With
     End Sub
@@ -3784,7 +3798,7 @@ Public Class FmJeneralJournal_List
 
     Private Sub Button19_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button19.Click
         TT()
-        D = FG.Rows - 1
+        D = FG.CurrentRow.Indexs - 1
         If CDbl(CDbl(TextBox2.Text) / CDbl(txtSC15.Text)) > Int(CDbl(TextBox2.Text) / CDbl(txtSC15.Text)) Then
             TextBox4.Text = Int(CDbl(TextBox2.Text) / CDbl(txtSC15.Text)) + 1
         Else
@@ -3792,9 +3806,9 @@ Public Class FmJeneralJournal_List
         End If
         TextBox6.Text = 1
         TextBox5.Text = TextBox6.Text & "/" & TextBox4.Text
-        FG.Rows = 1
+        FG.CurrentRow.Indexs = 1
         With RSC
-            Call LoadSqlData("SELECT top " & txtSC15.Text & " * FROM  Gen_Jn  Order by certify , cnt", RSC)
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("SELECT top " & txtSC15.Text & " * FROM  Gen_Jn  Order by certify , cnt")
             If .RecordCount > 0 Then
                 While Not .EOF
                     'kkkkkk
@@ -3824,7 +3838,7 @@ Public Class FmJeneralJournal_List
                     .MoveNext()
                 End While
             Else
-                FG.Rows = 16
+                FG.CurrentRow.Indexs = 16
             End If
         End With
     End Sub
@@ -3837,18 +3851,18 @@ Public Class FmJeneralJournal_List
         'TT()
 
         Dim x As String = " date_work , certify ,descrip,descripe, cheque_no , Ac_code,code_dr , code_cr  , amount_dr , amount_cr , amount ,  amt_dr , amt_cr  ,  curr , cnt , lock  , book, Company "
-        Dim s As String = "SELECT top " & txtSC15.Text & " " & x & "  FROM   Gen_Jn where certify > '" & FG.get_TextMatrix(FG.Rows - 1, 2) & "' Order by certify , cnt"
+        Dim s As String = "SELECT top " & txtSC15.Text & " " & x & "  FROM   Gen_Jn where certify > '" & FG.get_TextMatrix(FG.CurrentRow.Indexs - 1, 2) & "' Order by certify , cnt"
         TextBox6.Text = Int(TextBox6.Text) + 1
         TextBox5.Text = TextBox6.Text & "/" & TextBox4.Text
-        FG.Rows = 1
+        FG.CurrentRow.Indexs = 1
         Dim R As Integer
         With RSC
-            Call LoadSqlData(s, RSC)
+            Dim dtTemp As DataTable = DbHelper.GetDataTable(s)
             If .RecordCount > 0 Then
                 While Not .EOF
-                    FG.Rows = FG.Rows + 1
+                    FG.CurrentRow.Indexs = FG.CurrentRow.Indexs + 1
                     If MuLng = "L" Then s = Trim(CStr(.Fields("descrip").Value)) Else s = Trim(CStr(.Fields("descripe").Value.ToString))
-                    R = FG.Rows - 1
+                    R = FG.CurrentRow.Indexs - 1
                     D = D + 1
                     FG.set_TextMatrix(R, 0, D)
                     FG.set_TextMatrix(R, 1, Format(CDate(Trim(.Fields("date_work").Value)), "dd/MM/yyyy"))
@@ -3874,7 +3888,7 @@ Public Class FmJeneralJournal_List
                     .MoveNext()
                 End While
             Else
-                FG.Rows = 16
+                FG.CurrentRow.Indexs = 16
             End If
         End With
     End Sub
@@ -3886,9 +3900,9 @@ Public Class FmJeneralJournal_List
     Private Sub Button14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button14.Click
         If RadioButton15.Checked = True Then
             If LockData = "" Then MsgBox("ກະລຸນາເລືອກກ່ອນ!", MsgBoxStyle.OkOnly) : Exit Sub
-            LoadSqlData("Select lock from gen_jn where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "'", RSC)
-            If RSC.RecordCount <> 0 Then
-                If (RSC.Fields("lock").Value) = "2" Then
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("Select lock from gen_jn where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy") & "'")
+            If dtTemp.Rows.Count <> 0 Then
+                If DbHelper.GetStr(dtTemp.Rows(0)("lock")) = "2" Then
                     MsgBox("ລາຍການນີ້ ໄດ້ປິດບັນຊີໄປແລ້ວບໍ່ສາມາດ " & Button1.Text & "  ໄດ້ອີກ!", MsgBoxStyle.OkOnly)
                     Exit Sub
                 End If
@@ -3896,9 +3910,9 @@ Public Class FmJeneralJournal_List
 
             If MessageBox.Show("ທ່ານຕ້ອງການ " & Button1.Text & " ລະຫັດ " & MDInvoiceNo & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                 If LockData = "1" Then
-                    CNN.Execute("UPDATE gen_jn SET lock='0' where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "'")
+                    DbHelper.ExecuteNonQuery("UPDATE gen_jn SET lock='0' where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy") & "'")
                 Else
-                    CNN.Execute("UPDATE gen_jn SET lock='1' where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "'")
+                    DbHelper.ExecuteNonQuery("UPDATE gen_jn SET lock='1' where certify ='" & MDInvoiceNo & "' And  year(date_work)='" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy") & "'")
 
                 End If
                 LockData = ""
@@ -3919,9 +3933,9 @@ Public Class FmJeneralJournal_List
                 End If
             End If
 
-            LoadSqlData("Select lock from gen_jn where  gen_jn.date_work   BETWEEN '" & Format(dts.Value, "yyyy-MM-dd") & "' AND '" & Format(dtt.Value, "yyyy-MM-dd") & "'   " & MULook2 & " ", RSC)
-            If RSC.RecordCount <> 0 Then
-                If (RSC.Fields("lock").Value) = "2" Then
+            Dim dtTemp As DataTable = DbHelper.GetDataTable("Select lock from gen_jn where  gen_jn.date_work   BETWEEN '" & Format(dts.Value, "yyyy-MM-dd") & "' AND '" & Format(dtt.Value, "yyyy-MM-dd") & "'   " & MULook2 & " ")
+            If dtTemp.Rows.Count <> 0 Then
+                If DbHelper.GetStr(dtTemp.Rows(0)("lock")) = "2" Then
                     MsgBox("ລາຍການພວກນີ້ ໄດ້ປິດບັນຊີໄປແລ້ວບໍ່ສາມາດ " & Button1.Text & "  ໄດ້ອີກ!", MsgBoxStyle.OkOnly)
                     Exit Sub
                 End If
@@ -3929,9 +3943,9 @@ Public Class FmJeneralJournal_List
 
             If MessageBox.Show("ທ່ານຕ້ອງການປົດລ໋ອກຂໍ່ມູນແຕວັນທີ " & dts.Text & " ຫາ " & dtt.Text & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                 If RadioButton17.Checked = True Then
-                    CNN.Execute("UPDATE gen_jn SET lock='1' where  gen_jn.date_work   BETWEEN '" & Format(dts.Value, "yyyy-MM-dd") & "' AND '" & Format(dtt.Value, "yyyy-MM-dd") & "'   " & MULook2 & " ")
+                    DbHelper.ExecuteNonQuery("UPDATE gen_jn SET lock='1' where  gen_jn.date_work   BETWEEN '" & Format(dts.Value, "yyyy-MM-dd") & "' AND '" & Format(dtt.Value, "yyyy-MM-dd") & "'   " & MULook2 & " ")
                 Else
-                    CNN.Execute("UPDATE gen_jn SET lock='0'  where  gen_jn.date_work   BETWEEN '" & Format(dts.Value, "yyyy-MM-dd") & "' AND '" & Format(dtt.Value, "yyyy-MM-dd") & "'   " & MULook2 & " ")
+                    DbHelper.ExecuteNonQuery("UPDATE gen_jn SET lock='0'  where  gen_jn.date_work   BETWEEN '" & Format(dts.Value, "yyyy-MM-dd") & "' AND '" & Format(dtt.Value, "yyyy-MM-dd") & "'   " & MULook2 & " ")
                 End If
                 LockData = ""
                 LoadMonthSQL()
@@ -4051,7 +4065,7 @@ Public Class FmJeneralJournal_List
                                           " '" & MUserID & "', " & _
                                           " '" & MuSubOff & "' , " & _
                                           " '" & MuSubOff & "', 0,1,0, 'API' )"
-                    CNN.Execute(KKK)
+                    DbHelper.ExecuteNonQuery(KKK)
                 Next
 
 
@@ -4098,7 +4112,7 @@ Public Class FmJeneralJournal_List
                                           " '" & MUserID & "', " & _
                                           " '" & MuSubOff & "' , " & _
                                           " '" & MuSubOff & "', 0,1,0, 'API' )"
-                    CNN.Execute(KKK)
+                    DbHelper.ExecuteNonQuery(KKK)
 
                 Next
 
@@ -4125,7 +4139,7 @@ Public Class FmJeneralJournal_List
     End Sub
    
     Public Sub AutoNumber()
-        Dim rs As New ADODB.Recordset
+        'Dim rs As New ADODB.Recordset
         Dim mNum As Integer
         Dim ss As String
 
@@ -4133,15 +4147,16 @@ Public Class FmJeneralJournal_List
              "And year(date_work) = '" & Format(CDate(bis_date), "yyyy") & "' And month(date_work) = '" & Format(CDate(bis_date), "MM") & "' " & _
              "And LEFT(company,2)=N'" & Off_Id & "' Order by Right(certify,7) DESC"
 
-        Call LoadSqlData(ss, rs)
+        Dim dtTemp As DataTable = DbHelper.GetDataTable(ss)
 
-        If rs.RecordCount = 0 Then
+        If dtTemp.Rows.Count = 0 Then
             MdCertifyId = Format(1, "0000000")
         Else
-            If rs.Fields("certify").Value Is Nothing OrElse rs.Fields("certify").Value.ToString.Trim = "" Then
+            Dim certifyValue As String = DbHelper.GetStr(dtTemp.Rows(0)("certify"))
+            If certifyValue.Trim = "" Then
                 mNum = 0
             Else
-                mNum = Val(rs.Fields("certify").Value.ToString)
+                mNum = Val(certifyValue)
             End If
             mNum = mNum + 1
             MdCertifyId = Format(mNum, "0000000")
@@ -4259,33 +4274,116 @@ Public Class FmJeneralJournal_List
         End Try
     End Sub
     Public Sub LoadDataSQL()
-        Dim rsAS As New ADODB.Recordset
-        Dim rsAS2 As New ADODB.Recordset
-        Dim rsAS3 As New ADODB.Recordset
-        Dim rsAS4 As New ADODB.Recordset
+        'Dim rsAS As New ADODB.Recordset
+        'Dim rsAS2 As New ADODB.Recordset
+        'Dim rsAS3 As New ADODB.Recordset
+        'Dim rsAS4 As New ADODB.Recordset
         Dim ss As String = " SELECT trn_id, trn_desc, acc_book, Currency, ex_rate, bis_date FROM STAGE_MSP WHERE status = 'Wait' ORDER BY trn_id  "
-        Call LoadSqlData(ss, rsAS)
-        If rsAS.RecordCount > 0 Then
-            With rsAS
-                While Not .EOF()
-                    trn_id = Trim(rsAS.Fields("trn_id").Value.ToString)
-                    trn_desc = Trim(rsAS.Fields("trn_desc").Value.ToString)
-                    acc_book = Trim(rsAS.Fields("acc_book").Value.ToString)
-                    Currency = Trim(rsAS.Fields("Currency").Value.ToString)
-                    ex_rate = Format(rsAS.Fields("ex_rate").Value, "#,##0.00")
-                    If ex_rate = 0 Then
-                        ex_rate = 1
-                    End If
+        Dim dtTemp As DataTable = DbHelper.GetDataTable(ss)
+        For Each row As DataRow In dtTemp.Rows
+            trn_id = DbHelper.GetStr(row("trn_id"))
+            trn_desc = DbHelper.GetStr(row("trn_desc"))
+            acc_book = DbHelper.GetStr(row("acc_book"))
+            Currency = DbHelper.GetStr(row("Currency"))
+            ex_rate = CDbl(DbHelper.GetStr(row("ex_rate")))
+            If ex_rate = 0 Then ex_rate = 1
+            bis_date = Format(CDate(DbHelper.GetStr(row("bis_date"))), "dd/MM/yyyy")
+            Call AutoNumber()
+            Dim ss2 As String = " SELECT SUM(dr_amt) as dr_amt  FROM STAGE_TBL_DR WHERE trn_id = N'" & trn_id & "'  "
+            Dim dtTemp2 As DataTable = DbHelper.GetDataTable(ss2)
+            SUMAMT = 0
+            If dtTemp2.Rows.Count > 0 Then
+                SUMAMT = CDbl(DbHelper.GetStr(dtTemp2.Rows(0)("dr_amt")))
+            End If
+
+            Dim ss3 As String = " SELECT *  FROM STAGE_TBL_DR WHERE trn_id = N'" & trn_id & "'  "
+            Dim dtTemp3 As DataTable = DbHelper.GetDataTable(ss3)
+            For Each row3 As DataRow In dtTemp3.Rows
+                Dim dr_ac As String = DbHelper.GetStr(row3("dr_ac"))
+                Dim dr_desc As String = DbHelper.GetStr(row3("dr_desc"))
+                Dim dr_amt As Double = CDbl(DbHelper.GetStr(row3("dr_amt")))
+                Dim dr_amt_lak As Double = CDbl(DbHelper.GetStr(row3("dr_amt_lak")))
+                Dim KKK As String = "INSERT INTO gen_jn( date_work, ac_Name, book, certify, Referno ,descrip ,descripe , " & _
+                                       " amount , curr ,rate, Rate_USD, net_amt ,code_dr ,code_cr ,ac_code ,amt_dr , amt_cr , amt_USD_Dr, amt_USD_Cr , amount_dr ,amount_cr ,  " & _
+                                       " certis, lock ,rec_lock , last_update , last_user  ,company  ,Office_ID, del , AG, Frm, API ) " & _
+                                       " Values('" & Format(CDate(bis_date), "yyyy/MM/dd") & "', " & _
+                                       " N'" & dr_desc & "', " & _
+                                       " N'" & acc_book & "', " & _
+                                       " N'" & MdCertifyId & "', " & _
+                                       " N'" & trn_id & "', " & _
+                                       " N'" & dr_desc & "', " & _
+                                       " N'', " & _
+                                       " " & CDbl(SUMAMT) & ", " & _
+                                       " N'" & Currency & "', " & _
+                                       " " & CDbl(ex_rate) & ", " & _
+                                       " " & CDbl(ex_rate) & ", " & _
+                                       " 0, " & _
+                                       " '" & dr_ac & "', " & _
+                                       " '', " & _
+                                       " '" & dr_ac & "', " & _
+                                       " " & CDbl(dr_amt_lak) & ", " & _
+                                       " 0, " & _
+                                       " " & CDbl(dr_amt) & ", " & _
+                                       " 0, " & _
+                                       " " & CDbl(dr_amt) / CDbl(ex_rate) & ", " & _
+                                       " " & CDbl(0) & ", " & _
+                                       " 3, 4, 5, " & _
+                                       " '" & Format(CDate(Date.Today), "yyyy/MM/dd") & "', " & _
+                                       " '" & MUserID & "', " & _
+                                       " '" & MuSubOff & "' , " & _
+                                       " '" & MuSubOff & "', 0,1,0, 'API' )"
+                DbHelper.ExecuteNonQuery(KKK)
+            Next
+
+            Dim ss4 As String = " SELECT * FROM STAGE_TBL_CR WHERE trn_id = N'" & trn_id & "'  "
+            Dim dtTemp4 As DataTable = DbHelper.GetDataTable(ss4)
+            For Each row4 As DataRow In dtTemp4.Rows
+                Dim cr_ac As String = DbHelper.GetStr(row4("cr_ac"))
+                Dim cr_desc As String = DbHelper.GetStr(row4("cr_desc"))
+                Dim cr_amt As Double = CDbl(DbHelper.GetStr(row4("cr_amt")))
+                Dim cr_amt_lak As Double = CDbl(DbHelper.GetStr(row4("cr_amt_lak")))
+                Dim KKK3 As String = "INSERT INTO gen_jn( date_work, ac_Name, book, certify, Referno ,descrip ,descripe , " & _
+                                       " amount , curr ,rate, Rate_USD, net_amt ,code_dr ,code_cr ,ac_code ,amt_dr , amt_cr , amt_USD_Dr, amt_USD_Cr , amount_dr ,amount_cr ,  " & _
+                                       " certis, lock ,rec_lock , last_update , last_user ,company  ,Office_ID, del , AG, Frm, API ) " & _
+                                       "Values('" & Format(CDate(bis_date), "yyyy/MM/dd") & "', " & _
+                                       " N'" & cr_desc & "', " & _
+                                       " N'" & acc_book & "', " & _
+                                       " N'" & MdCertifyId & "', " & _
+                                       " N'" & trn_id & "', " & _
+                                       " N'" & cr_desc & "', " & _
+                                       " N'', " & _
+                                       " " & CDbl(SUMAMT) & ", " & _
+                                       " N'" & Currency & "', " & _
+                                       " " & CDbl(ex_rate) & ", " & _
+                                       " " & CDbl(ex_rate) & ", " & _
+                                       " '0', " & _
+                                       " '', " & _
+                                       " '" & cr_ac & "', " & _
+                                       " '" & cr_ac & "', " & _
+                                       " '', " & _
+                                       " " & CDbl(cr_amt_lak) & ", " & _
+                                       " '', " & _
+                                       " " & CDbl(cr_amt) & ", " & _
+                                       " " & CDbl(0) & ", " & _
+                                       " " & CDbl(cr_amt) / CDbl(ex_rate) & ", " & _
+                                       " '3', '4', '5', " & _
+                                       " '" & Format(CDate(Date.Today), "yyyy/MM/dd") & "', " & _
+                                       " '" & MUserID & "', " & _
+                                       " '" & MuSubOff & "' , " & _
+                                       " '" & MuSubOff & "', 0,1,0, 'API' )"
+                DbHelper.ExecuteNonQuery(KKK3)
+            Next
+        Next
                     bis_date = Format(rsAS.Fields("bis_date").Value, "dd/MM/yyyy")
                     Call AutoNumber()
                     Dim ss2 As String = " SELECT SUM(dr_amt) as dr_amt  FROM STAGE_TBL_DR WHERE trn_id = N'" & trn_id & "'  "
-                    Call LoadSqlData(ss2, rsAS2)
+                    Dim dtTemp As DataTable = DbHelper.GetDataTable(ss2)
                     If rsAS2.RecordCount > 0 Then
                         SUMAMT = Format(rsAS2.Fields("dr_amt").Value, "#,##0.00")
                     End If
 
                     Dim ss3 As String = " SELECT *  FROM STAGE_TBL_DR WHERE trn_id = N'" & trn_id & "'  "
-                    Call LoadSqlData(ss3, rsAS3)
+                    Dim dtTemp As DataTable = DbHelper.GetDataTable(ss3)
                     If rsAS3.RecordCount > 0 Then
                         While Not rsAS3.EOF()
 
@@ -4328,7 +4426,7 @@ Public Class FmJeneralJournal_List
                                                   " '" & MUserID & "', " & _
                                                   " '" & MuSubOff & "' , " & _
                                                   " '" & MuSubOff & "', 0,1,0, 'API' )"
-                            CNN.Execute(KKK)
+                            DbHelper.ExecuteNonQuery(KKK)
                             rsAS3.MoveNext()
                         End While
 
@@ -4337,7 +4435,7 @@ Public Class FmJeneralJournal_List
 
 
                     Dim ss4 As String = " SELECT * FROM STAGE_TBL_cR WHERE trn_id = N'" & trn_id & "'  "
-                    Call LoadSqlData(ss4, rsAS4)
+                    Dim dtTemp As DataTable = DbHelper.GetDataTable(ss4)
                     If rsAS4.RecordCount > 0 Then
                         While Not rsAS4.EOF()
                             Dim cr_ac As String = Trim(rsAS4.Fields("cr_ac").Value.ToString)
@@ -4374,7 +4472,7 @@ Public Class FmJeneralJournal_List
                                                   " '" & MUserID & "', " & _
                                                   " '" & MuSubOff & "' , " & _
                                                   " '" & MuSubOff & "', 0,1,0, 'API' )"
-                            CNN.Execute(KKK3)
+                            DbHelper.ExecuteNonQuery(KKK3)
                             rsAS4.MoveNext()
                         End While
                     End If
@@ -4462,25 +4560,16 @@ Public Class FmJeneralJournal_List
         End Try
     End Sub
     Public Sub LoadDataSQLDelete()
-        Dim rsAS As New ADODB.Recordset
-        Dim rsAS2 As New ADODB.Recordset
-        Dim rsAS3 As New ADODB.Recordset
-        Dim rsAS4 As New ADODB.Recordset
+        'Dim rsAS As New ADODB.Recordset
+        'Dim rsAS2 As New ADODB.Recordset
+        'Dim rsAS3 As New ADODB.Recordset
+        'Dim rsAS4 As New ADODB.Recordset
         Dim ss As String = " SELECT trn_id, trn_desc, acc_book, Currency, ex_rate, bis_date FROM STAGE_MSP WHERE status = 'cancel' ORDER BY trn_id  "
-        Call LoadSqlData(ss, rsAS)
-        If rsAS.RecordCount > 0 Then
-            With rsAS
-                While Not .EOF()
-                    trn_id = Trim(rsAS.Fields("trn_id").Value.ToString) 
-                    CNN.Execute(" Delete gen_jn where API='API'  and Referno=N'" & trn_id & "'  ")
-
-                    .MoveNext()
-                End While
-            End With
-
-
-
-        End If
+        Dim dtTemp As DataTable = DbHelper.GetDataTable(ss)
+        For Each row As DataRow In dtTemp.Rows
+            trn_id = DbHelper.GetStr(row("trn_id"))
+            DbHelper.ExecuteNonQuery(" Delete gen_jn where API='API'  and Referno=N'" & trn_id & "'  ")
+        Next
 
 
 

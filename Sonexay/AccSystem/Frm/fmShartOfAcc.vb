@@ -1,8 +1,34 @@
-﻿Public Class fmShartOfAcc
+Public Class fmShartOfAcc
     Dim Status As Boolean
     Dim AcTypeLao, AcTypeEng As String
     Dim SQL As String
     Dim a, Cs As String
+    
+    Private Sub SetupGrid()
+        FG.Columns.Clear()
+        FG.Columns.Add("Col0", "ລ/ດ")
+        FG.Columns.Add("Col1", "ເລກລະຫັດ")
+        FG.Columns.Add("Col2", "WISE Orginal")
+        FG.Columns.Add("Col3", "ຊື່ພາສາລາວ")
+        FG.Columns.Add("Col4", "ຊື່ພາສາອັງກິດ")
+        FG.Columns.Add("Col5", "ປະເພດບັນຊີ ພາສາລາວ")
+        FG.Columns.Add("Col6", "ປະເພດບັນຊີ ພາສາອັງກິດ")
+        FG.Columns.Add("Col7", "Print_Status")
+        
+        ' Set column widths
+        FG.Columns("Col0").Width = 50
+        FG.Columns("Col1").Width = 150
+        FG.Columns("Col2").Width = 120
+        FG.Columns("Col3").Width = 250
+        FG.Columns("Col4").Width = 250
+        FG.Columns("Col5").Width = 120
+        FG.Columns("Col6").Width = 120
+        FG.Columns("Col7").Width = 80
+        
+        ' Hide WISE Orginal column (column index 2)
+        FG.Columns("Col2").Visible = False
+        FG.Columns("Col7").Visible = False ' Hide print status column initially
+    End Sub
 
     Private Sub fmShartOfAcc_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
 
@@ -23,29 +49,34 @@
             DividePage = 1000
         End If
     End Sub
-    Private Sub frmShartOfAcc_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+Private Sub frmShartOfAcc_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         p250.Checked = True
         p250.ForeColor = Color.Red
-        FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
-        FG.FormatString = "^ລ/ດ |< ເລກລະຫັດ                |< WISE Orginal     |< ຊື່ພາສາລາວ                    |< ຊື່ພາສາອັງກິດ                             |< ປະເພດບັນຊີ ພາສາລາວ   |< ປະເພດບັນຊີ ພາສາອັງກິດ   "
-        FG.set_ColHidden(2, True)
+        SetupGrid()
         CmbPrinSelete.Text = "ພີມທຸຫລາຍການ (Prin All)"
         Rdlasth.Enabled = False
         similar.Enabled = False
         StartLoadDataList()
 
-        'Call LoadDividePage()
-        'P = 1
-        'Call LoadSQL()
-        'Call PageCnt(StrSQL, ConString, P, DividePage)
-        'Me.lblpage_total.Text = "1/" & Last_page
         SetControlText(Me)
         If MuLng = "L" Then
-            FG.FormatString = "^ລ/ດ |< ເລກລະຫັດ             |< WISE Orginal |< ຊື່ພາສາລາວ                             |< ຊື່ພາສາອັງກິດ                                   |< ປະເພດບັນຊີ ພາສາລາວ   |< ປະເພດບັນຊີ ພາສາອັງກິດ   "
-
+            ' Update column headers for Lao language
+            FG.Columns("Col0").HeaderText = "ລ/ດ"
+            FG.Columns("Col1").HeaderText = "ເລກລະຫັດ"
+            FG.Columns("Col2").HeaderText = "WISE Orginal"
+            FG.Columns("Col3").HeaderText = "ຊື່ພາສາລາວ"
+            FG.Columns("Col4").HeaderText = "ຊື່ພາສາອັງກິດ"
+            FG.Columns("Col5").HeaderText = "ປະເພດບັນຊີ ພາສາລາວ"
+            FG.Columns("Col6").HeaderText = "ປະເພດບັນຊີ ພາສາອັງກິດ"
         Else
-            FG.FormatString = "^No |< Ac Code                |< WISE Orginal |< Name Lao                            |<  Name Eng                                   |< Type Lao               |< Type Eng                "
-
+            ' Update column headers for English language
+            FG.Columns("Col0").HeaderText = "No"
+            FG.Columns("Col1").HeaderText = "Ac Code"
+            FG.Columns("Col2").HeaderText = "WISE Orginal"
+            FG.Columns("Col3").HeaderText = "Name Lao"
+            FG.Columns("Col4").HeaderText = "Name Eng"
+            FG.Columns("Col5").HeaderText = "Type Lao"
+            FG.Columns("Col6").HeaderText = "Type Eng"
         End If
 
     End Sub
@@ -63,67 +94,41 @@
         Me.Close()
     End Sub
 
-    Private Sub FG_ClickEvent(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.ClickEvent
-
+Private Sub FG_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles FG.CellClick
+        If e.RowIndex < 0 Then Exit Sub
+        
         If CmbPrinSelete.Text = "ເລືອກລາຍການພິມ (Prin All Items)" Then
-            If FG.get_TextMatrix(FG.Row, 6) = True Then
-                FG.set_TextMatrix(FG.Row, 6, False)
-                CNN.Execute("UPDATE Acc_Code SET Print_status='" & "0" & "' WHERE AC_CODE = '" & FG.get_TextMatrix(FG.Row, 1) & "'")
+            If Convert.ToBoolean(FG.Rows(e.RowIndex).Cells("Col7").Value) = True Then
+                FG.Rows(e.RowIndex).Cells("Col7").Value = False
+                DbHelper.ExecuteNonQuery("UPDATE Acc_Code SET Print_status='" & "0" & "' WHERE AC_CODE = '" & FG.Rows(e.RowIndex).Cells("Col1").Value.ToString() & "'")
 
-
-                If FG.get_TextMatrix(FG.Row, 6) = False Then
-                    For I = 1 To FG.Cols - 1
-                        FG.Col = I
-                        FG.CellBackColor = Color.SkyBlue
+                If Convert.ToBoolean(FG.Rows(e.RowIndex).Cells("Col7").Value) = False Then
+                    For I = 0 To FG.Columns.Count - 1
+                        FG.Rows(e.RowIndex).Cells(I).Style.BackColor = Color.SkyBlue
                     Next I
                 End If
 
 
 
-
             Else
-                FG.set_TextMatrix(FG.Row, 6, True)
-                CNN.Execute("UPDATE Acc_Code SET Print_status='" & "1" & "' WHERE AC_CODE = '" & FG.get_TextMatrix(FG.Row, 1) & "'")
-                If FG.get_TextMatrix(FG.Row, 6) = True Then
-                    For I = 1 To FG.Cols - 1
-                        FG.Col = I
-                        FG.CellBackColor = Color.White
+                FG.Rows(e.RowIndex).Cells("Col7").Value = True
+                DbHelper.ExecuteNonQuery("UPDATE Acc_Code SET Print_status='" & "1" & "' WHERE AC_CODE = '" & FG.Rows(e.RowIndex).Cells("Col1").Value.ToString() & "'")
+                If Convert.ToBoolean(FG.Rows(e.RowIndex).Cells("Col7").Value) = True Then
+                    For I = 0 To FG.Columns.Count - 1
+                        FG.Rows(e.RowIndex).Cells(I).Style.BackColor = Color.White
                     Next
                 End If
 
             End If
-
-            ''If CmbPrinSelete.Text = "ເລືອກລາຍການພິມ (Prin All Items)" Then
-            'Dim rmRS As New ADODB.Recordset
-            'Dim I, J As Integer
-            'FG.Redraw = False
-            'For J = 1 To FG.Rows - 1
-            'If Trim(FG.get_TextMatrix(J, 6)) = True Then
-            '    FG.Row = J
-            'For I = 1 To FG.Cols - 1
-            '    FG.Col = I
-            '    FG.CellBackColor = Color.SkyBlue
-            'Next I
-            '    Else
-
-            '        FG.Row = J
-            '        For I = 1 To FG.Cols - 1
-            '            FG.Col = I
-            '            FG.CellBackColor = Color.White
-            '        Next
-
-            '    End If
-
-            'Next J
-            'FG.Redraw = True
 
         End If
     End Sub
 
 
 
-    Private Sub FG_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.DblClick
-        FrNewAcc.txtAc_code.Text = FG.get_TextMatrix(FG.Row, 1)
+Private Sub FG_CellDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles FG.CellDoubleClick
+        If e.RowIndex < 0 Then Exit Sub
+        FrNewAcc.txtAc_code.Text = FG.Rows(e.RowIndex).Cells("Col1").Value.ToString()
         FrNewAcc.txtAc_code.Enabled = False
         FrNewAcc.ShowDialog()
         'MDActivated = True
@@ -131,10 +136,12 @@
 
 
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        FrNewAcc.txtAc_code.Text = FG.get_TextMatrix(FG.Row, 1)
-        txtOldId.Text = FG.get_TextMatrix(FG.Row, 1)
-        FrNewAcc.txtAc_code.Enabled = False
+Private Sub FG_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
+        If FG.CurrentRow IsNot Nothing Then
+            FrNewAcc.txtAc_code.Text = FG.CurrentRow.Cells("Col1").Value.ToString()
+            txtOldId.Text = FG.CurrentRow.Cells("Col1").Value.ToString()
+            FrNewAcc.txtAc_code.Enabled = False
+        End If
     End Sub
 
     Private Sub BtnEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnEdit.Click
@@ -142,36 +149,34 @@
         FrNewAcc.ShowDialog()
     End Sub
 
-    Private Sub BtnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDelete.Click
+Private Sub BtnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDelete.Click
         If FrNewAcc.txtAc_code.Enabled = True Then MsgBox("ກະລຸນາເລືອກກ່ອນ!", MsgBoxStyle.OkOnly) : Exit Sub
 
-        Call LoadSqlData("SELECT AC_CODE FROM Gen_jn WHERE AC_CODE = '" & FG.get_TextMatrix(FG.Row, 1) & "'", RSC)
-        If RSC.RecordCount > 0 Then
-            MsgBox("ເລກລະຫັດ : " & FG.get_TextMatrix(FG.Row, 1) & " ມີການເຄີ່ຶນໄຫວຢູ່ບັນຊີປະຈຳວັນແລ້ວບໍ່ສາມາດລຶບໄດ້!", MsgBoxStyle.OkOnly)
+        If FG.CurrentRow Is Nothing Then Exit Sub
+        Dim acCode As String = FG.CurrentRow.Cells("Col1").Value.ToString()
+
+        Dim dtGen As DataTable = DbHelper.GetDataTable("SELECT AC_CODE FROM Gen_jn WHERE AC_CODE = '" & acCode & "'")
+        If dtGen.Rows.Count >0 Then
+            MsgBox("ເລກລະຫັດ : " & acCode & " ມີການເຄີ່ຶນໄຫວຢູ່ບັນຊີປະຈຳວັນແລ້ວບໍ່ສາມາດລຶບໄດ້!", MsgBoxStyle.OkOnly)
             txtNewId.Focus()
-            If RSC.State = ConnectionState.Open Then RSC.Close()
+            Exit Sub
+
+        End If
+
+
+        Dim dtOpen As DataTable = DbHelper.GetDataTable("SELECT AC_CODE FROM Open_jn WHERE AC_CODE = '" & acCode & "'")
+        If dtOpen.Rows.Count >0 Then
+            MsgBox("ເລກລະຫັດ : " & acCode & " ມີການເຄີ່ຶນໄຫວຢູ່ຍອດໍແລ້ວບໍ່ສາມາດລຶບໄດ້!", MsgBoxStyle.OkOnly)
+            txtNewId.Focus()
             Exit Sub
 
         End If
 
 
 
-        Call LoadSqlData("SELECT AC_CODE FROM Open_jn WHERE AC_CODE = '" & FG.get_TextMatrix(FG.Row, 1) & "'", RSC)
-        If RSC.RecordCount > 0 Then
-            MsgBox("ເລກລະຫັດ : " & FG.get_TextMatrix(FG.Row, 1) & " ມີການເຄີ່ຶນໄຫວຢູ່ຍອດຍົກແລ້ວບໍ່ສາມາດລຶບໄດ້!", MsgBoxStyle.OkOnly)
-            txtNewId.Focus()
-            If RSC.State = ConnectionState.Open Then RSC.Close()
-            Exit Sub
 
-        End If
-
-
-
-
-
-
-        If MessageBox.Show("ທ່ານຕ້ອງລຶບລະຫັດ " & FG.get_TextMatrix(FG.Row, 1) & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            CNN.Execute("DELETE FROM Acc_Code WHERE AC_CODE='" & FG.get_TextMatrix(FG.Row, 1) & "'")
+        If MessageBox.Show("ທ່ານຕ້ອງລຶບລະຫັດ " & acCode & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            DbHelper.ExecuteNonQuery("DELETE FROM Acc_Code WHERE AC_CODE='" & acCode & "'")
             FrNewAcc.txtAc_code.Enabled = True
         End If
         LoadSQL()
@@ -246,11 +251,10 @@
             End If
         Next i
 
-        Call LoadSqlData("SELECT AC_CODE FROM Acc_Code WHERE AC_CODE = '" & Trim(txtNewId.Text) & "'", RSC)
-        If RSC.RecordCount > 0 Then
+        Dim dtCheck As DataTable = DbHelper.GetDataTable("SELECT AC_CODE FROM Acc_Code WHERE AC_CODE = '" & Trim(txtNewId.Text) & "'")
+        If dtCheck.Rows.Count > 0 Then
             MsgBox("ເລກລະຫັດ : " & Trim(txtNewId.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
             txtNewId.Focus()
-            If RSC.State = ConnectionState.Open Then RSC.Close()
             Exit Sub
 
         End If
@@ -262,13 +266,15 @@
 
 
 
-        Call LoadSqlData("SELECT AC_CODE FROM Gen_jn WHERE AC_CODE = '" & FG.get_TextMatrix(FG.Row, 1) & "'", RSC)
+        If FG.CurrentRow Is Nothing Then Exit Sub
+        Dim dtGen As DataTable = DbHelper.GetDataTable("SELECT AC_CODE FROM Gen_jn WHERE AC_CODE = '" & FG.CurrentRow.Cells("Col1").Value.ToString() & "'")
 
 
 
 
 
-        If RSC.RecordCount > 0 Then
+
+        If dtGen.Rows.Count > 0 Then
 
             Cs = 1
 
@@ -276,8 +282,12 @@
 
 
 
-        Call LoadSqlData("SELECT AC_CODE FROM Open_jn WHERE AC_CODE = '" & FG.get_TextMatrix(FG.Row, 1) & "'", RSC)
-        If RSC.RecordCount > 0 Then
+
+
+
+        If FG.CurrentRow Is Nothing Then Exit Sub
+        Dim dtOpen As DataTable = DbHelper.GetDataTable("SELECT AC_CODE FROM Open_jn WHERE AC_CODE = '" & FG.CurrentRow.Cells("Col1").Value.ToString() & "'", RSC)
+        If dtOpen.Rows.Count > 0 Then
 
             Cs = 1
         End If
@@ -286,14 +296,14 @@
         If Cs = 1 Then
             If MessageBox.Show("ລະຫັດ " & txtOldId.Text & "  ມີການເຄີ່ຶນໄຫວແລ້ວທ່ານຕ້ອງການປ່ຽນລະຫັດນີ້ ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
 
-                CNN.Execute("UPDATE gen_jn SET AC_CODE='" & txtNewId.Text & "',Code_dr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_dr =  '" & txtOldId.Text & "'")
+                DbHelper.ExecuteNonQuery("UPDATE gen_jn SET AC_CODE='" & txtNewId.Text & "',Code_dr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_dr =  '" & txtOldId.Text & "'")
 
-                CNN.Execute("UPDATE gen_jn SET AC_CODE='" & txtNewId.Text & "',Code_Cr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_Cr =  '" & txtOldId.Text & "'")
+                DbHelper.ExecuteNonQuery("UPDATE gen_jn SET AC_CODE='" & txtNewId.Text & "',Code_Cr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_Cr =  '" & txtOldId.Text & "'")
 
-                CNN.Execute("UPDATE Open_jn SET AC_CODE='" & txtNewId.Text & "',Code_dr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_dr =  '" & txtOldId.Text & "'")
-                CNN.Execute("UPDATE Open_jn SET AC_CODE='" & txtNewId.Text & "',Code_Cr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_Cr =  '" & txtOldId.Text & "'")
+                DbHelper.ExecuteNonQuery("UPDATE Open_jn SET AC_CODE='" & txtNewId.Text & "',Code_dr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_dr =  '" & txtOldId.Text & "'")
+                DbHelper.ExecuteNonQuery("UPDATE Open_jn SET AC_CODE='" & txtNewId.Text & "',Code_Cr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_Cr =  '" & txtOldId.Text & "'")
 
-                CNN.Execute("UPDATE Acc_Code SET AC_CODE='" & txtNewId.Text & "',acc_type= N'" & AcTypeLao & "',acc_typee='" & AcTypeEng & "' WHERE AC_CODE = '" & txtOldId.Text & "'")
+                DbHelper.ExecuteNonQuery("UPDATE Acc_Code SET AC_CODE='" & txtNewId.Text & "',acc_type= N'" & AcTypeLao & "',acc_typee='" & AcTypeEng & "' WHERE AC_CODE = '" & txtOldId.Text & "'")
 
                 StartLoadDataList()
                 Panel2.Visible = False
@@ -304,13 +314,13 @@
 
             If MessageBox.Show("ທ່ານຕ້ອງການປ່ຽນລະຫັດ " & txtOldId.Text & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
 
-                CNN.Execute("UPDATE gen_jn SET AC_CODE='" & txtNewId.Text & "',Code_dr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_dr =  '" & txtOldId.Text & "'")
-                CNN.Execute("UPDATE gen_jn SET AC_CODE='" & txtNewId.Text & "',Code_Cr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_Cr =  '" & txtOldId.Text & "'")
+                DbHelper.ExecuteNonQuery("UPDATE gen_jn SET AC_CODE='" & txtNewId.Text & "',Code_dr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_dr =  '" & txtOldId.Text & "'")
+                DbHelper.ExecuteNonQuery("UPDATE gen_jn SET AC_CODE='" & txtNewId.Text & "',Code_Cr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_Cr =  '" & txtOldId.Text & "'")
 
-                CNN.Execute("UPDATE Open_jn SET AC_CODE='" & txtNewId.Text & "',Code_dr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_dr =  '" & txtOldId.Text & "'")
-                CNN.Execute("UPDATE Open_jn SET AC_CODE='" & txtNewId.Text & "',Code_Cr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_Cr =  '" & txtOldId.Text & "'")
+                DbHelper.ExecuteNonQuery("UPDATE Open_jn SET AC_CODE='" & txtNewId.Text & "',Code_dr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_dr =  '" & txtOldId.Text & "'")
+                DbHelper.ExecuteNonQuery("UPDATE Open_jn SET AC_CODE='" & txtNewId.Text & "',Code_Cr= N'" & txtNewId.Text & "' WHERE AC_CODE = '" & txtOldId.Text & "' And Code_Cr =  '" & txtOldId.Text & "'")
 
-                CNN.Execute("UPDATE Acc_Code SET AC_CODE='" & txtNewId.Text & "',acc_type= N'" & AcTypeLao & "',acc_typee='" & AcTypeEng & "' WHERE AC_CODE = '" & txtOldId.Text & "'")
+                DbHelper.ExecuteNonQuery("UPDATE Acc_Code SET AC_CODE='" & txtNewId.Text & "',acc_type= N'" & AcTypeLao & "',acc_typee='" & AcTypeEng & "' WHERE AC_CODE = '" & txtOldId.Text & "'")
 
                 StartLoadDataList()
                 Panel2.Visible = False
@@ -331,55 +341,39 @@
         Panel1.Visible = False
         StartLoadDataList()
     End Sub
-    Public Sub PageCnt(ByVal StrSQL As String, ByVal ConStr As String, ByVal PageNum As Long, ByVal RowPerPage As Integer)
+Public Sub PageCnt(ByVal StrSQL As String, ByVal ConStr As String, ByVal PageNum As Long, ByVal RowPerPage As Integer)
         'Me.Enabled = False
-        Dim RsLoad As New ADODB.Recordset
-        Dim rssum As New ADODB.Recordset
+        ' Dim RsLoad As New ADODB.Recordset ' REMOVED - ADODB migration
+        ' Dim rssum As New ADODB.Recordset ' REMOVED - ADODB migration
         Dim i As Integer
-        FG.Rows = 1
-
-
-
+        FG.Rows.Clear()
 
 
     
         Panel3.Visible = False
 
-
         PageNum = PageNum - 1
-        LoadSqlData("select *  from Acc_Code WHERE AC_CODE<>''  " & SQL & "order by AC_CODE", RSC)
-        With RSC
-            If .RecordCount <> 0 Then
-                .MoveFirst()
-                .Move(RowPerPage * PageNum)
-                If Int(.RecordCount Mod RowPerPage) = 0 Then
-                    Last_page = Int(.RecordCount / DividePage)
-                Else
-                    Last_page = Int(.RecordCount / DividePage) + 1
-                    If P = Last_page Then RowPerPage = (.RecordCount Mod RowPerPage)
-                End If
-                FG.Redraw = False
-                FG.Rows = 1
-                sql = ""
-                For i = 0 To RowPerPage - 1
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("AC_CODE").Value)) & _
-                                       "" & vbTab & Trim(CStr(.Fields("Ac_Original").Value.ToString)) & _
-                                   "" & vbTab & Trim(CStr(.Fields("Name_L").Value.ToString)) & _
-                                     "" & vbTab & Trim(CStr(.Fields("Name_E").Value.ToString)) & _
-                                      "" & vbTab & Trim(CStr(.Fields("Acc_Type").Value.ToString)) & _
-                                        "" & vbTab & Trim(CStr(.Fields("Acc_TypeE").Value.ToString)) & _
-                                          "" & vbTab & ((.Fields("Print_status").Value.ToString)))
-                    .MoveNext()
-                Next i
-                FG.Row = FG.Rows - 1
-                FG.Redraw = True
-                lblpage_total.Text = P & "/" & Int(Last_page)
+        Dim dt As DataTable = DbHelper.GetDataTable("select *  from Acc_Code WHERE AC_CODE<>''  " & SQL & "order by AC_CODE")
+        If dt.Rows.Count <> 0 Then
+            Dim startRow As Integer = RowPerPage * PageNum
+            If Int(dt.Rows.Count Mod RowPerPage) = 0 Then
+                Last_page = Int(dt.Rows.Count / DividePage)
             Else
-                FG.Rows = 1
-                FG.Rows = 2
-                lblpage_total.Text = "0/0"
+                Last_page = Int(dt.Rows.Count / DividePage) + 1
+                If P = Last_page Then RowPerPage = (dt.Rows.Count Mod RowPerPage)
             End If
-        End With
+            
+            For i = startRow To Math.Min(startRow + RowPerPage - 1, dt.Rows.Count - 1)
+                Dim row As DataRow = dt.Rows(i)
+                FG.Rows.Add(i, Trim(CStr(row("AC_CODE"))), _
+                               Trim(CStr(row("Ac_Original"))), _
+                           Trim(CStr(row("Name_L"))), _
+                             Trim(CStr(row("Name_E"))), _
+                               Trim(CStr(row("Acc_Type"))), _
+                                 Trim(CStr(row("Acc_TypeE"))), _
+                                   DbHelper.GetStr(row("Print_status")))
+            Next
+        End If
 
         FirstPage.Enabled = True
         BackPage.Enabled = True
@@ -521,14 +515,13 @@
         LngId = "7037" : CallLngStr() : MuLngRpt = MuLngRpt & "N'" & LngStr & "' As Crl_AcType ,"
         LngId = "7038" : CallLngStr() : MuLngRpt = MuLngRpt & "N'" & LngStr & "' As Crl_AcNme ,"
         Call LoadLoGO()
-        Dim Rs As New ADODB.Recordset
-        With Rs
-            Call LoadSqlData("SELECT " & MuLngRpt & " * FROM Acc_Code WHERE 1=1 " & SQL & "  And Ac_Code<>'' Order by Left(Ac_Code,3) ,Left(Ac_Code,4) , Left(Ac_Code,5), Left(Ac_Code,6) , Left(Ac_Code,7)", Rs)
-            If .RecordCount = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
+        ' Dim Rs As New ADODB.Recordset ' COMMENTED OUT - ADODB migration
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT " & MuLngRpt & " * FROM Acc_Code WHERE 1=1 " & SQL & "  And Ac_Code<>'' Order by Left(Ac_Code,3) ,Left(Ac_Code,4) , Left(Ac_Code,5), Left(Ac_Code,6) , Left(Ac_Code,7)")
+        If dt.Rows.Count = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
             If CheckBox3.Checked = True Then
                 Dim Frm As New FmPreview
                 Dim Rpt As New CryShartOfAcc2
-                Rpt.SetDataSource(Rs)
+                Rpt.SetDataSource(dt)
                 Frm.ReportViewer.ReportSource = Rpt
                 Frm.ReportViewer.DisplayGroupTree = False
                 Frm.WindowState = FormWindowState.Maximized
@@ -540,7 +533,7 @@
                 If MdShowLOGO = 1 Then
                     Rpt.Subreports(0).SetDataSource(RsLOGO)
                 End If
-                Rpt.SetDataSource(Rs)
+                Rpt.SetDataSource(dt)
                 FrmPreview.ReportViewer.ReportSource = Rpt
                 FrmPreview.ReportViewer.DisplayGroupTree = False
                 FrmPreview.MdiParent = FmMain
@@ -548,37 +541,26 @@
                 FrmPreview.Show()
                 FrmPreview.Focus()
             End If
-      
-        End With
     End Sub
 
-    Private Sub CmbPrinSelete_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CmbPrinSelete.SelectedIndexChanged
+Private Sub CmbPrinSelete_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CmbPrinSelete.SelectedIndexChanged
         'CNN.Execute("UPDATE Acc_Code SET Print_status='0'")
-        For k = 1 To FG.Rows - 1
-            FG.set_TextMatrix(k, 6, False)
+        For k = 0 To FG.Rows.Count - 1
+            FG.Rows(k).Cells("Col7").Value = False
         Next k
-        Dim rmRS As New ADODB.Recordset
-        Dim I, J As Integer
-        FG.Redraw = False
-        For J = 1 To FG.Rows - 1
-            If Trim(FG.get_TextMatrix(J, 6)) = True Then
-                FG.Row = J
-                For I = 1 To FG.Cols - 1
-                    FG.Col = I
-                    FG.CellBackColor = Color.SkyBlue
+        
+        For J = 0 To FG.Rows.Count - 1
+            If Convert.ToBoolean(FG.Rows(J).Cells("Col7").Value) = True Then
+                For I = 0 To FG.Columns.Count - 1
+                    FG.Rows(J).Cells(I).Style.BackColor = Color.SkyBlue
                 Next I
             Else
-
-                FG.Row = J
-                For I = 1 To FG.Cols - 1
-                    FG.Col = I
-                    FG.CellBackColor = Color.White
+                For I = 0 To FG.Columns.Count - 1
+                    FG.Rows(J).Cells(I).Style.BackColor = Color.White
                 Next
-
             End If
-
         Next J
-        FG.Redraw = True
+        
         If CmbPrinSelete.Text = "ເລືອກລາຍການພິມ (Prin All Items)" Then
             CheckBox1.Checked = False
             CheckBox1.Enabled = False
@@ -589,13 +571,8 @@
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         a = 0
-        LoadSqlData("select * from Acc_Code where Print_status = '" & "1" & "'", RSC)
-        With RSC
-            Do Until .EOF = True
-                a = 1
-                .MoveNext()
-            Loop
-        End With
+        Dim dtPrint As DataTable = DbHelper.GetDataTable("select * from Acc_Code where Print_status = '" & "1" & "'")
+        If dtPrint.Rows.Count > 0 Then a = 1
 
         SQL = ""
         If CmbPrinSelete.Text = "ເລືອກລາຍການພິມ (Prin All Items)" Then
@@ -605,15 +582,12 @@
         End If
 
 
-        Dim Rs As New ADODB.Recordset
-        With Rs
-            If .State = ConnectionState.Open Then .Close()
-            .Open("SELECT * FROM Acc_Code WHERE 1=1 " & SQL & " ", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            If .RecordCount = 0 Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
-        End With
+        ' Dim Rs As New ADODB.Recordset ' COMMENTED OUT - ADODB migration
+        Dim dtReport As DataTable = DbHelper.GetDataTable("SELECT * FROM Acc_Code WHERE 1=1 " & SQL & " ")
+        If dtReport.Rows.Count = 0 Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
         Dim FrmPreview As New FmPreview : FrmClosing()
         Dim Rpt As New CryShartOfAcc
-        Rpt.SetDataSource(Rs)
+        Rpt.SetDataSource(dtReport)
         FrmPreview.ReportViewer.ReportSource = Rpt
         FrmPreview.ShowDialog()
         FrmPreview.Focus()
@@ -621,7 +595,8 @@
 
     Private Sub Button3_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
 
-        If IsNumeric(FG.get_TextMatrix(FG.Row, 1)) = False Then
+If FG.CurrentRow Is Nothing Then Exit Sub
+        If IsNumeric(FG.CurrentRow.Cells("Col1").Value.ToString()) = False Then
             MsgBox("S")
         Else
             MsgBox("0")

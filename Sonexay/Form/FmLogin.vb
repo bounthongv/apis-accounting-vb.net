@@ -1,12 +1,12 @@
-﻿'Imports System.IO
+'Imports System.IO
 Imports System.Data.SqlClient
 
 Public Class FmLogin
     Dim SPW  As String =""
     Dim SUSID As String = ""
     Dim Ck, Status1 As Integer
-    Dim rs As New ADODB.Recordset
-    Dim RSCC4 As New ADODB.Recordset
+    ' Dim rs As New ADODB.Recordset ' REMOVED - ADODB migration
+    ' Dim RSCC4 As New ADODB.Recordset ' REMOVED - ADODB migration
     'Dim ImageSlno As Integer
     'Public con As New OleDb.OleDbConnection("Provider=SQLOLEDB;User id=" & MDServerUser & ";database=" & MDDatabaName & ";password=" & MDServerPassword & ";data source=" & MDServerName & "")
     Private Sub FmLogin_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -49,29 +49,27 @@ Public Class FmLogin
     End Sub
 
     Private Sub SavePsswordAndUserID()
-        Call LoadSqlData("select * from AP_Users where Usr_id='" & Trim(Apostrophe(txtUserId.Text)) & "' ", rs)
-        With rs
-            If .RecordCount = 0 Then
-                'MessageBox.Show("User ID ບໍ່ຖືກຕ້ອງ", "ບໍ່ສາມາດເຂົ້າລະບົບໄດ້", MessageBoxButtons.OK, MessageBoxIcon.Error) : txtUserId.Focus() : Exit Sub
-            Else
+        Dim dt As DataTable = DbHelper.GetDataTable("select * from AP_Users where Usr_id='" & Trim(Apostrophe(txtUserId.Text)) & "' ")
+        If dt.Rows.Count = 0 Then
+            'MessageBox.Show("User ID ບໍ່ຖືກຕ້ອງ", "ບໍ່ສາມາດເຂົ້າລະບົບໄດ້", MessageBoxButtons.OK, MessageBoxIcon.Error) : txtUserId.Focus() : Exit Sub
+        Else
 
-                MUserName = Trim(.Fields("Usr_nm").Value.ToString)
-                cmbCompany.Text = Trim(.Fields("Company").Value.ToString)
-                Sub_Company.Text = Trim(.Fields("Sub_Company").Value.ToString)
-                MUserID = Trim(.Fields("Usr_id").Value)
-                MPws = Trim(.Fields("PWD").Value)
-                MPermit = Trim(.Fields("permision").Value)
-
+            MUserName = Trim(DbHelper.GetStr(dt.Rows(0)("Usr_nm")))
+            cmbCompany.Text = Trim(DbHelper.GetStr(dt.Rows(0)("Company")))
+            Sub_Company.Text = Trim(DbHelper.GetStr(dt.Rows(0)("Sub_Company")))
+            MUserID = Trim(DbHelper.GetStr(dt.Rows(0)("Usr_id")))
+            MPws = Trim(DbHelper.GetStr(dt.Rows(0)("PWD")))
+            MPermit = Trim(DbHelper.GetStr(dt.Rows(0)("permision")))
 
 
 
-                Label11.Text = Trim(.Fields("Usr_nm").Value.ToString)
-                Label12.Text = MPermit
-                MSection = (.Fields("Sec_ID").Value)
 
-                txtPassword.Focus()
-            End If
-        End With
+            Label11.Text = Trim(DbHelper.GetStr(dt.Rows(0)("Usr_nm")))
+            Label12.Text = MPermit
+            MSection = DbHelper.GetStr(dt.Rows(0)("Sec_ID"))
+
+            txtPassword.Focus()
+        End If
     End Sub
 
 
@@ -113,32 +111,30 @@ Public Class FmLogin
         MPws = ""
         Label11.Text = ""
         Label12.Text = ""
-        Call LoadSqlData("select * from AP_Users where Usr_id='" & Trim(Apostrophe(txtUserId.Text)) & "' ", rs)
-        With rs
-            If .RecordCount = 0 Then
-                'MessageBox.Show("User ID ບໍ່ຖືກຕ້ອງ", "ບໍ່ສາມາດເຂົ້າລະບົບໄດ້", MessageBoxButtons.OK, MessageBoxIcon.Error) : txtUserId.Focus() : Exit Sub
-            Else
+        Dim dt As DataTable = DbHelper.GetDataTable("select * from AP_Users where Usr_id='" & Trim(Apostrophe(txtUserId.Text)) & "' ")
+        If dt.Rows.Count = 0 Then
+            'MessageBox.Show("User ID ບໍ່ຖືກຕ້ອງ", "ບໍ່ສາມາດເຂົ້າລະບົບໄດ້", MessageBoxButtons.OK, MessageBoxIcon.Error) : txtUserId.Focus() : Exit Sub
+        Else
 
-                MUserName = Trim(.Fields("Usr_nm").Value.ToString)
-                cmbCompany.Text = Trim(.Fields("Company").Value.ToString)
-                Sub_Company.Text = Trim(.Fields("Sub_Company").Value.ToString)
-                'MsgBox(Trim(.Fields("Sub_Company").Value.ToString))
-                MUserID = Trim(.Fields("Usr_id").Value)
-                MPws = Trim(.Fields("PWD").Value)
-                MPermit = Trim(.Fields("permision").Value)
-                Mpermiss = Trim(.Fields("permision").Value)
-                Label11.Text = Trim(.Fields("Usr_nm").Value.ToString)
-                Label12.Text = MPermit
-                'MuLng = Trim(.Fields("Lng").Value.ToString)
-                'ForStaff = (.Fields("ForStaff").Value)
-                'MDWrite = (.Fields("Write_bit").Value)
-                'MDEdit = (.Fields("Edit_bit").Value)
-                'MDDelete = (.Fields("Delete_bit").Value)
-                MSection = (.Fields("Sec_ID").Value)
-                'If MPermit = "Admi" Then
-                txtPassword.Focus()
-            End If
-        End With
+            MUserName = Trim(DbHelper.GetStr(dt.Rows(0)("Usr_nm")))
+            cmbCompany.Text = Trim(DbHelper.GetStr(dt.Rows(0)("Company")))
+            Sub_Company.Text = Trim(DbHelper.GetStr(dt.Rows(0)("Sub_Company")))
+            'MsgBox(Trim(DbHelper.GetStr(dt.Rows(0)("Sub_Company"))))
+            MUserID = Trim(DbHelper.GetStr(dt.Rows(0)("Usr_id")))
+            MPws = Trim(DbHelper.GetStr(dt.Rows(0)("PWD")))
+            MPermit = Trim(DbHelper.GetStr(dt.Rows(0)("permision")))
+            Mpermiss = Trim(DbHelper.GetStr(dt.Rows(0)("permision")))
+            Label11.Text = Trim(DbHelper.GetStr(dt.Rows(0)("Usr_nm")))
+            Label12.Text = MPermit
+            'MuLng = Trim(DbHelper.GetStr(dt.Rows(0)("Lng")))
+            'ForStaff = DbHelper.GetStr(dt.Rows(0)("ForStaff"))
+            'MDWrite = DbHelper.GetStr(dt.Rows(0)("Write_bit"))
+            'MDEdit = DbHelper.GetStr(dt.Rows(0)("Edit_bit"))
+            'MDDelete = DbHelper.GetStr(dt.Rows(0)("Delete_bit"))
+            MSection = DbHelper.GetStr(dt.Rows(0)("Sec_ID"))
+            'If MPermit = "Admi" Then
+            txtPassword.Focus()
+        End If
     End Sub
 
     Private Sub txtUserId_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtUserId.LostFocus
@@ -242,20 +238,16 @@ Public Class FmLogin
         BtnOk.Enabled = False
     End Sub
     Public Sub LoadServer()
-        Dim Conn As New ADODB.Connection
-        Dim rsProj As New ADODB.Recordset
-        Call LoadAcData("Select * from Conect ", rsProj)
-        With rsProj
-            If .RecordCount <> 0 Then
-                MDServerName = (.Fields("ServerName").Value.ToString)
-                MDDatabaName = (.Fields("DatabaseName").Value.ToString)
-                MDServerUser = (.Fields("UserName").Value.ToString)
-                MDServerPassword = (.Fields("UserPassword").Value.ToString)
-                MDSeriaAccess = (.Fields("PartitionSeria").Value.ToString)
-                SPW = CStr((.Fields("SavePassword").Value.ToString))
-                SUSID = CStr((.Fields("SaveUserID").Value.ToString))
-            End If
-        End With
+        Dim dtProj As DataTable = DbHelper.GetDataTable("Select * from Conect ")
+        If dtProj.Rows.Count <> 0 Then
+            MDServerName = DbHelper.GetStr(dtProj.Rows(0)("ServerName"))
+            MDDatabaName = DbHelper.GetStr(dtProj.Rows(0)("DatabaseName"))
+            MDServerUser = DbHelper.GetStr(dtProj.Rows(0)("UserName"))
+            MDServerPassword = DbHelper.GetStr(dtProj.Rows(0)("UserPassword"))
+            MDSeriaAccess = DbHelper.GetStr(dtProj.Rows(0)("PartitionSeria"))
+            SPW = CStr((DbHelper.GetStr(dtProj.Rows(0)("SavePassword"))))
+            SUSID = CStr((DbHelper.GetStr(dtProj.Rows(0)("SaveUserID"))))
+        End If
         'MsgBox(MDDatabaName)
         'Dim rsProj2 As New ADODB.Recordset
         'Call LoadAcData("Select * from Conect where SvID='002' ", rsProj2)
@@ -286,57 +278,41 @@ Public Class FmLogin
 
     Private Sub LoadPartition()
         ConnectPartition()
-        Dim Conn As New ADODB.Connection
-        Dim rsProj As New ADODB.Recordset
-        Call LoadAcData("Select * from PTSSeria ", rsProj)
-        With rsProj
-            If .RecordCount <> 0 Then
-                MDSeriaAccess = CDbl((.Fields("PartitionSeria").Value.ToString))
-            End If
-        End With
+        Dim dtProj As DataTable = DbHelper.GetDataTable("Select * from PTSSeria ")
+        If dtProj.Rows.Count <> 0 Then
+            MDSeriaAccess = CDbl((DbHelper.GetStr(dtProj.Rows(0)("PartitionSeria"))))
+        End If
     End Sub
     Private Sub loadCheckComputerCode()
 
-        Dim RSC As New ADODB.Recordset
-        With RSC
-            LoadSqlData("select *  from  Ap_ComputerMember Where ComCode = '" & MDSeriaCom & "' ", RSC)
-            If RSC.RecordCount = 0 Then
-                Ck = 0
-            End If
-        End With
+        Dim dt1 As DataTable = DbHelper.GetDataTable("select *  from  Ap_ComputerMember Where ComCode = '" & MDSeriaCom & "' ")
+        If dt1.Rows.Count = 0 Then
+            Ck = 0
+        End If
 
-        'Dim RSC As New ADODB.Recordset
-        With RSC
-            LoadSqlData("select *  from  Ap_ComputerMember Where ComCode = '" & MDSeriaCom & "' And Status = 1 ", RSC)
-            If RSC.RecordCount = 0 Then
-                'MsgBox("jj")
-                Status1 = 0
-            End If
-        End With
+        Dim dt2 As DataTable = DbHelper.GetDataTable("select *  from  Ap_ComputerMember Where ComCode = '" & MDSeriaCom & "' And Status = 1 ")
+        If dt2.Rows.Count = 0 Then
+            'MsgBox("jj")
+            Status1 = 0
+        End If
     End Sub
     Private Sub loadCompany()
 
         cmbCompany.Items.Clear()
-        LoadSqlData("select off_add1 , off_id  from  Ap_office group BY off_id , off_add1", RSC)
-        With RSC
-            Do Until .EOF = True
-                cmbCompany.Items.Add((.Fields("off_id").Value) & " " & (.Fields("off_add1").Value))
-                .MoveNext()
-            Loop
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("select off_add1 , off_id  from  Ap_office group BY off_id , off_add1")
+        For Each row As DataRow In dt.Rows
+            cmbCompany.Items.Add((DbHelper.GetStr(row("off_id"))) & " " & DbHelper.GetStr(row("off_add1")))
+        Next
 
         SUPD = 0
     End Sub
 
     Private Sub LoadSubCompany()
         Sub_Company.Items.Clear()
-        LoadSqlData("select sub_id , off_id , off_add2  from  Ap_office where off_id ='" & Mid(cmbCompany.Text, 1, 2) & "' group BY  sub_id  ,off_id , off_add2", RSC)
-        With RSC
-            Do Until .EOF = True
-                Sub_Company.Items.Add((.Fields("sub_id").Value) & " " & (.Fields("off_add2").Value))
-                .MoveNext()
-            Loop
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("select sub_id , off_id , off_add2  from  Ap_office where off_id ='" & Mid(cmbCompany.Text, 1, 2) & "' group BY  sub_id  ,off_id , off_add2")
+        For Each row As DataRow In dt.Rows
+            Sub_Company.Items.Add((DbHelper.GetStr(row("sub_id"))) & " " & DbHelper.GetStr(row("off_add2")))
+        Next
 
         Sub_Company.SelectedIndex = 0
         Off_Id = Mid(cmbCompany.Text, 1, 2)
@@ -345,14 +321,14 @@ Public Class FmLogin
     Private Sub BtnOk_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnOk.Click
         MWorkSetting = Date.Now
         If ChSavPW.Checked = True Then
-            conn.Execute(" Update  conect set SavePassword = '" & txtPassword.Text & "' ")
+            DbHelper.ExecuteNonQuery(" Update  conect set SavePassword = '" & txtPassword.Text & "' ")
         Else
-            conn.Execute(" Update  conect set SavePassword ='' ")
+            DbHelper.ExecuteNonQuery(" Update  conect set SavePassword ='' ")
         End If
         If ChSavUserID.Checked = True Then
-            conn.Execute(" Update  conect set SaveUserID = '" & txtUserId.Text & "' ")
+            DbHelper.ExecuteNonQuery(" Update  conect set SaveUserID = '" & txtUserId.Text & "' ")
         Else
-            conn.Execute(" Update  conect set SaveUserID = '' ")
+            DbHelper.ExecuteNonQuery(" Update  conect set SaveUserID = '' ")
         End If
         Ck = 1
         Status1 = 1
@@ -394,7 +370,7 @@ Public Class FmLogin
             FmShow.Show()
             'FmShow.Focus()
         End If
-        conn.Execute(" Update  MbDtUse set UsrId = '" & txtUserId.Text & "' , Psw ='" & txtPassword.Text & "'  , OffId = '" & MuSubOff & "' ")
+        DbHelper.ExecuteNonQuery(" Update  MbDtUse set UsrId = '" & txtUserId.Text & "' , Psw ='" & txtPassword.Text & "'  , OffId = '" & MuSubOff & "' ")
     End Sub
 
     Private Sub cmbCompany_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmbCompany.SelectedIndexChanged
@@ -450,7 +426,7 @@ Public Class FmLogin
         Dim cn As SqlConnection
         Dim cmd As SqlCommand
       
-        CNN.Execute("Delete Ap_balance_6_col")
+        DbHelper.ExecuteNonQuery("Delete Ap_balance_6_col")
 
         Try
       
@@ -483,18 +459,19 @@ Public Class FmLogin
     Private Sub x()
         Dim X1 As Double
         X1 = 0
-        With RSC
-            Call LoadSqlData("select *  from Ap_Loan where Bnk_Ac_Code3='" & (RSCC4.Fields("Bnk_Ac_Code3").Value.ToString) & "'", RSC)
-            If .RecordCount <> 0 Then
-                While Not .EOF()
-                    X1 = X1 + 1
-                    CNN.Execute(" Update Ap_Loan set Bnk_Ac_Code=Bnk_Ac_Code3 + '-' + '" & X1 & "' where cnt = '" & (.Fields("cnt").Value.ToString) & "' ")
-                    '(.Fields("Withdr_No").Value.ToString) & _
+        ' This sub appears to be using RSCC4 which was removed, commenting out for safety
+        ' With RSC
+        '     Call LoadSqlData("select *  from Ap_Loan where Bnk_Ac_Code3='" & (RSCC4.Fields("Bnk_Ac_Code3").Value.ToString) & "'", RSC)
+        '     If .RecordCount <> 0 Then
+        '         While Not .EOF()
+        '             X1 = X1 + 1
+        '             DbHelper.ExecuteNonQuery(" Update Ap_Loan set Bnk_Ac_Code=Bnk_Ac_Code3 + '-' + '" & X1 & "' where cnt = '" & (.Fields("cnt").Value.ToString) & "' ")
+        '             '(.Fields("Withdr_No").Value.ToString) & _
 
-                    .MoveNext()
-                End While
-            End If
-        End With
+        '             .MoveNext()
+        '         End While
+        '     End If
+        ' End With
         'MsgBox("ok")
     End Sub
     Private Sub Label30_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)

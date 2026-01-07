@@ -1,8 +1,10 @@
+Imports System.Data.SqlClient
+
 Public Class Rate_setting
-    Public RSC As New ADODB.Recordset
+    'Public RSC As New ADODB.Recordset ' REMOVED
     Public EditActive As Boolean
     Dim itemfgacc As Boolean
-    Dim rs As New ADODB.Recordset
+    'Dim rs As New ADODB.Recordset ' REMOVED
     Dim Sql As String
     Dim Dtsql As String
     Dim SS_Curr As String
@@ -15,7 +17,7 @@ Public Class Rate_setting
     Private Sub Rate_setting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Call RateSetting()
         Call LoadText()
-        Call LoadSqlData("select * from AP_Rate_history", rs)
+        'Call LoadSqlData("select * from AP_Rate_history", rs) ' Not used?
 
         txtTHB_LAK.Text = Format(CDbl(MDTHB_LAK), "#,###0.00########")
         txtUSD_LAK.Text = Format(CDbl(MDUSD_LAK), "#,###0.00########")
@@ -94,20 +96,17 @@ Public Class Rate_setting
 
     Private Sub LoadData_Curr()
         FG_Curr.Rows.Clear()
-        With rs
-            Call LoadSqlData("select *  from Curr_For_Rate WHERE 1=1  order by cnt ", rs)
-            If .RecordCount > 0 Then
-                Dim i As Integer = 1
-                While Not .EOF()
-                    FG_Curr.Rows.Add(i, _
-                        .Fields("curr").Value.ToString, _
-                        .Fields("Curr_name").Value.ToString, _
-                        .Fields("cnt").Value.ToString)
-                    .MoveNext()
-                    i += 1
-                End While
-            End If
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("select *  from Curr_For_Rate WHERE 1=1  order by cnt ")
+        If dt.Rows.Count > 0 Then
+            Dim i As Integer = 1
+            For Each row As DataRow In dt.Rows
+                FG_Curr.Rows.Add(i, _
+                    row("curr").ToString, _
+                    row("Curr_name").ToString, _
+                    row("cnt").ToString)
+                i += 1
+            Next
+        End If
     End Sub
 
     Private Sub LoadData()
@@ -119,29 +118,26 @@ Public Class Rate_setting
             SS_Curr = " and AP_Rate_history.Curr =N'" & CMB_Curr_SSS.Text & "' "
         End If
 
-        CNN.Execute("UPDATE AP_Rate_history SET Rate2=Rate where Rate2 IS NULL ")
+        DbHelper.ExecuteNonQuery("UPDATE AP_Rate_history SET Rate2=Rate where Rate2 IS NULL ")
 
         FG_Rate.Rows.Clear()
-        With rs
-            Dim PPP As String = "select AP_Rate_history.*, Curr_For_Rate.Curr_name FROM AP_Rate_history INNER JOIN " & _
-                      "  Curr_For_Rate ON AP_Rate_history.curr = Curr_For_Rate.Curr  WHERE 1=1  " & Sql & "  " & SS_Curr & " order by  rate_dt ,Curr_For_Rate.cnt      "
-            Call LoadSqlData(PPP, rs)
-            If .RecordCount > 0 Then
-                Dim i As Integer = 1
-                While Not .EOF()
-                    FG_Rate.Rows.Add(i, _
-                        .Fields("curr").Value.ToString, _
-                        Format(.Fields("rate_dt").Value, "dd/MM/yyyy"), _
-                        Format(CDbl(.Fields("Rate").Value), "#,###0.00########"), _
-                        Format(CDbl(.Fields("Rate2").Value), "#,###0.00########"), _
-                        .Fields("Curr_name").Value.ToString, _
-                        .Fields("user_updt").Value.ToString, _
-                        .Fields("lst_updt").Value.ToString)
-                    .MoveNext()
-                    i += 1
-                End While
-            End If
-        End With
+        Dim PPP As String = "select AP_Rate_history.*, Curr_For_Rate.Curr_name FROM AP_Rate_history INNER JOIN " & _
+                  "  Curr_For_Rate ON AP_Rate_history.curr = Curr_For_Rate.Curr  WHERE 1=1  " & Sql & "  " & SS_Curr & " order by  rate_dt ,Curr_For_Rate.cnt      "
+        Dim dt As DataTable = DbHelper.GetDataTable(PPP)
+        If dt.Rows.Count > 0 Then
+            Dim i As Integer = 1
+            For Each row As DataRow In dt.Rows
+                FG_Rate.Rows.Add(i, _
+                    row("curr").ToString, _
+                    Format(row("rate_dt"), "dd/MM/yyyy"), _
+                    Format(CDbl(row("Rate")), "#,###0.00########"), _
+                    Format(CDbl(row("Rate2")), "#,###0.00########"), _
+                    row("Curr_name").ToString, _
+                    row("user_updt").ToString, _
+                    row("lst_updt").ToString)
+                i += 1
+            Next
+        End If
     End Sub
 
     Private Sub LoadText()
@@ -195,7 +191,7 @@ Public Class Rate_setting
         
         ' Logic for "list last" check was a bit vague in original code, simplifying safe delete check
         If MessageBox.Show("Do you want to delete rate for " & AccCD & " yes or no ?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-            CNN.Execute("DELETE FROM AP_Rate_History WHERE (rate_dt)= '" & Format(DTrate.Value, "yyyy-MM-dd") & "' ")
+            DbHelper.ExecuteNonQuery("DELETE FROM AP_Rate_History WHERE (rate_dt)= '" & Format(DTrate.Value, "yyyy-MM-dd") & "' ")
             
             FG_Rate.Rows.RemoveAt(FG_Rate.CurrentRow.Index)
         End If
@@ -290,10 +286,10 @@ Public Class Rate_setting
         cc = Microsoft.VisualBasic.Left(aa, 12)
         cc = Trim(cc)
         bb = "Select * From AP_Office Where off_nm=N'" & Trim(Mid(Trim(aa), 11, Len(aa) - 10)) & "'  and   off_id = '" & Trim(cc) & "'   "
-        Call LoadSqlData(bb, RSC)
+        Dim dt As DataTable = DbHelper.GetDataTable(bb)
 
-        If RSC.RecordCount > 0 Then
-            txt_Component_id.Text = Trim(RSC("off_id").Value)
+        If dt.Rows.Count > 0 Then
+            txt_Component_id.Text = Trim(dt.Rows(0)("off_id").ToString)
         End If
     End Sub
 
@@ -301,26 +297,24 @@ Public Class Rate_setting
         If txtCurr.Text = "" Then MsgBox("ກະລຸນາ ໃສ່ສະກຸນເງິນ ກ່ອນ!", MsgBoxStyle.OkOnly) : txtCurr.Focus() : Exit Sub
         If txtcurr_name.Text = "" Then MsgBox("ກະລຸນາ ໃສ່ສະກຸນເງິນ ເປັນພາສາລາວ ກ່ອນ!", MsgBoxStyle.OkOnly) : txtcurr_name.Focus() : Exit Sub
 
-        Dim RsRate As New ADODB.Recordset
-        With RsRate
-            Dim aa As String
-            Call LoadSqlData("select Curr from Curr_For_Rate WHERE  Curr=N'" & Trim(txtCurr.Text) & "' ", RsRate)
-            If .RecordCount = 0 Then
-                aa = ("INSERT INTO Curr_For_Rate ( Curr ,Curr_name , Lst_updt,  user_updt, Pc_nm) " & _
-                     " VALUES (N'" & (txtCurr.Text) & "'," & _
-                        " N'" & txtcurr_name.Text & "'," & _
-                    " Getdate()," & _
-                    " N'" & MUserName & "'," & _
-                    " '" & COMPUTER_NM & "')")
-                CNN.Execute(aa)
-            Else
-                CNN.Execute("update Curr_For_Rate set  curr=N'" & Trim(txtCurr.Text) & "', " & _
-                              " Curr_name=N'" & txtcurr_name.Text & "'," & _
-                "  lst_updt=getdate(), User_updt=N'" & Trim(MUserName) & "', " & _
-                " pc_nm='" & Trim(MDServerName) & "'   " & _
-                " WHERE     Curr=N'" & Trim(txtCurr.Text) & "' ")
-            End If
-        End With
+        'Dim RsRate As New ADODB.Recordset
+        Dim aa As String
+        Dim dt As DataTable = DbHelper.GetDataTable("select Curr from Curr_For_Rate WHERE  Curr=N'" & Trim(txtCurr.Text) & "' ")
+        If dt.Rows.Count = 0 Then
+            aa = ("INSERT INTO Curr_For_Rate ( Curr ,Curr_name , Lst_updt,  user_updt, Pc_nm) " & _
+                    " VALUES (N'" & (txtCurr.Text) & "'," & _
+                    " N'" & txtcurr_name.Text & "'," & _
+                " Getdate()," & _
+                " N'" & MUserName & "'," & _
+                " '" & COMPUTER_NM & "')")
+            DbHelper.ExecuteNonQuery(aa)
+        Else
+            DbHelper.ExecuteNonQuery("update Curr_For_Rate set  curr=N'" & Trim(txtCurr.Text) & "', " & _
+                            " Curr_name=N'" & txtcurr_name.Text & "'," & _
+            "  lst_updt=getdate(), User_updt=N'" & Trim(MUserName) & "', " & _
+            " pc_nm='" & Trim(MDServerName) & "'   " & _
+            " WHERE     Curr=N'" & Trim(txtCurr.Text) & "' ")
+        End If
         Call Laod_combo()
         Call LoadData_Curr()
     End Sub
@@ -346,16 +340,16 @@ Public Class Rate_setting
             txtRate2.Text = txtRate.Text
         End If
 
-        CNN.Execute("update AP_Rate set THB_LAK=" & CDbl(txtTHB_LAK.Text) & ", USD_THB=" & CDbl(txtUSD_THB.Text) & ", EUR_THB=" & CDbl(txtEUR_THB.Text) & ", USD_LAK=" & CDbl(txtUSD_LAK.Text) & ", EUR_USD=" & CDbl(txtEUR_USD.Text) & ", EUR_LAK=" & CDbl(txtEUR_LAK.Text) & ", " & _
+        DbHelper.ExecuteNonQuery("update AP_Rate set THB_LAK=" & CDbl(txtTHB_LAK.Text) & ", USD_THB=" & CDbl(txtUSD_THB.Text) & ", EUR_THB=" & CDbl(txtEUR_THB.Text) & ", USD_LAK=" & CDbl(txtUSD_LAK.Text) & ", EUR_USD=" & CDbl(txtEUR_USD.Text) & ", EUR_LAK=" & CDbl(txtEUR_LAK.Text) & ", " & _
         "User_updt=N'" & Trim(MUserName) & "' ,PC_nm='" & Trim(MDServerName) & "', LAK=" & CDbl(txtEUR_LAK.Text) & ", THB=" & CDbl(txtEUR_THB.Text) & ", USD=" & CDbl(txtEUR_USD.Text) & ", EUR=1, lst_updt=getdate(), rate_dt='" & Format(DTrate.Value, "yyyy-MM-dd") & "' WHERE (status=1) AND (curr='EUR')")
 
-        CNN.Execute("update AP_Rate set THB_LAK=" & CDbl(txtTHB_LAK.Text) & ", USD_THB=" & CDbl(txtUSD_THB.Text) & ", EUR_THB=" & CDbl(txtEUR_THB.Text) & ", USD_LAK=" & CDbl(txtUSD_LAK.Text) & ", EUR_USD=" & CDbl(txtEUR_USD.Text) & ", EUR_LAK=" & CDbl(txtEUR_LAK.Text) & ", " & _
+        DbHelper.ExecuteNonQuery("update AP_Rate set THB_LAK=" & CDbl(txtTHB_LAK.Text) & ", USD_THB=" & CDbl(txtUSD_THB.Text) & ", EUR_THB=" & CDbl(txtEUR_THB.Text) & ", USD_LAK=" & CDbl(txtUSD_LAK.Text) & ", EUR_USD=" & CDbl(txtEUR_USD.Text) & ", EUR_LAK=" & CDbl(txtEUR_LAK.Text) & ", " & _
         "User_updt=N'" & Trim(MUserName) & "' ,PC_nm='" & Trim(MDServerName) & "', LAK=" & CDbl(txtUSD_LAK.Text) & ", THB=" & CDbl(txtUSD_THB.Text) & ", USD=1, EUR=" & 1 / CDbl(txtEUR_USD.Text) & ", lst_updt=getdate(), rate_dt='" & Format(DTrate.Value, "yyyy-MM-dd") & "' WHERE (status=1) AND (curr='USD')")
 
-        CNN.Execute("update AP_Rate set THB_LAK=" & CDbl(txtTHB_LAK.Text) & ", USD_THB=" & CDbl(txtUSD_THB.Text) & ", EUR_THB=" & CDbl(txtEUR_THB.Text) & ", USD_LAK=" & CDbl(txtUSD_LAK.Text) & ", EUR_USD=" & CDbl(txtEUR_USD.Text) & ", EUR_LAK=" & CDbl(txtEUR_LAK.Text) & ", " & _
+        DbHelper.ExecuteNonQuery("update AP_Rate set THB_LAK=" & CDbl(txtTHB_LAK.Text) & ", USD_THB=" & CDbl(txtUSD_THB.Text) & ", EUR_THB=" & CDbl(txtEUR_THB.Text) & ", USD_LAK=" & CDbl(txtUSD_LAK.Text) & ", EUR_USD=" & CDbl(txtEUR_USD.Text) & ", EUR_LAK=" & CDbl(txtEUR_LAK.Text) & ", " & _
         "User_updt=N'" & Trim(MUserName) & "' ,PC_nm='" & Trim(MDServerName) & "', LAK=" & CDbl(txtTHB_LAK.Text) & ", THB=1, USD=" & 1 / CDbl(txtUSD_THB.Text) & ", EUR=" & 1 / CDbl(txtEUR_THB.Text) & ", lst_updt=getdate(), rate_dt='" & Format(DTrate.Value, "yyyy-MM-dd") & "' WHERE (status=1) AND (curr='THB')")
 
-        CNN.Execute("update AP_Rate set THB_LAK=" & CDbl(txtTHB_LAK.Text) & ", USD_THB=" & CDbl(txtUSD_THB.Text) & ", EUR_THB=" & CDbl(txtEUR_THB.Text) & ", USD_LAK=" & CDbl(txtUSD_LAK.Text) & ", EUR_USD=" & CDbl(txtEUR_USD.Text) & ", EUR_LAK=" & CDbl(txtEUR_LAK.Text) & ", " & _
+        DbHelper.ExecuteNonQuery("update AP_Rate set THB_LAK=" & CDbl(txtTHB_LAK.Text) & ", USD_THB=" & CDbl(txtUSD_THB.Text) & ", EUR_THB=" & CDbl(txtEUR_THB.Text) & ", USD_LAK=" & CDbl(txtUSD_LAK.Text) & ", EUR_USD=" & CDbl(txtEUR_USD.Text) & ", EUR_LAK=" & CDbl(txtEUR_LAK.Text) & ", " & _
         "User_updt=N'" & Trim(MUserName) & "' ,PC_nm='" & Trim(MDServerName) & "', LAK=1, THB=" & 1 / CDbl(txtTHB_LAK.Text) & ", USD=" & 1 / CDbl(txtUSD_LAK.Text) & ", EUR=" & 1 / CDbl(txtEUR_LAK.Text) & ", lst_updt=getdate(), rate_dt='" & Format(DTrate.Value, "yyyy-MM-dd") & "' WHERE (status=1) AND (curr='LAK')")
 
         Call Save()
@@ -366,62 +360,58 @@ Public Class Rate_setting
     End Sub
 
     Private Sub Save()
-        Dim RsRate As New ADODB.Recordset
-        With RsRate
-            Dim aa As String
-            Call LoadSqlData("select curr from AP_Rate_history WHERE rate_dt='" & Format(DTrate.Value, "yyyy-MM-dd") & "'  " & _
-                        "  and  Curr=N'" & Trim(CMB_Curr.Text) & "' ", RsRate)
-            If .RecordCount = 0 Then
-                aa = ("INSERT INTO AP_Rate_history ( Curr  , Curr_name , rate_dt , Rate , Rate2,  Lst_updt,  user_updt, Pc_nm) " & _
-                      " VALUES (N'" & (CMB_Curr.Text) & "'," & _
-                        " N'" & txtcurr_name2.Text & "'," & _
-                      " '" & Format(DTrate.Value, " yyyy-MM-dd") & "', " & _
-                       " " & CDbl(txtRate.Text) & ", " & _
-                                " " & CDbl(txtRate2.Text) & ", " & _
-                          " Getdate()," & _
-                        " N'" & MUserName & "'," & _
-                     " '" & COMPUTER_NM & "')")
-                CNN.Execute(aa)
-            Else
-                aa = "update AP_Rate_history set   rate_dt='" & Format(DTrate.Value, "yyyy-MM-dd") & "',  Rate=" & CDbl(txtRate.Text) & ",   Rate2=" & CDbl(txtRate2.Text) & ", " & _
-                  " Curr_name=N'" & txtcurr_name2.Text & "'," & _
-                "  lst_updt=getdate(), User_updt=N'" & Trim(MUserName) & "', pc_nm='" & Trim(MDServerName) & "'  " & _
-                 " WHERE  rate_dt='" & Format(DTrate.Value, "yyyy-MM-dd") & "'  " & _
-                        "  and  Curr=N'" & Trim(CMB_Curr.Text) & "' "
-                CNN.Execute(aa)
-            End If
-        End With
+        Dim aa As String
+        Dim dt As DataTable = DbHelper.GetDataTable("select curr from AP_Rate_history WHERE rate_dt='" & Format(DTrate.Value, "yyyy-MM-dd") & "'  " & _
+                    "  and  Curr=N'" & Trim(CMB_Curr.Text) & "' ")
+        If dt.Rows.Count = 0 Then
+            aa = ("INSERT INTO AP_Rate_history ( Curr  , Curr_name , rate_dt , Rate , Rate2,  Lst_updt,  user_updt, Pc_nm) " & _
+                    " VALUES (N'" & (CMB_Curr.Text) & "'," & _
+                    " N'" & txtcurr_name2.Text & "'," & _
+                    " '" & Format(DTrate.Value, " yyyy-MM-dd") & "', " & _
+                    " " & CDbl(txtRate.Text) & ", " & _
+                            " " & CDbl(txtRate2.Text) & ", " & _
+                        " Getdate()," & _
+                    " N'" & MUserName & "'," & _
+                    " '" & COMPUTER_NM & "')")
+            DbHelper.ExecuteNonQuery(aa)
+        Else
+            aa = "update AP_Rate_history set   rate_dt='" & Format(DTrate.Value, "yyyy-MM-dd") & "',  Rate=" & CDbl(txtRate.Text) & ",   Rate2=" & CDbl(txtRate2.Text) & ", " & _
+                " Curr_name=N'" & txtcurr_name2.Text & "'," & _
+            "  lst_updt=getdate(), User_updt=N'" & Trim(MUserName) & "', pc_nm='" & Trim(MDServerName) & "'  " & _
+                " WHERE  rate_dt='" & Format(DTrate.Value, "yyyy-MM-dd") & "'  " & _
+                    "  and  Curr=N'" & Trim(CMB_Curr.Text) & "' "
+            DbHelper.ExecuteNonQuery(aa)
+        End If
     End Sub
 
     Private Sub Button2_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
-        Call LoadSqlData("select curr from AP_Rate_history WHERE    curr = N'" & Trim(txtCurr.Text) & "'  ", rs)
-        If rs.RecordCount <> 0 Then MsgBox("ທ່ານ ບໍ່ສາມາດລຶບລາຍການນີ້ໄດ້ເພາະມີການເຄື່ອນໄຫວແລ້ວ.", MsgBoxStyle.OkOnly) : Exit Sub
+        Dim dt As DataTable = DbHelper.GetDataTable("select curr from AP_Rate_history WHERE    curr = N'" & Trim(txtCurr.Text) & "'  ")
+        If dt.Rows.Count <> 0 Then MsgBox("ທ່ານ ບໍ່ສາມາດລຶບລາຍການນີ້ໄດ້ເພາະມີການເຄື່ອນໄຫວແລ້ວ.", MsgBoxStyle.OkOnly) : Exit Sub
         Dim aa As String
         If MessageBox.Show("ທ່ານຕ້ອງການລຶບລາຍການ : " & Trim(FG_Curr.CurrentRow.Cells(1).Value.ToString()) & "  ນີ້ແທ້ບໍ່?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
             aa = " delete   Curr_For_Rate WHERE  Curr=N'" & Trim(txtCurr.Text) & "'  "
-            CNN.Execute(aa)
+            DbHelper.ExecuteNonQuery(aa)
             Call LoadData_Curr()
             Call Laod_combo()
         End If
     End Sub
 
     Private Sub Button3_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        Call LoadSqlData("select curr from gen_jn WHERE    curr = N'" & Trim(CMB_Curr.Text) & "'  ", rs)
-        If rs.RecordCount <> 0 Then MsgBox("ທ່ານ ບໍ່ສາມາດລຶບລາຍການນີ້ໄດ້ເພາະມີການເຄື່ອນໄຫວແລ້ວ.", MsgBoxStyle.OkOnly) : Exit Sub
+        Dim dt As DataTable = DbHelper.GetDataTable("select curr from gen_jn WHERE    curr = N'" & Trim(CMB_Curr.Text) & "'  ")
+        If dt.Rows.Count <> 0 Then MsgBox("ທ່ານ ບໍ່ສາມາດລຶບລາຍການນີ້ໄດ້ເພາະມີການເຄື່ອນໄຫວແລ້ວ.", MsgBoxStyle.OkOnly) : Exit Sub
         Dim aa As String
-        If MessageBox.Show("ທ່ານຕ້ອງການລຶບລາຍການ : " & Trim(FG_Curr.CurrentRow.Cells(1).Value.ToString()) & "  ນີ້ແທ້ບໍ່?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+        If MessageBox.Show("ທ່ານຕ້ອງການລຶບລາຍການ : " & Trim(FG_Rate.CurrentRow.Cells(1).Value.ToString()) & "  ນີ້ແທ້ບໍ່?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
             aa = " delete   AP_Rate_history WHERE   rate_dt='" & Format(DTrate.Value, "yyyy-MM-dd") & "'  " & _
                         "  and  Curr=N'" & Trim(CMB_Curr.Text) & "'  "
-            CNN.Execute(aa)
+            DbHelper.ExecuteNonQuery(aa)
             Call LoadData()
         End If
     End Sub
 
     Private Sub CMB_Curr_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CMB_Curr.SelectedIndexChanged
-        Dim rs As New ADODB.Recordset
-        Call LoadSqlData("Select * From Curr_For_Rate Where   Curr =N'" & Trim(CMB_Curr.Text) & "'", rs)
-        If rs.RecordCount > 0 Then
-            txtcurr_name2.Text = Trim(rs("Curr_name").Value.ToString)
+        Dim dt As DataTable = DbHelper.GetDataTable("Select * From Curr_For_Rate Where   Curr =N'" & Trim(CMB_Curr.Text) & "'")
+        If dt.Rows.Count > 0 Then
+            txtcurr_name2.Text = Trim(dt.Rows(0)("Curr_name").ToString)
         End If
     End Sub
 

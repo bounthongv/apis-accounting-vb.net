@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class fmShartOfAcc
     Inherits System.Windows.Forms.Form
 
@@ -49,7 +49,7 @@ Partial Class fmShartOfAcc
         Me.BtnEdit = New System.Windows.Forms.Button
         Me.BtnExit = New System.Windows.Forms.Button
         Me.BntNew = New System.Windows.Forms.Button
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.CheckBox1 = New System.Windows.Forms.CheckBox
         Me.Button3 = New System.Windows.Forms.Button
         Me.BackPage = New System.Windows.Forms.Button
@@ -72,7 +72,7 @@ Partial Class fmShartOfAcc
         Me.txtLng = New System.Windows.Forms.TextBox
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.FG.SuspendLayout()
         Me.GrPage.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.SuspendLayout()
@@ -375,15 +375,20 @@ Partial Class fmShartOfAcc
         Me.BntNew.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BntNew.UseVisualStyleBackColor = True
         '
-        'FG
+'FG
         '
+        Me.FG.AllowUserToAddRows = False
+        Me.FG.AllowUserToDeleteRows = False
         Me.FG.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.FG.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.DataSource = Nothing
         Me.FG.Location = New System.Drawing.Point(5, 42)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.FG.ReadOnly = True
+        Me.FG.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.FG.Size = New System.Drawing.Size(1010, 667)
         Me.FG.TabIndex = 1
         Me.FG.Tag = "8003"
@@ -667,7 +672,7 @@ Partial Class fmShartOfAcc
         Me.Panel1.PerformLayout()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.FG.ResumeLayout(False)
         Me.GrPage.ResumeLayout(False)
         Me.GrPage.PerformLayout()
         Me.Panel3.ResumeLayout(False)
@@ -676,7 +681,7 @@ Partial Class fmShartOfAcc
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents BtnDelete As System.Windows.Forms.Button
     Friend WithEvents BtnEdit As System.Windows.Forms.Button
     Friend WithEvents BtnPreview As System.Windows.Forms.Button

@@ -1,8 +1,24 @@
-﻿Public NotInheritable Class FmOpen_jn_List
+Public NotInheritable Class FmOpen_jn_List
     Dim RptNme As String
     Dim Ac_Code As String
     Dim sql As String
     Dim mylock As Integer = 0
+
+    ' DataGridView Helper Methods
+    Private Function GetGridValue(ByVal grid As DataGridView, ByVal row As Integer, ByVal col As Integer) As String
+        If row >= 0 AndAlso row < grid.RowCount AndAlso col >= 0 AndAlso col < grid.ColumnCount Then
+            If grid.Rows(row).Cells(col).Value IsNot Nothing Then
+                Return grid.Rows(row).Cells(col).Value.ToString()
+            End If
+        End If
+        Return ""
+    End Function
+
+    Private Sub SetGridValue(ByVal grid As DataGridView, ByVal row As Integer, ByVal col As Integer, ByVal value As String)
+        If row >= 0 AndAlso row < grid.RowCount AndAlso col >= 0 AndAlso col < grid.ColumnCount Then
+            grid.Rows(row).Cells(col).Value = value
+        End If
+    End Sub
     Private Sub BtnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnExit.Click
         Close()
     End Sub
@@ -14,6 +30,36 @@
         FmNewOpen_jn.ShowDialog()
     End Sub
 
+    Private Sub SetupGrid()
+        FG.AllowUserToAddRows = False
+        FG.AllowUserToDeleteRows = False
+        FG.ReadOnly = True
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.MultiSelect = False
+        FG.RowHeadersVisible = False
+        
+        FG.Columns.Clear()
+        FG.Columns.Add("Col0", "ລ/ດ")
+        FG.Columns.Add("Col1", "ວັນທີ")
+        FG.Columns.Add("Col2", "ເລກບັນຊີເບືອງໜີ")
+        FG.Columns.Add("Col3", "ເລກບັນຊີເບືອງມີ")
+        FG.Columns.Add("Col4", "ເລກບັນຊີ")
+        FG.Columns.Add("Col5", "ຊືບັນຊີ(ລາວ)")
+        FG.Columns.Add("Col6", "ຈຳນວນເງິນຈົດໜີ້")
+        FG.Columns.Add("Col7", "ຈຳນວນເງິນຈົດມີ")
+        FG.Columns.Add("Col8", "ເງິນ")
+        FG.Columns.Add("Col9", "ອັດຕາ")
+        FG.Columns.Add("Col10", "ມູນຄ່າໜີ້")
+        FG.Columns.Add("Col11", "ມູນຄ່າມີ")
+        FG.Columns.Add("Col12", "ສາຂາ")
+        FG.Columns.Add("Col13", "cnt")
+        FG.Columns.Add("Col14", "Ac_original")
+        
+        For Each col As DataGridViewColumn In FG.Columns
+            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Next
+    End Sub
+
     Private Sub FmOpen_jn_List_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
 
         Call MdiCNum()
@@ -22,7 +68,7 @@
     Private Sub FmOpen_jn_List_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'MsgBox(Year(MWorkSetting))
 
-        FG.FormatString = "^ລ/ດ |< ວັນທີ       |<ເລກບັນຊີເບືອງໜີ |<ເລກບັນຊີເບືອງມີ |< ເລກບັນຊີ |< ຊືບັນຊີ(ລາວ)                          ||> ຈຳນວນເງິນຈົດໜີ້  | ຈຳນວນເງິນຈົດມີ  |>  ເງິນ  | ອັດຕາ  |> ມູນຄ່າໜີ້           |> ມູນຄ່າມີ           |ສາຂາ  |cnt  | Ac_original       "
+        SetupGrid()
 
 
         'ChAllSty.Visible = False
@@ -30,7 +76,8 @@
 
         'MsgBox(FmLogin.Sub_Company.Text)
 
-        FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
+        FG.AllowUserToResizeColumns = True
+        FG.AllowUserToResizeRows = True
         sql = " AND code_cr, '" & ""
         'LoadListFG()
 
@@ -78,7 +125,7 @@
         Button1.Text = "ລ໋ອກ"
         Button2.Text = "ປົດລ໋ອກ"
         CheckBox1.Text = "ພາສາ"
-        FG.FormatString = "^ລ/ດ |< ວັນທີ       |<ເລກບັນຊີເບືອງໜີ |<ເລກບັນຊີເບືອງມີ |< ເລກບັນຊີ |< ຊືບັນຊີ(ລາວ)                          ||> ຈຳນວນເງິນຈົດໜີ້  | ຈຳນວນເງິນຈົດມີ  |>  ເງິນ  | ອັດຕາ  |> ມູນຄ່າໜີ້           |> ມູນຄ່າມີ           |ສາຂາ  |cnt  | Ac_original       "
+        SetupGrid()
 
     End Sub
 
@@ -114,13 +161,12 @@
 
     Private Sub loadOffice_User()
         Off_Usr.Items.Clear()
-        LoadSqlData("select sub_id , off_add2  from  Ap_office  Order by sub_id", RSC)
-        With RSC
-            Do Until .EOF = True
-                Off_Usr.Items.Add((.Fields("sub_id").Value) & " " & (.Fields("off_add2").Value))
-                .MoveNext()
-            Loop
-        End With
+        Dim dtOffice As DataTable = DbHelper.GetDataTable("select sub_id , off_add2  from  Ap_office  Order by sub_id")
+        If dtOffice.Rows.Count > 0 Then
+            For Each row As DataRow In dtOffice.Rows
+                Off_Usr.Items.Add((row("sub_id").ToString()) & " " & (row("off_add2").ToString()))
+            Next
+        End If
         Off_Usr.Text = FmLogin.Sub_Company.Text
     End Sub
 
@@ -142,79 +188,96 @@
             FG.Cols = 14
             FG.set_ColHidden(4, True)
             FG.set_ColHidden(1, False)
-            FG.FormatString = "^ລ/ດ |< ວັນທີ       |<ເລກບັນຊີເບືອງໜີ |<ເລກບັນຊີເບືອງມີ |< ເລກບັນຊີ |< ຊືບັນຊີ(ລາວ)                          ||> ຈຳນວນເງິນຈົດໜີ້  | ຈຳນວນເງິນຈົດມີ  |>  ເງິນ  | ອັດຕາ  |> ມູນຄ່າໜີ້           |> ມູນຄ່າມີ           |ສາຂາ  |cnt  | Ac_original       "
+        SetupGrid()
 
-            With RSC
                 Dim s As String = "SELECT * FROM  Open_jn   where  Open_jn.date_work   BETWEEN '" & Format(yy.Value, "yyyy") & "-1-1" & "' AND '" & Format(yy.Value, "yyyy") & "-1-1" & "' " & MULook2 & "  And  Open_jn.ac_code Like '%" & TextBox1.Text & "%' Order by ac_code "
-                Call LoadSqlData(s, RSC)
-                If .RecordCount > 0 Then
-                    While Not .EOF
-                        FG.AddItem(.AbsolutePosition & vbTab & Format(CDate(.Fields("date_work").Value), "dd/MM/yyyy") & _
-                          "" & vbTab & Trim(CStr(.Fields("code_dr").Value.ToString)) & _
-                          "" & vbTab & Trim(CStr(.Fields("code_cr").Value.ToString)) & _
-                          "" & vbTab & Trim(CStr(.Fields("ac_code").Value.ToString)) & _
-                          "" & vbTab & Trim(CStr(.Fields("ac_name").Value.ToString)) & _
-                          "" & vbTab & Trim(CStr(.Fields("ac_namee").Value.ToString)) & _
-                          "" & vbTab & Format(CDbl(Trim(.Fields("amount_dr").Value)), "##,##0.00") & _
-                          "" & vbTab & Format(CDbl(Trim(.Fields("amount_cr").Value)), "##,##0.00") & _
-                          "" & vbTab & Trim(CStr(.Fields("curr").Value.ToString)) & _
-                          "" & vbTab & Format(CDbl(Trim(.Fields("rate").Value)), "##,##0.00") & _
-                          "" & vbTab & Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00") & _
-                          "" & vbTab & Format(CDbl(Trim(.Fields("amt_cr").Value)), "##,##0.00") & _
-                          "" & vbTab & Trim(CStr(.Fields("Company").Value.ToString)) & _
-                              "" & vbTab & Trim(CStr(.Fields("CNT").Value.ToString)) & _
-                           "" & vbTab & Trim(CStr(.Fields("Ac_original").Value.ToString)))
-                        .MoveNext()
-                    End While
-                Else
+                Dim dtOpenJn As DataTable = DbHelper.GetDataTable(s)
+                If dtOpenJn.Rows.Count > 0 Then
+            For Each dr As DataRow In dtOpenJn.Rows
+                Dim row As Integer = FG.Rows.Add()
+                FG.Rows(row).Cells(0).Value = dr("date_work")
+                FG.Rows(row).Cells(1).Value = Format(CDate(dr("date_work").ToString()), "dd/MM/yyyy")
+                FG.Rows(row).Cells(2).Value = Trim(CStr(dr("code_dr").ToString()))
+                FG.Rows(row).Cells(3).Value = Trim(CStr(dr("code_cr").ToString()))
+                FG.Rows(row).Cells(4).Value = Trim(CStr(dr("ac_code").ToString()))
+                FG.Rows(row).Cells(5).Value = Trim(CStr(dr("ac_name").ToString()))
+                FG.Rows(row).Cells(6).Value = Trim(CStr(dr("ac_namee").ToString()))
+                ' Continue with remaining fields if they exist
+                If dr.Table.Columns.Contains("amount_dr") Then
+                    FG.Rows(row).Cells(7).Value = Format(CDbl(Trim(dr("amount_dr").ToString())), "##,##0.00")
                 End If
-            End With
+                If dr.Table.Columns.Contains("amount_cr") Then
+                    FG.Rows(row).Cells(8).Value = Format(CDbl(Trim(dr("amount_cr").ToString())), "##,##0.00")
+                End If
+                If dr.Table.Columns.Contains("curr") Then
+                    FG.Rows(row).Cells(9).Value = Trim(CStr(dr("curr").ToString()))
+                End If
+                If dr.Table.Columns.Contains("rate") Then
+                    FG.Rows(row).Cells(10).Value = Format(CDbl(Trim(dr("rate").ToString())), "##,##0.00")
+                End If
+                If dr.Table.Columns.Contains("amt_dr") Then
+                    FG.Rows(row).Cells(11).Value = Format(CDbl(Trim(dr("amt_dr").ToString())), "##,##0.00")
+                End If
+                If dr.Table.Columns.Contains("amt_cr") Then
+                    FG.Rows(row).Cells(12).Value = Format(CDbl(Trim(dr("amt_cr").ToString())), "##,##0.00")
+                End If
+                If dr.Table.Columns.Contains("Company") Then
+                    FG.Rows(row).Cells(13).Value = Trim(CStr(dr("Company").ToString()))
+                End If
+                If dr.Table.Columns.Contains("CNT") Then
+                    FG.Rows(row).Cells(14).Value = Trim(CStr(dr("CNT").ToString()))
+                End If
+                If dr.Table.Columns.Contains("Ac_original") Then
+                    FG.Rows(row).Cells(15).Value = Trim(CStr(dr("Ac_original").ToString()))
+                End If
+            Next
+        Else
+            ' Handle the case where no data was found
+        End If
             '=====
         Else
-            FG.FormatString = "^ລ/ດ |< ເລກບັນຊີ      |<ເລກບັນຊີເບືອງໜີ |<ເລກບັນຊີເບືອງມີ |< ຊືບັນຊີ(ລາວ)                                               |> ມູນຄ່າໜີ້           |> ມູນຄ່າມີ           "
-            FG.Rows = 1
-            FG.Cols = 7
-            FG.set_ColHidden(4, False)
-            FG.set_ColHidden(1, True)
+            SetupGrid()
+            FG.Rows.Clear()
+            ' DataGridView handles columns automatically based on SetupGrid()
+            FG.Columns("Col4").Visible = True
+            FG.Columns("Col1").Visible = False
 
-            With RSC
-                'Call LoadData("select *  from Open_jn WHERE ac_code<>''  " & Sql & "order by ac_code", RSC)
-                'MsgBox(MULookSelct)
-                Dim s As String = " SELECT   sum(Open_jn.amt_dr) as amt_dr , sum(Open_jn.amt_cr) as amt_cr ,   Open_jn.ac_code AS ac_code , Acc_Code.Name_L FROM         Open_jn INNER JOIN   Acc_Code ON Open_jn.ac_code = Acc_Code.Ac_Code   where  Open_jn.date_work   BETWEEN '" & Year(MWorkSetting) & "-1-1" & "' AND '" & Year(MWorkSetting) & "-1-1" & "' " & MULook2 & " group by Open_jn.ac_code, Acc_Code.Name_L   having   SUM((Open_jn.amt_cr)-(Open_jn.amt_dr)) <> 0  And  Open_jn.ac_code Like '%" & TextBox1.Text & "%'  Order by Open_jn.ac_code "
-                Call LoadSqlData(s, RSC)
-                'txtUserId.Text = " SELECT   sum(Open_jn.amt_dr) as amt_dr , sum(Open_jn.amt_cr) as amt_cr ,   Open_jn.ac_code AS ac_code , Acc_Code.Name_L FROM         Open_jn INNER JOIN   Acc_Code ON Open_jn.ac_code = Acc_Code.Ac_Code   where  Open_jn.date_work   BETWEEN '" & Year(MWorkSetting) & "-1-1" & "' AND '" & Year(MWorkSetting) & "-1-1" & "' " & MULook2 & " group by Open_jn.ac_code, Acc_Code.Name_L "
-                If .RecordCount > 0 Then
-                    While Not .EOF
-                        Dim Ac_Code, Code_Dr, Code_Cr, Amt_Dr, Amt_Cr As String
-                        Ac_Code = Trim(CStr(.Fields("ac_code").Value))
-                        Amt_Dr = Format(CDbl(Trim(.Fields("amt_dr").Value)), "##,##0.00")
-                        Amt_Cr = Format(CDbl(Trim(.Fields("amt_cr").Value)), "##,##0.00")
-                        If CDbl(Trim(.Fields("amt_dr").Value)) > CDbl(Trim(.Fields("amt_cr").Value)) Then
-                            Code_Dr = Ac_Code
-                            Code_Cr = ""
-                            Amt_Dr = Format(CDbl(CDbl(Trim(.Fields("amt_dr").Value)) - CDbl(Trim(.Fields("amt_Cr").Value))), "##,##0.00")
-                            Amt_Cr = "0.00"
-                        Else
-                            Code_Cr = Ac_Code
-                            Code_Dr = ""
-                            Amt_Cr = Format(CDbl(CDbl(Trim(.Fields("amt_Cr").Value)) - CDbl(Trim(.Fields("amt_dr").Value))), "##,##0.00")
-                            Amt_Dr = "0.00"
-                        End If
+            'Call LoadData("select *  from Open_jn WHERE ac_code<>''  " & Sql & "order by ac_code", RSC)
+            'MsgBox(MULookSelct)
+            Dim s As String = " SELECT   sum(Open_jn.amt_dr) as amt_dr , sum(Open_jn.amt_cr) as amt_cr ,   Open_jn.ac_code AS ac_code , Acc_Code.Name_L FROM         Open_jn INNER JOIN   Acc_Code ON Open_jn.ac_code = Acc_Code.Ac_Code   where  Open_jn.date_work   BETWEEN '" & Year(MWorkSetting) & "-1-1" & "' AND '" & Year(MWorkSetting) & "-1-1" & "' " & MULook2 & " group by Open_jn.ac_code, Acc_Code.Name_L   having   SUM((Open_jn.amt_cr)-(Open_jn.amt_dr)) <> 0  And  Open_jn.ac_code Like '%" & TextBox1.Text & "%'  Order by Open_jn.ac_code "
+            Dim dtSummary As DataTable = DbHelper.GetDataTable(s)
+            If dtSummary.Rows.Count > 0 Then
+                For Each dr As DataRow In dtSummary.Rows
+                    Dim Ac_Code, Code_Dr, Code_Cr, Amt_Dr, Amt_Cr As String
+                    Ac_Code = Trim(CStr(dr("ac_code").ToString()))
+                    Amt_Dr = Format(CDbl(Trim(dr("amt_dr").ToString())), "##,##0.00")
+                    Amt_Cr = Format(CDbl(Trim(dr("amt_cr").ToString())), "##,##0.00")
+                    If CDbl(Trim(dr("amt_dr").ToString())) > CDbl(Trim(dr("amt_cr").ToString())) Then
+                        Code_Dr = Ac_Code
+                        Code_Cr = ""
+                        Amt_Dr = Format(CDbl(CDbl(Trim(dr("amt_dr").ToString())) - CDbl(Trim(dr("amt_Cr").ToString()))), "##,##0.00")
+                        Amt_Cr = "0.00"
+                    Else
+                        Code_Cr = Ac_Code
+                        Code_Dr = ""
+                        Amt_Cr = Format(CDbl(CDbl(Trim(dr("amt_Cr").ToString())) - CDbl(Trim(dr("amt_dr").ToString()))), "##,##0.00")
+                        Amt_Dr = "0.00"
+                    End If
 
-                        If Amt_Dr <> Amt_Cr Then
-                            FG.AddItem(.AbsolutePosition & vbTab & Ac_Code & _
-                                                    "" & vbTab & Code_Dr & _
-                                                    "" & vbTab & Code_Cr & _
-                                                    "" & vbTab & Trim(CStr(.Fields("Name_L").Value)) & _
-                                                    "" & vbTab & Amt_Dr & _
-                                                    "" & vbTab & Amt_Cr)
-                        End If
-
-                        .MoveNext()
-                    End While
-                Else
-                End If
-            End With
+                    If Amt_Dr <> Amt_Cr Then
+                        Dim row As Integer = FG.Rows.Add()
+                        FG.Rows(row).Cells(0).Value = FG.Rows.Count ' Equivalent to .AbsolutePosition
+                        FG.Rows(row).Cells(1).Value = Ac_Code
+                        FG.Rows(row).Cells(2).Value = Code_Dr
+                        FG.Rows(row).Cells(3).Value = Code_Cr
+                        FG.Rows(row).Cells(4).Value = Trim(CStr(dr("Name_L").ToString()))
+                        FG.Rows(row).Cells(5).Value = Amt_Dr
+                        FG.Rows(row).Cells(6).Value = Amt_Cr
+                    End If
+                Next
+            Else
+                ' Handle the case where no data was found
+            End If
         End If
 
         Call SumAmountDr()
@@ -226,9 +289,9 @@
 
     Private Sub Load_For_Edit()
         'MsgBox("asd")
-        FmNewOpen_jn.txtCode_dr.Text = FG.get_TextMatrix(FG.Row, 2)
-        FmNewOpen_jn.txtCode_cr.Text = FG.get_TextMatrix(FG.Row, 3)
-        'FmNewOpen_jn.Label7.Text = FG.get_TextMatrix(FG.Row, 13)
+        FmNewOpen_jn.txtCode_dr.Text = GetGridValue(FG, FG.CurrentRow.Index, 2)
+        FmNewOpen_jn.txtCode_cr.Text = GetGridValue(FG, FG.CurrentRow.Index, 3)
+        'FmNewOpen_jn.Label7.Text = GetGridValue(FG, FG.CurrentRow.Index, 13)
         FmNewOpen_jn.txtCode_dr.Enabled = False
         FmNewOpen_jn.txtCode_cr.Enabled = False
         FmNewOpen_jn.BtnSearch_dr.Enabled = False
@@ -243,11 +306,11 @@
         AmountCr = 0
         For i = 1 To FG.Rows - 1
             If ChAllSty.Checked = False Then
-                AmountDr = AmountDr + CDbl(FG.get_TextMatrix(i, 11))
-                AmountCr = AmountCr + CDbl(FG.get_TextMatrix(i, 12))
+                AmountDr = AmountDr + CDbl(GetGridValue(FG, i, 11))
+                AmountCr = AmountCr + CDbl(GetGridValue(FG, i, 12))
             Else
-                AmountDr = AmountDr + CDbl(FG.get_TextMatrix(i, 5))
-                AmountCr = AmountCr + CDbl(FG.get_TextMatrix(i, 6))
+                AmountDr = AmountDr + CDbl(GetGridValue(FG, i, 5))
+                AmountCr = AmountCr + CDbl(GetGridValue(FG, i, 6))
             End If
         Next i
         'MsgBox(TotalAmountCr)
@@ -284,28 +347,25 @@
     Private Sub BtnEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnEdit.Click
         If Ac_Code = "" Then Exit Sub
         mylock = 0 : LockAcc() : If mylock = 1 Then Exit Sub
-        If MdAtv = False Or FG.get_TextMatrix(FG.Row, 1) = "" Then MessageBox.Show("ກະລຸນນາເລືອກກ່ອນ") : Exit Sub
+        If MdAtv = False Or GetGridValue(FG, FG.CurrentRow.Index, 1) = "" Then MessageBox.Show("ກະລຸນນາເລືອກກ່ອນ") : Exit Sub
         'If FG.get_TextMatrix(FG.Row, 13L) = True Then MessageBox.Show("ຂໍ້ມູນນີ້ໄດຖືກລ໋ອດແລ້ວບໍ່ສາມາດແກ້ໄຂໄດ້") : Exit Sub
         FmNewOpen_jn.ShowDialog()
     End Sub
     Private Sub LockAcc()
-        Dim RSC1 As New ADODB.Recordset
-        With RSC1
-            Call LoadSqlData("SELECT Date_work FROM  Open_jn where  My_Lock =1 And ac_code='" & FG.get_TextMatrix(FG.Row, 4) & "' And Company='" & FG.get_TextMatrix(FG.Row, 13) & "' And year(date_work)= '" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "'   ", RSC1)
-            If .RecordCount <> 0 Then
+        Dim dtLockCheck As DataTable = DbHelper.GetDataTable("SELECT Date_work FROM  Open_jn where  My_Lock =1 And ac_code='" & GetGridValue(FG, FG.CurrentRow.Index, 4) & "' And Company='" & GetGridValue(FG, FG.CurrentRow.Index, 13) & "' And year(date_work)= '" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy") & "'   ")
+            If dtLockCheck.Rows.Count <> 0 Then
                 MsgBox("ບັນຊີປີ '" & CDbl(yy.Text) & "' ໄດ້ລ໋ອດໄວ້ແລ້ວທ່ານຕ້ອງປົດລ໋ອດກ່ອນ")
                 mylock = 1
             End If
-        End With
 
     End Sub
     Private Sub BtnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDelete.Click
         mylock = 0 : LockAcc() : If mylock = 1 Then Exit Sub
-        If MdAtv = False Or FG.get_TextMatrix(FG.Row, 1) = "" Then MessageBox.Show("ກະລຸນນາເລືອກກ່ອນ") : Exit Sub
-        'If FG.get_TextMatrix(FG.Row, 13) = True Then MessageBox.Show("ຂໍ້ມູນນີ້ໄດຖືກລ໋ອດແລ້ວບໍ່ສາມາດແກ້ໄຂໄດ້") : Exit Sub
+        If MdAtv = False Or GetGridValue(FG, FG.CurrentRow.Index, 1) = "" Then MessageBox.Show("ກະລຸນນາເລືອກກ່ອນ") : Exit Sub
+        'If GetGridValue(FG, FG.CurrentRow.Index, 13) = True Then MessageBox.Show("ຂໍ້ມູນນີ້ໄດຖືກລ໋ອດແລ້ວບໍ່ສາມາດແກ້ໄຂໄດ້") : Exit Sub
         If MdAtv = False Then MessageBox.Show("ກະລຸນນາເລືອກກ່ອນ") : Exit Sub
-        If MessageBox.Show("ທ່ານຕ້ອງລຶບລະຫັດ " & FG.get_TextMatrix(FG.Row, 4) & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            CNN.Execute("DELETE FROM Open_jn WHERE ac_code='" & FG.get_TextMatrix(FG.Row, 4) & "' And Company='" & FG.get_TextMatrix(FG.Row, 13) & "' And cnt='" & FG.get_TextMatrix(FG.Row, 14) & "'  And year(date_work)= '" & Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy") & "' ")
+        If MessageBox.Show("ທ່ານຕ້ອງລຶບລະຫັດ " & GetGridValue(FG, FG.CurrentRow.Index, 4) & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            CNN.Execute("DELETE FROM Open_jn WHERE ac_code='" & GetGridValue(FG, FG.CurrentRow.Index, 4) & "' And Company='" & GetGridValue(FG, FG.CurrentRow.Index, 13) & "' And cnt='" & GetGridValue(FG, FG.CurrentRow.Index, 14) & "'  And year(date_work)= '" & Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy") & "' ")
         End If
         MdAtv = False
         LoadListFG()
@@ -320,14 +380,14 @@
         LoadListFG()
 
     End Sub
-    Private Sub FG_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.DblClick
+    Private Sub FG_CellDoubleClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG.CellDoubleClick
 
         'MessageBox.Show(fg.get_TextMatrix(fg.Row,FG.Col))
 
 
 
 
-        'If FG.get_TextMatrix(FG.Row, 13) = True Then MessageBox.Show("ຂໍ້ມູນນີ້ໄດຖືກລ໋ອດແລ້ວບໍ່ສາມາດແກ້ໄຂໄດ້") : Exit Sub
+        'If GetGridValue(FG, FG.CurrentRow.Index, 13) = True Then MessageBox.Show("ຂໍ້ມູນນີ້ໄດຖືກລ໋ອດແລ້ວບໍ່ສາມາດແກ້ໄຂໄດ້") : Exit Sub
 
 
         Load_For_Edit()
@@ -339,21 +399,21 @@
 
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        'If FG.get_TextMatrix(FG.Row, 13) <> MuSubOff Then
+    Private Sub FG_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
+        'If GetGridValue(FG, FG.CurrentRow.Index, 13) <> MuSubOff Then
         '    BtnEdit.Enabled
         'End If
         MdAtv = True
-        'MsgBox(Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy"))
-        Ac_Code = FG.get_TextMatrix(FG.Row, 4)
-        'FmNewOpen_jn.DtmYearDate.Value = Format(CDate(FG.get_TextMatrix(FG.Row, 1)), "yyyy")
+        'MsgBox(Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy"))
+        Ac_Code = GetGridValue(FG, FG.CurrentRow.Index, 4)
+        'FmNewOpen_jn.DtmYearDate.Value = Format(CDate(GetGridValue(FG, FG.CurrentRow.Index, 1)), "yyyy")
         'MsgBox(FmNewOpen_jn.DtmYearDate.Text)
-        FmNewOpen_jn.txtCode_dr.Text = FG.get_TextMatrix(FG.Row, 2)
-        FmNewOpen_jn.txtCode_cr.Text = FG.get_TextMatrix(FG.Row, 3)
+        FmNewOpen_jn.txtCode_dr.Text = GetGridValue(FG, FG.CurrentRow.Index, 2)
+        FmNewOpen_jn.txtCode_cr.Text = GetGridValue(FG, FG.CurrentRow.Index, 3)
 
-        FmNewOpen_jn.txtCode_dr.Text = FG.get_TextMatrix(FG.Row, 2)
-        FmNewOpen_jn.txtCode_cr.Text = FG.get_TextMatrix(FG.Row, 3)
-        FmNewOpen_jn.LAbel9.Text = FG.get_TextMatrix(FG.Row, 13)
+        FmNewOpen_jn.txtCode_dr.Text = GetGridValue(FG, FG.CurrentRow.Index, 2)
+        FmNewOpen_jn.txtCode_cr.Text = GetGridValue(FG, FG.CurrentRow.Index, 3)
+        FmNewOpen_jn.LAbel9.Text = GetGridValue(FG, FG.CurrentRow.Index, 13)
         'MuSubOffOp()
 
         BtnEdit.Enabled = True
@@ -428,25 +488,18 @@
         End If
         Call LoadLoGO()
         CNN.Execute("UPDATE Open_jn set Open_jn.Ac_original=Acc_Code.Ac_original from Acc_Code,Open_jn where Open_jn.ac_code=Acc_Code.ac_code and (Open_jn.Ac_original is null or Open_jn.Ac_original='') ")
-        Dim Rs As New ADODB.Recordset
-        With Rs
-            If .State = ConnectionState.Open Then .Close()
-            If ChAllSty.Checked = False Then
-                'Dim s As String = "   " & SLF & "   Open_jn.amt_dr , Open_jn.amt_cr , Open_jn.Amount_Dr , Open_jn.Amount_cr ,   Open_jn.ac_code  , Acc_Code.Name_L , Acc_Code.Name_E , Open_jn.Curr ,  Open_jn.Rate ,  Open_jn.Company  FROM   Open_jn Left JOIN   Acc_Code ON Open_jn.ac_code = Acc_Code.Ac_Code  where   Open_jn.date_work   BETWEEN '" & Format(yy.Value, "yyyy") & "-1-1" & "' AND '" & Format(yy.Value, "yyyy") & "-1-1" & "' " & MULook2 & " Order by  Open_jn.ac_code "
-                Dim s As String = "   " & SLF & "   Open_jn.amt_dr , Open_jn.amt_cr , Open_jn.Amount_Dr , Open_jn.Amount_cr ,   Open_jn.ac_code  , Open_jn.ac_name as Name_L , Open_jn.ac_namee as Name_E , Open_jn.Curr ,  Open_jn.Rate ,  Open_jn.Company ,  Open_jn.Ac_original  FROM   Open_jn    where   Open_jn.date_work   BETWEEN '" & Format(yy.Value, "yyyy") & "-1-1" & "' AND '" & Format(yy.Value, "yyyy") & "-1-1" & "' " & MULook2 & " Order by  Open_jn.ac_code "
+        Dim Rs As DataTable
+        If ChAllSty.Checked = True Then
+            'Dim s As String = "    " & SLF & "   sum(Open_jn.amt_dr) as amt_dr , sum(Open_jn.amt_cr) as amt_cr ,   Open_jn.ac_code AS ac_code , Acc_Code.Name_L FROM         Open_jn INNER JOIN   Acc_Code ON Open_jn.ac_code = Acc_Code.Ac_Code   where  Open_jn.date_work   BETWEEN '" & Format(MWorkSetting, "yyyy") & "-1-1" & "' AND '" & Format(MWorkSetting, "yyyy") & "-1-1" & "' " & MULook2 & " group by Open_jn.ac_code, Acc_Code.Name_L  having   SUM((Open_jn.amt_cr)-(Open_jn.amt_dr)) <> 0 Order by  ac_code"
 
-                .Open(s, CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            Else
-                'Dim s2 As String = "    " & SLF & "   sum(Open_jn.amt_dr) as amt_dr , sum(Open_jn.amt_cr) as amt_cr ,   Open_jn.ac_code AS ac_code , Acc_Code.Name_L FROM         Open_jn INNER JOIN   Acc_Code ON Open_jn.ac_code = Acc_Code.Ac_Code   where  Open_jn.date_work   BETWEEN '" & Format(MWorkSetting, "yyyy") & "-1-1" & "' AND '" & Format(MWorkSetting, "yyyy") & "-1-1" & "' " & MULook2 & " group by Open_jn.ac_code, Acc_Code.Name_L    having   SUM((Open_jn.amt_cr)-(Open_jn.amt_dr)) <> 0 Order by  ac_code"
-                Dim s2 As String = "    " & SLF & "   sum(Open_jn.amt_dr) as amt_dr , sum(Open_jn.amt_cr) as amt_cr ,   Open_jn.ac_code AS ac_code , Open_jn.ac_name  FROM   Open_jn    where  Open_jn.date_work   BETWEEN '" & Format(MWorkSetting, "yyyy") & "-1-1" & "' AND '" & Format(MWorkSetting, "yyyy") & "-1-1" & "' " & MULook2 & " group by Open_jn.ac_code, Open_jn.ac_name     having   SUM((Open_jn.amt_cr)-(Open_jn.amt_dr)) <> 0 Order by  ac_code"
+            Rs = DbHelper.GetDataTable(s)
+        Else
+            Dim s2 As String = "    " & SLF & "   sum(Open_jn.amt_dr) as amt_dr , sum(Open_jn.amt_cr) as amt_cr ,   Open_jn.ac_code AS ac_code , Open_jn.ac_name  FROM   Open_jn    where  Open_jn.date_work   BETWEEN '" & Format(MWorkSetting, "yyyy") & "-1-1" & "' AND '" & Format(MWorkSetting, "yyyy") & "-1-1" & "' " & MULook2 & " group by Open_jn.ac_code, Open_jn.ac_name     having   SUM((Open_jn.amt_cr)-(Open_jn.amt_dr)) <> 0 Order by  ac_code"
 
-                .Open(s2, CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
+            Rs = DbHelper.GetDataTable(s2)
+        End If
 
-            End If
-
-            If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
-            If .EOF Then Exit Sub
-        End With
+        If Rs.Rows.Count = 0 Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
         If ChAllSty.Checked = False Then
             Dim FrmPreview As New FmPreview : FrmClosing()
             Dim Rpt As New Crybandon_year
@@ -455,7 +508,7 @@
                 Rpt.Subreports(0).SetDataSource(RsLOGO)
             End If
 
-            Rpt.SetDataSource(Rs)
+            Rpt.SetDataSource(Rs.Tables(0))
             FrmPreview.ReportViewer.ReportSource = Rpt
             FrmPreview.ReportViewer.DisplayGroupTree = False
             FrmPreview.MdiParent = FmMain
@@ -471,7 +524,7 @@
                 Rpt.Subreports(0).SetDataSource(RsLOGO)
             End If
 
-            Rpt.SetDataSource(Rs)
+            Rpt.SetDataSource(Rs.Tables(0))
             FrmPreview.ReportViewer.ReportSource = Rpt
             FrmPreview.ReportViewer.DisplayGroupTree = False
             FrmPreview.MdiParent = FmMain

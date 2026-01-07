@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class Frm_import_exel
     Inherits System.Windows.Forms.Form
 
@@ -34,8 +34,8 @@ Partial Class Frm_import_exel
         Me.Button3 = New System.Windows.Forms.Button
         Me.DataGridView1 = New System.Windows.Forms.DataGridView
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+Me.Panel1 = New System.Windows.Forms.Panel
+        Me.DataGridView = New System.Windows.Forms.DataGridView
         Me.Label12 = New System.Windows.Forms.Label
         Me.txtSumAmountDr = New System.Windows.Forms.TextBox
         Me.txtSumAmountCr = New System.Windows.Forms.TextBox
@@ -45,9 +45,9 @@ Partial Class Frm_import_exel
         Me.BtnSave = New System.Windows.Forms.Button
         Me.btnExcel = New System.Windows.Forms.Button
         Me.GroupBox1.SuspendLayout()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -176,28 +176,32 @@ Partial Class Frm_import_exel
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'Panel1
+'Panel1
         '
         Me.Panel1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Panel1.Controls.Add(Me.FG)
+        Me.Panel1.Controls.Add(Me.DataGridView)
         Me.Panel1.Location = New System.Drawing.Point(13, 42)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1230, 335)
         Me.Panel1.TabIndex = 395
         '
-        'FG
+        'DataGridView
         '
-        Me.FG.DataSource = Nothing
-        Me.FG.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.FG.Location = New System.Drawing.Point(0, 0)
-        Me.FG.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.FG.Size = New System.Drawing.Size(1230, 335)
-        Me.FG.TabIndex = 0
+        Me.DataGridView.AllowUserToAddRows = False
+        Me.DataGridView.AllowUserToDeleteRows = False
+        Me.DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView.Location = New System.Drawing.Point(0, 0)
+        Me.DataGridView.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.DataGridView.Name = "DataGridView"
+        Me.DataGridView.ReadOnly = False
+        Me.DataGridView.RowHeadersWidth = 50
+        Me.DataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.DataGridView.Size = New System.Drawing.Size(1230, 335)
+        Me.DataGridView.TabIndex = 0
         '
         'Label12
         '
@@ -312,9 +316,9 @@ Partial Class Frm_import_exel
         Me.Text = "Frm_import_exel"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DataGridView, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         Me.ResumeLayout(False)
@@ -330,8 +334,8 @@ Partial Class Frm_import_exel
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents DataGridView As System.Windows.Forms.DataGridView
     Friend WithEvents btnExcel As System.Windows.Forms.Button
     Friend WithEvents BtnSave As System.Windows.Forms.Button
     Friend WithEvents Button6 As System.Windows.Forms.Button

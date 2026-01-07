@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class Frm_import_exel_KS_DG
     Inherits System.Windows.Forms.Form
 
@@ -35,7 +35,7 @@ Partial Class Frm_import_exel_KS_DG
         Me.DataGridView1 = New System.Windows.Forms.DataGridView
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.Panel1 = New System.Windows.Forms.Panel
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+
         Me.Label12 = New System.Windows.Forms.Label
         Me.txtSumAmountDr = New System.Windows.Forms.TextBox
         Me.txtSumAmountCr = New System.Windows.Forms.TextBox
@@ -49,7 +49,7 @@ Partial Class Frm_import_exel_KS_DG
         Me.GroupBox1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
+        ' CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit() - Migrated
         Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -184,7 +184,7 @@ Partial Class Frm_import_exel_KS_DG
         Me.Panel1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Panel1.Controls.Add(Me.FG)
+        ' Me.Panel1.Controls.Add(Me.FG) - Removed in migration
         Me.Panel1.Location = New System.Drawing.Point(13, 42)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Panel1.Name = "Panel1"
@@ -339,7 +339,7 @@ Partial Class Frm_import_exel_KS_DG
         Me.GroupBox1.PerformLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).EndInit()
+        ' CType(Me.FG, System.ComponentModel.ISupportInitialize).EndInit() - Migrated
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         Me.ResumeLayout(False)
@@ -357,7 +357,7 @@ Partial Class Frm_import_exel_KS_DG
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+
     Friend WithEvents btnExcel As System.Windows.Forms.Button
     Friend WithEvents BtnSave As System.Windows.Forms.Button
     Friend WithEvents Button6 As System.Windows.Forms.Button

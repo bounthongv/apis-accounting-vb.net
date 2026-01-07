@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FrmRpt_Group
     Inherits System.Windows.Forms.Form
 
@@ -55,7 +55,7 @@ Partial Class FrmRpt_Group
         Me.optTerm = New System.Windows.Forms.RadioButton
         Me.cmbTerm = New System.Windows.Forms.ComboBox
         Me.Button2 = New System.Windows.Forms.Button
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.CmbShow = New System.Windows.Forms.ComboBox
         Me.Label5 = New System.Windows.Forms.Label
         Me.TxtCertify = New System.Windows.Forms.TextBox
@@ -83,7 +83,7 @@ Partial Class FrmRpt_Group
         Me.H = New System.Windows.Forms.Label
         Me.CheckBox1 = New System.Windows.Forms.CheckBox
         Me.CheckBox2 = New System.Windows.Forms.CheckBox
-        Me.FGIT = New AxVSFlex8U.AxVSFlexGrid
+        Me.FGIT = New System.Windows.Forms.DataGridView
         Me.CheckBox3 = New System.Windows.Forms.CheckBox
         Me.CheckBox4 = New System.Windows.Forms.CheckBox
         Me.Button5 = New System.Windows.Forms.Button
@@ -97,9 +97,9 @@ Partial Class FrmRpt_Group
         Me.Button7 = New System.Windows.Forms.Button
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.FG = New System.Windows.Forms.DataGridView()
         Me.GHead.SuspendLayout()
-        CType(Me.FGIT, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.FGIT = New System.Windows.Forms.DataGridView()
         Me.SuspendLayout()
         '
         'txtGrp
@@ -489,16 +489,15 @@ Partial Class FrmRpt_Group
         Me.Button2.Text = "Legal"
         Me.Button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Button2.UseVisualStyleBackColor = False
-        '
+'
         'FG
         '
         Me.FG.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG.DataSource = Nothing
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(12, 330)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(1259, 217)
         Me.FG.TabIndex = 111
         '
@@ -825,15 +824,14 @@ Partial Class FrmRpt_Group
         Me.CheckBox2.Text = "ສະຫລຸບ ລວມຍອດມູນຄ່າຊັບສົມບັດ"
         Me.CheckBox2.UseVisualStyleBackColor = True
         Me.CheckBox2.Visible = False
-        '
+'
         'FGIT
         '
         Me.FGIT.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FGIT.DataSource = Nothing
+        Me.FGIT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FGIT.Location = New System.Drawing.Point(1126, 53)
         Me.FGIT.Name = "FGIT"
-        Me.FGIT.OcxState = CType(resources.GetObject("FGIT.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FGIT.Size = New System.Drawing.Size(145, 250)
         Me.FGIT.TabIndex = 45780
         Me.FGIT.Visible = False
@@ -1009,10 +1007,10 @@ Partial Class FrmRpt_Group
         Me.GroupBox2.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).EndInit()
+        
         Me.GHead.ResumeLayout(False)
         Me.GHead.PerformLayout()
-        CType(Me.FGIT, System.ComponentModel.ISupportInitialize).EndInit()
+        
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1027,7 +1025,7 @@ Partial Class FrmRpt_Group
     Friend WithEvents DTYear As System.Windows.Forms.DateTimePicker
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents txtAcc As System.Windows.Forms.TextBox
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents btnShow As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
@@ -1075,7 +1073,7 @@ Partial Class FrmRpt_Group
     Friend WithEvents H As System.Windows.Forms.Label
     Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox2 As System.Windows.Forms.CheckBox
-    Friend WithEvents FGIT As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FGIT As System.Windows.Forms.DataGridView
     Friend WithEvents CheckBox3 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox4 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBox5 As System.Windows.Forms.CheckBox

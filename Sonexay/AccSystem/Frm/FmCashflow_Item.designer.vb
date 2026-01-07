@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmCashflow_Item1
     Inherits System.Windows.Forms.Form
 
@@ -23,11 +23,11 @@ Partial Class FmCashflow_Item1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FmCashflow_Item1))
-        Me.FG2 = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG2 = New System.Windows.Forms.DataGridView
         Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.BtnMove = New System.Windows.Forms.Button
         Me.BtnSearch = New System.Windows.Forms.Button
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Button1 = New System.Windows.Forms.Button
         Me.AC_Code = New System.Windows.Forms.TextBox
         Me.Rpt_Type = New System.Windows.Forms.ComboBox
@@ -45,8 +45,8 @@ Partial Class FmCashflow_Item1
         Me.CRem = New System.Windows.Forms.CheckBox
         Me.COP = New System.Windows.Forms.CheckBox
         Me.CLa = New System.Windows.Forms.CheckBox
-        CType(Me.FG2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
+        ' DataGridView - no BeginInit needed
+        ' DataGridView - no BeginInit needed
         Me.SuspendLayout()
         '
         'FG2
@@ -57,7 +57,7 @@ Partial Class FmCashflow_Item1
         Me.FG2.DataSource = Nothing
         Me.FG2.Location = New System.Drawing.Point(435, 40)
         Me.FG2.Name = "FG2"
-        Me.FG2.OcxState = CType(resources.GetObject("FG2.OcxState"), System.Windows.Forms.AxHost.State)
+        ' DataGridView - no OcxState property
         Me.FG2.Size = New System.Drawing.Size(594, 378)
         Me.FG2.TabIndex = 12
         '
@@ -98,7 +98,7 @@ Partial Class FmCashflow_Item1
         Me.FG.DataSource = Nothing
         Me.FG.Location = New System.Drawing.Point(5, 40)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
+        ' DataGridView - no OcxState property
         Me.FG.Size = New System.Drawing.Size(424, 378)
         Me.FG.TabIndex = 150
         '
@@ -298,17 +298,17 @@ Partial Class FmCashflow_Item1
         Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Name = "FmCashflow_Item1"
         Me.Text = "FmCashflow_Item"
-        CType(Me.FG2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FG, System.ComponentModel.ISupportInitialize).EndInit()
+        ' DataGridView - no EndInit needed
+        ' DataGridView - no EndInit needed
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents FG2 As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG2 As System.Windows.Forms.DataGridView
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents BtnMove As System.Windows.Forms.Button
     Friend WithEvents BtnSearch As System.Windows.Forms.Button
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents BtnExit As System.Windows.Forms.Button
     Friend WithEvents BtnEdit As System.Windows.Forms.Button

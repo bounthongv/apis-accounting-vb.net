@@ -1,4 +1,16 @@
-﻿Public Class FmNsewJeneralJournal
+Imports Microsoft.VisualBasic
+Imports System
+Imports System.Collections
+Imports System.Collections.Generic
+Imports System.Data
+Imports System.Drawing
+Imports System.Diagnostics
+Imports System.Windows.Forms
+Imports System.Linq
+Imports System.Xml.Linq
+Imports ApPBank10.Module
+
+Public Class FmNsewJeneralJournal
     Dim sql As String
     Dim Rate1 As String
     Dim MdCertifyId, MdCertifyId2, Sdate As String
@@ -8,37 +20,40 @@
     Dim Amount_In_Word As String
     Dim MDCust_Supp As String = ""
     Dim MCS As String
+    Dim R, L As Integer
+    Dim rowIdx As Integer
+
+    ' DataGridView Helper Methods
+    Private Function GetGridValue(ByVal grid As DataGridView, ByVal row As Integer, ByVal col As Integer) As String
+        If row >= 0 AndAlso row < grid.RowCount AndAlso col >= 0 AndAlso col < grid.ColumnCount Then
+            If grid.Rows(row).Cells(col).Value IsNot Nothing Then
+                Return grid.Rows(row).Cells(col).Value.ToString()
+            End If
+        End If
+        Return ""
+    End Function
+
+    Private Sub SetGridValue(ByVal grid As DataGridView, ByVal row As Integer, ByVal col As Integer, ByVal value As String)
+        If row >= 0 AndAlso row < grid.RowCount AndAlso col >= 0 AndAlso col < grid.ColumnCount Then
+            grid.Rows(row).Cells(col).Value = value
+        End If
+    End Sub
+
+
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         fmShartOfAccDetail.ShowDialog()
     End Sub
 
     Private Sub Savedata()
         Dim J As Integer
-        For J = 1 To FG.Rows - 1
-            '===============
-            'FG.set_TextMatrix(J, 10, Cmb.Text)
-            'FG.set_TextMatrix(J, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-
-
-            'If Cmb.Text = "USD" Then
-            '    FG.set_TextMatrix(J, 14, Format(CDbl(FG.get_TextMatrix(J, 5)), "#,##0.00"))
-            '    FG.set_TextMatrix(J, 15, Format(CDbl(FG.get_TextMatrix(J, 6)), "#,##0.00"))
-            'Else
-            '    FG.set_TextMatrix(J, 14, Format(CDbl(FG.get_TextMatrix(J, 12)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-            '    FG.set_TextMatrix(J, 15, Format(CDbl(FG.get_TextMatrix(J, 13)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-            '    'FG.set_TextMatrix(FG.Row, 14, Format(CDbl(FG.get_TextMatrix(FG.Row, 12)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-            '    'FG.set_TextMatrix(FG.Row, 15, Format(CDbl(FG.get_TextMatrix(FG.Row, 13)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-            'End If
-            If FG.get_TextMatrix(J, 10) = "USD" Then
-                FG.set_TextMatrix(J, 14, Format(CDbl(FG.get_TextMatrix(J, 5)), "#,##0.00"))
-                FG.set_TextMatrix(J, 15, Format(CDbl(FG.get_TextMatrix(J, 6)), "#,##0.00"))
+        For J = 0 To FG.Rows.Count - 1
+            If GetGridValue(FG, J, 10) = "USD" Then
+                SetGridValue(FG, J, 14, Format(CDbl(Val(GetGridValue(FG, J, 5))), "#,##0.00"))
+                SetGridValue(FG, J, 15, Format(CDbl(Val(GetGridValue(FG, J, 6))), "#,##0.00"))
             Else
-                FG.set_TextMatrix(J, 14, Format(CDbl(FG.get_TextMatrix(J, 12)) / CDbl(txtRate.Text), "#,##0.00"))
-                FG.set_TextMatrix(J, 15, Format(CDbl(FG.get_TextMatrix(J, 13)) / CDbl(txtRate.Text), "#,##0.00"))
-                'FG.set_TextMatrix(FG.Row, 14, Format(CDbl(FG.get_TextMatrix(FG.Row, 12)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-                'FG.set_TextMatrix(FG.Row, 15, Format(CDbl(FG.get_TextMatrix(FG.Row, 13)) / CDbl(txtRateUSD.Text), "#,##0.00"))
+                SetGridValue(FG, J, 14, Format(CDbl(Val(GetGridValue(FG, J, 12))) / CDbl(Val(txtRate.Text)), "#,##0.00"))
+                SetGridValue(FG, J, 15, Format(CDbl(Val(GetGridValue(FG, J, 13))) / CDbl(Val(txtRate.Text)), "#,##0.00"))
             End If
-
         Next J
 
         If MuLng = "L" Then
@@ -47,61 +62,44 @@
             Amount_In_Word = txtAmt_letter_E.Text
         End If
         MuSubOff = Mid(Off_Usr.Text, 1, 5)
-        For i = 1 To FG.Rows - 1
-            If FG.get_TextMatrix(i, 1) = "" And FG.get_TextMatrix(i, 2) = "" Then
-                FG.Rows = 1
-                FG.Rows = 2
+        
+        For i = 0 To FG.Rows.Count - 1
+            If GetGridValue(FG, i, 1) = "" And GetGridValue(FG, i, 2) = "" Then
+                FG.Rows.Clear()
+                FG.Rows.Add()
                 AutoNumber()
                 Call NewText()
                 Exit Sub
             End If
-            Autox()
-            txtAmount.Text = txtSumAmountDr.Text
 
-
-            If CheckBox4.Checked = True Then
-                MDCust_Supp = 1
-            Else
-                MDCust_Supp = 0
-            End If
-
-            If TxtReferno.Text = "" Then
-                TxtReferno.Text = txtInvoice.Text
-            End If
-
-            If CheckBox3.Checked = True Then
-                If CheckBox4.Checked = True Then
-                    Dim KKK As String = "INSERT INTO gen_jn( date_work, ac_Name, book, certify,Referno, cheque_no ,descrip ,descripe ,amount , curr ,rate, Rate_USD, net_amt ,code_dr ,code_cr ,ac_code    ,amt_dr , amt_cr , amt_USD_Dr, amt_USD_Cr , amount_dr ,amount_cr ,  certis, lock ,rec_lock , last_update , last_user , descflag , Cat_ID , certifyID  ,company  ,Office_ID, Cust_Supp, CustID,SuppID , del , AG,Frm) " & _
-                                  "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & Trim(FG.get_TextMatrix(i, 3)) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "',N'" & TxtReferno.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Trim(Apostrophe(txtDesc.Text)) & "',N'" & Trim(Apostrophe(txtDescE.Text)) & "'," & CDbl(txtAmount.Text) & ",'" & FG.get_TextMatrix(i, 10) & "'," & CDbl(FG.get_TextMatrix(i, 11)) & "," & CDbl(txtRateUSD.Text) & ",'" & "0" & "','" & FG.get_TextMatrix(i, 1) & "','" & FG.get_TextMatrix(i, 2) & "','" & FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) & "'," & CDbl(FG.get_TextMatrix(i, 5)) & "," & CDbl(FG.get_TextMatrix(i, 6)) & "," & CDbl(FG.get_TextMatrix(i, 14)) & "," & CDbl(FG.get_TextMatrix(i, 15)) & "," & CDbl(0) & "," & CDbl(0) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & FG.get_TextMatrix(i, 7) & "','" & MdCertifyId & "','" & MuSubOff & "' ,'" & MuSubOff & "','" & MDCust_Supp & "',N'" & TxtCustID.Text & "',N'" & TxtSuppID.Text & "' , 0,1,0)"
-                    CNN.Execute(KKK)
+            Dim sqlInsert As String
+            If CheckBox3.Checked Then
+                If CheckBox4.Checked Then
+                    sqlInsert = "INSERT INTO gen_jn( date_work, ac_Name, book, certify,Referno, cheque_no ,descrip ,descripe ,amount , curr ,rate, Rate_USD, net_amt ,code_dr ,code_cr ,ac_code    ,amt_dr , amt_cr , amt_USD_Dr, amt_USD_Cr , amount_dr ,amount_cr ,  certis, lock ,rec_lock , last_update , last_user , descflag , Cat_ID , certifyID  ,company  ,Office_ID, Cust_Supp, CustID,SuppID , del , AG,Frm) " & _
+                              "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & Trim(GetGridValue(FG, i, 3)) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "',N'" & TxtReferno.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Trim(Apostrophe(txtDesc.Text)) & "',N'" & Trim(Apostrophe(txtDescE.Text)) & "'," & CDbl(Val(txtAmount.Text)) & ",'" & GetGridValue(FG, i, 10) & "'," & CDbl(Val(GetGridValue(FG, i, 11))) & "," & CDbl(Val(txtRateUSD.Text)) & ",'" & "0" & "','" & GetGridValue(FG, i, 1) & "','" & GetGridValue(FG, i, 2) & "','" & GetGridValue(FG, i, 1) & GetGridValue(FG, i, 2) & "'," & CDbl(Val(GetGridValue(FG, i, 5))) & "," & CDbl(Val(GetGridValue(FG, i, 6))) & "," & CDbl(Val(GetGridValue(FG, i, 14))) & "," & CDbl(Val(GetGridValue(FG, i, 15))) & "," & CDbl(0) & "," & CDbl(0) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & GetGridValue(FG, i, 7) & "','" & MdCertifyId & "','" & MuSubOff & "' ,'" & MuSubOff & "','" & MDCust_Supp & "',N'" & TxtCustID.Text & "',N'" & TxtSuppID.Text & "' , 0,1,0)"
                 Else
-                    Dim KKK As String = "INSERT INTO gen_jn( date_work, ac_Name, book, certify, Referno, cheque_no ,descrip ,descripe ,amount , curr ,rate, Rate_USD, net_amt ,code_dr ,code_cr ,ac_code    ,amt_dr , amt_cr , amt_USD_Dr, amt_USD_Cr , amount_dr ,amount_cr  ,  certis, lock ,rec_lock , last_update , last_user , descflag , Cat_ID , certifyID  ,company  ,Office_ID, Cust_Supp, CustID,SuppID , del , AG,Frm) " & _
-                               "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & FG.get_TextMatrix(i, 3) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "',N'" & TxtReferno.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Trim(Apostrophe(txtDesc.Text)) & "',N'" & Trim(Apostrophe(txtDescE.Text)) & "'," & CDbl(txtAmount.Text) & ",'" & FG.get_TextMatrix(i, 10) & "'," & CDbl(FG.get_TextMatrix(i, 11)) & "," & CDbl(txtRateUSD.Text) & ",'" & "0" & "','" & FG.get_TextMatrix(i, 1) & "','" & FG.get_TextMatrix(i, 2) & "','" & FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) & "'," & CDbl(FG.get_TextMatrix(i, 5)) & "," & CDbl(FG.get_TextMatrix(i, 6)) & "," & CDbl(FG.get_TextMatrix(i, 14)) & "," & CDbl(FG.get_TextMatrix(i, 15)) & "," & CDbl(0) & "," & CDbl(0) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & FG.get_TextMatrix(i, 7) & "','" & MdCertifyId & "','" & MuSubOff & "' ,'" & MuSubOff & "','" & MDCust_Supp & "',N'',N'' , 0,1,0)"
-                    CNN.Execute(KKK)
+                    sqlInsert = "INSERT INTO gen_jn( date_work, ac_Name, book, certify, Referno, cheque_no ,descrip ,descripe ,amount , curr ,rate, Rate_USD, net_amt ,code_dr ,code_cr ,ac_code    ,amt_dr , amt_cr , amt_USD_Dr, amt_USD_Cr , amount_dr ,amount_cr  ,  certis, lock ,rec_lock , last_update , last_user , descflag , Cat_ID , certifyID  ,company  ,Office_ID, Cust_Supp, CustID,SuppID , del , AG,Frm) " & _
+                               "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & GetGridValue(FG, i, 3) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "',N'" & TxtReferno.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Trim(Apostrophe(txtDesc.Text)) & "',N'" & Trim(Apostrophe(txtDescE.Text)) & "'," & CDbl(Val(txtAmount.Text)) & ",'" & GetGridValue(FG, i, 10) & "'," & CDbl(Val(GetGridValue(FG, i, 11))) & "," & CDbl(Val(txtRateUSD.Text)) & ",'" & "0" & "','" & GetGridValue(FG, i, 1) & "','" & GetGridValue(FG, i, 2) & "','" & GetGridValue(FG, i, 1) & GetGridValue(FG, i, 2) & "'," & CDbl(Val(GetGridValue(FG, i, 5))) & "," & CDbl(Val(GetGridValue(FG, i, 6))) & "," & CDbl(Val(GetGridValue(FG, i, 14))) & "," & CDbl(Val(GetGridValue(FG, i, 15))) & "," & CDbl(0) & "," & CDbl(0) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & GetGridValue(FG, i, 7) & "','" & MdCertifyId & "','" & MuSubOff & "' ,'" & MuSubOff & "','" & MDCust_Supp & "',N'',N'' , 0,1,0)"
                 End If
-
             Else
-                If CheckBox4.Checked = True Then
-                    Dim KK As String = "INSERT INTO gen_jn( date_work, ac_Name, book, certify, Referno,cheque_no ,descrip ,descripe ,amount , curr ,rate,  Rate_USD,net_amt ,code_dr ,code_cr ,ac_code  , amount_dr ,amount_cr ,amt_dr , amt_cr  ,amt_USD_Dr, amt_USD_Cr ,certis, lock ,rec_lock , last_update , last_user , descflag , Cat_ID , certifyID  ,company   ,Office_ID, Cust_Supp, CustID,SuppID , del, AG,Frm) " & _
-                                      "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & FG.get_TextMatrix(i, 3) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "',N'" & TxtReferno.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Trim(Apostrophe(txtDesc.Text)) & "',N'" & Trim(Apostrophe(txtDescE.Text)) & "'," & CDbl(txtAmount.Text) & ",'" & FG.get_TextMatrix(i, 10) & "'," & CDbl(FG.get_TextMatrix(i, 11)) & "," & CDbl(txtRateUSD.Text) & ",'" & "0" & "','" & FG.get_TextMatrix(i, 1) & "','" & FG.get_TextMatrix(i, 2) & "','" & FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) & "'," & CDbl(FG.get_TextMatrix(i, 5)) & "," & CDbl(FG.get_TextMatrix(i, 6)) & "," & CDbl(FG.get_TextMatrix(i, 12)) & "," & CDbl(FG.get_TextMatrix(i, 13)) & "," & CDbl(FG.get_TextMatrix(i, 14)) & "," & CDbl(FG.get_TextMatrix(i, 15)) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & FG.get_TextMatrix(i, 7) & "','" & MdCertifyId & "','" & MuSubOff & "' , '" & MuSubOff & "','" & MDCust_Supp & "',N'" & TxtCustID.Text & "',N'" & TxtSuppID.Text & "' , 0,0,0)"
-                    CNN.Execute(KK)
+                If CheckBox4.Checked Then
+                    sqlInsert = "INSERT INTO gen_jn( date_work, ac_Name, book, certify, Referno,cheque_no ,descrip ,descripe ,amount , curr ,rate,  Rate_USD,net_amt ,code_dr ,code_cr ,ac_code  , amount_dr ,amount_cr ,amt_dr , amt_cr  ,amt_USD_Dr, amt_USD_Cr ,certis, lock ,rec_lock , last_update , last_user , descflag , Cat_ID , certifyID  ,company   ,Office_ID, Cust_Supp, CustID,SuppID , del, AG,Frm) " & _
+                                      "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & GetGridValue(FG, i, 3) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "',N'" & TxtReferno.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Trim(Apostrophe(txtDesc.Text)) & "',N'" & Trim(Apostrophe(txtDescE.Text)) & "'," & CDbl(Val(txtAmount.Text)) & ",'" & GetGridValue(FG, i, 10) & "'," & CDbl(Val(GetGridValue(FG, i, 11))) & "," & CDbl(Val(txtRateUSD.Text)) & ",'" & "0" & "','" & GetGridValue(FG, i, 1) & "','" & GetGridValue(FG, i, 2) & "','" & GetGridValue(FG, i, 1) & GetGridValue(FG, i, 2) & "'," & CDbl(Val(GetGridValue(FG, i, 5))) & "," & CDbl(Val(GetGridValue(FG, i, 6))) & "," & CDbl(Val(GetGridValue(FG, i, 12))) & "," & CDbl(Val(GetGridValue(FG, i, 13))) & "," & CDbl(Val(GetGridValue(FG, i, 14))) & "," & CDbl(Val(GetGridValue(FG, i, 15))) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & GetGridValue(FG, i, 7) & "','" & MdCertifyId & "','" & MuSubOff & "' , '" & MuSubOff & "','" & MDCust_Supp & "',N'" & TxtCustID.Text & "',N'" & TxtSuppID.Text & "' , 0,0,0)"
                 Else
-                    Dim KK As String = "INSERT INTO gen_jn( date_work, ac_Name, book, certify, Referno,cheque_no ,descrip ,descripe ,amount , curr ,rate,  Rate_USD,net_amt ,code_dr ,code_cr ,ac_code  , amount_dr ,amount_cr ,amt_dr , amt_cr  ,amt_USD_Dr, amt_USD_Cr , certis, lock ,rec_lock , last_update , last_user , descflag , Cat_ID , certifyID  ,company   ,Office_ID, Cust_Supp, CustID, SuppID , del, AG,Frm) " & _
-                          "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & FG.get_TextMatrix(i, 3) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "',N'" & TxtReferno.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Trim(Apostrophe(txtDesc.Text)) & "',N'" & Trim(Apostrophe(txtDescE.Text)) & "'," & CDbl(txtAmount.Text) & ",'" & FG.get_TextMatrix(i, 10) & "'," & CDbl(FG.get_TextMatrix(i, 11)) & "," & CDbl(txtRateUSD.Text) & ",'" & "0" & "','" & FG.get_TextMatrix(i, 1) & "','" & FG.get_TextMatrix(i, 2) & "','" & FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) & "'," & CDbl(FG.get_TextMatrix(i, 5)) & "," & CDbl(FG.get_TextMatrix(i, 6)) & "," & CDbl(FG.get_TextMatrix(i, 12)) & "," & CDbl(FG.get_TextMatrix(i, 13)) & "," & CDbl(FG.get_TextMatrix(i, 14)) & "," & CDbl(FG.get_TextMatrix(i, 15)) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & FG.get_TextMatrix(i, 7) & "','" & MdCertifyId & "','" & MuSubOff & "' , '" & MuSubOff & "','" & MDCust_Supp & "',N'',N'' , 0,0,0)"
-                    CNN.Execute(KK)
-
+                    sqlInsert = "INSERT INTO gen_jn( date_work, ac_Name, book, certify, Referno,cheque_no ,descrip ,descripe ,amount , curr ,rate,  Rate_USD,net_amt ,code_dr ,code_cr ,ac_code  , amount_dr ,amount_cr ,amt_dr , amt_cr  ,amt_USD_Dr, amt_USD_Cr , certis, lock ,rec_lock , last_update , last_user , descflag , Cat_ID , certifyID  ,company   ,Office_ID, Cust_Supp, CustID, SuppID , del, AG,Frm) " & _
+                          "Values('" & Format(dtActi.Value, "yyyy/MM/dd") & "',N'" & GetGridValue(FG, i, 3) & "',N'" & CmbBook.Text & "',N'" & txtInvoice.Text & "',N'" & TxtReferno.Text & "','" & Apostrophe(txtChecq.Text) & "',N'" & Trim(Apostrophe(txtDesc.Text)) & "',N'" & Trim(Apostrophe(txtDescE.Text)) & "'," & CDbl(Val(txtAmount.Text)) & ",'" & GetGridValue(FG, i, 10) & "'," & CDbl(Val(GetGridValue(FG, i, 11))) & "," & CDbl(Val(txtRateUSD.Text)) & ",'" & "0" & "','" & GetGridValue(FG, i, 1) & "','" & GetGridValue(FG, i, 2) & "','" & GetGridValue(FG, i, 1) & GetGridValue(FG, i, 2) & "'," & CDbl(Val(GetGridValue(FG, i, 5))) & "," & CDbl(Val(GetGridValue(FG, i, 6))) & "," & CDbl(Val(GetGridValue(FG, i, 12))) & "," & CDbl(Val(GetGridValue(FG, i, 13))) & "," & CDbl(Val(GetGridValue(FG, i, 14))) & "," & CDbl(Val(GetGridValue(FG, i, 15))) & ",'" & "3" & "','" & "4" & "','" & "5" & "','" & dtActi.Text & "','" & MUserID & "','" & "8" & "','" & GetGridValue(FG, i, 7) & "','" & MdCertifyId & "','" & MuSubOff & "' , '" & MuSubOff & "','" & MDCust_Supp & "',N'',N'' , 0,0,0)"
                 End If
             End If
-
+            DbHelper.ExecuteNonQuery(sqlInsert)
         Next i
         MuSubOff = MuSubOff2
         LngId = "6001" : MsgRpt()
     End Sub
 
-    Private Sub FG_AfterEdit(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterEditEvent) Handles FG.AfterEdit
-        If FG.Col = 1 Or FG.Col = 2 Then
-            If FG.get_TextMatrix(FG.Row, 1) & FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                'If Len(FG.get_TextMatrix(FG.Row, 1) & FG.get_TextMatrix(FG.Row, 2)) <> 7 Then
+    Private Sub FG_CellEndEdit(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG.CellEndEdit
+        If e.ColumnIndex = 1 OrElse e.ColumnIndex = 2 Then
+            If GetGridValue(FG, e.RowIndex, 1) & GetGridValue(FG, e.RowIndex, 2) <> "" Then
+                'If Len(GetGridValue(FG, e.RowIndex, 1) & GetGridValue(FG, e.RowIndex, 2)) <> 7 Then
                 '    LngId = "6005" : MsgRpt()
                 '    Exit Sub
                 'End If
@@ -138,12 +136,12 @@
         End If
 
         If txtDesc.Text = "" Then
-            txtDesc.Text = FG.get_TextMatrix(1, 3)
-            txtDescE.Text = FG.get_TextMatrix(1, 4)
+            txtDesc.Text = GetGridValue(FG, e.RowIndex, 3)
+            txtDescE.Text = GetGridValue(FG, e.RowIndex, 4)
         End If
         If CDbl(txtAmount.Text) = 0 Then
-            If FG.Row = 2 Then
-                txtAmount.Text = Format(CDbl((CDbl(FG.get_TextMatrix(1, 5)) + CDbl(FG.get_TextMatrix(1, 6)))), "##,##0.00")
+            If FG.CurrentRow IsNot Nothing AndAlso FG.CurrentRow.Index = 1 Then
+                txtAmount.Text = Format(CDbl((CDbl(GetGridValue(FG, e.RowIndex, 5)) + CDbl(GetGridValue(FG, e.RowIndex, 6)))), "##,##0.00")
             End If
         End If
         If CDbl(txtSumAmountDr.Text) >= CDbl(txtSumAmountCr.Text) Then
@@ -156,139 +154,169 @@
     Private Sub AfterEdit()
         BtnMove.Visible = False
         '*************************Col-1-*********************
-        If FG.Col = 1 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 1) = "" Then
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 1))
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 1 Then
+            R = FG.CurrentCell.RowIndex
+            L = FG.CurrentCell.ColumnIndex
+If GetGridValue(FG, R, 1) = "" Then
+                MDSearchAcccode = GetGridValue(FG, R, 1)
                 fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
                 fmShartOfAccDetail.ShowDialog()
-            End If
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                AccId = FG.get_TextMatrix(FG.Row, 1)
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 1))
-                LoadText()
-                FG.set_TextMatrix(FG.Row, 3, AccName)
-                FG.set_TextMatrix(FG.Row, 4, AccNamee)
-                If FG.get_TextMatrix(FG.Row, 3) = "" Then
-                    FG.set_TextMatrix(FG.Row, 1, "")
-                    fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
-                    fmShartOfAccDetail.ShowDialog()
-                End If
+            Else
                 SumAmountDr()
-                txtSumAmountDr.Text = CDbl(txtSumAmountDr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 5))
-                FG.set_TextMatrix(FG.Row, 5, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
-                FG.set_TextMatrix(FG.Row, 7, 0)
-                FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-                FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 5)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 13, "0.00")
-                FG.set_TextMatrix(FG.Row, 14, Format(CDbl(CDbl(FG.get_TextMatrix(FG.Row, 12))) / CDbl(MDUSD_LAK), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 15, "0.00")
+                txtSumAmountDr.Text = CDbl(txtSumAmountDr.Text) - CDbl(GetGridValue(FG, R, 5))
+                SetGridValue(FG, R, 5, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00"))
+                SetGridValue(FG, R, 6, "0.00")
+                SetGridValue(FG, R, 7, 0)
+                SetGridValue(FG, R, 10, Cmb.Text)
+                SetGridValue(FG, R, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+                SetGridValue(FG, R, 12, Format(CDbl(CDbl(txtRate.Text) * GetGridValue(FG, R, 5)), "#,##0.00"))
+                SetGridValue(FG, R, 13, "0.00")
+                SetGridValue(FG, R, 14, Format(CDbl(CDbl(GetGridValue(FG, R, 12))) / CDbl(MDUSD_LAK), "#,##0.00"))
+                SetGridValue(FG, R, 15, "0.00")
                 SumAmountDr()
 
                 If ChDe.Checked = True Then
                     If MuLng = "L" Then
-                        FG.Col = 3
+                        FG.CurrentCell = FG.Rows(R).Cells(3)
                     End If
                     If MuLng = "E" Then
-                        FG.Col = 4
+                        FG.CurrentCell = FG.Rows(R).Cells(4)
                     End If
-                    If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                        FG.Rows = FG.Rows + 1
+                    If R < FG.Rows.Count - 1 AndAlso GetGridValue(FG, FG.Rows.Count - 2, 3) <> "" Then
+                        FG.Rows.Add()
                     End If
                     Exit Sub
                 End If
 
-                FG.Col = 5
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
-                    Exit Sub
+                FG.CurrentCell = FG.Rows(R).Cells(5)
+                If R < FG.Rows.Count - 1 AndAlso GetGridValue(FG, FG.Rows.Count - 2, 3) <> "" Then
+                    FG.Rows.Add()
                 End If
-                Exit Sub
-            End If
-            Exit Sub
+Exit Sub
         End If
-        '*************************Col-2-*********************
-        If FG.Col = 2 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 2) = "" Then
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
-                fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
-                fmShartOfAccDetail.ShowDialog()
-            End If
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                AccId = FG.get_TextMatrix(FG.Row, FG.Col)
+        If GetGridValue(FG, R, 1) <> "" Then
+                AccId = GetGridValue(FG, R, 1)
+                MDSearchAcccode = GetGridValue(FG, R, 1)
                 LoadText()
-                FG.set_TextMatrix(FG.Row, 3, AccName)
-                FG.set_TextMatrix(FG.Row, 4, AccNamee)
-                If FG.get_TextMatrix(FG.Row, 3) = "" Then
-                    MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
+                SetGridValue(FG, R, 3, AccName)
+                SetGridValue(FG, R, 4, AccNamee)
+                If GetGridValue(FG, R, 3) = "" Then
+                    SetGridValue(FG, R, 1, "")
                     fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
                     fmShartOfAccDetail.ShowDialog()
                 End If
                 SumAmountDr()
-                txtSumAmountCr.Text = CDbl(txtSumAmountCr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 6))
-                FG.set_TextMatrix(FG.Row, 6, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountCr.Text)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                FG.set_TextMatrix(FG.Row, 7, 0)
-                FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-                FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 12, "0.00")
-                FG.set_TextMatrix(FG.Row, 15, Format(CDbl(CDbl(FG.get_TextMatrix(FG.Row, 13))) / CDbl(MDUSD_LAK), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 14, "0.00")
+                txtSumAmountDr.Text = CDbl(txtSumAmountDr.Text) - CDbl(GetGridValue(FG, R, 5))
+                SetGridValue(FG, R, 5, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00"))
+                SetGridValue(FG, R, 6, "0.00")
+                SetGridValue(FG, R, 7, 0)
+                SetGridValue(FG, R, 10, Cmb.Text)
+                SetGridValue(FG, R, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+                SetGridValue(FG, R, 12, Format(CDbl(CDbl(txtRate.Text) * CDbl(GetGridValue(FG, R, 5))), "#,##0.00"))
+                SetGridValue(FG, R, 13, "0.00")
+                SetGridValue(FG, R, 14, Format(CDbl(CDbl(GetGridValue(FG, R, 12))) / CDbl(MDUSD_LAK), "#,##0.00"))
+                SetGridValue(FG, R, 15, "0.00")
                 SumAmountDr()
+
                 If ChDe.Checked = True Then
                     If MuLng = "L" Then
-                        FG.Col = 3
+                        FG.CurrentCell = FG.Rows(R).Cells(3)
                     End If
                     If MuLng = "E" Then
-                        FG.Col = 4
+                        FG.CurrentCell = FG.Rows(R).Cells(4)
                     End If
-                    If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                        FG.Rows = FG.Rows + 1
+                    If R < FG.Rows.Count - 1 AndAlso GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                        FG.Rows.Add()
                     End If
                     Exit Sub
                 End If
-                FG.Col = 6
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
-                    FG.Col = 6
+
+                FG.CurrentCell = FG.Rows(R).Cells(5)
+                If R < FG.Rows.Count - 1 AndAlso GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                    FG.Rows.Add()
+                End If
+                Exit Sub
+            End If
+        End If
+'*************************Col-2-*********************
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 2 Then
+            R = FG.CurrentCell.RowIndex
+            L = FG.CurrentCell.ColumnIndex
+            If GetGridValue(FG, R, 2) = "" Then
+                MDSearchAcccode = GetGridValue(FG, R, 2)
+                fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
+                fmShartOfAccDetail.ShowDialog()
+            End If
+            If GetGridValue(FG, R, 2) <> "" Then
+                AccId = GetGridValue(FG, R, 2)
+                LoadText()
+                SetGridValue(FG, R, 3, AccName)
+                SetGridValue(FG, R, 4, AccNamee)
+                If GetGridValue(FG, R, 3) = "" Then
+                    MDSearchAcccode = GetGridValue(FG, R, 2)
+                    fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
+                    fmShartOfAccDetail.ShowDialog()
+                End If
+                SumAmountDr()
+                txtSumAmountCr.Text = CDbl(txtSumAmountCr.Text) - CDbl(GetGridValue(FG, R, 6))
+                SetGridValue(FG, R, 6, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountCr.Text)), "#,##0.00"))
+                SetGridValue(FG, R, 5, "0.00")
+                SetGridValue(FG, R, 7, 0)
+                SetGridValue(FG, R, 10, Cmb.Text)
+                SetGridValue(FG, R, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+                SetGridValue(FG, R, 13, Format(CDbl(CDbl(txtRate.Text) * GetGridValue(FG, R, 6)), "#,##0.00"))
+                SetGridValue(FG, R, 12, "0.00")
+                SetGridValue(FG, R, 15, Format(CDbl(CDbl(GetGridValue(FG, R, 13))) / CDbl(MDUSD_LAK), "#,##0.00"))
+                SetGridValue(FG, R, 14, "0.00")
+                SumAmountDr()
+                If ChDe.Checked = True Then
+                    If MuLng = "L" Then
+                        FG.CurrentCell = FG.Rows(R).Cells(3)
+                    End If
+                    If MuLng = "E" Then
+                        FG.CurrentCell = FG.Rows(R).Cells(4)
+                    End If
+                    If GetGridValue(FG, FG.RowCount - 2, 3) <> "" Then
+                        FG.Rows.Add()
+                    End If
+                    Exit Sub
+                End If
+                FG.CurrentCell = FG.Rows(R).Cells(6)
+                If GetGridValue(FG, FG.RowCount - 2, 3) <> "" Then
+                    FG.Rows.Add()
+                    FG.CurrentCell = FG.Rows(R).Cells(6)
                 End If
                 Exit Sub
             End If
             Exit Sub
-        End If
+End If
 
 
         '====*************************
 
-        If FG.Col = 3 Then
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 3 Then
             If Button3.Text = "ໂຊຂໍ້ມູນແບບທົ່ວໄປ" Then
-                FG.Col = 4
+                FG.CurrentCell = FG.Rows(FG.CurrentCell.RowIndex).Cells(4)
                 Exit Sub
             Else
-                If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                    FG.Col = 5
+                If GetGridValue(FG, FG.CurrentCell.RowIndex, 1) <> "" Then
+                    FG.CurrentCell = FG.Rows(FG.CurrentCell.RowIndex).Cells(5)
                     Exit Sub
                 End If
-                If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                    FG.Col = 6
+                If GetGridValue(FG, FG.CurrentCell.RowIndex, 2) <> "" Then
+                    FG.CurrentCell = FG.Rows(FG.CurrentCell.RowIndex).Cells(6)
                     Exit Sub
                 End If
                 'MsgBox("ໂຊຂໍ້ມູນແບບລະອຽດ")
             End If
-        End If
-        If FG.Col = 4 Then
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                FG.Col = 5
+End If
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 4 Then
+            If GetGridValue(FG, FG.CurrentCell.RowIndex, 1) <> "" Then
+                FG.CurrentCell = FG.Rows(FG.CurrentCell.RowIndex).Cells(5)
                 Exit Sub
             End If
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                FG.Col = 6
+            If GetGridValue(FG, FG.CurrentCell.RowIndex, 2) <> "" Then
+                FG.CurrentCell = FG.Rows(FG.CurrentCell.RowIndex).Cells(6)
                 Exit Sub
             End If
             'MsgBox("ໂຊຂໍ້ມູນແບບລະອຽດ")
@@ -298,96 +326,29 @@
 
 
 
-        '*************************Col-5-*********************
-        If FG.Col = 6 Then
-            If IsNumeric(FG.get_TextMatrix(FG.Row, 6)) = False Then
+'*************************Col-6-*********************
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 6 Then
+            Dim rowIdx As Integer = FG.CurrentCell.RowIndex
+            If IsNumeric(GetGridValue(FG, rowIdx, 6)) = False Then
                 MessageBox.Show("ກະລຸນນາໃສ່ໂຕເລກ")
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
+                SetGridValue(FG, rowIdx, 6, "0.00")
                 Exit Sub
             End If
-            If CDbl(FG.get_TextMatrix(FG.Row, 6)) = 0 Then
+            If CDbl(GetGridValue(FG, rowIdx, 6)) = 0 Then
                 MessageBox.Show("ກະລຸນນາມູນຄ່າກ່ອນ")
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
+                SetGridValue(FG, rowIdx, 6, "0.00")
                 Exit Sub
             End If
-            FG.set_TextMatrix(FG.Row, 6, Format(CDbl(FG.get_TextMatrix(FG.Row, FG.Col)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 5, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, "0.00")
-            FG.set_TextMatrix(FG.Row, 15, Format(CDbl(CDbl(FG.get_TextMatrix(FG.Row, 13))) / CDbl(MDUSD_LAK), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 14, "0.00")
+            SetGridValue(FG, rowIdx, 6, Format(CDbl(GetGridValue(FG, rowIdx, 6)), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 5, "0.00")
+            SetGridValue(FG, rowIdx, 7, 0)
+            SetGridValue(FG, rowIdx, 10, Cmb.Text)
+            SetGridValue(FG, rowIdx, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 13, Format(CDbl(CDbl(txtRate.Text) * GetGridValue(FG, rowIdx, 6)), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 12, "0.00")
+            SetGridValue(FG, rowIdx, 15, Format(CDbl(CDbl(GetGridValue(FG, rowIdx, 13))) / CDbl(MDUSD_LAK), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 14, "0.00")
             SumAmountDr()
-            FG.Col = 7
-            Exit Sub
-        End If
-        '*************************Col-4*********************
-        If FG.Col = 5 Then
-            If IsNumeric(FG.get_TextMatrix(FG.Row, 5)) = False Then
-                MessageBox.Show("ກະລຸນນາໃສ່ໂຕເລກ")
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                Exit Sub
-            End If
-
-            If CDbl(FG.get_TextMatrix(FG.Row, 5)) = 0 Then
-                MessageBox.Show("ກະລຸນນາມູນຄ່າກ່ອນ")
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                Exit Sub
-            End If
-
-            FG.set_TextMatrix(FG.Row, 5, Format(CDbl(FG.get_TextMatrix(FG.Row, FG.Col)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 6, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 5)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, "0.00")
-            FG.set_TextMatrix(FG.Row, 14, Format(CDbl(CDbl(FG.get_TextMatrix(FG.Row, 12))) / CDbl(MDUSD_LAK), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 15, "0.00")
-            SumAmountDr()
-            FG.Col = 7
-            Exit Sub
-        End If
-        '*************************Col-7-*********************
-        If FG.Col = 7 Then
-            If IsNumeric(FG.get_TextMatrix(FG.Row, 5)) = False Then
-                MessageBox.Show("ກະລຸນນາໃສ່ໂຕເລກ")
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                Exit Sub
-            End If
-            If FG.get_TextMatrix(FG.Row, 7) = "0" Then
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "1" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການພະລິດ")
-                FG.set_TextMatrix(FG.Row, 9, "Use build")
-
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "2" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການຈຳໜ່າຍ")
-                FG.set_TextMatrix(FG.Row, 9, "Use Sell")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "3" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ບໍລິຫານ")
-                FG.set_TextMatrix(FG.Row, 9, "Use manage ")
-
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "4" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
-                FG.set_TextMatrix(FG.Row, 9, "Sell capital/manage capital ")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) > 4 Then
-                MessageBox.Show("ລະຫັດບໍ່ຖືກຕ້ອງ ລະຫັດມີພຽງເລກ 0 ຫາເລກ 4 ເທົ່ານັ້ນ")
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ລເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-                FG.set_TextMatrix(FG.Row, 7, "0")
-                Exit Sub
-            ElseIf FG.get_TextMatrix(FG.Row, 7) < 0 Then
-                MessageBox.Show("ລະຫັດບໍ່ຖືກຕ້ອງ ລະຫັດມີພຽງເລກ 0 ຫາເລກ 4 ເທົ່ານັ້ນ")
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ລເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-                FG.set_TextMatrix(FG.Row, 7, "0")
-                Exit Sub
-            End If
-            'aaaaaaaaaaaa
             If CDbl(txtTotal_Amt_LAK.Text) > 0 Then
                 If Chk_Preview.Checked = False Then
 
@@ -409,16 +370,15 @@
 
                                         'xxxxxxxxxxxxxx
 
-                                        Dim srNum As New ADODB.Recordset
                                         Dim mNum As Integer = 0
                                         If IsNumeric(Microsoft.VisualBasic.Right(txtInvoice.Text, 3)) = False Then MsgBox("3 ໂຕທາງທ້າຍຕ້ອງເປັນໂຕເລກເທົານັ້ນ") : txtInvoice.BackColor = Color.Red : txtInvoice.Focus() : Exit Sub
-                                        'Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book ='" & CmbBook.Text & "' And    year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " Order by  Right(certify,7) DESC ", srNum)
-                                        Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book =N'" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "'And  ReferNO = N'" & TxtReferno.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " And  day(date_work)=" & Format(CDate(dtActi.Value), "dd") & "  Order by  Right(certify,3) DESC ", RSC)
+                                        ' Using DbHelper instead of ADODB
+                                        Dim dtCertify As DataTable = DbHelper.GetDataTable("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book =N'" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "'And  ReferNO = N'" & TxtReferno.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " And  day(date_work)=" & Format(CDate(dtActi.Value), "dd") & "  Order by  Right(certify,3) DESC ")
 
-                                        If srNum.RecordCount = 0 Then
+                                        If dtCertify.Rows.Count = 0 Then
                                             mNum = 0
                                         Else
-                                            mNum = Val(srNum.Fields("certify").Value.ToString)
+                                            mNum = Val(DbHelper.GetStr(dtCertify.Rows(0)("certify")))
                                         End If
                                         mNum = mNum + 1
 
@@ -437,24 +397,23 @@
                                         'xxxxxxxxxxxxxxxxxxxxxxxxx
 
                                         'Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book ='" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  Order by  Right(certify,7) DESC ", RSC)
-                                        Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book =N'" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "'And  ReferNO = N'" & TxtReferno.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " And  day(date_work)=" & Format(CDate(dtActi.Value), "dd") & "  Order by  Right(certify,3) DESC ", RSC)
+Dim dtCheck As DataTable = DbHelper.GetDataTable("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book =N'" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "'And  ReferNO = N'" & TxtReferno.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " And  day(date_work)=" & Format(CDate(dtActi.Value), "dd") & "  Order by  Right(certify,3) DESC ")
 
-                                        If RSC.RecordCount > 0 Then
+                                        If dtCheck.Rows.Count > 0 Then
                                             MsgBox("ເລກລະຫັດ : " & Trim(txtInvoice.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
                                             txtInvoice.BackColor = Color.Red
                                             txtInvoice.Focus()
-                                            If RSC.State = ConnectionState.Open Then RSC.Close()
                                             Exit Sub
                                         End If
 
                                         Savedata()
                                     Else
-                                        'CNN.Execute("DELETE FROM gen_jn WHERE book ='" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy") & "' ")
-                                        CNN.Execute("DELETE FROM gen_jn WHERE book =N'" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  =N'" & txtInvoice.Text & "'  And  ReferNO = N'" & TxtReferno.Text & "'  And   date_work='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy-MM-dd") & "' ")
+                                        'DbHelper.ExecuteNonQuery("DELETE FROM gen_jn WHERE book ='" & GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 1)), "yyyy") & "' ")
+                                        DbHelper.ExecuteNonQuery("DELETE FROM gen_jn WHERE book =N'" & GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 16) & "' And certify  =N'" & txtInvoice.Text & "'  And  ReferNO = N'" & TxtReferno.Text & "'  And   date_work='" & Format(CDate(GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 1)), "yyyy-MM-dd") & "' ")
 
                                         Savedata()
                                     End If
-                                    If CheckBox1.Checked = True Then
+                                    If CheckBox1.Checked Then
                                         Call LoadReport()
                                     End If
                                     txtInvoice.Enabled = True
@@ -462,12 +421,13 @@
                                     Panel1.Visible = False
                                     BtnMove.Visible = False
                                     BtnSearch.Visible = False
-                                    FG.Rows = 1
-                                    FG.Rows = 2
-                                    FG.Row = 1
-                                    FG.Col = 1
+        FG.Rows.Clear()
+        FG.Rows.Add()
+        FG.Rows.Add()
+                                    If FG.CurrentRow IsNot Nothing Then FG.CurrentRow.Index = 1
+If FG.CurrentRow IsNot Nothing Then FG.CurrentCell = FG.Rows(1).Cells(1)
 
-                                    If CheckBox2.Checked = True Then
+                                    If CheckBox2.Checked Then
                                         Close()
                                     End If
                                     Exit Sub
@@ -479,148 +439,158 @@
                 End If
                 'aaaaaaaaaaaa
 
-
-                If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                    If FG.get_TextMatrix(FG.Row + 1, 1) <> "" Then
-                        FG.Row = FG.Row + 1
-                        FG.Col = 1
+                If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, 1) <> "" Then
+                    If FG.CurrentRow.Index < FG.Rows.Count - 1 AndAlso GetGridValue(FG, FG.CurrentRow.Index + 1, 1) <> "" Then
+                        FG.CurrentCell = FG.Rows(FG.CurrentRow.Index + 1).Cells(1)
                         Exit Sub
                     End If
-                    FG.Row = FG.Row + 1
-                    FG.Col = 2
+                    If FG.CurrentRow.Index < FG.Rows.Count - 1 Then
+                        FG.CurrentCell = FG.Rows(FG.CurrentRow.Index + 1).Cells(2)
+                    End If
                     SumAmountDr()
                     '*****************
                 Else
-                    If FG.get_TextMatrix(FG.Row + 1, 2) <> "" Then
-                        FG.Row = FG.Row + 1
-                        FG.Col = 2
+                    If FG.CurrentRow.Index < FG.Rows.Count - 1 AndAlso GetGridValue(FG, FG.CurrentRow.Index + 1, 2) <> "" Then
+                        FG.CurrentCell = FG.Rows(FG.CurrentRow.Index + 1).Cells(2)
                         Exit Sub
                     End If
-                    FG.Row = FG.Row + 1
-                    FG.Col = 1
+                    If FG.CurrentRow.Index < FG.Rows.Count - 1 Then
+                        FG.CurrentCell = FG.Rows(FG.CurrentRow.Index + 1).Cells(1)
+                    End If
                     SumAmountDr()
                 End If
 
                 Exit Sub
-            End If
-        End If
+                    End If
+                    ' FG.CurrentRow.Index is read-only, cannot assign
+                    FG.CurrentCell = FG.Rows(1).Cells(2)
+                    SumAmountDr()
+                    '*****************
+                Else
+                    If GetGridValue(FG,FG.CurrentRow.Index + 1, 2) <> "" Then
+                        ' FG.CurrentRow.Index is read-only, cannot assign
+                        FG.CurrentCell = FG.Rows(1).Cells(2)
+                        Exit Sub
+                    End If
+                    ' FG.CurrentRow.Index is read-only, cannot assign
+                    FG.CurrentCell = FG.Rows(1).Cells(1)
+                    SumAmountDr()
+                End If
+
+                Exit Sub
         CmbBook.Focus()
     End Sub
-    Private Sub AfterEdit2()
+Private Sub AfterEdit2()
         BtnMove.Visible = False
         '*************************Col-1-*********************
-        If FG.Col = 1 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 1) = "" Then
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 1))
-                AccId = FG.get_TextMatrix(FG.Row, 1)
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 1 Then
+            R = FG.CurrentCell.RowIndex
+            L = FG.CurrentCell.ColumnIndex
+            If GetGridValue(FG, R, 1) = "" Then
+                MDSearchAcccode = GetGridValue(FG, R, 1)
+                AccId = GetGridValue(FG, R, 1)
 
                 fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
                 fmShartOfAccDetail.ShowDialog()
 
             End If
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                AccId = FG.get_TextMatrix(FG.Row, 1)
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 1))
-
+            If GetGridValue(FG, R, 1) <> "" Then
+                AccId = GetGridValue(FG, R, 1)
+                MDSearchAcccode = GetGridValue(FG, R, 1)
 
                 LoadText()
-                FG.set_TextMatrix(FG.Row, 3, AccName)
-                FG.set_TextMatrix(FG.Row, 4, AccNamee)
-                If FG.get_TextMatrix(FG.Row, 3) = "" Then
-
-                    FG.set_TextMatrix(FG.Row, 1, "")
+                SetGridValue(FG, R, 3, AccName)
+                SetGridValue(FG, R, 4, AccNamee)
+                If GetGridValue(FG, R, 3) = "" Then
+                    SetGridValue(FG, R, 1, "")
                     fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
                     fmShartOfAccDetail.ShowDialog()
                     LoadText()
-
                 End If
                 SumAmountDr()
-                txtSumAmountDr.Text = CDbl(txtSumAmountDr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 5))
-                FG.set_TextMatrix(FG.Row, 5, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
-                FG.set_TextMatrix(FG.Row, 7, 0)
-                FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-                FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 5)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 13, "0.00")
-                FG.set_TextMatrix(FG.Row, 14, Format(CDbl(CDbl(FG.get_TextMatrix(FG.Row, 12))) / CDbl(MDUSD_LAK), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 15, "0.00")
+                txtSumAmountDr.Text = CDbl(txtSumAmountDr.Text) - CDbl(GetGridValue(FG, R, 5))
+                SetGridValue(FG, R, 5, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00"))
+                SetGridValue(FG, R, 6, "0.00")
+                SetGridValue(FG, R, 7, 0)
+                SetGridValue(FG, R, 10, Cmb.Text)
+                SetGridValue(FG, R, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+                SetGridValue(FG, R, 12, Format(CDbl(CDbl(txtRate.Text) * CDbl(GetGridValue(FG, R, 5))), "#,##0.00"))
+                SetGridValue(FG, R, 13, "0.00")
+                SetGridValue(FG, R, 14, Format(CDbl(CDbl(GetGridValue(FG, R, 12))) / CDbl(MDUSD_LAK), "#,##0.00"))
+                SetGridValue(FG, R, 15, "0.00")
                 SumAmountDr()
 
                 If ChDe.Checked = True Then
                     If MuLng = "L" Then
-                        FG.Col = 3
+                        FG.CurrentCell = FG.Rows(R).Cells(3)
                     End If
                     If MuLng = "E" Then
-                        FG.Col = 4
+                        FG.CurrentCell = FG.Rows(R).Cells(4)
                     End If
 
-
-                    If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                        FG.Rows = FG.Rows + 1
+                    If GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                        FG.Rows.Add()
                     End If
                     Exit Sub
                 End If
 
-                FG.Col = 5
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
+                FG.CurrentCell = FG.Rows(R).Cells(5)
+                If GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                    FG.Rows.Add()
                     Exit Sub
                 End If
                 Exit Sub
             End If
             Exit Sub
         End If
-        '*************************Col-2-*********************
-        If FG.Col = 2 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 2) = "" Then
-                MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
+'*************************Col-2-*********************
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 2 Then
+            R = FG.CurrentCell.RowIndex
+            L = FG.CurrentCell.ColumnIndex
+            If GetGridValue(FG, R, 2) = "" Then
+                MDSearchAcccode = GetGridValue(FG, R, 2)
                 fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
                 fmShartOfAccDetail.ShowDialog()
             End If
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                AccId = FG.get_TextMatrix(FG.Row, FG.Col)
+            If GetGridValue(FG, R, 2) <> "" Then
+                AccId = GetGridValue(FG, R, 2)
                 LoadText()
-                FG.set_TextMatrix(FG.Row, 3, AccName)
-                FG.set_TextMatrix(FG.Row, 4, AccNamee)
-                If FG.get_TextMatrix(FG.Row, 3) = "" Then
-                    MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
+                SetGridValue(FG, R, 3, AccName)
+                SetGridValue(FG, R, 4, AccNamee)
+                If GetGridValue(FG, R, 3) = "" Then
+                    MDSearchAcccode = GetGridValue(FG, R, 2)
                     fmShartOfAccDetail.txtSty.Text = "NsewJeneralJournal_DR"
                     fmShartOfAccDetail.ShowDialog()
                 End If
                 SumAmountDr()
-                txtSumAmountCr.Text = CDbl(txtSumAmountCr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 6))
-                FG.set_TextMatrix(FG.Row, 6, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountCr.Text)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
-                FG.set_TextMatrix(FG.Row, 7, 0)
-                FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-                FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 12, "0.00")
-                FG.set_TextMatrix(FG.Row, 15, Format(CDbl(CDbl(FG.get_TextMatrix(FG.Row, 13))) / CDbl(MDUSD_LAK), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 14, "0.00")
+                txtSumAmountCr.Text = CDbl(txtSumAmountCr.Text) - CDbl(GetGridValue(FG, R, 6))
+                SetGridValue(FG, R, 6, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountCr.Text)), "#,##0.00"))
+                SetGridValue(FG, R, 5, "0.00")
+                SetGridValue(FG, R, 7, 0)
+                SetGridValue(FG, R, 10, Cmb.Text)
+                SetGridValue(FG, R, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+                SetGridValue(FG, R, 13, Format(CDbl(CDbl(txtRate.Text) * CDbl(GetGridValue(FG, R, 6))), "#,##0.00"))
+                SetGridValue(FG, R, 12, "0.00")
+                SetGridValue(FG, R, 15, Format(CDbl(CDbl(GetGridValue(FG, R, 13))) / CDbl(MDUSD_LAK), "#,##0.00"))
+                SetGridValue(FG, R, 14, "0.00")
                 SumAmountDr()
 
                 If ChDe.Checked = True Then
                     If MuLng = "L" Then
-                        FG.Col = 3
+                        FG.CurrentCell = FG.Rows(R).Cells(3)
                     End If
                     If MuLng = "E" Then
-                        FG.Col = 4
+                        FG.CurrentCell = FG.Rows(R).Cells(4)
                     End If
-                    If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                        FG.Rows = FG.Rows + 1
+                    If GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                        FG.Rows.Add()
                     End If
                     Exit Sub
                 End If
-                FG.Col = 6
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
-                    FG.Col = 6
+                FG.CurrentCell = FG.Rows(R).Cells(6)
+                If GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                    FG.Rows.Add()
+                    FG.CurrentCell = FG.Rows(R).Cells(6)
                 End If
                 Exit Sub
             End If
@@ -629,58 +599,59 @@
 
         '====*************************
 
-        If FG.Col = 3 Then
+If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 3 Then
             If Button3.Text = "ໂຊຂໍ້ມູນແບບທົ່ວໄປ" Then
-                FG.Col = 4
+                FG.CurrentCell = FG.Rows(FG.CurrentCell.RowIndex).Cells(4)
                 Exit Sub
             Else
-                If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                    FG.Col = 5
+                If GetGridValue(FG, FG.CurrentCell.RowIndex, 1) <> "" Then
+                    FG.CurrentCell = FG.Rows(FG.CurrentCell.RowIndex).Cells(5)
                     Exit Sub
                 End If
-                If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                    FG.Col = 6
+                If GetGridValue(FG, FG.CurrentCell.RowIndex, 2) <> "" Then
+                    FG.CurrentCell = FG.Rows(FG.CurrentCell.RowIndex).Cells(6)
                     Exit Sub
                 End If
                 'MsgBox("ໂຊຂໍ້ມູນແບບລະອຽດ")
             End If
         End If
-        If FG.Col = 4 Then
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                FG.Col = 5
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 4 Then
+            If GetGridValue(FG, FG.CurrentCell.RowIndex, 1) <> "" Then
+                FG.CurrentCell = FG.Rows(FG.CurrentCell.RowIndex).Cells(5)
                 Exit Sub
             End If
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                FG.Col = 6
+            If GetGridValue(FG, FG.CurrentCell.RowIndex, 2) <> "" Then
+                FG.CurrentCell = FG.Rows(FG.CurrentCell.RowIndex).Cells(6)
                 Exit Sub
             End If
             'MsgBox("ໂຊຂໍ້ມູນແບບລະອຽດ")
         End If
 
-        '*************************Col-5-*********************
-        If FG.Col = 6 Then
-            If IsNumeric(FG.get_TextMatrix(FG.Row, 6)) = False Then
+'*************************Col-6-*********************
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 6 Then
+            rowIdx = FG.CurrentCell.RowIndex
+            If IsNumeric(GetGridValue(FG, rowIdx, 6)) = False Then
                 MessageBox.Show("ກະລຸນນາໃສ່ໂຕເລກ")
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
+                SetGridValue(FG, rowIdx, 6, "0.00")
                 Exit Sub
             End If
-            If CDbl(FG.get_TextMatrix(FG.Row, 6)) = 0 Then
+            If CDbl(GetGridValue(FG, rowIdx, 6)) = 0 Then
                 MessageBox.Show("ກະລຸນນາມູນຄ່າກ່ອນ")
-                FG.set_TextMatrix(FG.Row, 6, "0.00")
+                SetGridValue(FG, rowIdx, 6, "0.00")
                 Exit Sub
             End If
-            ACCode = FG.get_TextMatrix(FG.Row, 2)
-            FG.set_TextMatrix(FG.Row, 6, Format(CDbl(FG.get_TextMatrix(FG.Row, FG.Col)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 5, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, "0.00")
-            FG.set_TextMatrix(FG.Row, 15, Format(CDbl(CDbl(FG.get_TextMatrix(FG.Row, 13))) / CDbl(MDUSD_LAK), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 14, "0.00")
+            ACCode = GetGridValue(FG, rowIdx, 2)
+            SetGridValue(FG, rowIdx, 6, Format(CDbl(GetGridValue(FG, rowIdx, 6)), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 5, "0.00")
+            SetGridValue(FG, rowIdx, 7, 0)
+            SetGridValue(FG, rowIdx, 10, Cmb.Text)
+            SetGridValue(FG, rowIdx, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 13, Format(CDbl(CDbl(txtRate.Text) * CDbl(GetGridValue(FG, rowIdx, 6))), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 12, "0.00")
+            SetGridValue(FG, rowIdx, 15, Format(CDbl(CDbl(GetGridValue(FG, rowIdx, 13))) / CDbl(MDUSD_LAK), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 14, "0.00")
             SumAmountDr()
-            'Remain = CDbl(FG.get_TextMatrix(FG.Row, 13))
+            'Remain = CDbl(GetGridValue(FG, rowIdx, 13))
             If CDbl(txtTotal_Amt_LAK.Text) > 0 Then
                 If CDbl(txtTotal_Amt_LAK.Text) > 0 Then
                     If Chk_Preview.Checked = False Then
@@ -699,10 +670,10 @@
                                     '    Else
                                     '        Remain = "(" & Format(CDbl(Remain * (-1)), "##,##0.00") & ")"
                                     '    End If
-                                    '    SumDr = CDbl(FG.get_TextMatrix(FG.Row, 13))
+                                    '    SumDr = CDbl(GetGridValue(FG, rowIdx, 13))
                                     '    If CDbl(SumDr) > CDbl(Remain) Then
-                                    '        FG.set_TextMatrix(FG.Row, 13, Format(CDbl(Remain), "#,##0.00"))
-                                    '        FG.set_TextMatrix(FG.Row, 6, Format(CDbl(Remain) / CDbl(txtRate.Text), "#,##0.00"))
+                                    '        SetGridValue(FG, rowIdx, 13, Format(CDbl(Remain), "#,##0.00"))
+                                    '        SetGridValue(FG, rowIdx, 6, Format(CDbl(Remain) / CDbl(txtRate.Text), "#,##0.00"))
                                     '    Else
                                     '    End If
 
@@ -724,14 +695,13 @@
 
                                             'xxxxxxxxxxxxxx
 
-                                            Dim srNum As New ADODB.Recordset
-                                            Dim mNum As Integer = 0
+Dim mNum As Integer = 0
                                             If IsNumeric(Microsoft.VisualBasic.Right(txtInvoice.Text, 3)) = False Then MsgBox("3 ໂຕທາງທ້າຍຕ້ອງເປັນໂຕເລກເທົານັ້ນ") : txtInvoice.BackColor = Color.Red : txtInvoice.Focus() : Exit Sub
-                                            Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify  FROM Gen_jn WHERE   book ='" & CmbBook.Text & "' And    year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  Order by  Right(certify,7) DESC ", srNum)
-                                            If srNum.RecordCount = 0 Then
+                                            Dim dtNum As DataTable = DbHelper.GetDataTable("SELECT  top 1 Right(certify,3) As  certify  FROM Gen_jn WHERE   book ='" & CmbBook.Text & "' And    year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  Order by  Right(certify,7) DESC ")
+                                            If dtNum.Rows.Count = 0 Then
                                                 mNum = 0
                                             Else
-                                                mNum = Val(srNum.Fields("certify").Value.ToString)
+                                                mNum = Val(dtNum.Rows(0)("certify").ToString())
                                             End If
                                             mNum = mNum + 1
 
@@ -750,22 +720,21 @@
                                             'xxxxxxxxxxxxxxxxxxxxxxxxx
 
 
-                                            Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book ='" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " Order by  Right(certify,7) DESC ", RSC)
-                                            If RSC.RecordCount > 0 Then
+                                            Dim dtCheck As DataTable = DbHelper.GetDataTable("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book ='" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " Order by  Right(certify,7) DESC ")
+                                            If dtCheck.Rows.Count > 0 Then
                                                 MsgBox("ເລກລະຫັດ : " & Trim(txtInvoice.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
                                                 txtInvoice.BackColor = Color.Red
                                                 txtInvoice.Focus()
-                                                If RSC.State = ConnectionState.Open Then RSC.Close()
                                                 Exit Sub
                                             End If
 
                                             Savedata()
                                         Else
-                                            CNN.Execute("DELETE FROM gen_jn WHERE book ='" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy") & "' ")
+                                            DbHelper.ExecuteNonQuery("DELETE FROM gen_jn WHERE book ='" & GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 1)), "yyyy") & "' ")
                                             Savedata()
                                         End If
 
-                                        If CheckBox1.Checked = True Then
+                                        If CheckBox1.Checked Then
 
                                             Call LoadReport()
                                             'MsgBox(11)
@@ -776,14 +745,15 @@
                                         Panel1.Visible = False
                                         BtnMove.Visible = False
                                         BtnSearch.Visible = False
-                                        FG.Rows = 1
-                                        FG.Rows = 2
-                                        FG.Row = 1
-                                        FG.Col = 1
+FG.Rows.Clear()
+        FG.Rows.Add()
+        FG.Rows.Add()
+                                        If FG.CurrentRow IsNot Nothing Then FG.CurrentRow.Index = 1
+If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 1 Then
                                         CmbBook.Focus()
 
 
-                                        If CheckBox2.Checked = True Then
+                                        If CheckBox2.Checked Then
 
                                             Close()
                                         End If
@@ -797,52 +767,53 @@
 
                 End If
 
-                If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                    If FG.get_TextMatrix(FG.Row + 1, 1) <> "" Then
-                        FG.Row = FG.Row + 1
-                        FG.Col = 1
+                If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, 1) <> "" Then
+                    If GetGridValue(FG,FG.CurrentRow.Index + 1, 1) <> "" Then
+                        ' FG.CurrentRow.Index is read-only, cannot assign
+                        FG.CurrentCell = FG.Rows(1).Cells(1)
                         Exit Sub
                     End If
-                    FG.Row = FG.Row + 1
-                    FG.Col = 2
+                    ' FG.CurrentRow.Index is read-only, cannot assign
+                    FG.CurrentCell = FG.Rows(1).Cells(2)
                     SumAmountDr()
                     '*****************
                 Else
-                    If FG.get_TextMatrix(FG.Row + 1, 2) <> "" Then
-                        FG.Row = FG.Row + 1
-                        FG.Col = 2
+                    If GetGridValue(FG,FG.CurrentRow.Index + 1, 2) <> "" Then
+                        ' FG.CurrentRow.Index is read-only, cannot assign
+                        FG.CurrentCell = FG.Rows(1).Cells(2)
                         Exit Sub
                     End If
-                    FG.Row = FG.Row + 1
-                    FG.Col = 1
+                    ' FG.CurrentRow.Index is read-only, cannot assign
+                    FG.CurrentCell = FG.Rows(1).Cells(1)
                     SumAmountDr()
                 End If
                 Exit Sub
             End If
         End If
         '*************************Col-4*********************
-        If FG.Col = 5 Then
-            If IsNumeric(FG.get_TextMatrix(FG.Row, 5)) = False Then
+If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 5 Then
+            rowIdx = FG.CurrentCell.RowIndex
+            If IsNumeric(GetGridValue(FG, rowIdx, 5)) = False Then
                 MessageBox.Show("ກະລຸນນາໃສ່ໂຕເລກ")
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
+                SetGridValue(FG, rowIdx, 5, "0.00")
                 Exit Sub
             End If
 
-            If CDbl(FG.get_TextMatrix(FG.Row, 5)) = 0 Then
+            If CDbl(GetGridValue(FG, rowIdx, 5)) = 0 Then
                 MessageBox.Show("ກະລຸນນາມູນຄ່າກ່ອນ")
-                FG.set_TextMatrix(FG.Row, 5, "0.00")
+                SetGridValue(FG, rowIdx, 5, "0.00")
                 Exit Sub
             End If
-            ACCode = FG.get_TextMatrix(FG.Row, 1)
-            FG.set_TextMatrix(FG.Row, 5, Format(CDbl(FG.get_TextMatrix(FG.Row, FG.Col)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 6, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 5)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, "0.00")
-            FG.set_TextMatrix(FG.Row, 14, Format(CDbl(CDbl(FG.get_TextMatrix(FG.Row, 12))) / CDbl(MDUSD_LAK), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 15, "0.00")
+            ACCode = GetGridValue(FG, rowIdx, 1)
+            SetGridValue(FG, rowIdx, 5, Format(CDbl(GetGridValue(FG, rowIdx, 5)), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 6, "0.00")
+            SetGridValue(FG, rowIdx, 7, 0)
+            SetGridValue(FG, rowIdx, 10, Cmb.Text)
+            SetGridValue(FG, rowIdx, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 12, Format(CDbl(CDbl(txtRate.Text) * CDbl(GetGridValue(FG, rowIdx, 5))), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 13, "0.00")
+            SetGridValue(FG, rowIdx, 14, Format(CDbl(CDbl(GetGridValue(FG, rowIdx, 12))) / CDbl(MDUSD_LAK), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 15, "0.00")
             SumAmountDr()
             If CDbl(txtTotal_Amt_LAK.Text) > 0 Then
                 If Chk_Preview.Checked = False Then
@@ -862,14 +833,13 @@
 
                                         'xxxxxxxxxxxxxx
 
-                                        Dim srNum As New ADODB.Recordset
-                                        Dim mNum As Integer = 0
+Dim mNum As Integer = 0
                                         If IsNumeric(Microsoft.VisualBasic.Right(txtInvoice.Text, 3)) = False Then MsgBox("3 ໂຕທາງທ້າຍຕ້ອງເປັນໂຕເລກເທົານັ້ນ") : txtInvoice.BackColor = Color.Red : txtInvoice.Focus() : Exit Sub
-                                        Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book ='" & CmbBook.Text & "' And year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And Month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  Order by  Right(certify,7) DESC ", srNum)
-                                        If srNum.RecordCount = 0 Then
+                                        Dim dtNum As DataTable = DbHelper.GetDataTable("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book ='" & CmbBook.Text & "' And year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And Month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  Order by  Right(certify,7) DESC ")
+                                        If dtNum.Rows.Count = 0 Then
                                             mNum = 0
                                         Else
-                                            mNum = Val(srNum.Fields("certify").Value.ToString)
+                                            mNum = Val(dtNum.Rows(0)("certify").ToString())
                                         End If
                                         mNum = mNum + 1
 
@@ -893,12 +863,11 @@
                                             End If
                                         End If
 
-                                        Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book ='" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And Month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " Order by  Right(certify,7) DESC ", RSC)
-                                        If RSC.RecordCount > 0 Then
+                                        Dim dtCheck2 As DataTable = DbHelper.GetDataTable("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book ='" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And Month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " Order by  Right(certify,7) DESC ")
+                                        If dtCheck2.Rows.Count > 0 Then
                                             MsgBox("ເລກລະຫັດ : " & Trim(txtInvoice.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
                                             txtInvoice.BackColor = Color.Red
                                             txtInvoice.Focus()
-                                            If RSC.State = ConnectionState.Open Then RSC.Close()
                                             Exit Sub
                                         End If
 
@@ -906,10 +875,10 @@
                                         Savedata()
                                     Else
 
-                                        CNN.Execute("DELETE FROM gen_jn WHERE book ='" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy") & "' ")
+                                        DbHelper.ExecuteNonQuery("DELETE FROM gen_jn WHERE book ='" & GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 1)), "yyyy") & "' ")
                                         Savedata()
                                     End If
-                                    If CheckBox1.Checked = True Then
+                                    If CheckBox1.Checked Then
                                         Call LoadReport()
                                     End If
                                     txtInvoice.Enabled = True
@@ -917,13 +886,13 @@
                                     Panel1.Visible = False
                                     BtnMove.Visible = False
                                     BtnSearch.Visible = False
-                                    FG.Rows = 1
-                                    FG.Rows = 2
-                                    FG.Row = 1
-                                    FG.Col = 1
+                                    FG.Rows.Clear()
+                                    FG.Rows.Add()
+                                    FG.Rows.Add()
+                                    If FG.CurrentRow IsNot Nothing Then FG.CurrentCell = FG.Rows(1).Cells(1)
                                     Exit Sub
 
-                                    If CheckBox2.Checked = True Then
+                                    If CheckBox2.Checked Then
                                         Close()
                                     End If
                                 End If
@@ -932,69 +901,49 @@
                     End If
                 End If
 
-                If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-                    If FG.get_TextMatrix(FG.Row + 1, 1) <> "" Then
-                        FG.Row = FG.Row + 1
-                        FG.Col = 1
+                If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, 1) <> "" Then
+                    If GetGridValue(FG,FG.CurrentRow.Index + 1, 1) <> "" Then
+                        ' FG.CurrentRow.Index is read-only, cannot assign
+                        FG.CurrentCell = FG.Rows(1).Cells(1)
                         Exit Sub
                     End If
-                    FG.Row = FG.Row + 1
-                    FG.Col = 2
+                    ' FG.CurrentRow.Index is read-only, cannot assign
+                    FG.CurrentCell = FG.Rows(1).Cells(2)
                     SumAmountDr()
                     '*****************
                 Else
-                    If FG.get_TextMatrix(FG.Row + 1, 2) <> "" Then
-                        FG.Row = FG.Row + 1
-                        FG.Col = 2
+                    If GetGridValue(FG,FG.CurrentRow.Index + 1, 2) <> "" Then
+                        ' FG.CurrentRow.Index is read-only, cannot assign
+                        FG.CurrentCell = FG.Rows(1).Cells(2)
                         Exit Sub
                     End If
-                    FG.Row = FG.Row + 1
-                    FG.Col = 1
+                    ' FG.CurrentRow.Index is read-only, cannot assign
+                    FG.CurrentCell = FG.Rows(1).Cells(1)
                     SumAmountDr()
                 End If
                 Exit Sub
             End If
         End If
         '*************************Col-7-*********************
-        If FG.Col = 7 Then
-            'If FG.get_TextMatrix(FG.Row, 1) <> "" Then
-            '    If FG.get_TextMatrix(FG.Row + 1, 1) <> "" Then
-            '        FG.Row = FG.Row + 1
-            '        FG.Col = 1
-            '        Exit Sub
-            '    End If
-            '    FG.Row = FG.Row + 1
-            '    FG.Col = 2
-            '    SumAmountDr()
-            '    '*****************
-            'Else
-            '    If FG.get_TextMatrix(FG.Row + 1, 2) <> "" Then
-            '        FG.Row = FG.Row + 1
-            '        FG.Col = 2
-            '        Exit Sub
-            '    End If
-            '    FG.Row = FG.Row + 1
-            '    FG.Col = 1
-            '    SumAmountDr()
-            'End If
+        End If
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 7 Then
             Exit Sub
         End If
 
     End Sub
     Public Sub AutoNumber()
-
-        Dim srNum As New ADODB.Recordset
+        Dim dtCheck As DataTable
         Dim mNum As Integer
 
-        'Call LoadSqlData("SELECT top 1 Right(certify,7) As  certify  FROM gen_jn where year(date_work)='" & Format(dtActi.Value, "yyyy") & "'   Order by   Right(certify,7) DESC", srNum)
+        ' Using ADO.NET instead of ADODB
         Dim ss As String = ""
         ss = "SELECT top 1 Right(certify,3) As  certify   FROM  gen_jn where Frm=0 and book =N'" & CmbBook.Text & "' And  year(date_work)='" & Format(dtActi.Value, "yyyy") & "'  " & _
         " And  month(date_work)='" & Format(dtActi.Value, "MM") & "'  and LEFT(company,2)='" & Off_Id & "' Order by  Right(certify,3) DESC"
-        Call LoadSqlData(ss, srNum)
-        If srNum.RecordCount = 0 Then
+        dtCheck = DbHelper.GetDataTable(ss)
+        If dtCheck.Rows.Count = 0 Then
             MdCertifyId = "001"
         Else
-            mNum = Val(srNum.Fields("certify").Value.ToString)
+            mNum = Val(dtCheck.Rows(0)("certify").ToString)
             mNum = CDbl(mNum) + 1
             If Len(CStr(mNum).Trim) = 1 Then
                 MdCertifyId = "00" & CStr(mNum)
@@ -1049,10 +998,9 @@
 
 
 
-    Public Sub Foucus()
+Public Sub Foucus()
         FG.Focus()
-        FG.Row = R
-        FG.Col = L + 4
+        If FG.CurrentRow IsNot Nothing Then FG.CurrentCell = FG.Rows(R).Cells(L + 4)
     End Sub
     Private Sub NewText()
         dtActi.Text = MWorkSetting
@@ -1065,18 +1013,12 @@
         SumAmountDr()
     End Sub
     Public Sub LoadCurr()
-        Dim Comm As ADODB.Command
-        Dim rsat As New ADODB.Recordset
-        Comm = New ADODB.Command
-        Comm.ActiveConnection = CNN
+        Dim dtCurr As DataTable = DbHelper.GetDataTable("SELECT Curr FROM Ap_RateSeting WHERE Curr <> '' order by Curr")
         Cmb.Items.Clear()
-        Comm.CommandText = "SELECT Curr FROM Ap_RateSeting WHERE Curr <> '" & "" & " order by Curr'"
-        rsat = Comm.Execute
-        If rsat.RecordCount <> 0 Then
-            While Not rsat.EOF()
-                Cmb.Items.Add(Trim(rsat.Fields("Curr").Value))
-                rsat.MoveNext()
-            End While
+        If dtCurr.Rows.Count <> 0 Then
+            For Each row As DataRow In dtCurr.Rows
+                Cmb.Items.Add(Trim(row("Curr").ToString()))
+            Next
         End If
         If CmbBook.Enabled = True Then
             Cmb.SelectedIndex = 0
@@ -1089,17 +1031,16 @@
     End Sub
     Private Sub loadOffice_User()
         Off_Usr.Items.Clear()
+        Dim dtOffice As DataTable
         If MPermit = "User" Then
-            LoadSqlData("select sub_id , off_add2  from  Ap_office Where left(sub_id,2) = '" & Off_Id & "' And Substring(sub_id,4,2) <> '00'  Order by sub_id", RSC)
+            dtOffice = DbHelper.GetDataTable("select sub_id , off_add2  from  Ap_office Where left(sub_id,2) = '" & Off_Id & "' And Substring(sub_id,4,2) <> '00'  Order by sub_id")
         Else
-            LoadSqlData("select sub_id , off_add2  from  Ap_office Where sub_id <> '00-00' And Substring(sub_id,4,2) <> '00'  Order by sub_id", RSC)
+            dtOffice = DbHelper.GetDataTable("select sub_id , off_add2  from  Ap_office Where sub_id <> '00-00' And Substring(sub_id,4,2) <> '00'  Order by sub_id")
         End If
-        With RSC
-            Do Until .EOF = True
-                Off_Usr.Items.Add((.Fields("sub_id").Value) & " " & (.Fields("off_add2").Value))
-                .MoveNext()
-            Loop
-        End With
+        
+        For Each row As DataRow In dtOffice.Rows
+            Off_Usr.Items.Add((row("sub_id").ToString()) & " " & row("off_add2").ToString())
+        Next
         Off_Usr.SelectedIndex = 0
         'Off_Usr.SelectedIndex = 0
     End Sub
@@ -1107,17 +1048,17 @@
         If MuLng = "E" Then
             txtAmt_letter.Visible = False
             txtAmt_letter_E.Visible = True
-            FG.set_ColHidden(3, True)
-            FG.set_ColHidden(4, False)
+FG.CurrentCell.ColumnIndexumns(3).Visible = False
+            FG.CurrentCell.ColumnIndexumns(4).Visible = True
         Else
-            FG.set_ColHidden(3, False)
-            FG.set_ColHidden(4, True)
+FG.CurrentCell.ColumnIndexumns(3).Visible = True
+            FG.CurrentCell.ColumnIndexumns(4).Visible = False
             txtAmt_letter.Visible = True
             txtAmt_letter_E.Visible = False
         End If
         Call loadOffice_User()
         txtInvoice.BackColor = Color.White
-        FG.BackColorFixed = Color.LightGray
+        ' FG.BackColorFixed not available in DataGridView
 
         'LoadCurr()
         If MdCertifyAuto = 1 Then
@@ -1130,7 +1071,7 @@
         BtnSearch.Visible = False
         BtnMove.Visible = False
 
-        FG.FormatString = "^ລ/ດ |< ເລກບັນຊີໜີ           |< ເລກບັນຊີມີ           |< ຊື່ບັນຊີ (ລາວ)                                            |< ຊື່ບັນຊີ (ອັງກິດ)                     |> ຈຳນວນເງິນຈົດໜີ້        |> ຈຳນວນເງິນຈົດມີ     |^ລະຫັດ|< ຕົ້ນທຶນພາສາ (ລາວ)   |< ຕົ້ນທຶນພາສາ (ອັງກິດ)             |< ສະກຸນເງິນເງິນ |> ອັດຕາແລກປ່ຽນ |> ມູນຄ່າໜີ້          |> ມູນຄ່າມີ            |> 1111    |> 22       "
+        ' FG.FormatString not available in DataGridView = "^ລ/ດ |< ເລກບັນຊີໜີ           |< ເລກບັນຊີມີ           |< ຊື່ບັນຊີ (ລາວ)                                            |< ຊື່ບັນຊີ (ອັງກິດ)                     |> ຈຳນວນເງິນຈົດໜີ້        |> ຈຳນວນເງິນຈົດມີ     |^ລະຫັດ|< ຕົ້ນທຶນພາສາ (ລາວ)   |< ຕົ້ນທຶນພາສາ (ອັງກິດ)             |< ສະກຸນເງິນເງິນ |> ອັດຕາແລກປ່ຽນ |> ມູນຄ່າໜີ້          |> ມູນຄ່າມີ            |> 1111    |> 22       "
         'Fg2.FormatString = "^|>       |<    |<                                   "
         'Fg2.FormatString = "^|<                        "
         'FG.Size = New System.Drawing.Point(962, 287)
@@ -1144,8 +1085,7 @@
         End If
 
         LoadBook()
-        FG.Row = 1
-        FG.Col = 1
+If FG.CurrentRow IsNot Nothing Then FG.CurrentCell = FG.Rows(1).Cells(1)
         FG.BackColorSel = Color.White
 
         LoadTableId()
@@ -1177,10 +1117,11 @@
             txtInvoice.Text = MDInvoiceNo
             LoadSQL()
             LoadListFG()
-            FG.Rows = FG.Rows + 1
+            FG.Rows.Count = FG.Rows.Count + 1
         Else
-            FG.Rows = 1
-            FG.Rows = 2
+FG.Rows.Clear()
+        FG.Rows.Add()
+        FG.Rows.Add()
             AutoNumber()
             Call NewText()
             AutoNumber()
@@ -1194,32 +1135,25 @@
         Button3.Text = "Show All"
         Button7.Text = "Connect SerVer"
 
-        ChCat_ID.Checked = False
-        For J = 1 To FG.Rows - 1
-            FG.Row = J
-            If Trim(FG.get_TextMatrix(J, 3)) <> "" Then
+ChCat_ID.Checked = False
+        For J = 0 To FG.Rows.Count - 1
+            If Trim(GetGridValue(FG, J, 3)) <> "" Then
                 If ChCat_ID.Checked = True Then
-                    FG.Col = 7
-                    FG.CellBackColor = Color.LightCyan
+                    FG.Rows(J).Cells(7).Style.BackColor = Color.LightCyan
                 Else
-                    FG.Col = 7
-                    FG.CellBackColor = Color.White
-                    FG.CellBackColor = Color.White
-                    FG.CellForeColor = Color.Gray
-                    FG.Col = 8
-                    FG.CellForeColor = Color.Gray
-                    FG.Col = 9
-                    FG.CellForeColor = Color.Gray
+                    FG.Rows(J).Cells(7).Style.BackColor = Color.White
+                    FG.Rows(J).Cells(8).Style.ForeColor = Color.Gray
+                    FG.Rows(J).Cells(9).Style.ForeColor = Color.Gray
 
-                    FG.set_TextMatrix(FG.Row, 7, "0")
-                    FG.set_TextMatrix(FG.Row, 8, "ບໍ່ເລືອກ")
-                    FG.set_TextMatrix(FG.Row, 9, "No Selete")
+                    SetGridValue(FG, J, 7, "0")
+                    SetGridValue(FG, J, 8, "ບໍ່ເລືອກ")
+                    SetGridValue(FG, J, 9, "No Selete")
                 End If
             End If
         Next J
         Call loadColor()
         'FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
-        FG.ExtendLastCol = True
+        ' FG.ExtendLastCol not available in DataGridView
         SetControlText(Me)
         CheckBox4.Text = "Only Customer/Supplier"
         If MuLng = "E" Then
@@ -1230,162 +1164,155 @@
         Button7.Text = "Connect SerVer"
         Chk_Preview.Text = "To be continued"
 
-        'FG.FormatString = "^ລ/ດ |< ເລກບັນຊີໜີ           |< ເລກບັນຊີມີ           |< ຊື່ບັນຊີ (ລາວ)                                            |< ຊື່ບັນຊີ (ອັງກິດ)                     |> ຈຳນວນເງິນຈົດໜີ້        |> ຈຳນວນເງິນຈົດມີ     |^ລະຫັດ|< ຕົ້ນທຶນພາສາ (ລາວ)   |< ຕົ້ນທຶນພາສາ (ອັງກິດ)             |< ສະກຸນເງິນເງິນ |> ອັດຕາແລກປ່ຽນ |> ມູນຄ່າໜີ້          |> ມູນຄ່າມີ            "
+        '' FG.FormatString not available in DataGridView = "^ລ/ດ |< ເລກບັນຊີໜີ           |< ເລກບັນຊີມີ           |< ຊື່ບັນຊີ (ລາວ)                                            |< ຊື່ບັນຊີ (ອັງກິດ)                     |> ຈຳນວນເງິນຈົດໜີ້        |> ຈຳນວນເງິນຈົດມີ     |^ລະຫັດ|< ຕົ້ນທຶນພາສາ (ລາວ)   |< ຕົ້ນທຶນພາສາ (ອັງກິດ)             |< ສະກຸນເງິນເງິນ |> ອັດຕາແລກປ່ຽນ |> ມູນຄ່າໜີ້          |> ມູນຄ່າມີ            "
     End Sub
 
     Private Sub LoadBook()
-        Dim rst As New ADODB.Recordset
+        Dim dtBooks As DataTable = DbHelper.GetDataTable("SELECT * FROM books WHERE bookid <> '' ")
         CmbBook.Items.Clear()
-        Comm = New ADODB.Command
-        Comm.ActiveConnection = CNN
-        Comm.CommandText = "SELECT * FROM books WHERE bookid <> '" & "" & " '"
-        rst = Comm.Execute
-        If rst.RecordCount <> 0 Then
-            While Not rst.EOF()
-                CmbBook.Items.Add(Trim(rst.Fields("bookid").Value))
-                rst.MoveNext()
-            End While
+        If dtBooks.Rows.Count <> 0 Then
+            For Each row As DataRow In dtBooks.Rows
+                CmbBook.Items.Add(Trim(row("bookid").ToString()))
+            Next
         End If
         CmbBook.Text = "GL"
-        LoadSqlData("SELECT * FROM books WHERE bookid = N'" & CmbBook.Text & "'", RSC)
-        With RSC
-            Do Until .EOF = True
-                txtBookName.Text = Trim(.Fields("bookname").Value)
-                .MoveNext()
-            Loop
-        End With
+        Dim dtBook As DataTable = DbHelper.GetDataTable("SELECT * FROM books WHERE bookid = N'" & CmbBook.Text & "'")
+        If dtBook.Rows.Count > 0 Then
+            txtBookName.Text = Trim(dtBook.Rows(0)("bookname").ToString())
+        End If
  
 
     End Sub
 
-    Public Sub AddAcc2()
+Public Sub AddAcc2()
 
         BtnMove.Visible = False
-        If FG.Col = 1 Then
-            FG.set_TextMatrix(FG.Row, 6, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 4)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, "0.00")
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 1 Then
+            rowIdx = FG.CurrentCell.RowIndex
+            SetGridValue(FG, rowIdx, 6, "0.00")
+            SetGridValue(FG, rowIdx, 7, 0)
+            SetGridValue(FG, rowIdx, 10, Cmb.Text)
+            SetGridValue(FG, rowIdx, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 12, Format(CDbl(CDbl(txtRate.Text) * CDbl(GetGridValue(FG, rowIdx, 4))), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 13, "0.00")
             SumAmountDr()
             If ChDe.Checked = True Then
                 If MuLng = "L" Then
-                    FG.Col = 3
+                    FG.CurrentCell = FG.Rows(rowIdx).Cells(3)
                 End If
                 If MuLng = "E" Then
-                    FG.Col = 4
+                    FG.CurrentCell = FG.Rows(rowIdx).Cells(4)
                 End If
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
-
+                If GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                    FG.Rows.Add()
                 End If
                 Exit Sub
             End If
-            FG.Col = 5
+            FG.CurrentCell = FG.Rows(rowIdx).Cells(5)
             'Call loadColor()
         End If
-        If FG.Col = 2 Then
-            AccId = FG.get_TextMatrix(FG.Row, FG.Col)
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 2 Then
+            rowIdx = FG.CurrentCell.RowIndex
+            AccId = GetGridValue(FG, rowIdx, 2)
             LoadText()
-            FG.set_TextMatrix(FG.Row, 3, AccName)
-            MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
-            FG.set_TextMatrix(FG.Row, 5, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, "0.00")
+            SetGridValue(FG, rowIdx, 3, AccName)
+            MDSearchAcccode = GetGridValue(FG, rowIdx, 2)
+            SetGridValue(FG, rowIdx, 5, "0.00")
+            SetGridValue(FG, rowIdx, 7, 0)
+            SetGridValue(FG, rowIdx, 10, Cmb.Text)
+            SetGridValue(FG, rowIdx, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 13, Format(CDbl(CDbl(txtRate.Text) * CDbl(GetGridValue(FG, rowIdx, 6))), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 12, "0.00")
             SumAmountDr()
             If ChDe.Checked = True Then
                 If MuLng = "L" Then
-                    FG.Col = 3
+                    FG.CurrentCell = FG.Rows(rowIdx).Cells(3)
                 End If
                 If MuLng = "E" Then
-                    FG.Col = 4
+                    FG.CurrentCell = FG.Rows(rowIdx).Cells(4)
                 End If
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
-
+                If GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                    FG.Rows.Add()
                 End If
                 Exit Sub
             End If
-            FG.Col = 5
+            FG.CurrentCell = FG.Rows(rowIdx).Cells(5)
             'Call loadColor()
         End If
 
         SumAmountDr()
 
     End Sub
-    Public Sub AddAcc()
+Public Sub AddAcc()
 
         BtnMove.Visible = False
-        If FG.Col = 1 Then
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 1 Then
+            rowIdx = FG.CurrentCell.RowIndex
 
-            txtSumAmountDr.Text = CDbl(txtSumAmountDr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 5))
-            FG.set_TextMatrix(FG.Row, 5, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 6, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 5)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, "0.00")
+            txtSumAmountDr.Text = CDbl(txtSumAmountDr.Text) - CDbl(GetGridValue(FG, rowIdx, 5))
+            SetGridValue(FG, rowIdx, 5, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountDr.Text)), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 6, "0.00")
+            SetGridValue(FG, rowIdx, 7, 0)
+            SetGridValue(FG, rowIdx, 10, Cmb.Text)
+            SetGridValue(FG, rowIdx, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 12, Format(CDbl(CDbl(txtRate.Text) * CDbl(GetGridValue(FG, rowIdx, 5))), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 13, "0.00")
             SumAmountDr()
             If ChDe.Checked = True Then
                 If MuLng = "L" Then
-                    FG.Col = 3
+                    FG.CurrentCell = FG.Rows(rowIdx).Cells(3)
                 End If
                 If MuLng = "E" Then
-                    FG.Col = 4
+                    FG.CurrentCell = FG.Rows(rowIdx).Cells(4)
                 End If
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
+                If GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                    FG.Rows.Add()
                 End If
                 Exit Sub
             End If
 
-            FG.Col = 5
+            FG.CurrentCell = FG.Rows(rowIdx).Cells(5)
 
-            If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                FG.Rows = FG.Rows + 1
+            If GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                FG.Rows.Add()
                 'Timer1.Enabled = True
 
             End If
             'Call loadColor()
         End If
-        If FG.Col = 2 Then
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 2 Then
+            rowIdx = FG.CurrentCell.RowIndex
 
-            AccId = FG.get_TextMatrix(FG.Row, FG.Col)
+            AccId = GetGridValue(FG, rowIdx, 2)
             LoadText()
-            FG.set_TextMatrix(FG.Row, 3, AccName)
-            MDSearchAcccode = (FG.get_TextMatrix(FG.Row, 2))
-            txtSumAmountCr.Text = CDbl(txtSumAmountCr.Text) - CDbl(FG.get_TextMatrix(FG.Row, 6))
-            FG.set_TextMatrix(FG.Row, 6, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountCr.Text)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 5, "0.00")
-            FG.set_TextMatrix(FG.Row, 7, 0)
-            FG.set_TextMatrix(FG.Row, 10, Cmb.Text)
-            FG.set_TextMatrix(FG.Row, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
-            FG.set_TextMatrix(FG.Row, 12, "0.00")
+            SetGridValue(FG, rowIdx, 3, AccName)
+            MDSearchAcccode = GetGridValue(FG, rowIdx, 2)
+            txtSumAmountCr.Text = CDbl(txtSumAmountCr.Text) - CDbl(GetGridValue(FG, rowIdx, 6))
+            SetGridValue(FG, rowIdx, 6, Format(CDbl(CDbl(txtAmount.Text) - CDbl(txtSumAmountCr.Text)), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 5, "0.00")
+            SetGridValue(FG, rowIdx, 7, 0)
+            SetGridValue(FG, rowIdx, 10, Cmb.Text)
+            SetGridValue(FG, rowIdx, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 13, Format(CDbl(CDbl(txtRate.Text) * CDbl(GetGridValue(FG, rowIdx, 6))), "#,##0.00"))
+            SetGridValue(FG, rowIdx, 12, "0.00")
             SumAmountDr()
             If ChDe.Checked = True Then
                 If MuLng = "L" Then
-                    FG.Col = 3
+                    FG.CurrentCell = FG.Rows(rowIdx).Cells(3)
                 End If
                 If MuLng = "E" Then
-                    FG.Col = 4
+                    FG.CurrentCell = FG.Rows(rowIdx).Cells(4)
                 End If
-                If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                    FG.Rows = FG.Rows + 1
+                If GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                    FG.Rows.Add()
                 End If
                 Exit Sub
             End If
 
+            FG.CurrentCell = FG.Rows(rowIdx).Cells(6)
 
-            FG.Col = 6
-
-            If FG.get_TextMatrix(FG.Rows - 1, 3) <> "" Then
-                FG.Rows = FG.Rows + 1
+            If GetGridValue(FG, FG.Rows.Count - 1, 3) <> "" Then
+                FG.Rows.Add()
                 'Timer1.Enabled = True
             End If
             'Call loadColor()
@@ -1399,17 +1326,24 @@
         Dim AmountDr, AmountCr, TotalAmountDr, TotalAmountCr As Double
         AmountDr = 0
         AmountCr = 0
-        For i = 1 To FG.Rows - 1
-            If i <> FG.Rows - 1 Then
-                If FG.get_TextMatrix(i, 3) = "" Then
-                    FG.RemoveItem()
-                End If
+        
+        ' Remove empty rows first
+        For i = FG.Rows.Count - 1 To 0 Step -1
+            If GetGridValue(FG, i, 3) = "" Then
+                FG.Rows.RemoveAt(i)
             End If
-            AmountDr = AmountDr + CDbl(FG.get_TextMatrix(i, 5))
-            AmountCr = AmountCr + CDbl(FG.get_TextMatrix(i, 6))
-            TotalAmountDr = TotalAmountDr + CDbl(FG.get_TextMatrix(i, 12))
-            TotalAmountCr = TotalAmountCr + CDbl(FG.get_TextMatrix(i, 13))
         Next
+        
+        ' Recalculate amounts
+        For i = 0 To FG.Rows.Count - 1
+            If GetGridValue(FG, i, 1) <> "" Or GetGridValue(FG, i, 2) <> "" Then
+                AmountDr = AmountDr + CDbl(GetGridValue(FG, i, 5))
+                AmountCr = AmountCr + CDbl(GetGridValue(FG, i, 6))
+                TotalAmountDr = TotalAmountDr + CDbl(GetGridValue(FG, i, 12))
+                TotalAmountCr = TotalAmountCr + CDbl(GetGridValue(FG, i, 13))
+            End If
+        Next
+        
         txtSumAmountDr.Text = Format(AmountDr, "#,##0.00")
         txtSumAmountCr.Text = Format(AmountCr, "#,##0.00")
         txtSumTotalAmountDr.Text = Format(TotalAmountDr, "#,##0.00")
@@ -1441,45 +1375,36 @@
 
     Public Sub LoadText()
         AccName = ""
-        LoadSqlData("SELECT * FROM Acc_Code WHERE AC_CODE = N'" & AccId & "'", RSC)
-        With RSC
-            Do Until .EOF = True
-                AccId = Trim(.Fields("AC_CODE").Value)
-                AccName = Trim(.Fields("Name_L").Value)
-                AccNamee = Trim(.Fields("Name_E").Value)
-                .MoveNext()
-            Loop
-        End With
-
-
+        Dim dtAcc As DataTable = DbHelper.GetDataTable("SELECT * FROM Acc_Code WHERE AC_CODE = N'" & AccId & "'")
+        If dtAcc.Rows.Count > 0 Then
+            AccId = Trim(dtAcc.Rows(0)("AC_CODE").ToString())
+            AccName = Trim(dtAcc.Rows(0)("Name_L").ToString())
+            AccNamee = Trim(dtAcc.Rows(0)("Name_E").ToString())
+        End If
     End Sub
     Public Sub LoadDesc()
-
-
-        LoadSqlData("SELECT * FROM Acc_Code WHERE AC_CODE = N'" & AccId & "'", RSC)
-        With RSC
-            Do Until .EOF = True
-                AccId = Trim(.Fields("AC_CODE").Value)
-                AccName = Trim(.Fields("Name_L").Value)
-                AccNamee = Trim(.Fields("Name_E").Value)
-                .MoveNext()
-            Loop
-        End With
+        Dim dtAcc As DataTable = DbHelper.GetDataTable("SELECT * FROM Acc_Code WHERE AC_CODE = N'" & AccId & "'")
+        If dtAcc.Rows.Count > 0 Then
+            AccId = Trim(dtAcc.Rows(0)("AC_CODE").ToString())
+            AccName = Trim(dtAcc.Rows(0)("Name_L").ToString())
+            AccNamee = Trim(dtAcc.Rows(0)("Name_E").ToString())
+        End If
     End Sub
-    Private Sub FG_AfterScroll(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterScrollEvent) Handles FG.AfterScroll
+    Private Sub FG_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles FG.SelectionChanged
 
         BtnSearch.Visible = False
         BtnMove.Visible = False
     End Sub
     Dim ACCode As String
-    Private Sub FG_KeyUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_KeyUpEvent) Handles FG.KeyUpEvent
-        If e.keyCode = 13 Then
+    Private Sub FG_KeyUp(ByVal sender As Object, ByVal e As KeyEventArgs) Handles FG.KeyUp
+If e.KeyCode = Keys.Enter Then
+            rowIdx = If(FG.CurrentRow IsNot Nothing, FG.CurrentCell.RowIndex, 0)
             If Cmb.Text = "USD" Then
-                FG.set_TextMatrix(FG.Row, 14, Format(CDbl(FG.get_TextMatrix(FG.Row, 5)), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 15, Format(CDbl(FG.get_TextMatrix(FG.Row, 6)), "#,##0.00"))
+                SetGridValue(FG, rowIdx, 14, Format(CDbl(GetGridValue(FG, rowIdx, 5)), "#,##0.00"))
+                SetGridValue(FG, rowIdx, 15, Format(CDbl(GetGridValue(FG, rowIdx, 6)), "#,##0.00"))
             Else
-                FG.set_TextMatrix(FG.Row, 14, Format(CDbl(FG.get_TextMatrix(FG.Row, 12)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-                FG.set_TextMatrix(FG.Row, 15, Format(CDbl(FG.get_TextMatrix(FG.Row, 13)) / CDbl(txtRateUSD.Text), "#,##0.00"))
+                SetGridValue(FG, rowIdx, 14, Format(CDbl(GetGridValue(FG, rowIdx, 12)) / CDbl(txtRateUSD.Text), "#,##0.00"))
+                SetGridValue(FG, rowIdx, 15, Format(CDbl(GetGridValue(FG, rowIdx, 13)) / CDbl(txtRateUSD.Text), "#,##0.00"))
             End If
         End If
       
@@ -1495,13 +1420,14 @@
             Else
                 Remain = "(" & Format(CDbl(Remain * (-1)), "##,##0.00") & ")"
             End If
-            If CDbl(FG.get_TextMatrix(FG.Row, 14)) > CDbl(Remain) Then
+rowIdx = If(FG.CurrentRow IsNot Nothing, FG.CurrentCell.RowIndex, 0)
+            If CDbl(GetGridValue(FG, rowIdx, 14)) > CDbl(Remain) Then
             Else
-                FG.set_TextMatrix(FG.Row, 14, Format(CDbl(Remain), "#,##0.00"))
+                SetGridValue(FG, rowIdx, 14, Format(CDbl(Remain), "#,##0.00"))
             End If
-            If CDbl(FG.get_TextMatrix(FG.Row, 15)) > CDbl(Remain) Then
+            If CDbl(GetGridValue(FG, rowIdx, 15)) > CDbl(Remain) Then
             Else
-                FG.set_TextMatrix(FG.Row, 15, Format(CDbl(Remain), "#,##0.00"))
+                SetGridValue(FG, rowIdx, 15, Format(CDbl(Remain), "#,##0.00"))
             End If
 
         End If
@@ -1526,25 +1452,24 @@
             End If
         End If
     
-        Dim RSC1 As New ADODB.Recordset
-        Dim s As String = "SELECT sum(Amt_dr) as Amt_dr   , sum(Amt_cr) as Amt_cr    FROM gen_jn WHERE ac_code = '" & ACCode & "' and gen_jn.date_work BETWEEN '" & Format(dtActi.Value, "yyyy-MM-dd") & "' AND '" & Format(dtActi.Value, "yyyy-MM-dd") & "'   " & MULook2 & "  "
-        LoadSqlData(s, RSC1)
-        If RSC1.RecordCount <> 0 Then
-            SumDr = Format(CDbl(Trim(RSC1.Fields("Amt_dr").Value)), "#,##0.00")
-            SumCr = Format(CDbl(Trim(RSC1.Fields("Amt_cr").Value)), "#,##0.00")
+        
+Dim s As String = "SELECT sum(Amt_dr) as Amt_dr   , sum(Amt_cr) as Amt_cr    FROM gen_jn WHERE ac_code = '" & ACCode & "' and gen_jn.date_work BETWEEN '" & Format(dtActi.Value, "yyyy-MM-dd") & "' AND '" & Format(dtActi.Value, "yyyy-MM-dd") & "'   " & MULook2 & "  "
+        Dim dt1 As DataTable = DbHelper.GetDataTable(s)
+        If dt1.Rows.Count <> 0 Then
+            SumDr = Format(CDbl(Trim(dt1.Rows(0)("Amt_dr").ToString())), "#,##0.00")
+            SumCr = Format(CDbl(Trim(dt1.Rows(0)("Amt_cr").ToString())), "#,##0.00")
         End If
 
-        LoadSqlData("select  amount_dr , amount_cr from Open_jn where ac_code='" & ACCode & "'   and  year(Date_work)= '" & Format(CDate(dtActi.Value), "yyyy") & "'  " & MULook2 & "   ", RSC)
+        Dim dt2 As DataTable = DbHelper.GetDataTable("select  amount_dr , amount_cr from Open_jn where ac_code='" & ACCode & "'   and  year(Date_work)= '" & Format(CDate(dtActi.Value), "yyyy") & "'  " & MULook2 & "   ")
         Op = 0
-        If RSC.RecordCount <> 0 Then
-            Op = CDbl(Trim(RSC.Fields("amount_dr").Value)) - CDbl(Trim(RSC.Fields("amount_cr").Value))
+        If dt2.Rows.Count <> 0 Then
+            Op = CDbl(Trim(dt2.Rows(0)("amount_dr").ToString())) - CDbl(Trim(dt2.Rows(0)("amount_cr").ToString()))
         End If
         Dim dss As Date
         dss = DateAdd(DateInterval.Day, -1, dtActi.Value)
-        Dim RSC2 As New ADODB.Recordset
-        LoadSqlData("select SUM(amount_dr) AS amount_dr ,SUM(amount_cr) AS amount_cr from Gen_jn where ac_code=N'" & ACCode & "'  And gen_jn.date_work   BETWEEN '" & "1-1-" & Format(dtActi.Value, "yyyy") & "' AND '" & Format(dss, "yyyy-MM-dd") & "' " & MULook2 & " group by ac_code ", RSC2)
-        If RSC2.RecordCount <> 0 Then
-            Op = Op + CDbl(CDbl(Trim(RSC2.Fields("amount_dr").Value)) - CDbl(Trim(RSC2.Fields("amount_Cr").Value)))
+        Dim dt3 As DataTable = DbHelper.GetDataTable("select SUM(amount_dr) AS amount_dr ,SUM(amount_cr) AS amount_cr from Gen_jn where ac_code=N'" & ACCode & "'  And gen_jn.date_work   BETWEEN '" & "1-1-" & Format(dtActi.Value, "yyyy") & "' AND '" & Format(dss, "yyyy-MM-dd") & "' " & MULook2 & " group by ac_code ")
+        If dt3.Rows.Count <> 0 Then
+            Op = Op + CDbl(CDbl(Trim(dt3.Rows(0)("amount_dr").ToString())) - CDbl(Trim(dt3.Rows(0)("amount_Cr").ToString())))
         End If
 
         If Op >= 0 Then
@@ -1554,7 +1479,7 @@
         End If
 
     End Sub
-    Private Sub FG_MouseDownEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseDownEvent) Handles FG.MouseDownEvent
+    Private Sub FG_MouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles FG.MouseDown
         If txtInvoice.BackColor = Color.Red Then
             txtInvoice.Focus()
             Exit Sub
@@ -1565,15 +1490,15 @@
     Public Sub MouseDownEvent()
         Select Case MouseButtons
             Case Windows.Forms.MouseButtons.Right
-                FG.EditCell()
+                FG.BeginEdit(True)
             Case Windows.Forms.MouseButtons.Left
-                If FG.Rows >= 3 Then
+                If FG.Rows.Count >= 3 Then
                     BtnMove.Visible = True
 
-                    BtnMove.Top = CInt((FG.CellTop / 15) + FG.Top)
+                    BtnMove.Top = CInt((FG.GetCellDisplayRectangle(FG.CurrentCell.ColumnIndex, FG.CurrentCell.RowIndex, False).Top / 15) + FG.Top)
 
-                    If FG.get_TextMatrix(FG.Row, FG.Col) <> "" Then
-                        If FG.Col = 7 Then
+                    If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, FG.CurrentCell.ColumnIndex) <> "" Then
+                        If FG.CurrentCell = FG.Rows(1).Cells(7) Then
                             If ChCat_ID.Checked = True Then
                                 Panel1.Visible = True
                                 Bee.Row = 1
@@ -1586,41 +1511,41 @@
                         End If
                     End If
 
-                    Panel1.Top = CInt((FG.CellTop / 15) + FG.Top)
-                    Panel1.Left = CInt(FG.Left + (FG.CellLeft / 15) + (FG.CellWidth / 250))
-                    If FG.Row = FG.Rows - 1 Then
+                    Panel1.Top = CInt((FG.GetCellDisplayRectangle(FG.CurrentCell.ColumnIndex, FG.CurrentCell.RowIndex, False).Top / 15) + FG.Top)
+                    Panel1.Left = CInt(FG.Left + (FG.GetCellDisplayRectangle(FG.CurrentCell.ColumnIndex, FG.CurrentCell.RowIndex, False).Left / 15) + (FG.GetCellDisplayRectangle(FG.CurrentCell.ColumnIndex, FG.CurrentCell.RowIndex, False).Width / 250))
+If FG.CurrentRow IsNot Nothing AndAlso FG.CurrentRow.Index = FG.Rows.Count - 1 Then
                         BtnMove.Visible = False
                     End If
                 Else
                     BtnMove.Visible = False
                 End If
-                If FG.Col = 1 Then
-                    If FG.get_TextMatrix(FG.Row, 2) <> "" Then
+                If FG.CurrentCell = FG.Rows(1).Cells(1) Then
+                    If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, 2) <> "" Then
                         BtnSearch.Visible = False
                     Else
                         BtnSearch.Visible = True
                     End If
                 End If
-                If FG.Col = 2 Then
-                    If FG.get_TextMatrix(FG.Row, 1) <> "" Then
+                If FG.CurrentCell = FG.Rows(1).Cells(2) Then
+                If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, 1) <> "" Then
                         BtnSearch.Visible = False
                     Else
                         BtnSearch.Visible = True
                     End If
                 End If
-                If FG.Col = 1 Then
-                    BtnSearch.Left = CInt(FG.Left + (FG.CellLeft / 15) + (FG.CellWidth / 21.8))
-                    BtnSearch.Top = CInt((FG.CellTop / 15) + FG.Top)
+                If FG.CurrentCell = FG.Rows(1).Cells(1) Then
+                    BtnSearch.Left = CInt(FG.Left + (FG.GetCellDisplayRectangle(FG.CurrentCell.ColumnIndex, FG.CurrentCell.RowIndex, False).Left / 15) + (FG.GetCellDisplayRectangle(FG.CurrentCell.ColumnIndex, FG.CurrentCell.RowIndex, False).Width / 21.8))
+                    BtnSearch.Top = CInt((FG.GetCellDisplayRectangle(FG.CurrentCell.ColumnIndex, FG.CurrentCell.RowIndex, False).Top / 15) + FG.Top)
 
 
                 End If
-                If FG.Col = 2 Then
+                If FG.CurrentCell = FG.Rows(1).Cells(2) Then
                     BtnSearch.Size = New System.Drawing.Point(34, 26)
-                    BtnSearch.Left = CInt(FG.Left + (FG.CellLeft / 15) + (FG.CellWidth / 22.2))
-                    BtnSearch.Top = CInt((FG.CellTop / 15) + FG.Top)
+                    BtnSearch.Left = CInt(FG.Left + (FG.GetCellDisplayRectangle(FG.CurrentCell.ColumnIndex, FG.CurrentCell.RowIndex, False).Left / 15) + (FG.GetCellDisplayRectangle(FG.CurrentCell.ColumnIndex, FG.CurrentCell.RowIndex, False).Width / 22.2))
+                    BtnSearch.Top = CInt((FG.GetCellDisplayRectangle(FG.CurrentCell.ColumnIndex, FG.CurrentCell.RowIndex, False).Top / 15) + FG.Top)
                 End If
 
-                If FG.Row = FG.Rows - 1 Then
+                If FG.CurrentRow IsNot Nothing AndAlso FG.CurrentRow.Index = FG.Rows.Count - 1 Then
                     BtnMove.Visible = False
                 End If
 
@@ -1628,7 +1553,7 @@
     End Sub
 
     Private Sub btnmove_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnMove.Click
-        FG.RemoveItem()
+        If FG.CurrentRow IsNot Nothing Then FG.Rows.RemoveAt(FG.CurrentRow.Index)
         SumAmountDr()
         Panel1.Visible = False
         BtnMove.Visible = False
@@ -1638,7 +1563,7 @@
 
 
     'Sum
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
+    Private Sub FG_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
         If txtInvoice.BackColor = Color.Red Then
             txtInvoice.Focus()
             Exit Sub
@@ -1646,122 +1571,122 @@
 
         'If txxdes Then
         FG.BackColor = Color.White
-        FG.BackColorAlternate = Color.White
-        If FG.Col = 1 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
+        ' FG.BackColorAlternate not available in DataGridView
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 1 Then
+            R = If(FG.CurrentRow IsNot Nothing, FG.CurrentRow.Index, 0)
+            L = FG.CurrentCell.ColumnIndex
+            If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, 2) <> "" Then
                 FG.BackColorSel = Color.White
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
+                FG.ReadOnly = True
             Else
                 FG.BackColorSel = Color.SkyBlue
-                FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-                AccId = FG.get_TextMatrix(FG.Row, FG.Col)
+                FG.ReadOnly = False
+                AccId = If(FG.CurrentRow IsNot Nothing, GetGridValue(FG, FG.CurrentRow.Index, FG.CurrentCell.ColumnIndex), "")
             End If
         End If
 
-        If FG.Col = 2 Then
-            R = FG.Row()
-            L = FG.Col
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 2 Then
+            R = If(FG.CurrentRow IsNot Nothing, FG.CurrentRow.Index, 0)
+            L = FG.CurrentCell.ColumnIndex
+            If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, 1) <> "" Then
                 FG.BackColorSel = Color.White
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
+                FG.ReadOnly = True
                 'FG.BackColorSel = Color.White
             Else
                 FG.BackColorSel = Color.SkyBlue
-                FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-                AccId = FG.get_TextMatrix(FG.Row, FG.Col)
+                FG.ReadOnly = False
+                AccId = If(FG.CurrentRow IsNot Nothing, GetGridValue(FG, FG.CurrentRow.Index, FG.CurrentCell.ColumnIndex), "")
             End If
         End If
 
 
 
-        If FG.Col = 3 Then
+        If FG.CurrentCell = FG.Rows(1).Cells(3) Then
             'FG.BackColorSel = Color.White
-            FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
+            FG.ReadOnly = False
             FG.BackColorSel = Color.SkyBlue
         End If
 
-        If FG.Col = 4 Then
+        If FG.CurrentCell = FG.Rows(1).Cells(4) Then
             'FG.BackColorSel = Color.White
-            FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
+            FG.ReadOnly = False
             FG.BackColorSel = Color.SkyBlue
         End If
 
 
-        If FG.Col = 5 Then
-            If FG.get_TextMatrix(FG.Row, 2) <> "" Then
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
+        If FG.CurrentCell = FG.Rows(1).Cells(5) Then
+            If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, 2) <> "" Then
+                FG.ReadOnly = True
                 FG.BackColorSel = Color.White
             Else
-                FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
+                FG.ReadOnly = False
                 FG.BackColorSel = Color.SkyBlue
             End If
         End If
 
-        If FG.Col = 6 Then
-            If FG.get_TextMatrix(FG.Row, 1) <> "" Then
+        If FG.CurrentCell = FG.Rows(1).Cells(6) Then
+            If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, 1) <> "" Then
                 FG.BackColorSel = Color.White
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
+                FG.ReadOnly = True
 
             Else
                 FG.BackColorSel = Color.SkyBlue
-                FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
+                FG.ReadOnly = False
             End If
         End If
 
-        If FG.Col = 7 Then
+        If FG.CurrentCell = FG.Rows(1).Cells(7) Then
             FG.BackColorSel = Color.SkyBlue
-            FG.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
+            FG.ReadOnly = False
         End If
 
 
         If ChCat_ID.Checked = False Then
-            If FG.Col = 3 Or FG.Col = 4 Or FG.Col = 7 Or FG.Col = 8 Or FG.Col = 9 Or FG.Col = 10 Or FG.Col = 11 Or FG.Col = 12 Or FG.Col = 13 Then
+            If FG.CurrentCell IsNot Nothing AndAlso (FG.CurrentCell.ColumnIndex = 3 OrElse FG.CurrentCell.ColumnIndex = 4 OrElse FG.CurrentCell.ColumnIndex = 7 OrElse FG.CurrentCell.ColumnIndex = 8 OrElse FG.CurrentCell.ColumnIndex = 9 OrElse FG.CurrentCell.ColumnIndex = 10 OrElse FG.CurrentCell.ColumnIndex = 11 OrElse FG.CurrentCell.ColumnIndex = 12 OrElse FG.CurrentCell.ColumnIndex = 13) Then
                 FG.BackColorSel = Color.White
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
+                FG.ReadOnly = True
             End If
         Else
-            If FG.Col = 3 Or FG.Col = 4 Or FG.Col = 8 Or FG.Col = 9 Or FG.Col = 10 Or FG.Col = 11 Or FG.Col = 12 Or FG.Col = 13 Then
+            If FG.CurrentCell IsNot Nothing AndAlso (FG.CurrentCell.ColumnIndex = 3 OrElse FG.CurrentCell.ColumnIndex = 4 OrElse FG.CurrentCell.ColumnIndex = 8 OrElse FG.CurrentCell.ColumnIndex = 9 OrElse FG.CurrentCell.ColumnIndex = 10 OrElse FG.CurrentCell.ColumnIndex = 11 OrElse FG.CurrentCell.ColumnIndex = 12 OrElse FG.CurrentCell.ColumnIndex = 13) Then
                 FG.BackColorSel = Color.White
-                FG.Editable = VSFlex8U.EditableSettings.flexEDNone
+                FG.ReadOnly = True
             End If
         End If
-        If FG.Col > 2 Then
-            If FG.get_TextMatrix(FG.Row, 1) = "" Then
-                If FG.get_TextMatrix(FG.Row, 2) = "" Then
-                    FG.Editable = VSFlex8U.EditableSettings.flexEDNone
-                    FG.BackColorSel = Color.White
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex > 2 Then
+            If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, 1) = "" Then
+                If FG.CurrentRow IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentRow.Index, 2) = "" Then
+            FG.ReadOnly = True
+        ' FG.BackColorSel not available in DataGridView
                 End If
             End If
         End If
-        'If CheckBox3.Checked = True Then
+        'If CheckBox3.Checked Then
         '    CheckBox3.
         'End If
-        If FG.Col = 3 Or FG.Col = 4 Or FG.Col = 5 Or FG.Col = 6 Or FG.Col = 7 Or FG.Col = 8 Or FG.Col = 9 Or FG.Col = 10 Or FG.Col = 11 Or FG.Col = 12 Or FG.Col = 13 Then
+        If FG.CurrentCell IsNot Nothing AndAlso (FG.CurrentCell.ColumnIndex = 3 OrElse FG.CurrentCell.ColumnIndex = 4 OrElse FG.CurrentCell.ColumnIndex = 5 OrElse FG.CurrentCell.ColumnIndex = 6 OrElse FG.CurrentCell.ColumnIndex = 7 OrElse FG.CurrentCell.ColumnIndex = 8 OrElse FG.CurrentCell.ColumnIndex = 9 OrElse FG.CurrentCell.ColumnIndex = 10 OrElse FG.CurrentCell.ColumnIndex = 11 OrElse FG.CurrentCell.ColumnIndex = 12 OrElse FG.CurrentCell.ColumnIndex = 13) Then
             BtnSearch.Visible = False
         End If
 
-        If FG.get_TextMatrix(FG.Row, 5) = "" Then
+        If FG.CurrentCell IsNot Nothing AndAlso GetGridValue(FG, FG.CurrentCell.RowIndex, 5) = "" Then
             Panel1.Visible = False
         End If
-        If FG.get_TextMatrix(FG.Row, 7) = "0" Then
-            FG.set_TextMatrix(FG.Row, 8, "ບໍ່ເລືອກ")
-            FG.set_TextMatrix(FG.Row, 9, "No Selete")
-        ElseIf FG.get_TextMatrix(FG.Row, 7) = "1" Then
-            FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການພະລິດ")
-            FG.set_TextMatrix(FG.Row, 9, "Use build")
+        If GetGridValue(FG, FG.CurrentCell.RowIndex, 7) = "0" Then
+            SetGridValue(FG, rowIdx, 8, "ບໍ່ເລືອກ")
+            SetGridValue(FG, rowIdx, 9, "No Selete")
+        ElseIf GetGridValue(FG, FG.CurrentCell.RowIndex, 7) = "1" Then
+            SetGridValue(FG, rowIdx, 8, "ຮັບໃຊ້ການພະລິດ")
+            SetGridValue(FG, rowIdx, 9, "Use build")
 
-        ElseIf FG.get_TextMatrix(FG.Row, 7) = "2" Then
-            FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການຈຳໜ່າຍ")
-            FG.set_TextMatrix(FG.Row, 9, "Use Sell")
-        ElseIf FG.get_TextMatrix(FG.Row, 7) = "3" Then
-            FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ບໍລິຫານ")
-            FG.set_TextMatrix(FG.Row, 9, "Use manage ")
+        ElseIf GetGridValue(FG, FG.CurrentCell.RowIndex, 7) = "2" Then
+            SetGridValue(FG, rowIdx, 8, "ຮັບໃຊ້ການຈຳໜ່າຍ")
+            SetGridValue(FG, rowIdx, 9, "Use Sell")
+        ElseIf GetGridValue(FG, FG.CurrentCell.RowIndex, 7) = "3" Then
+            SetGridValue(FG, rowIdx, 8, "ຮັບໃຊ້ບໍລິຫານ")
+            SetGridValue(FG, rowIdx, 9, "Use manage ")
 
-        ElseIf FG.get_TextMatrix(FG.Row, 7) = "4" Then
-            FG.set_TextMatrix(FG.Row, 8, "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
-            FG.set_TextMatrix(FG.Row, 9, "Sell capital/manage capital ")
+        ElseIf GetGridValue(FG, FG.CurrentCell.RowIndex,7) = "4" Then
+            SetGridValue(FG, rowIdx, 8, "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
+            SetGridValue(FG, rowIdx, 9, "Sell capital/manage capital ")
         End If
 
     End Sub
@@ -1774,13 +1699,10 @@
 
     Private Sub CmbBook_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CmbBook.SelectedIndexChanged
         txtInvoice.Text = CmbBook.Text & MdCertifyId
-        LoadSqlData("SELECT * FROM books WHERE bookid = N'" & CmbBook.Text & "'", RSC)
-        With RSC
-            Do Until .EOF = True
-                txtBookName.Text = Trim(.Fields("bookname").Value)
-                .MoveNext()
-            Loop
-        End With
+Dim dtBook As DataTable = DbHelper.GetDataTable("SELECT * FROM books WHERE bookid = N'" & CmbBook.Text & "'")
+        If dtBook.Rows.Count > 0 Then
+            txtBookName.Text = Trim(dtBook.Rows(0)("bookname").ToString())
+        End If
         If txtInvoice.Enabled = True Then
             AutoNumber()
         End If
@@ -1790,285 +1712,45 @@
         If e.KeyChar = Chr(13) Then
             txtTotal_Amt_LAK.Text = CDbl(txtRate.Text) * CDbl(txtAmount.Text)
             Call FormatText()
-            If FG.get_TextMatrix(1, 1) = "" And FG.get_TextMatrix(1, 2) = "" Then
-                FG.Row = 1
-                FG.Col = 1
+If GetGridValue(FG, 0, 1) = "" And GetGridValue(FG, 0, 2) = "" Then
+                FG.CurrentCell = FG.Rows(0).Cells(1)
             End If
-            If FG.get_TextMatrix(1, 1) <> "" Then
-                FG.Row = 1
-                FG.Col = 1
+            If GetGridValue(FG, 0, 1) <> "" Then
+                FG.CurrentCell = FG.Rows(0).Cells(1)
             End If
-            If FG.get_TextMatrix(1, 2) <> "" Then
-                FG.Row = 1
-                FG.Col = 2
-            End If
-            FG.Focus()
         End If
-    End Sub
-
-    Private Sub txtAmount_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtAmount.LostFocus
-        Call FormatText()
-    End Sub
-
-    Private Sub txtAmount_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtAmount.TextChanged
-        If IsNumeric(txtAmount.Text) = False Then txtAmount.Text = "0" : Exit Sub
-        If txtAmount.Text = "" Then txtAmount.Text = "0" : Exit Sub
-        If txtAmount.Text = 0 Then
-            txtAmt_letter.Text = ""
-        End If
-        If IsNumeric(txtAmount.Text) = False Then txtAmount.Clear() : Exit Sub
-        txtAmt_letter.Text = Letter_amt(txtAmount)
-        txtAmt_letter_E.Text = LetterEng_amt(txtAmount)
-
-    End Sub
-    Public Function Letter_amt(ByVal Txt As TextBox, Optional ByVal CurrKIP As Boolean = False) As String
-
-        If Val(txtAmount.Text) <> 0 Then
-
-            RateType = ": " & Cmb.Text
-
-            Letter_amt = CMoney(Format(CDbl(Txt.Text), "##0.00")) & RateType
-        Else
-            Letter_amt = ""
-        End If
-
-    End Function
-    Public Function LetterEng_amt(ByVal Txt As TextBox, Optional ByVal CurrKIP As Boolean = False) As String
-        If Val(txtAmount.Text) <> 0 Then
-            LetterEng_amt = CMoneyEng(Format(CDbl(Txt.Text), "##0.00")) & ": " & Cmb.Text
-        Else
-            LetterEng_amt = ""
-        End If
-    End Function
-    Private Sub txtsearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        FG.Focus()
-        R = FG.Row
-        L = FG.Col
-    End Sub
-
-
-
-    'Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
-    '    Static cntd As Integer = 0
-    '    Dim a As String
-    '    If cntd > 0 Then
-    '        a = cntd.ToString
-    '    Else
-    '        Timer1.Enabled = False
-    '        Foucus()
-    '    End If
-    'End Sub
-
-    Private Sub LoadTableId()
-        Bee.set_TextMatrix(1, 2, "ບໍ່ເລືອກ")
-        Bee.set_TextMatrix(2, 2, "ຮັບໃຊ້ໃນການພະລິດ")
-        Bee.set_TextMatrix(3, 2, "ຮັບໃຊ້ໃນການຈຳໜ່າຍ")
-        Bee.set_TextMatrix(4, 2, "ຮັບໃຊ້ບໍລິຫານ")
-        Bee.set_TextMatrix(5, 2, "ຕົ້ນທື່ນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
-
-        Bee.set_TextMatrix(1, 3, "No Selete")
-        Bee.set_TextMatrix(2, 3, "Use build")
-        Bee.set_TextMatrix(3, 3, "Use Sell")
-        Bee.set_TextMatrix(4, 3, "Use manage")
-        Bee.set_TextMatrix(5, 3, "Sell capital/manage capital ")
-
-        Bee.set_TextMatrix(1, 4, " 0.   ບໍ່ເລືອກ")
-        Bee.set_TextMatrix(2, 4, " 1.   ຮັບໃຊ້ໃນການພະລິດ")
-        Bee.set_TextMatrix(3, 4, " 2.   ຮັບໃຊ້ໃນການຈຳໜ່າຍ")
-        Bee.set_TextMatrix(4, 4, " 3.   ຮັບໃຊ້ບໍລິຫານ")
-        Bee.set_TextMatrix(5, 4, " 4.   ຕົ້ນທື່ນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
-    End Sub
-
-    Private Sub Bee_AfterEdit(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterEditEvent) Handles Bee.AfterEdit
-
-    End Sub
-
-    Private Sub Bee_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles Bee.DblClick
-        FG.set_TextMatrix(FG.Row, 7, Bee.get_TextMatrix(Bee.Row, 1))
-        FG.set_TextMatrix(FG.Row, 8, Bee.get_TextMatrix(Bee.Row, 2))
-        FG.set_TextMatrix(FG.Row, 9, Bee.get_TextMatrix(Bee.Row, 3))
-        Panel1.Visible = False
-        loadColor()
-        'If FG.get_TextMatrix(FG.Row + 1, 6) <> "" Then
-        '    If FG.get_TextMatrix(FG.Row + 1, 1) = "" Then
-        '        FG.Col = 2
-        '        FG.Row = FG.Row + 1
-        '    Else
-        '        FG.Col = 1
-        '        FG.Row = FG.Row + 1
-        '    End If
-        'End If
-        'If FG.get_TextMatrix(FG.Row + 1, 3) = "" Then
-        '    If FG.get_TextMatrix(FG.Row, 1) = "" Then
-        '        FG.Col = 1
-        '        FG.Row = FG.Row + 1
-        '    Else
-        '        FG.Col = 2
-        '        FG.Row = FG.Row + 1
-        '    End If
-        'End If
-        FG.Focus()
-    End Sub
-
-
-
-
-    Private Sub Bee_KeyUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_KeyUpEvent) Handles Bee.KeyUpEvent
-        If e.keyCode = 13 Then
-            FG.set_TextMatrix(FG.Row, 7, Bee.get_TextMatrix(Bee.Row, 1))
-            FG.set_TextMatrix(FG.Row, 8, Bee.get_TextMatrix(Bee.Row, 2))
-            FG.set_TextMatrix(FG.Row, 9, Bee.get_TextMatrix(Bee.Row, 3))
-            Panel1.Visible = False
-            loadColor()
-            'If FG.get_TextMatrix(FG.Row + 1, 6) <> "" Then
-            '    If FG.get_TextMatrix(FG.Row + 1, 1) = "" Then
-            '        FG.Col = 2
-            '        FG.Row = FG.Row + 1
-            '    Else
-            '        FG.Col = 1
-            '        FG.Row = FG.Row + 1
-            '    End If
-            'End If
-            'If FG.get_TextMatrix(FG.Row + 1, 3) = "" Then
-            '    If FG.get_TextMatrix(FG.Row, 1) = "" Then
-            '        FG.Col = 1
-            '        FG.Row = FG.Row + 1
-            '    Else
-            '        FG.Col = 2
-            '        FG.Row = FG.Row + 1
-            '    End If
-            'End If
-            FG.Focus()
-        End If
-    End Sub
-
-
-    Public Sub loadRate()
-        txtUserId.Text = MDoff_id
-        txtTotal_Amt_LAK.Text = CDbl(txtAmount.Text) * CDbl(txtRate.Text)
-        'FormatText()
-    End Sub
-    Public Sub FormatText()
-        txtRate.Text = Format(CDbl(txtRate.Text), "#,##0.00")
-        txtTotal_Amt_LAK.Text = Format(CDbl(txtTotal_Amt_LAK.Text), "#,##0.00")
-        txtAmount.Text = Format(CDbl(txtAmount.Text), "#,##0.00")
-        txtAmt_letter.Text = Letter_amt(txtAmount)
-    End Sub
-
-
-
-
-
-
-
-
-    Public Sub loadColor()
-        FgR = FG.Row
-        FgC = FG.Col
-        Dim rmRS As New ADODB.Recordset
-        Dim J As Integer
-        FG.Redraw = False
-
-
-
-        FG.Col = 1
-        FG.Row = FG.Rows - 1
-        FG.CellBackColor = Color.LightCyan
-        FG.Col = 2
-        FG.CellBackColor = Color.LightCyan
-
-        For J = 1 To FG.Rows - 1
-            FG.Row = J
-            If Trim(FG.get_TextMatrix(J, 1)) <> "" Then
-                FG.Col = 1
-                FG.CellBackColor = Color.LightCyan
-                FG.CellFontBold = True
-                'FG.Col = 3
-                'FG.CellBackColor = Color.White
-                'FG.Col = 4
-                'FG.CellBackColor = Color.White
-                FG.Col = 5
-                FG.CellBackColor = Color.LightCyan
-                FG.CellFontBold = True
-                'FG.Col = 6
-                'FG.CellForeColor = Color.Gray
-                'FG.Col = 7
-                'FG.CellBackColor = Color.LightCyan
-                'FG.Col = 12
-                'FG.CellBackColor = Color.LightCyan
-                FG.set_TextMatrix(J, 0, J)
-
-
-
-
-            Else
-                If Trim(FG.get_TextMatrix(J, 1)) = "" Then
-                    FG.Col = 1
-                    FG.CellBackColor = Color.White
-
-                End If
-
-                If Trim(FG.get_TextMatrix(J, 2)) <> "" Then
-                    FG.Col = 2
-                    FG.CellBackColor = Color.LightCyan
-                    FG.CellFontBold = True
-                    'FG.Col = 3
-                    'FG.CellBackColor = Color.White
-                    'FG.Col = 4
-                    'FG.CellBackColor = Color.White
-                    FG.Col = 6
-                    FG.CellFontBold = True
-                    FG.CellBackColor = Color.LightCyan
-                    'FG.Col = 5
-                    'FG.CellForeColor = Color.Gray
-                    'FG.Col = 7
-                    'FG.CellBackColor = Color.LightCyan
-                    'FG.Col = 13
-                    'FG.CellBackColor = Color.LightCyan
-
-                    FG.set_TextMatrix(J, 0, J)
-
-                End If
-                If Trim(FG.get_TextMatrix(J, 2)) = "" Then
-                    FG.Col = 2
-                    FG.CellBackColor = Color.White
-
-                End If
-            End If
-
-            '    If Trim(FG.get_TextMatrix(J, 7)) = "0" Then
-            '        FG.Col = 7
+            '        FG.CurrentCell = FG.Rows(1).Cells(7)
             '        FG.CellForeColor = Color.Gray
-            '        FG.Col = 8
+            '        If FG.CurrentRow IsNot Nothing Then FG.CurrentCell = FG.Rows.Count(FG.CurrentRow.Index).Cells( 8
             '        FG.CellForeColor = Color.Gray
-            '        FG.Col = 9
+            '        If FG.CurrentRow IsNot Nothing Then FG.CurrentCell = FG.Rows.Count(FG.CurrentRow.Index).Cells( 9
             '        FG.CellForeColor = Color.Gray
             '    Else
-            '        FG.Col = 7
+            '        FG.CurrentCell = FG.Rows(1).Cells(7)
             '        FG.CellForeColor = Color.Black
-            '        FG.Col = 8
+            '        If FG.CurrentRow IsNot Nothing Then FG.CurrentCell = FG.Rows.Count(FG.CurrentRow.Index).Cells( 8
             '        FG.CellForeColor = Color.Black
-            '        FG.Col = 9
+            '        If FG.CurrentRow IsNot Nothing Then FG.CurrentCell = FG.Rows.Count(FG.CurrentRow.Index).Cells( 9
             '        FG.CellForeColor = Color.Black
             '    End If
             '    If ChCat_ID.Checked = False Then
 
-            '        FG.Col = 7
+            '        FG.CurrentCell = FG.Rows(1).Cells(7)
 
             '        FG.CellBackColor = Color.White
             '        FG.CellForeColor = Color.Gray
-            '        FG.Col = 8
+            '        If FG.CurrentRow IsNot Nothing Then FG.CurrentCell = FG.Rows.Count(FG.CurrentRow.Index).Cells( 8
             '        FG.CellForeColor = Color.Gray
-            '        FG.Col = 9
+            '        If FG.CurrentRow IsNot Nothing Then FG.CurrentCell = FG.Rows.Count(FG.CurrentRow.Index).Cells( 9
             '        FG.CellForeColor = Color.Gray
 
             '    End If
-        Next J
 
 
-        FG.Row = FgR
-        FG.Col = FgC
-        FG.Redraw = True
+
+        ' FG.CurrentRow.Index is read-only
+        If FG.CurrentRow IsNot Nothing Then FG.CurrentCell = FG.Rows(FgR).Cells(FgC)
+        ' FG.Redraw not available in DataGridView
     End Sub
 
     Private Sub Cmb_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Cmb.Click
@@ -2077,10 +1759,9 @@
 
     Private Sub Cmb_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Cmb.SelectedIndexChanged
 
-        Dim rs As New ADODB.Recordset
-        Call LoadSqlData("Select * From Curr_For_Rate Where   Curr =N'" & Trim(Cmb.Text) & "'", rs)
-        If rs.RecordCount > 0 Then
-            txtcurr_name2.Text = Trim(rs("Curr_name").Value.ToString)
+Dim dtCurr As DataTable = DbHelper.GetDataTable("Select * From Curr_For_Rate Where   Curr =N'" & Trim(Cmb.Text) & "'")
+        If dtCurr.Rows.Count > 0 Then
+            txtcurr_name2.Text = Trim(dtCurr.Rows(0)("Curr_name").ToString())
         End If
 
         MDRate_DT = " and rate_dt<='" & Format(dtActi.Value, "yyyy-MM-dd") & "'  "
@@ -2096,25 +1777,22 @@
         txtAmt_letter_E.Text = LetterEng_amt(txtAmount)
         Call FormatText()
 
-        'For i = 1 To FG.Rows - 2
-        '    'If FG.Row > 1 Then
-        '    FG.set_TextMatrix(i, 10, Cmb.Text)
-        '    FG.set_TextMatrix(i, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-        '    FG.set_TextMatrix(i, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(i, 5)), "#,##0.00"))
-        '    FG.set_TextMatrix(i, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(i, 6)), "#,##0.00"))
+        'For i = 0 To FG.Rows.Count - 1
+        '    'If If FG.CurrentRow IsNot Nothing Then FG.CurrentRow.Index > 1 Then
+        '    SetGridValue(FG,i, 10, Cmb.Text)
+        '    SetGridValue(FG,i, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+        '    SetGridValue(FG,i, 12, Format(CDbl(CDbl(txtRate.Text) * GetGridValue(FG,i, 5)), "#,##0.00"))
+        '    SetGridValue(FG,i, 13, Format(CDbl(CDbl(txtRate.Text) * GetGridValue(FG,i, 6)), "#,##0.00"))
         '    'End If
 
         'Next
     End Sub
     Public Sub LoadSetRate()
-        LoadSqlData("select * from Ap_RateSeting where Curr='" & Cmb.Text & "'", RSC)
-        With RSC
-            Do Until .EOF = True
-                txtRate.Text = Trim(.Fields("Rate").Value)
-                curr_Last.Text = Trim(.Fields("curr_Last").Value)
-                .MoveNext()
-            Loop
-        End With
+Dim dtRateSet As DataTable = DbHelper.GetDataTable("select * from Ap_RateSeting where Curr='" & Cmb.Text & "'")
+        If dtRateSet.Rows.Count > 0 Then
+            txtRate.Text = Trim(dtRateSet.Rows(0)("Rate").ToString())
+            curr_Last.Text = Trim(dtRateSet.Rows(0)("curr_Last").ToString())
+        End If
         'loadRate()
         txtAmt_letter.Text = Letter_amt(txtAmount)
         txtAmt_letter_E.Text = LetterEng_amt(txtAmount)
@@ -2132,27 +1810,27 @@
             End If
         End If
 
-        Dim i As Integer
-        For i = 1 To FG.Rows - 1
-            If FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) <> "" Then
-                'MsgBox(Len(FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2)))
-                If Len(FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2)) <> 7 Then
+Dim i As Integer
+        For i = 0 To FG.Rows.Count - 1
+            If GetGridValue(FG,i, 1) & GetGridValue(FG,i, 2) <> "" Then
+                'MsgBox(Len(GetGridValue(FG,i, 1) & GetGridValue(FG,i, 2)))
+                If Len(GetGridValue(FG,i, 1) & GetGridValue(FG,i, 2)) <> 7 Then
                     'LngId = "6005" : MsgRpt()
                     'Exit Sub
                 End If
             End If
         Next i
 
-        Dim k As Integer
-        For k = 1 To FG.Rows - 2
-            If FG.get_TextMatrix(k, 1) <> "" Then
-                If FG.get_TextMatrix(k, 5) = 0 Then
+Dim k As Integer
+        For k = 0 To FG.Rows.Count - 1
+            If GetGridValue(FG,k, 1) <> "" Then
+                If GetGridValue(FG,k, 5) = 0 Then
                     MsgBox("ກະລຸນນາໃສ່ມູນຄ່າກ່ອນ")
                     Exit Sub
                 End If
             End If
-            If FG.get_TextMatrix(k, 2) <> "" Then
-                If FG.get_TextMatrix(k, 6) = 0 Then
+            If GetGridValue(FG,k, 2) <> "" Then
+                If GetGridValue(FG,k, 6) = 0 Then
                     MsgBox("ກະລຸນນາໃສ່ມູນຄ່າກ່ອນ")
                     Exit Sub
                 End If
@@ -2178,39 +1856,38 @@
         '                 "  and LEFT(company,2)='" & Off_Id & "' Order by  Right(certify,3) DESC ", RSC)
         'Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book =N'" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  Month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  And  day(date_work)=" & Format(CDate(dtActi.Value), "dd") & " " & _
         '             "  and LEFT(company,2)=N'" & Off_Id & "' Order by  Right(certify,3) DESC ", RSC)
-        Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book =N'" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "'  And  ReferNO = N'" & TxtReferno.Text & "'And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  Month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  And  day(date_work)=" & Format(CDate(dtActi.Value), "dd") & " " & _
-             "  and LEFT(company,2)=N'" & Off_Id & "' Order by  Right(certify,3) DESC ", RSC)
+        Dim dtCheck3 As DataTable = DbHelper.GetDataTable("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book =N'" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "'  And  ReferNO = N'" & TxtReferno.Text & "'And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  Month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  And  day(date_work)=" & Format(CDate(dtActi.Value), "dd") & " " & _
+             "  and LEFT(company,2)=N'" & Off_Id & "' Order by  Right(certify,3) DESC ")
 
-        If RSC.RecordCount > 0 Then
+        If dtCheck3.Rows.Count > 0 Then
             If txtInvoice.Enabled = True Then
                 MsgBox("ເລກລະຫັດ : " & Trim(txtInvoice.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
                 txtInvoice.BackColor = Color.Red
                 txtInvoice.Focus()
-                If RSC.State = ConnectionState.Open Then RSC.Close()
                 Exit Sub
             End If
 
         End If
         'Dim J As Integer
-        'For J = 1 To FG.Rows - 1
+        'For J = 1 To FG.Rows.Count
         '    '===============
-        '    FG.set_TextMatrix(J, 10, Cmb.Text)
-        '    FG.set_TextMatrix(J, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+        '    SetGridValue(FG,J, 10, Cmb.Text)
+        '    SetGridValue(FG,J, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
 
 
         '    If Cmb.Text = "USD" Then
-        '        FG.set_TextMatrix(J, 14, Format(CDbl(FG.get_TextMatrix(J, 5)), "#,##0.00"))
-        '        FG.set_TextMatrix(J, 15, Format(CDbl(FG.get_TextMatrix(J, 6)), "#,##0.00"))
+        '        SetGridValue(FG,J, 14, Format(CDbl(GetGridValue(FG,J, 5)), "#,##0.00"))
+        '        SetGridValue(FG,J, 15, Format(CDbl(GetGridValue(FG,J, 6)), "#,##0.00"))
         '    Else
-        '        FG.set_TextMatrix(J, 14, Format(CDbl(FG.get_TextMatrix(J, 12)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-        '        FG.set_TextMatrix(J, 15, Format(CDbl(FG.get_TextMatrix(J, 13)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-        '        'FG.set_TextMatrix(FG.Row, 14, Format(CDbl(FG.get_TextMatrix(FG.Row, 12)) / CDbl(txtRateUSD.Text), "#,##0.00"))
-        '        'FG.set_TextMatrix(FG.Row, 15, Format(CDbl(FG.get_TextMatrix(FG.Row, 13)) / CDbl(txtRateUSD.Text), "#,##0.00"))
+        '        SetGridValue(FG,J, 14, Format(CDbl(GetGridValue(FG,J, 12)) / CDbl(txtRateUSD.Text), "#,##0.00"))
+        '        SetGridValue(FG,J, 15, Format(CDbl(GetGridValue(FG,J, 13)) / CDbl(txtRateUSD.Text), "#,##0.00"))
+        '        'SetGridValue(FG, rowIdx, 14, Format(CDbl(If FG.CurrentRow IsNot Nothing Then GetGridValue(FG, 12)) / CDbl(txtRateUSD.Text), "#,##0.00"))
+        '        'SetGridValue(FG, rowIdx, 15, Format(CDbl(GetGridValue(FG, rowIdx, 13)) / CDbl(txtRateUSD.Text), "#,##0.00"))
         '    End If
 
         'Next J
 
-        If FG.get_TextMatrix(1, 6) = "" Then MsgBox("ກະລຸນນາລົງບັນຊີເງິນກອ່ນ!", MsgBoxStyle.OkOnly) : Exit Sub
+        If GetGridValue(FG,1, 6) = "" Then MsgBox("ກະລຸນນາລົງບັນຊີເງິນກອ່ນ!", MsgBoxStyle.OkOnly) : Exit Sub
         If CDbl(txtSumAmountDr.Text) = 0 Then MsgBox("ການລົງບັນຊີເງິນບໍ່ຖຶກຕ້ອງ ບໍ່ສາມາດບັນທຶກໄດ້!", MsgBoxStyle.OkOnly) : Exit Sub
         If CDbl(txtSumAmountCr.Text) = 0 Then MsgBox("ການລົງບັນຊີເງິນບໍ່ຖຶກຕ້ອງ ບໍ່ສາມາດບັນທຶກໄດ້!", MsgBoxStyle.OkOnly) : Exit Sub
         If CDbl(CCR.Text) <> 0 Then MsgBox("ບັນຊີນີ້ບໍ່ທັນບໍ່ທັນດູນດ່ຽງ ບໍ່ສາມາດບັນທຶກໄດ້!", MsgBoxStyle.OkOnly) : Exit Sub
@@ -2230,13 +1907,12 @@
             End If
 
             'Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book ='" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  month(date_work)=" & Format(CDate(dtActi.Value), "MM") & "  Order by  Right(certify,3) DESC ", RSC)
-            Call LoadSqlData("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book =N'" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "'And  ReferNO = N'" & TxtReferno.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " And  day(date_work)=" & Format(CDate(dtActi.Value), "dd") & "  Order by  Right(certify,3) DESC ", RSC)
+            Dim dtCheck4 As DataTable = DbHelper.GetDataTable("SELECT  top 1 Right(certify,3) As  certify    FROM Gen_jn WHERE   book =N'" & CmbBook.Text & "' And  certify = N'" & txtInvoice.Text & "'And  ReferNO = N'" & TxtReferno.Text & "' And  year(date_work)=" & Format(CDate(dtActi.Value), "yyyy") & " And  month(date_work)=" & Format(CDate(dtActi.Value), "MM") & " And  day(date_work)=" & Format(CDate(dtActi.Value), "dd") & "  Order by  Right(certify,3) DESC ")
 
-            If RSC.RecordCount > 0 Then
+            If dtCheck4.Rows.Count > 0 Then
                 MsgBox("ເລກລະຫັດ : " & Trim(txtInvoice.Text) & " ມີໃນຖານຂໍ້ມູນແລ້ວ ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
                 txtInvoice.BackColor = Color.Red
                 txtInvoice.Focus()
-                If RSC.State = ConnectionState.Open Then RSC.Close()
                 Exit Sub
             End If
 
@@ -2245,8 +1921,8 @@
             Savedata()
             'MuSubOff = MuSubOff2
         Else
-            'CNN.Execute("DELETE FROM gen_jn WHERE book =N'" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy") & "' ")
-            CNN.Execute("DELETE FROM gen_jn WHERE book =N'" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  =N'" & txtInvoice.Text & "'  And  ReferNO = N'" & TxtReferno.Text & "'  And   date_work='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy-MM-dd") & "' ")
+            'CNN.Execute("DELETE FROM gen_jn WHERE book =N'" & GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 1)), "yyyy") & "' ")
+            DbHelper.ExecuteNonQuery("DELETE FROM gen_jn WHERE book =N'" & GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 16) & "' And certify  =N'" & txtInvoice.Text & "'  And  ReferNO = N'" & TxtReferno.Text & "'  And   date_work='" & Format(CDate(GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 1)), "yyyy-MM-dd") & "' ")
 
             MdCertifyId2 = txtInvoice.Text
             Sdate = dtActi.Text
@@ -2260,12 +1936,12 @@
         Panel1.Visible = False
         BtnMove.Visible = False
         BtnSearch.Visible = False
-        FG.Rows = 1
-        FG.Rows = 2
-        If CheckBox1.Checked = True Then
+        FG.Rows.Count = 1
+        FG.Rows.Count = 2
+        If CheckBox1.Checked Then
             Call LoadReport()
         End If
-        If CheckBox2.Checked = True Then
+        If CheckBox2.Checked Then
             Close()
         End If
         'End If
@@ -2274,8 +1950,8 @@
     End Sub
 
     Private Sub BtnAddNew2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnAddNew2.Click
-        FG.Rows = 1
-        FG.Rows = 2
+        FG.Rows.Count = 1
+        FG.Rows.Count = 2
         AutoNumber()
         txtInvoice.Enabled = True
         CmbBook.Enabled = True
@@ -2284,17 +1960,17 @@
         BtnSearch.Visible = False
     End Sub
 
-    Private Sub Bee_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Bee.SelChange
+    Private Sub Bee_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Bee.SelectionChanged
 
     End Sub
 
-    Private Sub FG_StartEdit(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_StartEditEvent) Handles FG.StartEdit
+    Private Sub FG_CellBeginEdit(ByVal sender As Object, ByVal e As DataGridViewCellCancelEventArgs) Handles FG.CellBeginEdit
         If txtInvoice.BackColor = Color.Red Then
             txtInvoice.Focus()
+            e.Cancel = True  ' Cancel the edit operation
             Exit Sub
         End If
-        FG.CellBackColor = Color.DeepSkyBlue
-        FG.CellForeColor = Color.Black
+        ' FG.CellBackColor/ForeColor not available in DataGridView
         BtnMove.Visible = False
         BtnSearch.Visible = False
 
@@ -2302,36 +1978,37 @@
 
     End Sub
 
-    Private Sub Cat()
-        If FG.Col = 7 Then
-            If FG.get_TextMatrix(FG.Row, 7) = "0" Then
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "1" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການພະລິດ")
-                FG.set_TextMatrix(FG.Row, 9, "Use build")
+Private Sub Cat()
+        If FG.CurrentCell IsNot Nothing AndAlso FG.CurrentCell.ColumnIndex = 7 Then
+            rowIdx = FG.CurrentCell.RowIndex
+            If GetGridValue(FG, rowIdx, 7) = "0" Then
+                SetGridValue(FG, rowIdx, 8, "ບໍ່ເລືອກ")
+                SetGridValue(FG, rowIdx, 9, "No Selete")
+            ElseIf GetGridValue(FG, rowIdx, 7) = "1" Then
+                SetGridValue(FG, rowIdx, 8, "ຮັບໃຊ້ການພະລິດ")
+                SetGridValue(FG, rowIdx, 9, "Use build")
 
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "2" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ການຈຳໜ່າຍ")
-                FG.set_TextMatrix(FG.Row, 9, "Use Sell")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "3" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຮັບໃຊ້ບໍລິຫານ")
-                FG.set_TextMatrix(FG.Row, 9, "Use manage ")
+            ElseIf GetGridValue(FG, rowIdx, 7) = "2" Then
+                SetGridValue(FG, rowIdx, 8, "ຮັບໃຊ້ການຈຳໜ່າຍ")
+                SetGridValue(FG, rowIdx, 9, "Use Sell")
+            ElseIf GetGridValue(FG, rowIdx, 7) = "3" Then
+                SetGridValue(FG, rowIdx, 8, "ຮັບໃຊ້ບໍລິຫານ")
+                SetGridValue(FG, rowIdx, 9, "Use manage ")
 
-            ElseIf FG.get_TextMatrix(FG.Row, 7) = "4" Then
-                FG.set_TextMatrix(FG.Row, 8, "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
-                FG.set_TextMatrix(FG.Row, 9, "Sell capital/manage capital ")
-            ElseIf FG.get_TextMatrix(FG.Row, 7) > 4 Then
+            ElseIf GetGridValue(FG, rowIdx, 7) = "4" Then
+                SetGridValue(FG, rowIdx, 8, "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
+                SetGridValue(FG, rowIdx, 9, "Sell capital/manage capital ")
+            ElseIf Val(GetGridValue(FG, rowIdx, 7)) > 4 Then
                 MessageBox.Show("ລະຫັດບໍ່ຖືກຕ້ອງ ລະຫັດມີພຽງເລກ 0 ຫາເລກ 4 ເທົ່ານັ້ນ")
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ລເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-                FG.set_TextMatrix(FG.Row, 7, "0")
+                SetGridValue(FG, rowIdx, 8, "ບໍ່ລເລືອກ")
+                SetGridValue(FG, rowIdx, 9, "No Selete")
+                SetGridValue(FG, rowIdx, 7, "0")
                 Exit Sub
-            ElseIf FG.get_TextMatrix(FG.Row, 7) < 0 Then
+            ElseIf Val(GetGridValue(FG, rowIdx, 7)) < 0 Then
                 MessageBox.Show("ລະຫັດບໍ່ຖືກຕ້ອງ ລະຫັດມີພຽງເລກ 0 ຫາເລກ 4 ເທົ່ານັ້ນ")
-                FG.set_TextMatrix(FG.Row, 8, "ບໍ່ລເລືອກ")
-                FG.set_TextMatrix(FG.Row, 9, "No Selete")
-                FG.set_TextMatrix(FG.Row, 7, "0")
+                SetGridValue(FG, rowIdx, 8, "ບໍ່ລເລືອກ")
+                SetGridValue(FG, rowIdx, 9, "No Selete")
+                SetGridValue(FG, rowIdx, 7, "0")
                 Exit Sub
             End If
         End If
@@ -2340,177 +2017,112 @@
     End Sub
     Private Sub LoadSQL()
         sql = ""
-        'And  year(date_work)='" & Format(CDate(FG.get_TextMatrix(FG.Row, 2)), "yyyy") & "'
-        'sql = " AND certify  = " & txtInvoice.Text & "  And  year(date_work)='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy") & "' "
+        'And  year(date_work)='" & Format(CDate(If FG.CurrentRow IsNot Nothing Then GetGridValue(FG, 2) Else ""), "yyyy") & "'
+        'sql = " AND certify  = " & txtInvoice.Text & "  And  year(date_work)='" & Format(CDate(GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 1)), "yyyy") & "' "
         sql = " AND certify  =N" & txtInvoice.Text
 
     End Sub
     Public Sub LoadListFG()
-        CNN.Execute("UPDATE gen_jn set Cust_Supp=0 where   Cust_Supp is null")
-        FG.Rows = 1
-        With RSC
-            Dim PK As String = "select *  from gen_jn WHERE book =N'" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  =N'" & txtInvoice.Text & "'   And ReferNO  =N'" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 3) & "'  And  year(date_work)='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy") & "' order by cnt"
-            Call LoadSqlData(PK, RSC)
-            If .RecordCount > 0 Then
-                While Not .EOF
-                    If CDbl(.Fields("AG").Value) = 1 Then
-                        FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("code_dr").Value.ToString)) & _
-                    "" & vbTab & Trim(CStr(.Fields("code_cr").Value.ToString)) & _
-                     "" & vbTab & Trim((.Fields("descrip").Value.ToString)) & _
-                      "" & vbTab & Trim((.Fields("descripe").Value.ToString)) & _
-                         "" & vbTab & Format(CDbl(.Fields("amt_dr").Value), "##,##0.00") & _
-                           "" & vbTab & Format(CDbl(.Fields("amt_cr").Value), "##,##0.00") & _
-                            "" & vbTab & Trim(CStr(.Fields("Cat_ID").Value.ToString)))
+        DbHelper.ExecuteNonQuery("UPDATE gen_jn set Cust_Supp=0 where Cust_Supp is null")
+FG.Rows.Clear()
+        
+        Dim PK As String = "select * from gen_jn WHERE book =N'" & GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 16) & "' And certify =N'" & txtInvoice.Text & "' And ReferNO =N'" & GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 3) & "' And year(date_work)='" & Format(CDate(GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 1)), "yyyy") & "' order by cnt"
+        Dim dt As DataTable = DbHelper.GetDataTable(PK)
+        
+        If dt.Rows.Count > 0 Then
+For Each row As DataRow In dt.Rows
+                Dim newRowIdx As Integer = FG.Rows.Add()
+                If CDbl(Val(row("AG"))) = 1 Then
+                    SetGridValue(FG, newRowIdx, 1, row("code_dr").ToString())
+                    SetGridValue(FG, newRowIdx, 2, row("code_cr").ToString())
+                    SetGridValue(FG, newRowIdx, 3, row("descrip").ToString())
+                    SetGridValue(FG, newRowIdx, 4, row("descripe").ToString())
+                    SetGridValue(FG, newRowIdx, 5, Format(CDbl(Val(row("amt_dr"))), "##,##0.00"))
+                    SetGridValue(FG, newRowIdx, 6, Format(CDbl(Val(row("amt_cr"))), "##,##0.00"))
+                    SetGridValue(FG, newRowIdx, 7, row("Cat_ID").ToString())
+                Else
+                    SetGridValue(FG, newRowIdx, 1, row("code_dr").ToString())
+                    SetGridValue(FG, newRowIdx, 2, row("code_cr").ToString())
+                    SetGridValue(FG, newRowIdx, 3, row("descrip").ToString())
+                    SetGridValue(FG, newRowIdx, 4, row("descripe").ToString())
+                    SetGridValue(FG, newRowIdx, 5, Format(CDbl(Val(row("amount_dr"))), "##,##0.00"))
+                    SetGridValue(FG, newRowIdx, 6, Format(CDbl(Val(row("amount_cr"))), "##,##0.00"))
+                    SetGridValue(FG, newRowIdx, 7, row("Cat_ID").ToString())
+                    SetGridValue(FG, newRowIdx, 10, row("Curr").ToString())
+                    SetGridValue(FG, newRowIdx, 11, Format(CDbl(Val(row("Rate"))), "##,##0.00"))
+                    SetGridValue(FG, newRowIdx, 12, Format(CDbl(Val(row("amt_Dr"))), "##,##0.00"))
+                    SetGridValue(FG, newRowIdx, 13, Format(CDbl(Val(row("amt_cr"))), "##,##0.00"))
+                    SetGridValue(FG, newRowIdx, 14, Format(CDbl(Val(row("amt_USD_Dr"))), "##,##0.00"))
+                    SetGridValue(FG, newRowIdx, 15, Format(CDbl(Val(row("amt_USD_Cr"))), "##,##0.00"))
+                End If
+            Next
+        Else
+For k = 0 To 15
+                FG.Rows.Add()
+            Next
+        End If
+        Dim PP As String = "select top 1 * from gen_jn WHERE book =N'" & GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 16) & "' And certify =N'" & txtInvoice.Text & "' And ReferNO =N'" & GetGridValue(FmJeneralJournal_List.FG, 3) & "' And date_work='" & Format(CDate(GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 1)), "yyyy-MM-dd") & "' order by cnt"
+        Dim dtPP As DataTable = DbHelper.GetDataTable(PP)
+        
+        If dtPP.Rows.Count > 0 Then
+            Dim row As DataRow = dtPP.Rows(0)
+            Book = row("book").ToString().Trim()
+            dtActi.Text = Format(CDate(row("date_work")), "dd/MM/yyyy")
+            txtAmount.Text = Format(CDbl(Val(row("amount"))), "#,##0.00")
+            txtDesc.Text = row("descrip").ToString().Trim()
+            txtDescE.Text = row("descripe").ToString().Trim()
+            Rate1 = Format(CDbl(Val(row("rate"))), "#,##0.00")
+            Cmb.Text = row("curr").ToString().Trim()
+            CmbBook.Text = Book
+            txtInvoice.Text = MDInvoiceNo
+            TxtCustID.Text = row("CustID").ToString().Trim()
+            TxtSuppID.Text = row("SuppID").ToString().Trim()
+            txtRateUSD.Text = Format(CDbl(Val(row("rate_USD"))), "#,##0.00")
+            TxtReferno.Text = row("Referno").ToString().Trim()
+            MCS = row("Cust_Supp").ToString().Trim()
 
-                    Else
-                        FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("code_dr").Value.ToString)) & _
-                          "" & vbTab & Trim(CStr(.Fields("code_cr").Value.ToString)) & _
-                           "" & vbTab & Trim((.Fields("descrip").Value.ToString)) & _
-                            "" & vbTab & Trim((.Fields("descripe").Value.ToString)) & _
-                               "" & vbTab & Format(CDbl(.Fields("amount_dr").Value), "##,##0.00") & _
-                                 "" & vbTab & Format(CDbl(.Fields("amount_cr").Value), "##,##0.00") & _
-                                  "" & vbTab & Trim(CStr(.Fields("Cat_ID").Value.ToString)) & _
-                                   "" & vbTab & Trim(CStr(.Fields("Cat_ID").Value.ToString)) & _
-                                    "" & vbTab & Trim(CStr(.Fields("Cat_ID").Value.ToString)) & _
-                                      "" & vbTab & Trim((.Fields("Curr").Value.ToString)) & _
-                                                       "" & vbTab & Format(CDbl(.Fields("Rate").Value), "##,##0.00") & _
-                         "" & vbTab & Format(CDbl(.Fields("amt_Dr").Value), "##,##0.00") & _
-                          "" & vbTab & Format(CDbl(.Fields("amt_cr").Value), "##,##0.00") & _
-                                           "" & vbTab & Format(CDbl(.Fields("amt_USD_Dr").Value), "##,##0.00") & _
-                                    "" & vbTab & Format(CDbl(.Fields("amt_USD_Cr").Value), "##,##0.00"))
+            If MCS = "1" Then
+                CheckBox4.Checked = True
+                If TxtCustID.Text <> "" Then
+                    Dim dtCust As DataTable = DbHelper.GetDataTable("select * from Customer WHERE 1=1 and Code=N'" & TxtCustID.Text & "'")
+                    If dtCust.Rows.Count > 0 Then
+                        CmbCust.Text = dtCust.Rows(0)("Name").ToString().Trim()
                     End If
-                    .MoveNext()
-
-                End While
+                    RadioButton1.Checked = True
+                End If
+                If TxtSuppID.Text <> "" Then
+                    Dim dtSupp As DataTable = DbHelper.GetDataTable("select * from Supplier WHERE 1=1 and Code=N'" & TxtSuppID.Text & "'")
+                    If dtSupp.Rows.Count > 0 Then
+                        CmbSupp.Text = dtSupp.Rows(0)("Name").ToString().Trim()
+                    End If
+                    RadioButton2.Checked = True
+                End If
             Else
-                FG.Rows = 16
+                CheckBox4.Checked = False
             End If
-            '==
-            'Call LoadSqlData("select top 1 *  from gen_jn WHERE book ='" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  = '" & txtInvoice.Text & "'   And  year(date_work)='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy") & "' order by cnt", RSC)
-            Dim RSK As New ADODB.Recordset
-            With RSK 
-                Dim PP As String = "select top 1 *  from gen_jn WHERE book =N'" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  =N'" & txtInvoice.Text & "'  And ReferNO  =N'" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 3) & "'    And   date_work='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy-MM-dd") & "' order by cnt"
-                Call LoadSqlData(PP, RSK)
-                If .RecordCount > 0 Then
-                    While Not .EOF
+            CheckBox3.Checked = (CDbl(Val(row("AG"))) = 1)
+        End If
 
+        txtRate.Text = Rate1
 
-                        Book = Trim(.Fields("book").Value)
-                        dtActi.Text = Format(CDate(Trim(.Fields("date_work").Value)), "dd/MM/yyyy")
-                        txtAmount.Text = Format(CDbl(Trim(.Fields("amount").Value)), "#,##0.00")
-                        txtDesc.Text = Trim(.Fields("descrip").Value.ToString)
-                        txtDescE.Text = Trim(.Fields("descripe").Value.ToString)
-                        Rate1 = Format(CDbl(Trim(.Fields("rate").Value)), "#,##0.00")
-                        Cmb.Text = Trim(.Fields("curr").Value)
-                        CmbBook.Text = Book
-                        txtInvoice.Text = MDInvoiceNo
-                        TxtCustID.Text = Trim(.Fields("CustID").Value.ToString)
-                        TxtSuppID.Text = Trim(.Fields("SuppID").Value.ToString)
-                        txtRateUSD.Text = Format(CDbl(Trim(.Fields("rate_USD").Value)), "#,##0.00")
-                        TxtReferno.Text = Trim(.Fields("Referno").Value.ToString)
-
-
-                        MCS = Trim(.Fields("Cust_Supp").Value.ToString)
-                        .MoveNext()
-                    End While
-                    If MCS = 1 Then
-                        CheckBox4.Checked = True
-                        If TxtCustID.Text <> "" Then
-                            Dim RSCUST As New ADODB.Recordset
-                            Call LoadSqlData("select *  from Customer WHERE 1=1 and  Code=N'" & TxtCustID.Text & "'  ", RSCUST)
-                            If RSCUST.RecordCount > 0 Then
-                                CmbCust.Text = Trim(RSCUST.Fields("Name").Value.ToString)
-                            Else
-                                CmbCust.Text = ""
-                            End If
-                            If TxtCustID.Text <> "" Then
-                                RadioButton1.Checked = True
-                            Else
-                                RadioButton1.Checked = False
-                            End If
-                        End If
-
-                        If TxtSuppID.Text <> "" Then
-                            Dim RSCSUPPT As New ADODB.Recordset
-                            Call LoadSqlData("select *  from Supplier WHERE 1=1 and  Code=N'" & TxtSuppID.Text & "'  ", RSCSUPPT)
-                            If RSCSUPPT.RecordCount > 0 Then
-                                CmbSupp.Text = Trim(RSCSUPPT.Fields("Name").Value.ToString)
-                            Else
-                                CmbSupp.Text = ""
-                            End If
-                            If TxtSuppID.Text <> "" Then
-                                RadioButton2.Checked = True
-                            Else
-                                RadioButton2.Checked = False
-                            End If
-                        End If
-
-                    Else
-                        CheckBox4.Checked = False
-                        RadioButton1.Checked = False
-                        RadioButton2.Checked = False
-                    End If
-                    If AG = 1 Then
-                        CheckBox3.Checked = True
-                    Else
-                        CheckBox3.Checked = False
-                    End If
-                End If
-            End With
-
-            txtRate.Text = Rate1
-
-            Dim i As Integer
-            For i = 1 To FG.Rows - 1
-                '===============
-                'FG.set_TextMatrix(i, 10, Cmb.Text)
-                'FG.set_TextMatrix(i, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-                'If CDbl(.Fields("amount_dr").Value) = 1 Then
-
-                'End If
-                FG.set_TextMatrix(i, 12, Format(CDbl(CDbl(FG.get_TextMatrix(i, 11)) * FG.get_TextMatrix(i, 5)), "#,##0.00"))
-                FG.set_TextMatrix(i, 13, Format(CDbl(CDbl(FG.get_TextMatrix(i, 11)) * FG.get_TextMatrix(i, 6)), "#,##0.00"))
-                FG.set_TextMatrix(i, 14, Format(CDbl(FG.get_TextMatrix(i, 12)) / CDbl(txtRate.Text), "#,##0.00"))
-                FG.set_TextMatrix(i, 15, Format(CDbl(FG.get_TextMatrix(i, 13)) / CDbl(txtRate.Text), "#,##0.00"))
-                '12345
-                If FG.get_TextMatrix(FG.Row, 7) = "0" Then
-                    FG.set_TextMatrix(i, 8, "ບໍ່ເລືອກ")
-                    FG.set_TextMatrix(i, 8, "No Selete")
-
-                ElseIf FG.get_TextMatrix(FG.Row, 7) = "1" Then
-                    FG.set_TextMatrix(i, 8, "ຮັບໃຊ້ການພະລິດ")
-                    FG.set_TextMatrix(i, 8, "Use build")
-                ElseIf FG.get_TextMatrix(FG.Row, 7) = "2" Then
-                    FG.set_TextMatrix(i, 8, "ຮັບໃຊ້ການຈຳໜ່າຍ")
-                    FG.set_TextMatrix(i, 8, "Use Sell")
-                ElseIf FG.get_TextMatrix(FG.Row, 7) = "3" Then
-                    FG.set_TextMatrix(i, 8, "ຮັບໃຊ້ບໍລິຫານ")
-                    FG.set_TextMatrix(i, 8, "Use manage")
-
-                ElseIf FG.get_TextMatrix(FG.Row, 7) = "4" Then
-                    FG.set_TextMatrix(i, 8, "ຕົ້ນທຶນຂາຍ/ຕົ້ນທຶນບໍລິຫານ")
-                    FG.set_TextMatrix(i, 8, "capital/manage capital")
-                End If
-            Next i
-        End With
-
-        For i = 1 To FG.Rows - 1
-            Call LoadSqlData("select *  from gen_jn WHERE Ac_Code=N'" & FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) & "' and book =N'" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 16) & "' And certify  =N'" & txtInvoice.Text & "'  And ReferNO  =N'" & FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 3) & "'    And  year(date_work)='" & Format(CDate(FmJeneralJournal_List.FG.get_TextMatrix(FmJeneralJournal_List.FG.Row, 1)), "yyyy") & "' order by cnt", RSC)
-            If RSC.RecordCount > 0 Then
-                FG.set_TextMatrix(i, 3, Trim(RSC.Fields("ac_Name").Value.ToString))
-                FG.set_TextMatrix(i, 4, Trim(RSC.Fields("ac_Namee").Value.ToString))
-
-            End If
+For i = 0 To FG.Rows.Count - 1
+            SetGridValue(FG, i, 12, Format(CDbl(Val(GetGridValue(FG, i, 11))) * CDbl(Val(GetGridValue(FG, i, 5))), "#,##0.00"))
+            SetGridValue(FG, i, 13, Format(CDbl(Val(GetGridValue(FG, i, 11))) * CDbl(Val(GetGridValue(FG, i, 6))), "#,##0.00"))
+            SetGridValue(FG, i, 14, Format(CDbl(Val(GetGridValue(FG, i, 12))) / CDbl(Val(txtRate.Text)), "#,##0.00"))
+            SetGridValue(FG, i, 15, Format(CDbl(Val(GetGridValue(FG, i, 13))) / CDbl(Val(txtRate.Text)), "#,##0.00"))
+            Cat(i)
         Next i
 
-        'For i = 1 To FG.Rows - 1
-        '    Call LoadSqlData("select *  from Acc_Code WHERE Ac_Code='" & FG.get_TextMatrix(i, 1) & FG.get_TextMatrix(i, 2) & "'order by Ac_Code", RSC)
-        '    If RSC.RecordCount > 0 Then
-        '        FG.set_TextMatrix(i, 3, Trim(RSC.Fields("Name_L").Value))
-        '        FG.set_TextMatrix(i, 4, Trim(RSC.Fields("Name_E").Value))
-
-        '    End If
-        'Next i
+        For i = 0 To FG.Rows.Count - 1
+            Dim acCode As String = GetGridValue(FG, i, 1) & GetGridValue(FG, i, 2)
+            If acCode <> "" Then
+                Dim dtAcc As DataTable = DbHelper.GetDataTable("select * from gen_jn WHERE Ac_Code=N'" & acCode & "' and book =N'" & GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 16) & "' And certify  =N'" & txtInvoice.Text & "'  And ReferNO  =N'" & GetGridValue(FmJeneralJournal_List.FG, 3) & "'    And  year(date_work)='" & Format(CDate(GetGridValue(FmJeneralJournal_List.FG, FmJeneralJournal_List.CurrentRow.Index, 1)), "yyyy") & "' order by cnt")
+                If dtAcc.Rows.Count > 0 Then
+                    SetGridValue(FG, i, 3, dtAcc.Rows(0)("ac_Name").ToString().Trim())
+                    SetGridValue(FG, i, 4, dtAcc.Rows(0)("ac_Namee").ToString().Trim())
+                End If
+            End If
+        Next i
 
         SumAmountDr()
     End Sub
@@ -2518,38 +2130,38 @@
         ShowList()
     End Sub
     Private Sub ShowList()
-        FG.set_ColHidden(7, True)
-        FG.set_ColHidden(8, True)
+        FG.CurrentCell.ColumnIndexumns(7, True)
+        FG.CurrentCell.ColumnIndexumns(8, True)
         If Button3.Text = "Show All" Then
 
 
-            FG.set_ColHidden(4, False)
-            FG.set_ColHidden(9, False)
-            'FG.set_ColHidden(10, False)
-            'FG.set_ColHidden(11, False)
-            'FG.set_ColHidden(12, False)
-            'FG.set_ColHidden(13, False)
-            'FG.set_ColHidden(14, True)
-            'FG.set_ColHidden(15, True)
+            FG.CurrentCell.ColumnIndexumns(4, False)
+            FG.CurrentCell.ColumnIndexumns(9, False)
+            'FG.CurrentCell.ColumnIndexumns(10, False)
+            'FG.CurrentCell.ColumnIndexumns(11, False)
+            'FG.CurrentCell.ColumnIndexumns(12, False)
+            'FG.CurrentCell.ColumnIndexumns(13, False)
+            'FG.CurrentCell.ColumnIndexumns(14, True)
+            'FG.CurrentCell.ColumnIndexumns(15, True)
             Button3.Text = "Show GLN"
             Exit Sub
         End If
         If Button3.Text = "Show GLN" Then
             If MuLng = "E" Then
-                FG.set_ColHidden(3, True)
-                FG.set_ColHidden(4, False)
+                FG.CurrentCell.ColumnIndexumns(3, True)
+                FG.CurrentCell.ColumnIndexumns(4, False)
             Else
-                FG.set_ColHidden(3, False)
-                FG.set_ColHidden(4, True)
+                FG.CurrentCell.ColumnIndexumns(3, False)
+                FG.CurrentCell.ColumnIndexumns(4, True)
             End If
-            'FG.set_ColHidden(4, True)
-            FG.set_ColHidden(9, True)
-            'FG.set_ColHidden(10, True)
-            'FG.set_ColHidden(11, True)
-            'FG.set_ColHidden(12, True)
-            'FG.set_ColHidden(13, True)
-            'FG.set_ColHidden(14, True)
-            'FG.set_ColHidden(15, True)
+            'FG.CurrentCell.ColumnIndexumns(4, True)
+            FG.CurrentCell.ColumnIndexumns(9, True)
+            'FG.CurrentCell.ColumnIndexumns(10, True)
+            'FG.CurrentCell.ColumnIndexumns(11, True)
+            'FG.CurrentCell.ColumnIndexumns(12, True)
+            'FG.CurrentCell.ColumnIndexumns(13, True)
+            'FG.CurrentCell.ColumnIndexumns(14, True)
+            'FG.CurrentCell.ColumnIndexumns(15, True)
             Button3.Text = "Show All"
             Exit Sub
         End If
@@ -2558,25 +2170,18 @@
 
     Private Sub ChCat_ID_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChCat_ID.CheckedChanged
 
-        For J = 1 To FG.Rows - 1
-            FG.Row = J
-            If Trim(FG.get_TextMatrix(J, 3)) <> "" Then
+For J = 0 To FG.Rows.Count - 1
+            If Trim(GetGridValue(FG, J, 3)) <> "" Then
                 If ChCat_ID.Checked = True Then
-                    FG.Col = 7
-                    FG.CellBackColor = Color.LightCyan
+                    FG.Rows(J).Cells(7).Style.BackColor = Color.LightCyan
                 Else
-                    FG.Col = 7
-                    FG.CellBackColor = Color.White
-                    FG.CellBackColor = Color.White
-                    FG.CellForeColor = Color.Gray
-                    FG.Col = 8
-                    FG.CellForeColor = Color.Gray
-                    FG.Col = 9
-                    FG.CellForeColor = Color.Gray
+                    FG.Rows(J).Cells(7).Style.BackColor = Color.White
+                    FG.Rows(J).Cells(8).Style.ForeColor = Color.Gray
+                    FG.Rows(J).Cells(9).Style.ForeColor = Color.Gray
 
-                    FG.set_TextMatrix(FG.Row, 7, "0")
-                    FG.set_TextMatrix(FG.Row, 8, "ບໍ່ເລືອກ")
-                    FG.set_TextMatrix(FG.Row, 9, "No Selete")
+                    SetGridValue(FG, J, 7, "0")
+                    SetGridValue(FG, J, 8, "ບໍ່ເລືອກ")
+                    SetGridValue(FG, J, 9, "No Selete")
                 End If
             End If
         Next J
@@ -2675,19 +2280,23 @@
         'SLF = MuLngRpt & " gen_jn.company ,gen_jn.Date_Work , gen_jn.certify, gen_jn.ac_code, gen_jn.descrip , gen_jn.descripe , gen_jn.amt_dr, gen_jn.amt_cr, Acc_Code.Name_L AS Name_L , Acc_Code.Name_E AS Name_E  "
         'SLF = RptSjOff & "    gen_jn.certify, gen_jn.ac_code, gen_jn.descrip, gen_jn.amt_dr, gen_jn.amt_cr, Acc_Code.Name_L AS Name_L , "
         Call LoadLoGO()
-        Dim Rs As New ADODB.Recordset
-        With Rs
-            If .State = ConnectionState.Open Then .Close()
-            .Open("SELECT   " & SLF & "  FROM         gen_jn INNER JOIN    Acc_Code ON gen_jn.ac_code = Acc_Code.Ac_Code WHERE gen_jn.certify = N'" & MdCertifyId2 & "' And  year(date_work)=" & Format(dtActi.Value, "yyyy") & "  order by gen_jn.cnt", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
-            If .EOF Then Exit Sub
-        End With
+        Dim dt As DataTable
+        Try
+            dt = DbHelper.GetDataTable("SELECT   " & SLF & "  FROM         gen_jn INNER JOIN    Acc_Code ON gen_jn.ac_code = Acc_Code.Ac_Code WHERE gen_jn.certify = N'" & MdCertifyId2 & "' And  year(date_work)=" & Format(dtActi.Value, "yyyy") & "  order by gen_jn.cnt")
+            If dt.Rows.Count = 0 Then 
+                MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
+            End If
+        Catch ex As Exception
+            VSysError = True
+            MessageBox.Show("Database Error: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
         Dim FrmPreview As New FmPreview : FrmClosing()
         Dim Rpt As New CryNewsJerneralJournal
         If MdShowLOGO = 1 Then
             Rpt.Subreports(0).SetDataSource(RsLOGO)
         End If
-        Rpt.SetDataSource(Rs)
+        Rpt.SetDataSource(dt)
         FrmPreview.ReportViewer.ReportSource = Rpt
         FrmPreview.ReportViewer.DisplayGroupTree = False
         'FrmPreview.MdiParent = FmMain
@@ -2782,13 +2391,11 @@
 
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
         'Call LoadSetRate()
-        For i = 1 To FG.Rows - 2
-            'If FG.Row > 1 Then
-            FG.set_TextMatrix(i, 10, Cmb.Text)
-            FG.set_TextMatrix(i, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
-            FG.set_TextMatrix(i, 12, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(i, 5)), "#,##0.00"))
-            FG.set_TextMatrix(i, 13, Format(CDbl(CDbl(txtRate.Text) * FG.get_TextMatrix(i, 6)), "#,##0.00"))
-            'End If
+For i = 0 To FG.Rows.Count - 1
+            SetGridValue(FG, i, 10, Cmb.Text)
+            SetGridValue(FG, i, 11, Format(CDbl(txtRate.Text), "#,##0.00"))
+            SetGridValue(FG, i, 12, Format(CDbl(CDbl(txtRate.Text) * CDbl(GetGridValue(FG, i, 5))), "#,##0.00"))
+            SetGridValue(FG, i, 13, Format(CDbl(CDbl(txtRate.Text) * CDbl(GetGridValue(FG, i, 6))), "#,##0.00"))
         Next
         '===============
     End Sub
@@ -2808,46 +2415,37 @@
     End Sub
 
     Private Sub CmbCust_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CmbCust.SelectedIndexChanged
-        If RadioButton1.Checked = True Then 
-            Dim Rs As New ADODB.Recordset
-            With Rs
-                Call LoadSqlData("select    * from Customer where 1=1  and Name=N'" & CmbCust.Text & "'   ", Rs)
-                If .RecordCount > 0 Then
-                    TxtCustID.Text = Trim(.Fields("Code").Value.ToString)
-                Else
-                    TxtCustID.Text = ""
-                End If
-            End With
+If RadioButton1.Checked Then 
+            Dim dtCust As DataTable = DbHelper.GetDataTable("select    * from Customer where 1=1  and Name=N'" & CmbCust.Text & "'   ")
+            If dtCust.Rows.Count > 0 Then
+                TxtCustID.Text = Trim(dtCust.Rows(0)("Code").ToString())
+            Else
+                TxtCustID.Text = ""
+            End If
 
         End If
     End Sub
 
-    Private Sub CmbSupp_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CmbSupp.SelectedIndexChanged
-        If RadioButton2.Checked = True Then
-            Dim Rs As New ADODB.Recordset
-            With Rs
-                Call LoadSqlData("select    * from Supplier where 1=1  and Name=N'" & CmbSupp.Text & "'   ", Rs)
-                If .RecordCount > 0 Then
-                    TxtSuppID.Text = Trim(.Fields("Code").Value.ToString)
-                Else
-                    TxtSuppID.Text = ""
-                End If
-            End With
+Private Sub CmbSupp_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CmbSupp.SelectedIndexChanged
+        If RadioButton2.Checked Then
+            Dim dtSupp As DataTable = DbHelper.GetDataTable("select    * from Supplier where 1=1  and Name=N'" & CmbSupp.Text & "'   ")
+            If dtSupp.Rows.Count > 0 Then
+                TxtSuppID.Text = Trim(dtSupp.Rows(0)("Code").ToString())
+            Else
+                TxtSuppID.Text = ""
+            End If
    
         End If
     End Sub
 
-    Private Sub RadioButton2_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton2.CheckedChanged
-        If RadioButton2.Checked = True Then
-            Dim Rs As New ADODB.Recordset
-            With Rs
-                Call LoadSqlData("select    * from Supplier where 1=1  and Name=N'" & CmbSupp.Text & "'   ", Rs)
-                If .RecordCount > 0 Then
-                    TxtSuppID.Text = Trim(.Fields("Code").Value.ToString)
-                Else
-                    TxtSuppID.Text = ""
-                End If
-            End With
+Private Sub RadioButton2_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton2.CheckedChanged
+        If RadioButton2.Checked Then
+            Dim dtSupp As DataTable = DbHelper.GetDataTable("select    * from Supplier where 1=1  and Name=N'" & CmbSupp.Text & "'   ")
+            If dtSupp.Rows.Count > 0 Then
+                TxtSuppID.Text = Trim(dtSupp.Rows(0)("Code").ToString())
+            Else
+                TxtSuppID.Text = ""
+            End If
           
         Else
             TxtSuppID.Text = ""
@@ -2857,17 +2455,14 @@
         CmbCust.Enabled = False
     End Sub
 
-    Private Sub RadioButton1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton1.CheckedChanged
-        If RadioButton1.Checked = True Then
-            Dim Rs As New ADODB.Recordset
-            With Rs
-                Call LoadSqlData("select    * from Customer where 1=1  and Name=N'" & CmbCust.Text & "'   ", Rs)
-                If .RecordCount > 0 Then
-                    TxtCustID.Text = Trim(.Fields("Code").Value.ToString)
-                Else
-                    TxtCustID.Text = ""
-                End If
-            End With
+Private Sub RadioButton1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButton1.CheckedChanged
+        If RadioButton1.Checked Then
+            Dim dtCust As DataTable = DbHelper.GetDataTable("select    * from Customer where 1=1  and Name=N'" & CmbCust.Text & "'   ")
+            If dtCust.Rows.Count > 0 Then
+                TxtCustID.Text = Trim(dtCust.Rows(0)("Code").ToString())
+            Else
+                TxtCustID.Text = ""
+            End If
        
         Else
             TxtCustID.Text = ""
@@ -2878,7 +2473,7 @@
     End Sub
 
     Private Sub CheckBox4_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox4.CheckedChanged
-        If CheckBox4.Checked = True Then
+        If CheckBox4.Checked Then
             Panel4.Enabled = True
 
         Else
@@ -2892,20 +2487,22 @@
         Call ConnectAccess()
 
 
-        Dim Conn As New ADODB.Connection
-        Dim rsProj As New ADODB.Recordset
-        Call LoadAcData("Select * from Conect ", rsProj)
-        With rsProj
-            If .RecordCount <> 0 Then
-                MDServerName = (.Fields("ServerName").Value.ToString)
-                MDDatabaName = (.Fields("DatabaseName").Value.ToString)
-                MDServerUser = (.Fields("UserName").Value.ToString)
-                MDServerPassword = (.Fields("UserPassword").Value.ToString)
-                MDSeriaAccess = (.Fields("PartitionSeria").Value.ToString)
-                'SPW = CStr((.Fields("SavePassword").Value.ToString))
-                'SUSID = CStr((.Fields("SaveUserID").Value.ToString))
+        Try
+            Dim dt As DataTable = DbHelper.GetDataTable("Select * from Conect")
+            If dt.Rows.Count <> 0 Then
+                Dim row As DataRow = dt.Rows(0)
+                MDServerName = row("ServerName").ToString()
+                MDDatabaName = row("DatabaseName").ToString()
+                MDServerUser = row("UserName").ToString()
+                MDServerPassword = row("UserPassword").ToString()
+                MDSeriaAccess = row("PartitionSeria").ToString()
+                'SPW = CStr(row("SavePassword").ToString())
+                'SUSID = CStr(row("SaveUserID").ToString())
             End If
-        End With
+        Catch ex As Exception
+            VSysError = True
+            MessageBox.Show("Database Error: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
         Call ConnectSQL()
         If VSysError = True Then
 
@@ -2959,4 +2556,28 @@
             CmbSupp.SelectedIndex = 0
         End If
     End Sub
+
+    Private Sub SetupGrid()
+        FG.CurrentCell.ColumnIndexumns.Clear()
+        FG.CurrentCell.ColumnIndexumns.Add("Col0", "ລ/ດ")
+        FG.CurrentCell.ColumnIndexumns.Add("Col1", "ເລກບັນຊີໜີ")
+        FG.CurrentCell.ColumnIndexumns.Add("Col2", "ເລກບັນຊີມີ")
+        FG.CurrentCell.ColumnIndexumns.Add("Col3", "ຊື່ບັນຊີ (ລາວ)")
+        FG.CurrentCell.ColumnIndexumns.Add("Col4", "ຊື່ບັນຊີ (ອັງກິດ)")
+        FG.CurrentCell.ColumnIndexumns.Add("Col5", "ຈຳນວນເງິນຈົດໜີ້")
+        FG.CurrentCell.ColumnIndexumns.Add("Col6", "ຈຳນວນເງິນຈົດມີ")
+        FG.CurrentCell.ColumnIndexumns.Add("Col7", "ລະຫັດ")
+        FG.CurrentCell.ColumnIndexumns.Add("Col8", "ຕົ້ນທຶນພາສາ (ລາວ)")
+        FG.CurrentCell.ColumnIndexumns.Add("Col9", "ຕົ້ນທຶນພາສາ (ອັງກິດ)")
+        FG.CurrentCell.ColumnIndexumns.Add("Col10", "ສະກຸນເງິນເງິນ")
+        FG.CurrentCell.ColumnIndexumns.Add("Col11", "ອັດຕາແລກປ່ຽນ")
+        FG.CurrentCell.ColumnIndexumns.Add("Col12", "ມູນຄ່າໜີ້")
+        FG.CurrentCell.ColumnIndexumns.Add("Col13", "ມູນຄ່າມີ")
+        FG.CurrentCell.ColumnIndexumns.Add("Col14", "1111")
+        FG.CurrentCell.ColumnIndexumns.Add("Col15", "22")
+        
+        FG.AllowUserToAddRows = False
+    End Sub
+
+
 End Class

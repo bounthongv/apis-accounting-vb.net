@@ -1,137 +1,158 @@
-﻿Public Class FmLBS_Item
-    Public Sub LoadListFG()
-        FG.Rows = 1
-        With RSC
-            'Call LoadData("select *  from Open_jn WHERE ac_code<>''  " & Sql & "order by ac_code", RSC)
-            FG.FormatString = "^ລ/ດ |< ລະຫັດ    |<ເນື້ອໃນ (ພາສາລາວ)                         |<ເນື້ອໃນ (ພາສາອັງກິດ)                             |<             |<|< "
-            Call LoadSqlData("SELECT * FROM  Ap_Rpt_BLS  order by CNT ASC ", RSC)
-            If .RecordCount > 0 Then
-                While Not .EOF
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("Rpt_ID").Value.ToString)) & _
-                                    "" & vbTab & (CStr(.Fields("Description").Value.ToString)) & _
-                                       "" & vbTab & (CStr(.Fields("Descriptione").Value.ToString)) & _
-                                           "" & vbTab & (CStr(.Fields("Chart_of_Accounts_Codes").Value.ToString)) & _
-                                               "" & vbTab & (CStr(.Fields("Grp").Value.ToString)) & _
-                                        "" & vbTab & (CStr(.Fields("Grp_Nme").Value.ToString)))
-                    .MoveNext()
-                End While
-            Else
-            End If
-        End With
-        FG.Rows = CDbl(FG.Rows) + 1
+Imports System.Data
+Imports System.Windows.Forms
+
+Public Class FmBLS_Item
+    
+    ' Helper functions for FG2 grid
+    Private Function GetGridValue2(ByVal grid As DataGridView, ByVal row As Integer, ByVal col As Integer) As String
+        Try
+            If grid.RowCount <= row OrElse row < 0 Then Return ""
+            If grid.ColumnCount <= col OrElse col < 0 Then Return ""
+            If grid.Rows(row).Cells(col).Value Is Nothing Then Return ""
+            Return grid.Rows(row).Cells(col).Value.ToString()
+        Catch ex As Exception
+            Return ""
+        End Try
+    End Function
+    
+    Private Sub SetGridValue2(ByVal grid As DataGridView, ByVal row As Integer, ByVal col As Integer, ByVal value As Object)
+        Try
+            If row < 0 OrElse col < 0 Then Exit Sub
+            While grid.RowCount <= row
+                grid.Rows.Add()
+            End While
+            While grid.ColumnCount <= col
+                grid.Columns.Add("Col" & grid.ColumnCount)
+            End While
+            grid.Rows(row).Cells(col).Value = value
+        Catch ex As Exception
+            ' Ignore
+        End Try
     End Sub
-
-
-
-
-
-    Public Sub MouseDownEvent()
-        AC_Code.Text = FG2.get_TextMatrix(FG2.Row, 2)
-        Rpt_Type.Text = FG2.get_TextMatrix(FG2.Row, 5)
-        TXTCNT.Text = FG2.get_TextMatrix(FG2.Row, 6)
-        If FG2.Col = 5 Then
-            FG2.Editable = VSFlex8U.EditableSettings.flexEDKbdMouse
-            'MsgBox(FG.Col)
-        Else
-            FG2.Editable = VSFlex8U.EditableSettings.flexEDNone
+Public Sub LoadListFG()
+        ' Clear existing rows
+        FG.Rows.Clear()
+        FG.Columns.Clear()
+        
+        ' Setup columns
+        FG.Columns.Add("Col0", "ລ/ດ")
+        FG.Columns.Add("Col1", "ເນື້ອໃນ (ພາສາລາວ)")
+        FG.Columns.Add("Col2", "ເນື້ອໃນ (ພາສາອັງກິດ)")
+        FG.Columns.Add("Col3", "Chart of Accounts Codes")
+        FG.Columns.Add("Col4", "Group")
+        FG.Columns.Add("Col5", "Group Name")
+        
+        ' Set column widths
+        For Each col As DataGridViewColumn In FG.Columns
+            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Next
+        
+        ' Load data using DataTable
+        Dim dtBLS As DataTable = DbHelper.GetDataTable("SELECT * FROM Ap_Rpt_BLS ORDER BY CNT ASC")
+        
+        If dtBLS.Rows.Count > 0 Then
+            For Each row As DataRow In dtBLS.Rows
+                Dim newRow As DataGridViewRow = FG.Rows(FG.Rows.Add())
+                newRow.Cells("Col0").Value = row("Rpt_ID").ToString()
+                newRow.Cells("Col1").Value = row("Description").ToString()
+                newRow.Cells("Col2").Value = row("Descriptione").ToString()
+                newRow.Cells("Col3").Value = row("Chart_of_Accounts_Codes").ToString()
+                newRow.Cells("Col4").Value = row("Grp").ToString()
+                newRow.Cells("Col5").Value = row("Grp_Nme").ToString()
+            Next
         End If
-        BtnSearch.Visible = True
-        Select Case MouseButtons
-            Case Windows.Forms.MouseButtons.Right
-                FG2.EditCell()
-            Case Windows.Forms.MouseButtons.Left
-                'MsgBox(FG.Col)
-                If FG2.Col = 2 Then
-                    BtnSearch.Visible = True
-                Else
-                    BtnSearch.Visible = False
-                End If
-                If FG2.Row = FG2.Rows - 1 Then
-                    BtnMove.Visible = False
-                Else
-                    BtnMove.Visible = True
-                End If
-                BtnSearch.Left = CInt(FG2.Left + (FG2.CellLeft / 15) + (FG2.CellWidth / 22.8))
-                BtnSearch.Top = CInt((FG2.CellTop / 15) + FG2.Top)
-                'BtnMove.Left = CInt(FG.Left + (FG.CellLeft / 15) + (FG.CellWidth / 22.8))
-                BtnMove.Top = CInt((FG2.CellTop / 15) + FG2.Top)
-        End Select
     End Sub
 
 
 
 
 
-    Private Sub loadBankItem()
-        FG2.Rows = 1
-        With RSC
-            'Call LoadData("select *  from Open_jn WHERE ac_code<>''  " & Sql & "order by ac_code", RSC)
-            FG2.FormatString = "^ລ/ດ |< ລະຫັດ   |<ລະຫັດບັນຊີ    |<ຊື່ບັນຊີ(ພາສາລາວ)                               |<ຊື່ບັນຊີ(ພາສາອັງກິດ)                  |<ສະຖານະພາບ|<CNT "
-            Call LoadSqlData("SELECT * FROM  Ap_Rpt_BLS_Item where Rpt_ID=N'" & TextBox1.Text & "' Order by Ac_Code ", RSC)
-            If .RecordCount > 0 Then
-                While Not .EOF
-                    FG2.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("Rpt_ID").Value.ToString)) & _
-                    "" & vbTab & Trim(CStr(.Fields("Ac_Code").Value.ToString)) & _
-                       "" & vbTab & Trim(CStr(.Fields("Ac_Name").Value.ToString)) & _
-                            "" & vbTab & Trim(CStr(.Fields("Ac_NameE").Value.ToString)) & _
-                                 "" & vbTab & Trim(CStr(.Fields("Rpt_Type").Value.ToString)) & _
-                    "" & vbTab & Trim(CStr(.Fields("CNT").Value.ToString)))
-                    .MoveNext()
-                End While
+Public Sub MouseDownEvent()
+        If FG2.CurrentRow IsNot Nothing Then
+            AC_Code.Text = GetGridValue2(FG2, FG2.CurrentRow.Index, 2)
+            Rpt_Type.Text = GetGridValue2(FG2, FG2.CurrentRow.Index, 5)
+            TXTCNT.Text = GetGridValue2(FG2, FG2.CurrentRow.Index, 6)
+        Else
+            Exit Sub
+        End If
+        
+        If FG2.CurrentCell IsNot Nothing Then
+            If FG2.CurrentCell.ColumnIndex = 5 Then
+                FG2.ReadOnly = False
+                'MsgBox(FG2.CurrentCell.ColumnIndex)
             Else
+                FG2.ReadOnly = True
             End If
-        End With
-        FG2.Rows = CDbl(FG2.Rows) + 1
+            BtnSearch.Visible = True
+            Select Case MouseButtons
+                Case Windows.Forms.MouseButtons.Right
+                    FG2.BeginEdit(True)
+                Case Windows.Forms.MouseButtons.Left
+                    'MsgBox(FG2.CurrentCell.ColumnIndex)
+                    If FG2.CurrentCell.ColumnIndex = 2 Then
+                        BtnSearch.Visible = True
+                    Else
+                        BtnSearch.Visible = False
+                    End If
+                    If FG2.CurrentRow IsNot Nothing AndAlso FG2.CurrentRow.Index = FG2.Rows.Count - 1 Then
+                        BtnMove.Visible = False
+                    End If
+            End Select
+        End If
     End Sub
 
-    Private Sub FG2_AfterCollapse(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterCollapseEvent) Handles FG2.AfterCollapse
 
+
+
+
+Private Sub loadBankItem()
+        ' Clear existing rows and setup columns
+        FG2.Rows.Clear()
+        FG2.Columns.Clear()
+        
+        ' Setup columns
+        FG2.Columns.Add("Col0", "ລ/ດ")
+        FG2.Columns.Add("Col1", "ລະຫັດ")
+        FG2.Columns.Add("Col2", "ລະຫັດບັນຊີ")
+        FG2.Columns.Add("Col3", "ຊື່ບັນຊີ(ພາສາລາວ)")
+        FG2.Columns.Add("Col4", "ຊື່ບັນຊີ(ພາສາອັງກິດ)")
+        FG2.Columns.Add("Col5", "ສະຖານະພາບ")
+        FG2.Columns.Add("Col6", "CNT")
+        
+        ' Set column widths
+        For Each col As DataGridViewColumn In FG2.Columns
+            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Next
+        
+        ' Load data using DataTable
+        Dim dtBLSItem As DataTable = DbHelper.GetDataTable("SELECT * FROM Ap_Rpt_BLS_Item where Rpt_ID=N'" & TextBox1.Text & "' Order by Ac_Code ")
+        
+        If dtBLSItem.Rows.Count > 0 Then
+            For i As Integer = 0 To dtBLSItem.Rows.Count - 1
+                Dim row As DataRow = dtBLSItem.Rows(i)
+                Dim newRow As DataGridViewRow = FG2.Rows(FG2.Rows.Add())
+                newRow.Cells("Col0").Value = (i + 1).ToString()
+                newRow.Cells("Col1").Value = row("Rpt_ID").ToString()
+                newRow.Cells("Col2").Value = row("Ac_Code").ToString()
+                newRow.Cells("Col3").Value = row("Ac_Name").ToString()
+                newRow.Cells("Col4").Value = row("Ac_NameE").ToString()
+                newRow.Cells("Col5").Value = row("Rpt_Type").ToString()
+                newRow.Cells("Col6").Value = row("CNT").ToString()
+            Next
+        End If
     End Sub
 
-    Private Sub FG2_AfterEdit(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterEditEvent) Handles FG2.AfterEdit
+Private Sub FG2_CellEndEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles FG2.CellEndEdit
         Button2.Enabled = True
     End Sub
 
-    Private Sub FG2_AfterMoveColumn(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterMoveColumnEvent) Handles FG2.AfterMoveColumn
-
-    End Sub
-
-    Private Sub FG2_AfterMoveRow(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterMoveRowEvent) Handles FG2.AfterMoveRow
-
-    End Sub
-
-    Private Sub FG2_AfterRowColChange(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterRowColChangeEvent) Handles FG2.AfterRowColChange
-
-    End Sub
-
-    Private Sub FG2_AfterScroll(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterScrollEvent) Handles FG2.AfterScroll
+    Private Sub FG2_Scroll(ByVal sender As Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles FG2.Scroll
         BtnSearch.Visible = False
         BtnMove.Visible = False
     End Sub
 
-    Private Sub FG2_AfterSelChange(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterSelChangeEvent) Handles FG2.AfterSelChange
-
-    End Sub
-
-    Private Sub FG2_AfterSort(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterSortEvent) Handles FG2.AfterSort
-        'BtnSearch.Visible = False
-        'BtnMove.Visible = False
-    End Sub
-
-    Private Sub FG2_AfterUserFreeze(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG2.AfterUserFreeze
-
-    End Sub
-
-    Private Sub FG2_AfterUserResize(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterUserResizeEvent) Handles FG2.AfterUserResize
-
-    End Sub
-
-    Private Sub FG2_MouseDownEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseDownEvent) Handles FG2.MouseDownEvent
+    Private Sub FG2_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles FG2.MouseDown
         MouseDownEvent()
-    End Sub
-
-    Private Sub FG2_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG2.SelChange
-
     End Sub
 
     Private Sub BtnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSearch.Click
@@ -145,9 +166,10 @@
         Button2.Enabled = False
         BtnMove.Visible = False
         BtnSearch.Visible = False
-        FG.Size = New System.Drawing.Size(519, 378)
+FG.Size = New System.Drawing.Size(519, 378)
         LoadListFG()
-        'FG.AllowUserResizing = VSFlex8U.AllowUserResizeSettings.flexResizeBoth
+        'FG.AllowUserToResizeColumns = True
+        'FG.AllowUserToResizeRows = True
     End Sub
 
     Private Sub BtnMove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnMove.Click
@@ -158,66 +180,65 @@
         Call loadBankItem()
     End Sub
 
-    Private Sub FG_MouseDownEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseDownEvent) Handles FG.MouseDownEvent
+Private Sub FG_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles FG.MouseDown
         Select Case MouseButtons
             Case Windows.Forms.MouseButtons.Right
             Case Windows.Forms.MouseButtons.Left
-                If FG.Row = FG.Rows - 1 Then
+                If FG.CurrentRow IsNot Nothing AndAlso FG.CurrentRow.Index = FG.Rows.Count - 1 Then
                     Button1.Visible = False
                 Else
                     Button1.Visible = True
                 End If
-                Button1.Top = CInt((FG.CellTop / 15) + FG.Top)
+                If FG.CurrentRow IsNot Nothing Then
+                    Button1.Top = FG.CurrentRow.GetCellDisplayRectangle(0, False).Top + FG.Top
+                End If
         End Select
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        TextBox1.Text = FG.get_TextMatrix(FG.Row, 1)
-        RPT_ID.Text = FG.get_TextMatrix(FG.Row, 1)
-        Call loadBankItem()
+    Private Sub FG_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
+        If FG.CurrentRow IsNot Nothing Then
+            TextBox1.Text = GetGridValue2(FG, FG.CurrentRow.Index, 1)
+            RPT_ID.Text = GetGridValue2(FG, FG.CurrentRow.Index, 1)
+            Call loadBankItem()
+        End If
 
         Button2.Enabled = False
         BtnMove.Visible = False
         BtnSearch.Visible = False
     End Sub
 
-    Private Sub BtnEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnEdit.Click
+Private Sub BtnEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnEdit.Click
         Button2.Enabled = False
         BtnMove.Visible = False
         BtnSearch.Visible = False
         MsgBox("ການບັນຶກສຳເລັດຜົນ")
-        'CNN.Execute("delete Ap_Rpt_BLS")
-        Dim i As Integer
-        For i = 1 To FG.Rows - 1
-            If FG.get_TextMatrix(i, 1) = "" And FG.get_TextMatrix(i, 2) = "" Then
-                Exit Sub
+        
+        For i As Integer = 0 To FG.Rows.Count - 1
+            If GetGridValue2(FG, i, 1) = "" And GetGridValue2(FG, i, 2) = "" Then
+                Continue For
             End If
 
-            CNN.Execute("Update Ap_Rpt_BLS Set  Description = N'" & Apostrophe(FG.get_TextMatrix(i, 2)) & "' ,  Descriptione = N'" & Apostrophe(FG.get_TextMatrix(i, 3)) & "' , Chart_of_Accounts_Codes = N'" & FG.get_TextMatrix(i, 4) & "'  Where Rpt_ID = '" & FG.get_TextMatrix(i, 1) & "'")
-
-
-            'CNN.Execute("INSERT INTO Ap_Rpt_BLS( Rpt_ID,  Description , Descriptione  ,Chart_of_Accounts_Codes , Grp , Grp_Nme ) " & _
-            '     "Values('" & FG.get_TextMatrix(i, 1) & "', N'" & Apostrophe(FG.get_TextMatrix(i, 2)) & "','" & Apostrophe(FG.get_TextMatrix(i, 3)) & "',N'" & Apostrophe(FG.get_TextMatrix(i, 4)) & "' ,N'" & Apostrophe(FG.get_TextMatrix(i, 5)) & "' ,N'" & Apostrophe(FG.get_TextMatrix(i, 6)) & "')")
+            CNN.Execute("Update Ap_Rpt_BLS Set  Description = N'" & Apostrophe(GetGridValue2(FG, i, 2)) & "' ,  Descriptione = N'" & Apostrophe(GetGridValue2(FG, i, 3)) & "' , Chart_of_Accounts_Codes = N'" & GetGridValue2(FG, i, 4) & "'  Where Rpt_ID = '" & GetGridValue2(FG, i, 1) & "'")
         Next i
     End Sub
 
-    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
         MsgBox("ການບັນຶກສຳເລັດຜົນ")
         CNN.Execute("delete Ap_Rpt_BLS_Item where Rpt_ID = '" & TextBox1.Text & "' ")
-        Dim i As Integer
-        For i = 1 To FG2.Rows - 1
-
-            If FG2.get_TextMatrix(i, 1) = "" And FG2.get_TextMatrix(i, 2) = "" Then
-                Exit Sub
+        
+        For i As Integer = 0 To FG2.Rows.Count - 1
+            If GetGridValue2(FG2, i, 1) = "" And GetGridValue2(FG2, i, 2) = "" Then
+                Continue For
             End If
             CNN.Execute("INSERT INTO Ap_Rpt_BLS_Item( Rpt_ID,  Ac_Code , Ac_Name , Ac_NameE ,Amt_Dr , Amt_Cr , BLS  , Rpt_Type) " & _
-                 "Values('" & FG2.get_TextMatrix(i, 1) & "', N'" & FG2.get_TextMatrix(i, 2) & "', N'" & FG2.get_TextMatrix(i, 3) & "','" & FG2.get_TextMatrix(i, 4) & "','" & CDbl(0) & "','" & CDbl(0) & "','" & "ALL" & "' ,'" & FG2.get_TextMatrix(i, 5) & "')")
-
+                 "Values('" & GetGridValue2(FG2, i, 1) & "', N'" & GetGridValue2(FG2, i, 2) & "', N'" & GetGridValue2(FG2, i, 3) & "','" & GetGridValue2(FG2, i, 4) & "','" & CDbl(0) & "','" & CDbl(0) & "','" & "ALL" & "' ,'" & GetGridValue2(FG2, i, 5) & "')")
         Next i
     End Sub
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-        FG.RemoveItem()
+Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        If FG.CurrentRow IsNot Nothing Then
+            FG.Rows.RemoveAt(FG.CurrentRow.Index)
+        End If
         Button1.Visible = False
     End Sub
     Private Sub BtnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnExit.Click
@@ -226,16 +247,18 @@
 
     End Sub
 
-    Private Sub AC_Code_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles AC_Code.KeyPress
+Private Sub AC_Code_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles AC_Code.KeyPress
         If e.KeyChar = Chr(13) Then
-            LoadSqlData("Select top 1 Rpt_ID , Ac_Code from Ap_Rpt_BLS_Item where  Ac_Code like '" & AC_Code.Text & "%'  And Rpt_ID <> '" & RPT_ID.Text & "'  ", RSC)
-            If RSC.RecordCount <> 0 Then
-                MsgBox("ເລກບັນຊີ " & Trim(CStr(RSC.Fields("Ac_Code").Value.ToString)) & " ມີຢູ່ " & Trim(CStr(RSC.Fields("Rpt_ID").Value.ToString)) & " ແລ້ວ")
+            Dim dtCheck As DataTable = DbHelper.GetDataTable("Select top 1 Rpt_ID , Ac_Code from Ap_Rpt_BLS_Item where  Ac_Code like '" & AC_Code.Text & "%'  And Rpt_ID <> '" & RPT_ID.Text & "' ")
+            If dtCheck.Rows.Count > 0 Then
+                MsgBox("ເລກບັນຊີ " & dtCheck.Rows(0)("Ac_Code").ToString() & " ມີຢູ່ " & dtCheck.Rows(0)("Rpt_ID").ToString() & " ແລ້ວ")
                 Exit Sub
             End If
 
             CNN.Execute("delete Ap_Rpt_BLS_Item where Ac_Code like '" & AC_Code.Text & "%' And Rpt_ID = '" & RPT_ID.Text & "' And Rpt_Type = '" & Rpt_Type.Text & "'  insert into Ap_Rpt_BLS_Item (Rpt_ID , Ac_Code , Ac_Name, Rpt_Type) select N'" & RPT_ID.Text & "' ,  Ac_Code , Name_L , '" & Rpt_Type.Text & "' from Acc_Code where Ac_Code like '" & AC_Code.Text & "%'  ")
-            TextBox1.Text = FG.get_TextMatrix(FG.Row, 1)
+            If FG.CurrentRow IsNot Nothing Then
+                TextBox1.Text = GetGridValue2(FG, FG.CurrentRow.Index, 1)
+            End If
             Call loadBankItem()
         End If
     End Sub
@@ -244,39 +267,39 @@
 
     End Sub
 
-    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
+Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         CNN.Execute("delete Ap_Rpt_BLS_Item where  Rpt_ID =N'" & RPT_ID.Text & "'   ")
-        TextBox1.Text = FG.get_TextMatrix(FG.Row, 1)
+        If FG.CurrentRow IsNot Nothing Then
+            TextBox1.Text = GetGridValue2(FG, FG.CurrentRow.Index, 1)
+        End If
         Call loadBankItem()
     End Sub
 
-    Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
-
-        FG.Row = 18
-
-        FG.Col = 2
-
-        FG.FocusRect = VSFlex8U.FocusRectSettings.flexFocusInset
-
+Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
+        If FG.Rows.Count > 18 Then
+            FG.CurrentCell = FG.Rows(18).Cells(2)
+            FG.BeginEdit(True)
+        End If
     End Sub
 
-    Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
+Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
         CNN.Execute("delete Ap_Rpt_Item")
-        With RSC
-            Call LoadSqlData("SELECT * FROM  Ap_Rpt_BLS_Item  Order by Ac_Code  ", RSC)
-            If .RecordCount > 0 Then
-                While Not .EOF
-                    CNN.Execute("delete Ap_Rpt_Item where Ac_Code like '" & Trim(CStr(.Fields("Ac_Code").Value.ToString)) & "%' And Rpt_ID = '" & Trim(CStr(.Fields("Rpt_ID").Value.ToString)) & "' And Rpt_Type = '" & Trim(CStr(.Fields("Rpt_Type").Value.ToString)) & "' " & _
-                                " insert into Ap_Rpt_Item (Rpt_ID , Ac_Code , Ac_Name, Rpt_Type) select '" & Trim(CStr(.Fields("Rpt_ID").Value.ToString)) & "' ,  Ac_Code , Name_L , '" & Trim(CStr(.Fields("Rpt_Type").Value.ToString)) & "' from Acc_Code where Ac_Code like '" & Trim(CStr(.Fields("Ac_Code").Value.ToString)) & "%'  ")
-                    .MoveNext()
-                End While
-            Else
-            End If
-        End With
+        
+        Dim dtBLSItem As DataTable = DbHelper.GetDataTable("SELECT * FROM Ap_Rpt_BLS_Item Order by Ac_Code ")
+        If dtBLSItem.Rows.Count > 0 Then
+            For Each row As DataRow In dtBLSItem.Rows
+                Dim acCode As String = Trim(row("Ac_Code").ToString())
+                Dim rptId As String = Trim(row("Rpt_ID").ToString())
+                Dim rptType As String = Trim(row("Rpt_Type").ToString())
+                
+                CNN.Execute("delete Ap_Rpt_Item where Ac_Code like '" & acCode & "%' And Rpt_ID = '" & rptId & "' And Rpt_Type = '" & rptType & "' " & _
+                            " insert into Ap_Rpt_Item (Rpt_ID , Ac_Code , Ac_Name, Rpt_Type) select '" & rptId & "' ,  Ac_Code , Name_L , '" & rptType & "' from Acc_Code where Ac_Code like '" & acCode & "%'  ")
+            Next
+        End If
+        
         CNN.Execute("delete Ap_Rpt_BLS_Item")
         CNN.Execute(" insert into Ap_Rpt_BLS_Item  (Rpt_ID , Ac_Code , Ac_Name, Rpt_Type) select Rpt_ID , Ac_Code , Ac_Name, Rpt_Type from Ap_Rpt_Item")
         MsgBox("Ok")
-
     End Sub
 
 End Class

@@ -1,4 +1,14 @@
-﻿Module MuSecurity
+Imports System.Data.SqlClient
+Module MuSecurity
+
+    ' Using DbHelper functions for database operations
+    Private Function GetDataTable(sql As String) As DataTable
+        Return DbHelper.GetDataTable(sql)
+    End Function
+
+    Private Function ExecuteNonQuery(sql As String) As Integer
+        Return DbHelper.ExecuteNonQuery(sql)
+    End Function
     Public ScOwner As String
     Public ScPermitRecord As String
     Public ScPermitSave As String
@@ -14,12 +24,17 @@
 
 
     Public Sub LoadAtoSaveRecor()
-        Dim srNum As New ADODB.Recordset
-        Call LoadSqlData("SELECT top 1 ScSaving FROM AgUng Order by ScSaving DESC", srNum)
-        ScSaving = Val(srNum.Fields("ScSaving").Value.ToString)
-        CNN.Execute("update AgUng set ScSaving =" & CDbl(ScSaving) + 1 & "")
-        'LoadCheckRecor()
-        'CNN.Execute("update AgUng set ScRecordUsing =" & CDbl(ScRecordUsing) & "")
+        Try
+            Dim srNum As DataTable = GetDataTable("SELECT top 1 ScSaving FROM AgUng Order by ScSaving DESC")
+            If srNum.Rows.Count > 0 Then
+                ScSaving = Val(srNum.Rows(0)("ScSaving").ToString())
+            End If
+            ExecuteNonQuery("update AgUng set ScSaving =" & CDbl(ScSaving) + 1 & "")
+            'LoadCheckRecor()
+            'ExecuteNonQuery("update AgUng set ScRecordUsing =" & CDbl(ScRecordUsing) & "")
+        Catch ex As Exception
+            MsgBox("Error in LoadAtoSaveRecor: " & ex.Message)
+        End Try
     End Sub
  
     Public Sub Loadfind()
@@ -66,57 +81,84 @@
     End Sub
 
     Public Sub LoadCheckRecor()
-        Call LoadSqlData("SELECT lock FROM gen_jn ", RSC)
-        With RSC
-            Do Until .EOF = True
+        Try
+            Dim rs As DataTable = GetDataTable("SELECT lock FROM gen_jn ")
+            For Each row As DataRow In rs.Rows
                 ScRecordUsing = CDbl(ScRecordUsing) + 1
-                .MoveNext()
-            Loop
-        End With
+            Next
+        Catch ex As Exception
+            MsgBox("Error in LoadCheckRecor: " & ex.Message)
+        End Try
     End Sub
     Public Sub LockProgrome()
-        CNN.Execute("update AgUng set Sclock ='1'")
+        ExecuteNonQuery("update AgUng set Sclock ='1'")
     End Sub
     Public Sub UpdateExS()
-        CNN.Execute("update AgUng set ScExS ='1'")
+        ExecuteNonQuery("update AgUng set ScExS ='1'")
     End Sub
     Public Sub UpdateRemoveExS()
-        CNN.Execute("update AgUng set ScExS ='0'")
+        ExecuteNonQuery("update AgUng set ScExS ='0'")
     End Sub
     Public Sub LoadCheLock()
-        Dim srNum As New ADODB.Recordset
-        Call LoadSqlData("SELECT  ScLock FROM AgUng ", srNum)
-        ScLock = Val(srNum.Fields("ScLock").Value.ToString)
-
+        Try
+            Dim srNum As DataTable = GetDataTable("SELECT ScLock FROM AgUng ")
+            If srNum.Rows.Count > 0 Then
+                ScLock = Val(srNum.Rows(0)("ScLock").ToString())
+            End If
+        Catch ex As Exception
+            MsgBox("Error in LoadCheLock: " & ex.Message)
+        End Try
     End Sub
     Public Sub LoadScExS()
-        Dim srNum As New ADODB.Recordset
-        Call LoadSqlData("SELECT  ScExS FROM AgUng ", srNum)
-        CloseAll = Val(srNum.Fields("ScExS").Value.ToString)
-
+        Try
+            Dim srNum As DataTable = GetDataTable("SELECT ScExS FROM AgUng ")
+            If srNum.Rows.Count > 0 Then
+                CloseAll = Val(srNum.Rows(0)("ScExS").ToString())
+            End If
+        Catch ex As Exception
+            MsgBox("Error in LoadScExS: " & ex.Message)
+        End Try
     End Sub
     Public Sub LoadChecPermitSave()
-        Dim srNum As New ADODB.Recordset
-        Call LoadSqlData("SELECT  ScPermitSave FROM AgUng ", srNum)
-        ScPermitSave = Val(srNum.Fields("ScPermitSave").Value.ToString)
-
+        Try
+            Dim srNum As DataTable = GetDataTable("SELECT ScPermitSave FROM AgUng ")
+            If srNum.Rows.Count > 0 Then
+                ScPermitSave = Val(srNum.Rows(0)("ScPermitSave").ToString())
+            End If
+        Catch ex As Exception
+            MsgBox("Error in LoadChecPermitSave: " & ex.Message)
+        End Try
     End Sub
     Public Sub LoadChecScSaving()
-        Dim srNum As New ADODB.Recordset
-        Call LoadSqlData("SELECT  ScSaving FROM AgUng ", srNum)
-        ScSaving = Val(srNum.Fields("ScSaving").Value.ToString)
-
+        Try
+            Dim srNum As DataTable = GetDataTable("SELECT ScSaving FROM AgUng ")
+            If srNum.Rows.Count > 0 Then
+                ScSaving = Val(srNum.Rows(0)("ScSaving").ToString())
+            End If
+        Catch ex As Exception
+            MsgBox("Error in LoadChecScSaving: " & ex.Message)
+        End Try
     End Sub
     Public Sub LoadChecOwner()
-        Dim srNum As New ADODB.Recordset
-        Call LoadSqlData("SELECT  ScOwner FROM AgUng ", srNum)
-        ScOwner = Val(srNum.Fields("ScOwner").Value.ToString)
-        'MsgBox(ScOwner)
+        Try
+            Dim srNum As DataTable = GetDataTable("SELECT ScOwner FROM AgUng ")
+            If srNum.Rows.Count > 0 Then
+                ScOwner = Val(srNum.Rows(0)("ScOwner").ToString())
+            End If
+            'MsgBox(ScOwner)
+        Catch ex As Exception
+            MsgBox("Error in LoadChecOwner: " & ex.Message)
+        End Try
     End Sub
     Public Sub LoadPermitRecord()
-        Dim srNum As New ADODB.Recordset
-        Call LoadSqlData("SELECT  ScPermitRecord FROM AgUng ", srNum)
-        ScPermitRecord = Val(srNum.Fields("ScPermitRecord").Value.ToString)
-        'MsgBox(ScPermitRecord)
+        Try
+            Dim srNum As DataTable = GetDataTable("SELECT ScPermitRecord FROM AgUng ")
+            If srNum.Rows.Count > 0 Then
+                ScPermitRecord = Val(srNum.Rows(0)("ScPermitRecord").ToString())
+            End If
+            'MsgBox(ScPermitRecord)
+        Catch ex As Exception
+            MsgBox("Error in LoadPermitRecord: " & ex.Message)
+        End Try
     End Sub
 End Module

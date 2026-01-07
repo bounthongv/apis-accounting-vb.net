@@ -1,10 +1,29 @@
-﻿Public Class FmClosing
+Public Class FmClosing
     Dim mylock As Integer = 0
+    Private Sub SetupGrid()
+        FG.AllowUserToAddRows = False
+        FG.AllowUserToDeleteRows = False
+        FG.ReadOnly = True
+        FG.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        FG.MultiSelect = False
+        FG.RowHeadersVisible = False
+        
+        FG.Columns.Clear()
+        FG.Columns.Add("Col1", "ດ/ລ")
+        FG.Columns.Add("Col2", "ສະກຸນເງິນ")
+        FG.Columns.Add("Col3", "ສະກຸນເງິນ (ຊື່ເຕັມ)")
+        FG.Columns.Add("Col4", "ອັດຕາແລກປ່ຽນ")
+        
+        For Each col As DataGridViewColumn In FG.Columns
+            col.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Next
+    End Sub
+
     Private Sub FmClosing_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetControlText(Me)
-        FG.FormatString = "^ດ/ລ |ສະກຸນເງິນ|ສະກຸນເງິນ (ຊື່ເຕັມ)                     |ອັດຕາແລກປ່ຽນ |"
+        SetupGrid()
         Label1.Text = "ອັດຕາໂດລາ"
-        FG.Cols = 4
+        ' DataGridView handles columns automatically based on SetupGrid()
         LoadListFG()
         loadOffice_User()
     End Sub

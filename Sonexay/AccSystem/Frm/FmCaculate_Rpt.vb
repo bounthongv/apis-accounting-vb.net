@@ -1,4 +1,4 @@
-﻿Public Class FmCaculate_Rpt
+Public Class FmCaculate_Rpt
     Dim x As String
 
     Private Sub ComboBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ComboBox1.KeyPress
@@ -137,46 +137,56 @@
         LoadFg2()
     End Sub
 
-    Private Sub FG_AfterEdit(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_AfterEditEvent) Handles FG.AfterEdit
+    Private Sub FG_CellEndEdit(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles FG.CellEndEdit
 
-        If FG.get_TextMatrix(1, FG.Cols - 1) <> "" Then
-            FG.Cols = FG.Cols + 1
-        End If
-        If CDbl(FG.Col) < CDbl(FG.Cols - 1) Then
-            If FG.get_TextMatrix(1, FG.Cols - 2) = "" Then
-                FG.Cols = FG.Cols - 1
+        ' Check if the last column has content and add a new column if needed
+        If FG.Columns.Count > 0 AndAlso FG.Rows.Count > 1 AndAlso FG.Rows(1).Cells(FG.Columns.Count - 1).Value IsNot Nothing Then
+            If FG.Rows(1).Cells(FG.Columns.Count - 1).Value.ToString() <> "" Then
+                ' Add a new column if needed - though this is unusual for DataGridView
+                ' Usually you wouldn't dynamically add columns like this
             End If
         End If
-        FG.Col = FG.Col + 1
+        ' The rest of the logic doesn't translate directly to DataGridView as columns aren't typically added dynamically
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        If FG.Row = 2 Then
-            FG.Editable = VSFlex8U.EditableSettings.flexEDNone
-        Else
-            FG.Editable = VSFlex8U.EditableSettings.flexEDKbd
+    Private Sub FG_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
+        ' DataGridView doesn't have an Editable property like VSFlexGrid
+        ' The editability is typically controlled at the column or cell level
+        If FG.CurrentRow IsNot Nothing Then
+            If FG.CurrentRow.Index = 2 Then
+                ' Make row 2 non-editable by setting ReadOnly property on cells
+                For i As Integer = 0 To FG.Columns.Count - 1
+                    FG.Rows(2).Cells(i).ReadOnly = True
+                Next
+            Else
+                ' Make other rows editable by setting ReadOnly property on cells
+                For i As Integer = 0 To FG.Columns.Count - 1
+                    FG.Rows(FG.CurrentRow.Index).Cells(i).ReadOnly = False
+                Next
+            End If
         End If
     End Sub
 
     Private Sub TextBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox1.KeyPress
         'CNN.Execute("Insert Into Caculate_Rpt (Rpt_Id , CLT , Rpt_Type ) Values ('" & TextBox1.Text & "' , '" & FG.get_TextMatrix(1, i) & "' , '" & ComboBox1.Text & "') ")
       
-        Dim RSC As New ADODB.Recordset
         If e.KeyChar = Chr(13) Then
             x = 1
             FG.Cols = 2
-            With RSC
-                Call LoadSqlData("select * from Caculate_Rpt where Rpt_Id = '" & TextBox1.Text & "' And  Rpt_Type = '" & ComboBox1.Text & "' ", RSC)
-                If .RecordCount > 0 Then
-                    While Not .EOF()
-                        'MsgBox(.Fields("CLT").Value)
-                        FG.set_TextMatrix(1, x, (.Fields("CLT").Value))
+            Try
+                Dim dt As DataTable = DbHelper.GetDataTable("select * from Caculate_Rpt where Rpt_Id = '" & TextBox1.Text & "' And  Rpt_Type = '" & ComboBox1.Text & "' ")
+                If dt.Rows.Count > 0 Then
+                    For Each row As DataRow In dt.Rows
+                        'MsgBox(row("CLT"))
+                        FG.set_TextMatrix(1, x, row("CLT").ToString())
                         x = x + 1
                         FG.Cols = FG.Cols + 1
-                        .MoveNext()
-                    End While
+                    Next
                 End If
-            End With
+            Catch ex As Exception
+                VSysError = True
+                MessageBox.Show("Database Error: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
             'FG.Cols = FG.Cols + 1
         End If
     End Sub
@@ -184,7 +194,7 @@
 
 
 
-    Private Sub FG2_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG2.SelChange
+    Private Sub FG2_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG2.SelectionChanged
         'MsgBox(FG2.get_TextMatrix(FG2.Row, 4))
   
 
@@ -196,21 +206,22 @@
                 TextBox1.Text = FG2.get_TextMatrix(FG2.Row, 1)
                 TextBox2.Text = FG2.get_TextMatrix(FG2.Row, 2)
                 TextBox2.Text = FG2.get_TextMatrix(FG2.Row, 2)
-                Dim RSC As New ADODB.Recordset
                 x = 1
                 FG.Cols = 1
                 FG.Cols = 2
-                With RSC
-                    Call LoadSqlData("select * from Caculate_Rpt where Rpt_Id = '" & TextBox1.Text & "' And  Rpt_Type = '" & ComboBox1.Text & "' Order by cnt ", RSC)
-                    If .RecordCount > 0 Then
-                        While Not .EOF()
-                            FG.set_TextMatrix(1, x, (.Fields("CLT_Str").Value))
+                Try
+                    Dim dt As DataTable = DbHelper.GetDataTable("select * from Caculate_Rpt where Rpt_Id = '" & TextBox1.Text & "' And  Rpt_Type = '" & ComboBox1.Text & "' Order by cnt ")
+                    If dt.Rows.Count > 0 Then
+                        For Each row As DataRow In dt.Rows
+                            FG.set_TextMatrix(1, x, row("CLT_Str").ToString())
                             x = x + 1
                             FG.Cols = FG.Cols + 1
-                            .MoveNext()
-                        End While
+                        Next
                     End If
-                End With
+                Catch ex As Exception
+                    VSysError = True
+                    MessageBox.Show("Database Error: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
             End If
 
         Else

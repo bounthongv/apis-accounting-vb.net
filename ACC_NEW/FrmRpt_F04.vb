@@ -1,18 +1,18 @@
-﻿Public Class FrmRpt_F04
+Public Class FrmRpt_F04
     Dim Biz_Type, Loan_Type, sqlNew, Rpt_ID As String
 
     Dim RelationShip, Relation As String
     Private Sub LoadHeader()
-        Call LoadSqlData("SELECT * FROM Header where ID='F04'", RSC)
-        If RSC.RecordCount <> 0 Then
-            txtHeader.Text = RSC.Fields("Nm").Value.ToString
-            txtSig1.Text = RSC.Fields("S1").Value.ToString
-            txtSig2.Text = RSC.Fields("S2").Value.ToString
-            txtSig3.Text = RSC.Fields("S3").Value.ToString
-            txtSig4.Text = RSC.Fields("S4").Value.ToString
-            txtSig5.Text = RSC.Fields("S5").Value.ToString
-            txtSig6.Text = RSC.Fields("S6").Value.ToString
-            TxtPP.Text = RSC.Fields("PP").Value.ToString
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Header where ID='F04'")
+        If dt.Rows.Count <> 0 Then
+            txtHeader.Text = DbHelper.GetStr(dt.Rows(0)("Nm"))
+            txtSig1.Text = DbHelper.GetStr(dt.Rows(0)("S1"))
+            txtSig2.Text = DbHelper.GetStr(dt.Rows(0)("S2"))
+            txtSig3.Text = DbHelper.GetStr(dt.Rows(0)("S3"))
+            txtSig4.Text = DbHelper.GetStr(dt.Rows(0)("S4"))
+            txtSig5.Text = DbHelper.GetStr(dt.Rows(0)("S5"))
+            txtSig6.Text = DbHelper.GetStr(dt.Rows(0)("S6"))
+            TxtPP.Text = DbHelper.GetStr(dt.Rows(0)("PP"))
         End If
 
     End Sub
@@ -176,286 +176,261 @@
         '===========   N'1. ສິນເຊື່ອປົກກະຕິ (A)'===============
         '=========ACCNO=====
         Dim A1 As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan where 1=1 " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and  loan_grade=N'1. ສິນເຊື່ອປົກກະຕິ (A)' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(A1, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim K1 As String = "Update RPT_F04 set ACCNO=" & RSC.Fields("AA").Value & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' "
-                CNN.Execute(K1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(A1)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim K1 As String = "Update RPT_F04 set ACCNO=" & DbHelper.GetStr(row("AA")) & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' "
+                DbHelper.ExecuteNonQuery(K1)
+            Next
         End If
         '=========ACC ALl=====
         Dim A1_Cust As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan where 1=1 " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and  loan_grade=N'1. ສິນເຊື່ອປົກກະຕິ (A)' group by BUSINESSTYPEDESC  , Cust_ID order by BUSINESSTYPEDESC "
-        Call LoadSqlData(A1_Cust, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim K1 As String = "Update RPT_F04 set  ACC=ACC+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' "
-                CNN.Execute(K1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(A1_Cust)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim K1 As String = "Update RPT_F04 set  ACC=ACC+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' "
+                DbHelper.ExecuteNonQuery(K1)
+            Next
         End If
         ' ====ACC W===
         Dim W1 As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and  loan_grade=N'1. ສິນເຊື່ອປົກກະຕິ (A)' and GENDER=N'F' group by BUSINESSTYPEDESC, Cust_ID  order by BUSINESSTYPEDESC "
-        Call LoadSqlData(W1, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW1 As String = "Update RPT_F04 set  ACC_W=ACC_W+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' "
-                CNN.Execute(KW1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(W1)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW1 As String = "Update RPT_F04 set  ACC_W=ACC_W+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' "
+                DbHelper.ExecuteNonQuery(KW1)
+            Next
         End If
 
         ' ====AMT KIP  TT===
         Dim AMT1 As String = "select isnull(sum(Principle_LAK),0) as AA, isnull(sum(Provision_Amt),0) as BB, BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'1. ສິນເຊື່ອປົກກະຕິ (A)' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(AMT1, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW1 As String = "Update RPT_F04 set  AMT=" & RSC.Fields("AA").Value & " , Dep_Amt=" & RSC.Fields("BB").Value & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' "
-                CNN.Execute(KW1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(AMT1)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW1 As String = "Update RPT_F04 set  AMT=" & DbHelper.GetStr(row("AA")) & " , Dep_Amt=" & DbHelper.GetStr(row("BB")) & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' "
+                DbHelper.ExecuteNonQuery(KW1)
+            Next
         End If
         ' ====AMT KIP  W===
         Dim AMT_W As String = "select isnull(sum(Principle_LAK),0) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'1. ສິນເຊື່ອປົກກະຕິ (A)' and GENDER=N'F' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(AMT_W, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW1 As String = "Update RPT_F04 set  AMT_W=" & RSC.Fields("AA").Value & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' "
-                CNN.Execute(KW1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(AMT_W)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW1 As String = "Update RPT_F04 set  AMT_W=" & DbHelper.GetStr(row("AA")) & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' "
+                DbHelper.ExecuteNonQuery(KW1)
+            Next
         End If
 
         ''=========== 2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)===============
         Dim A2 As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(A2, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim K2 As String = "Update RPT_F04 set ACCNO=" & RSC.Fields("AA").Value & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' "
-                CNN.Execute(K2)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(A2)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim K2 As String = "Update RPT_F04 set ACCNO=" & DbHelper.GetStr(row("AA")) & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' "
+                DbHelper.ExecuteNonQuery(K2)
+            Next
         End If
         '============
         Dim A2_AA As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' group by BUSINESSTYPEDESC, Cust_ID order by BUSINESSTYPEDESC "
-        Call LoadSqlData(A2_AA, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim K2 As String = "Update RPT_F04 set  ACC=ACC+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' "
-                CNN.Execute(K2)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(A2_AA)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim K2 As String = "Update RPT_F04 set  ACC=ACC+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' "
+                DbHelper.ExecuteNonQuery(K2)
+            Next
         End If
         ' ====W===
         Dim W2 As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' and GENDER=N'F' group by BUSINESSTYPEDESC, Cust_ID order by BUSINESSTYPEDESC "
-        Call LoadSqlData(W2, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW2 As String = "Update RPT_F04 set  ACC_W=ACC_W+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' "
-                CNN.Execute(KW2)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(W2)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW2 As String = "Update RPT_F04 set  ACC_W=ACC_W+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' "
+                DbHelper.ExecuteNonQuery(KW2)
+            Next
         End If
         ' ====AMT KIP  TT===
         Dim AMT2 As String = "select isnull(sum(Principle_LAK),0) as AA,  isnull(sum(Provision_Amt),0) as BB, BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(AMT2, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW1 As String = "Update RPT_F04 set  AMT=" & RSC.Fields("AA").Value & " , Dep_Amt=" & RSC.Fields("BB").Value & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' "
-                CNN.Execute(KW1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(AMT2)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW1 As String = "Update RPT_F04 set  AMT=" & DbHelper.GetStr(row("AA")) & " , Dep_Amt=" & DbHelper.GetStr(row("BB")) & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' "
+                DbHelper.ExecuteNonQuery(KW1)
+            Next
         End If
         ' ====AMT KIP  W===
         Dim AMT_W2 As String = "select isnull(sum(Principle_LAK),0) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' and GENDER=N'F' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(AMT_W2, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW1 As String = "Update RPT_F04 set  AMT_W=" & RSC.Fields("AA").Value & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' "
-                CNN.Execute(KW1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(AMT_W2)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW1 As String = "Update RPT_F04 set  AMT_W=" & DbHelper.GetStr(row("AA")) & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' "
+                DbHelper.ExecuteNonQuery(KW1)
+            Next
         End If
 
 
         ''=========== 3. ສິນເຊື່ອຕໍ່າກວ່າມາດຕະຖານ (C)===============
         Dim A3 As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   left(loan_grade,1)=N'3' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(A3, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim K3 As String = "Update RPT_F04 set ACCNO=" & RSC.Fields("AA").Value & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and left(Grp_Nm,1)=N'3' "
-                CNN.Execute(K3)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(A3)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim K3 As String = "Update RPT_F04 set ACCNO=" & DbHelper.GetStr(row("AA")) & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and left(Grp_Nm,1)=N'3' "
+                DbHelper.ExecuteNonQuery(K3)
+            Next
         End If
         '=======
         Dim A3_AAA As String = "select count(*) as AA,BUSINESSTYPEDESC,1 from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and    left(loan_grade,1)=N'3' group by BUSINESSTYPEDESC,Cust_ID  order by BUSINESSTYPEDESC "
-        Call LoadSqlData(A3_AAA, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim K3 As String = "Update RPT_F04 set  ACC=ACC+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and left(Grp_Nm,1)=N'3' "
-                CNN.Execute(K3)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(A3_AAA)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim K3 As String = "Update RPT_F04 set  ACC=ACC+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and left(Grp_Nm,1)=N'3' "
+                DbHelper.ExecuteNonQuery(K3)
+            Next
         End If
         ' ====W===
         Dim W3 As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   left(loan_grade,1)=N'3' and GENDER=N'F' group by BUSINESSTYPEDESC,Cust_ID order by BUSINESSTYPEDESC "
-        Call LoadSqlData(W3, RSC)
+        Dim dt As DataTable = DbHelper.GetDataTable(W3)
 
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW3 As String = "Update RPT_F04 set  ACC_W=ACC_W+" & 1 & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and left(Grp_Nm,1)=N'3' "
-                CNN.Execute(KW3)
-                RSC.MoveNext()
-            End While
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW3 As String = "Update RPT_F04 set  ACC_W=ACC_W+" & 1 & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and left(Grp_Nm,1)=N'3' "
+                DbHelper.ExecuteNonQuery(KW3)
+            Next
         End If
         ' ====AMT KIP  TT===
         Dim AMT3 As String = "select isnull(sum(Principle_LAK),0) as AA,  isnull(sum(Provision_Amt),0) as BB,  BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   left(loan_grade,1)=N'3' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(AMT3, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW1 As String = "Update RPT_F04 set  AMT=" & RSC.Fields("AA").Value & "  , Dep_Amt=" & RSC.Fields("BB").Value & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and left(Grp_Nm,1)=N'3' "
-                CNN.Execute(KW1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(AMT3)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW1 As String = "Update RPT_F04 set  AMT=" & DbHelper.GetStr(row("AA")) & "  , Dep_Amt=" & DbHelper.GetStr(row("BB")) & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and left(Grp_Nm,1)=N'3' "
+                DbHelper.ExecuteNonQuery(KW1)
+            Next
         End If
         ' ====AMT KIP  W===
         Dim AMT_W3 As String = "select isnull(sum(Principle_LAK),0) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and    left(loan_grade,1)=N'3' and GENDER=N'F' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(AMT_W3, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW1 As String = "Update RPT_F04 set  AMT_W=" & RSC.Fields("AA").Value & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and left(Grp_Nm,1)=N'3'' "
-                CNN.Execute(KW1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(AMT_W3)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW1 As String = "Update RPT_F04 set  AMT_W=" & DbHelper.GetStr(row("AA")) & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and left(Grp_Nm,1)=N'3'' "
+                DbHelper.ExecuteNonQuery(KW1)
+            Next
         End If
 
         ''=========== 4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)==============
         Dim A4 As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(A4, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim K4 As String = "Update RPT_F04 set ACCNO=" & RSC.Fields("AA").Value & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)' "
-                CNN.Execute(K4)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(A4)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim K4 As String = "Update RPT_F04 set ACCNO=" & DbHelper.GetStr(row("AA")) & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)' "
+                DbHelper.ExecuteNonQuery(K4)
+            Next
         End If
         '=====
         Dim A4_AA As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)' group by BUSINESSTYPEDESC,Cust_ID order by BUSINESSTYPEDESC "
-        Call LoadSqlData(A4_AA, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim K4 As String = "Update RPT_F04 set  ACC=ACC+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)' "
-                CNN.Execute(K4)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(A4_AA)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim K4 As String = "Update RPT_F04 set  ACC=ACC+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)' "
+                DbHelper.ExecuteNonQuery(K4)
+            Next
         End If
         ' ====W===
         Dim W4 As String = "select count(*) as AA,BUSINESSTYPEDESC  from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)'   and GENDER=N'F' group by BUSINESSTYPEDESC,Cust_ID order by BUSINESSTYPEDESC "
-        Call LoadSqlData(W4, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW4 As String = "Update RPT_F04 set  ACC_W=ACC_W+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)'  "
-                CNN.Execute(KW4)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(W4)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW4 As String = "Update RPT_F04 set  ACC_W=ACC_W+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)'  "
+                DbHelper.ExecuteNonQuery(KW4)
+            Next
         End If
         ' ====AMT KIP  TT===
         Dim AMT4 As String = "select isnull(sum(Principle_LAK),0) as AA,  isnull(sum(Provision_Amt),0) as BB,  BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)'  group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(AMT4, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW1 As String = "Update RPT_F04 set  AMT=" & RSC.Fields("AA").Value & "  , Dep_Amt=" & RSC.Fields("BB").Value & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)'  "
-                CNN.Execute(KW1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(AMT4)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW1 As String = "Update RPT_F04 set  AMT=" & DbHelper.GetStr(row("AA")) & "  , Dep_Amt=" & DbHelper.GetStr(row("BB")) & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)'  "
+                DbHelper.ExecuteNonQuery(KW1)
+            Next
         End If
         ' ====AMT KIP  W===
         Dim AMT_W4 As String = "select isnull(sum(Principle_LAK),0) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   loan_grade=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)'  and GENDER=N'F' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(AMT_W4, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW1 As String = "Update RPT_F04 set  AMT_W=" & RSC.Fields("AA").Value & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)'  "
-                CNN.Execute(KW1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(AMT_W4)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW1 As String = "Update RPT_F04 set  AMT_W=" & DbHelper.GetStr(row("AA")) & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)'  "
+                DbHelper.ExecuteNonQuery(KW1)
+            Next
         End If
 
 
         ''=========== 5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E))==============
         Dim A5 As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   (loan_grade=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or loan_grade=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(A5, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim K5 As String = "Update RPT_F04 set ACCNO=" & RSC.Fields("AA").Value & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') "
-                CNN.Execute(K5)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(A5)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim K5 As String = "Update RPT_F04 set ACCNO=" & DbHelper.GetStr(row("AA")) & "  where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') "
+                DbHelper.ExecuteNonQuery(K5)
+            Next
         End If
 
         Dim A5_AA As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   (loan_grade=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or loan_grade=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') group by BUSINESSTYPEDESC,Cust_ID order by BUSINESSTYPEDESC "
-        Call LoadSqlData(A5_AA, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim K5 As String = "Update RPT_F04 set  ACC=ACC+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') "
-                CNN.Execute(K5)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(A5_AA)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim K5 As String = "Update RPT_F04 set  ACC=ACC+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') "
+                DbHelper.ExecuteNonQuery(K5)
+            Next
         End If
         ' ====W===
         Dim W5 As String = "select count(*) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and  (loan_grade=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or loan_grade=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)')   and GENDER=N'F' group by BUSINESSTYPEDESC,Cust_ID order by BUSINESSTYPEDESC "
-        Call LoadSqlData(W5, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW5 As String = "Update RPT_F04 set  ACC_W=ACC_W+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and   (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') "
-                CNN.Execute(KW5)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(W5)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW5 As String = "Update RPT_F04 set  ACC_W=ACC_W+" & 1 & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and   (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') "
+                DbHelper.ExecuteNonQuery(KW5)
+            Next
         End If
         ' ====AMT KIP  TT===
         Dim AMT5 As String = "select isnull(sum(Principle_LAK),0) as AA,  isnull(sum(Provision_Amt),0) as BB,  BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and   (loan_grade=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or loan_grade=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(AMT5, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW1 As String = "Update RPT_F04 set  AMT=" & RSC.Fields("AA").Value & "  , Dep_Amt=" & RSC.Fields("BB").Value & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') "
-                CNN.Execute(KW1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(AMT5)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW1 As String = "Update RPT_F04 set  AMT=" & DbHelper.GetStr(row("AA")) & "  , Dep_Amt=" & DbHelper.GetStr(row("BB")) & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') "
+                DbHelper.ExecuteNonQuery(KW1)
+            Next
         End If
         ' ====AMT KIP  W===
         Dim AMT_W5 As String = "select isnull(sum(Principle_LAK),0) as AA,BUSINESSTYPEDESC from AP_Loan  where 1=1  " & MDWRITEOFF & " and LaonDate BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "'  and  (loan_grade=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or loan_grade=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') and GENDER=N'F' group by BUSINESSTYPEDESC order by BUSINESSTYPEDESC "
-        Call LoadSqlData(AMT_W5, RSC)
-        If RSC.RecordCount > 0 Then
-            While Not RSC.EOF
-                Dim KW1 As String = "Update RPT_F04 set  AMT_W=" & RSC.Fields("AA").Value & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(RSC.Fields("BUSINESSTYPEDESC").Value, 3) & "' and (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') "
-                CNN.Execute(KW1)
-                RSC.MoveNext()
-            End While
+        Dim dt As DataTable = DbHelper.GetDataTable(AMT_W5)
+        If dt.Rows.Count > 0 Then
+            For Each row As DataRow In dt.Rows
+                Dim KW1 As String = "Update RPT_F04 set  AMT_W=" & DbHelper.GetStr(row("AA")) & " where left(rpt_ID,3)=N'" & Microsoft.VisualBasic.Left(DbHelper.GetStr(row("BUSINESSTYPEDESC")), 3) & "' and (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') "
+                DbHelper.ExecuteNonQuery(KW1)
+            Next
         End If
 
     End Sub
     Private Sub INSERTHEADER()
-        Call LoadSqlData("SELECT * FROM Header where ID='F04'", RSC)
-        If RSC.RecordCount = 0 Then
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Header where ID='F04'")
+        If dt.Rows.Count = 0 Then
             Dim k As String = "INSERT INTO Header(ID,Nm,S1,S2,S3,S4,S5,S6,PP) " & _
                           " values(N'F04',N'" & txtHeader.Text & "',N'" & txtSig1.Text & "',N'" & txtSig2.Text & "',N'" & txtSig3.Text & "',N'" & txtSig4.Text & "',N'" & txtSig5.Text & "',N'" & txtSig6.Text & "',N'" & (TxtPP.Text) & "') "
-            CNN.Execute(k)
+            DbHelper.ExecuteNonQuery(k)
         Else
-            CNN.Execute("UPDATE Header set Nm=N'" & txtHeader.Text & "',S1=N'" & txtSig1.Text & "',S2=N'" & txtSig2.Text & "',S3=N'" & txtSig3.Text & "',S4=N'" & txtSig4.Text & "',S5=N'" & txtSig5.Text & "',S6=N'" & txtSig6.Text & "',PP=N'" & (TxtPP.Text) & "' where ID='F04' ")
+            DbHelper.ExecuteNonQuery("UPDATE Header set Nm=N'" & txtHeader.Text & "',S1=N'" & txtSig1.Text & "',S2=N'" & txtSig2.Text & "',S3=N'" & txtSig3.Text & "',S4=N'" & txtSig4.Text & "',S5=N'" & txtSig5.Text & "',S6=N'" & txtSig6.Text & "',PP=N'" & (TxtPP.Text) & "' where ID='F04' ")
         End If
     End Sub
     Private Sub UPP_INTER()
-        Dim KK As New ADODB.Recordset
+        'Dim KK As New ADODB.Recordset
         Dim aa As String = " SELECT  * from AP_MM where month(MM)='" & Month(DMY.Value) & "' and  year(MM)='" & Year(DMY.Value) & "'   "
-        Call LoadSqlData(aa, KK)
-        If KK.RecordCount = 0 Then
+        Dim dt As DataTable = DbHelper.GetDataTable(aa)
+        If dt.Rows.Count = 0 Then
             'Dim HH As String = "INSERT INTO AP_MM (MM,A,B,C,D,E,Amt) values('" & Format(DMY.Value, "yyyy/MM/dd") & "'," & CDbl(txtA.Text) & "," & CDbl(txtB.Text) & "," & CDbl(txtC.Text) & "," & CDbl(txtD.Text) & "," & CDbl(txtE.Text) & ",0 ) "
-            'CNN.Execute(HH)
+            'DbHelper.ExecuteNonQuery(HH)
             Dim HH As String = "INSERT INTO AP_MM (MM,A,B,C,D,E,Amt) values('" & Format(DMY.Value, "yyyy/MM/dd") & "',N'" & (txtA.Text) & "',N'" & (txtB.Text) & "',N'" & (txtC.Text) & "',N'" & (txtD.Text) & "',N'" & (txtE.Text) & "',0 ) "
-            CNN.Execute(HH)
+            DbHelper.ExecuteNonQuery(HH)
         Else
-            'CNN.Execute("UPDATE AP_MM set A=" & CDbl(txtA.Text) & ",b=" & CDbl(txtB.Text) & ",c=" & CDbl(txtC.Text) & ",d=" & CDbl(txtD.Text) & ", e=" & CDbl(txtE.Text) & "  where month(MM)='" & Month(DMY.Value) & "' and  year(MM)='" & Year(DMY.Value) & "'  ")
-            CNN.Execute("UPDATE AP_MM set A=N'" & (txtA.Text) & "',b=N'" & (txtB.Text) & "',c=N'" & (txtC.Text) & "',d=N'" & (txtD.Text) & "', e=N'" & (txtE.Text) & "'  where month(MM)='" & Month(DMY.Value) & "' and  year(MM)='" & Year(DMY.Value) & "'  ")
+            'DbHelper.ExecuteNonQuery("UPDATE AP_MM set A=" & CDbl(txtA.Text) & ",b=" & CDbl(txtB.Text) & ",c=" & CDbl(txtC.Text) & ",d=" & CDbl(txtD.Text) & ", e=" & CDbl(txtE.Text) & "  where month(MM)='" & Month(DMY.Value) & "' and  year(MM)='" & Year(DMY.Value) & "'  ")
+            DbHelper.ExecuteNonQuery("UPDATE AP_MM set A=N'" & (txtA.Text) & "',b=N'" & (txtB.Text) & "',c=N'" & (txtC.Text) & "',d=N'" & (txtD.Text) & "', e=N'" & (txtE.Text) & "'  where month(MM)='" & Month(DMY.Value) & "' and  year(MM)='" & Year(DMY.Value) & "'  ")
 
         End If
         'MsgBox("OK")
@@ -463,37 +438,37 @@
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         'Call LoadSqlData(" select * from RPT_F01 where ItemID='F01' ", RSC)
         'If RSC.RecordCount = 0 Then
-        '    CNN.Execute("INSERT INTO RPT_F01(ItemID) values (N'F01') ")
+        '    DbHelper.ExecuteNonQuery("INSERT INTO RPT_F01(ItemID) values (N'F01') ")
         'End If
         Call UPP_INTER()
         INSERTHEADER()
 
-        CNN.Execute("UPDATE RPT_F04 set AccNo=0,Acc=0,Acc_W=0,Amt=0,Amt_w=0,Dep=0,Dep_Amt=0  ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set AccNo=0,Acc=0,Acc_W=0,Amt=0,Amt_w=0,Dep=0,Dep_Amt=0  ")
         Call CALLC()
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtA.Text) & " where Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtB.Text) & " where Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtC.Text) & " where Grp_Nm=N'3. ສິນເຊື່ອຕໍ່າກວ່າມາດຕະຖານ (C)' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtD.Text) & " where Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtE.Text) & " where (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtA.Text) & " where left(Grp_Nm,1)=N'1' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtB.Text) & " where left(Grp_Nm,1)=N'2' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtC.Text) & " where left(Grp_Nm,1)=N'3' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtD.Text) & " where left(Grp_Nm,1)=N'4' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtE.Text) & " where left(Grp_Nm,1)=N'5' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtA.Text) & " where Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtB.Text) & " where Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtC.Text) & " where Grp_Nm=N'3. ສິນເຊື່ອຕໍ່າກວ່າມາດຕະຖານ (C)' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtD.Text) & " where Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtE.Text) & " where (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtA.Text) & " where left(Grp_Nm,1)=N'1' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtB.Text) & " where left(Grp_Nm,1)=N'2' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtC.Text) & " where left(Grp_Nm,1)=N'3' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtD.Text) & " where left(Grp_Nm,1)=N'4' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtE.Text) & " where left(Grp_Nm,1)=N'5' ")
 
-        CNN.Execute("UPDATE RPT_F04 set Dep='" & (txtA.Text) & "' where left(Grp_Nm,1)=N'1' ")
-        CNN.Execute("UPDATE RPT_F04 set Dep='" & (txtB.Text) & "' where left(Grp_Nm,1)=N'2' ")
-        CNN.Execute("UPDATE RPT_F04 set Dep='" & (txtC.Text) & "' where left(Grp_Nm,1)=N'3' ")
-        CNN.Execute("UPDATE RPT_F04 set Dep='" & (txtD.Text) & "' where left(Grp_Nm,1)=N'4' ")
-        CNN.Execute("UPDATE RPT_F04 set Dep='" & (txtE.Text) & "' where left(Grp_Nm,1)=N'5' ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep='" & (txtA.Text) & "' where left(Grp_Nm,1)=N'1' ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep='" & (txtB.Text) & "' where left(Grp_Nm,1)=N'2' ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep='" & (txtC.Text) & "' where left(Grp_Nm,1)=N'3' ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep='" & (txtD.Text) & "' where left(Grp_Nm,1)=N'4' ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep='" & (txtE.Text) & "' where left(Grp_Nm,1)=N'5' ")
 
-        'CNN.Execute("UPDATE RPT_F04 set Dep_Amt=Amt*Dep/100  ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=0 where Dep_Amt=0  ")
-        Dim RsKK As New ADODB.Recordset
-        With RsKK
-            Dim PPP As String = " SELECT N'" & RmFrdate.Text & "' as DD,N'" & txtSig1.Text & "' as S1,N'" & txtSig2.Text & "' as S2,N'" & txtSig3.Text & "' as S3, N'" & txtSig4.Text & "' as S4,  N'" & txtSig5.Text & "' as S5,   N'" & txtSig6.Text & "' as S6,  N'" & TxtPP.Text & "' as pp, * from RPT_F04 order by CNT ASC "
-            Call LoadSqlData(PPP, RsKK)
-            If .RecordCount = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep_Amt=Amt*Dep/100  ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=0 where Dep_Amt=0  ")
+        'Dim RsKK As New ADODB.Recordset
+        Dim PPP As String = " SELECT N'" & RmFrdate.Text & "' as DD,N'" & txtSig1.Text & "' as S1,N'" & txtSig2.Text & "' as S2,N'" & txtSig3.Text & "' as S3, N'" & txtSig4.Text & "' as S4,  N'" & txtSig5.Text & "' as S5,   N'" & txtSig6.Text & "' as S6,  N'" & TxtPP.Text & "' as pp, * from RPT_F04 order by CNT ASC "
+        Dim dt As DataTable = DbHelper.GetDataTable(PPP)
+        With dt
+            If .Rows.Count = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
             Dim Frm As New FmPreview
 
             Dim Rpt As New F04
@@ -503,7 +478,7 @@
             'myTextObjectOnReport = CType(Rpt.ReportDefinition.ReportObjects.Item("NO"), CrystalDecisions.CrystalReports.Engine.TextObject)
             'myTextObjectOnReport.Text = RmFrdate.Text
 
-            Rpt.SetDataSource(RsKK)
+            Rpt.SetDataSource(dt)
             Frm.ReportViewer.ReportSource = Rpt
             Frm.ReportViewer.DisplayGroupTree = False
             Frm.WindowState = FormWindowState.Maximized
@@ -569,15 +544,15 @@
         Call MMM()
     End Sub
     Private Sub MMM()
-        Dim KK As New ADODB.Recordset
+        'Dim KK As New ADODB.Recordset
         Dim aa As String = " SELECT  * from AP_MM where month(MM)='" & Month(DMY.Value) & "' and  year(MM)='" & Year(DMY.Value) & "'   "
-        Call LoadSqlData(aa, KK)
-        If KK.RecordCount <> 0 Then
-            txtA.Text = (KK.Fields("A").Value.ToString)
-            txtB.Text = (KK.Fields("B").Value.ToString)
-            txtC.Text = (KK.Fields("C").Value.ToString)
-            txtD.Text = (KK.Fields("D").Value.ToString)
-            txtE.Text = (KK.Fields("E").Value.ToString)
+        Dim dt As DataTable = DbHelper.GetDataTable(aa)
+        If dt.Rows.Count <> 0 Then
+            txtA.Text = DbHelper.GetStr(dt.Rows(0)("A"))
+            txtB.Text = DbHelper.GetStr(dt.Rows(0)("B"))
+            txtC.Text = DbHelper.GetStr(dt.Rows(0)("C"))
+            txtD.Text = DbHelper.GetStr(dt.Rows(0)("D"))
+            txtE.Text = DbHelper.GetStr(dt.Rows(0)("E"))
         Else
             txtA.Text = ""
             txtB.Text = ""
@@ -590,37 +565,37 @@
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
         'Call LoadSqlData(" select * from RPT_F01 where ItemID='F01' ", RSC)
         'If RSC.RecordCount = 0 Then
-        '    CNN.Execute("INSERT INTO RPT_F01(ItemID) values (N'F01') ")
+        '    DbHelper.ExecuteNonQuery("INSERT INTO RPT_F01(ItemID) values (N'F01') ")
         'End If
         Call UPP_INTER()
         INSERTHEADER()
 
-        CNN.Execute("UPDATE RPT_F04 set AccNo=0,Acc=0,Acc_W=0,Amt=0,Amt_w=0,Dep=0,Dep_Amt=0  ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set AccNo=0,Acc=0,Acc_W=0,Amt=0,Amt_w=0,Dep=0,Dep_Amt=0  ")
         Call CALLC()
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtA.Text) & " where Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtB.Text) & " where Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtC.Text) & " where Grp_Nm=N'3. ສິນເຊື່ອຕໍ່າກວ່າມາດຕະຖານ (C)' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtD.Text) & " where Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtE.Text) & " where (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtA.Text) & " where left(Grp_Nm,1)=N'1' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtB.Text) & " where left(Grp_Nm,1)=N'2' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtC.Text) & " where left(Grp_Nm,1)=N'3' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtD.Text) & " where left(Grp_Nm,1)=N'4' ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=" & CDbl(txtE.Text) & " where left(Grp_Nm,1)=N'5' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtA.Text) & " where Grp_Nm=N'1. ສິນເຊື່ອປົກກະຕິ (A)' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtB.Text) & " where Grp_Nm=N'2. ສິນເຊື່ອຄວນເອົາໃຈໃສ່ (B)' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtC.Text) & " where Grp_Nm=N'3. ສິນເຊື່ອຕໍ່າກວ່າມາດຕະຖານ (C)' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtD.Text) & " where Grp_Nm=N'4. ສິນເຊື່ອທີ່ໜ້າສົງໃສ (D)' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtE.Text) & " where (Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ  (E)' or Grp_Nm=N'5. ສິນເຊື່ອທີ່ເປັນໜີ້ສູນ (​E)') ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtA.Text) & " where left(Grp_Nm,1)=N'1' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtB.Text) & " where left(Grp_Nm,1)=N'2' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtC.Text) & " where left(Grp_Nm,1)=N'3' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtD.Text) & " where left(Grp_Nm,1)=N'4' ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=" & CDbl(txtE.Text) & " where left(Grp_Nm,1)=N'5' ")
 
-        CNN.Execute("UPDATE RPT_F04 set Dep='" & (txtA.Text) & "' where left(Grp_Nm,1)=N'1' ")
-        CNN.Execute("UPDATE RPT_F04 set Dep='" & (txtB.Text) & "' where left(Grp_Nm,1)=N'2' ")
-        CNN.Execute("UPDATE RPT_F04 set Dep='" & (txtC.Text) & "' where left(Grp_Nm,1)=N'3' ")
-        CNN.Execute("UPDATE RPT_F04 set Dep='" & (txtD.Text) & "' where left(Grp_Nm,1)=N'4' ")
-        CNN.Execute("UPDATE RPT_F04 set Dep='" & (txtE.Text) & "' where left(Grp_Nm,1)=N'5' ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep='" & (txtA.Text) & "' where left(Grp_Nm,1)=N'1' ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep='" & (txtB.Text) & "' where left(Grp_Nm,1)=N'2' ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep='" & (txtC.Text) & "' where left(Grp_Nm,1)=N'3' ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep='" & (txtD.Text) & "' where left(Grp_Nm,1)=N'4' ")
+        DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep='" & (txtE.Text) & "' where left(Grp_Nm,1)=N'5' ")
 
-        'CNN.Execute("UPDATE RPT_F04 set Dep_Amt=Amt*Dep/100  ")
-        'CNN.Execute("UPDATE RPT_F04 set Dep=0 where Dep_Amt=0  ")
-        Dim RsKK As New ADODB.Recordset
-        With RsKK
-            Dim PPP As String = " SELECT N'" & RmFrdate.Text & "' as DD,N'" & txtSig1.Text & "' as S1,N'" & txtSig2.Text & "' as S2,N'" & txtSig3.Text & "' as S3, N'" & txtSig4.Text & "' as S4,  N'" & txtSig5.Text & "' as S5,   N'" & txtSig6.Text & "' as S6,  N'" & TxtPP.Text & "' as pp, * from RPT_F04 order by CNT ASC "
-            Call LoadSqlData(PPP, RsKK)
-            If .RecordCount = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep_Amt=Amt*Dep/100  ")
+        'DbHelper.ExecuteNonQuery("UPDATE RPT_F04 set Dep=0 where Dep_Amt=0  ")
+        'Dim RsKK As New ADODB.Recordset
+        Dim PPP As String = " SELECT N'" & RmFrdate.Text & "' as DD,N'" & txtSig1.Text & "' as S1,N'" & txtSig2.Text & "' as S2,N'" & txtSig3.Text & "' as S3, N'" & txtSig4.Text & "' as S4,  N'" & txtSig5.Text & "' as S5,   N'" & txtSig6.Text & "' as S6,  N'" & TxtPP.Text & "' as pp, * from RPT_F04 order by CNT ASC "
+        Dim dt As DataTable = DbHelper.GetDataTable(PPP)
+        With dt
+            If .Rows.Count = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
             Dim Frm As New FmPreview
 
             Dim Rpt As New F04
@@ -630,13 +605,13 @@
             'myTextObjectOnReport = CType(Rpt.ReportDefinition.ReportObjects.Item("NO"), CrystalDecisions.CrystalReports.Engine.TextObject)
             'myTextObjectOnReport.Text = RmFrdate.Text
 
-            Rpt.SetDataSource(RsKK)
+            Rpt.SetDataSource(dt)
             Rpt.Refresh()
             Frm.ReportViewer.ReportSource = Rpt
             Frm.ReportViewer.ExportReport()
             Frm = Nothing
 
-            'Rpt.SetDataSource(RsKK)
+            'Rpt.SetDataSource(dt)
             'Frm.ReportViewer.ReportSource = Rpt
             'Frm.ReportViewer.DisplayGroupTree = False
             'Frm.WindowState = FormWindowState.Maximized

@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmTrialBalanceReport2022
     Inherits System.Windows.Forms.Form
 
@@ -38,7 +38,7 @@ Partial Class FmTrialBalanceReport2022
         Me.DMonth = New System.Windows.Forms.ComboBox
         Me.Lb = New System.Windows.Forms.TextBox
         Me.L5 = New System.Windows.Forms.TextBox
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.Label11 = New System.Windows.Forms.Label
         Me.Label17 = New System.Windows.Forms.Label
@@ -266,13 +266,17 @@ Partial Class FmTrialBalanceReport2022
         '
         'FG
         '
+        Me.FG.AllowUserToAddRows = False
+        Me.FG.AllowUserToDeleteRows = False
         Me.FG.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG.DataSource = Nothing
+        Me.FG.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(6, 341)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.FG.ReadOnly = True
+        Me.FG.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.FG.Size = New System.Drawing.Size(1257, 386)
         Me.FG.TabIndex = 45532
         Me.FG.Tag = "8006"
@@ -1095,7 +1099,7 @@ Partial Class FmTrialBalanceReport2022
     Friend WithEvents DMonth As System.Windows.Forms.ComboBox
     Friend WithEvents Lb As System.Windows.Forms.TextBox
     Friend WithEvents L5 As System.Windows.Forms.TextBox
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents BtnRefresh As System.Windows.Forms.Button
     Friend WithEvents RaParent As System.Windows.Forms.CheckBox
     Friend WithEvents BtnExit As System.Windows.Forms.Button

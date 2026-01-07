@@ -1,4 +1,4 @@
-﻿Public Class FmRpt_BLS_BOL
+Public Class FmRpt_BLS_BOL
     Dim r As String
     Dim CLT_Str, CLT_Last_Str As String
     Dim bls1 As String
@@ -14,13 +14,13 @@
     Dim AmtOpenDR, AmtOpenCR, AmtOpenMonthDR, AmtOpenMonthCR As Double
     Dim VCode1, VCode2, VCode3, VCode4, VCode5, VCode6, VCode7, VCode8, VCode9 As String
     Dim MdQuarter As Date
-    Dim RsOpen As New ADODB.Recordset
-    Dim RsOpenMonth As New ADODB.Recordset
-    Dim RsRpt As New ADODB.Recordset
-    Dim VOpenDate As Date
-    Dim RptNme As String
-    Dim RSC12 As New ADODB.Recordset
-    Dim RSCIn_M As New ADODB.Recordset
+     'Dim RsOpen As New ADODB.Recordset
+     'Dim RsOpenMonth As New ADODB.Recordset
+     'Dim RsRpt As New ADODB.Recordset
+     Dim VOpenDate As Date
+     Dim RptNme As String
+     'Dim RSC12 As New ADODB.Recordset
+     'Dim RSCIn_M As New ADODB.Recordset
 
 
     Private Sub ChangBalance()
@@ -33,23 +33,23 @@
         Off_Find = Off_Usr.Text : MuTable = "" : Call Find_Company()
 
 
-        CNN.Execute("DELETE  Ap_balance_6_col ")
-        CNN.Execute("DELETE FROM Ap_balance_6 ")
-        CNN.Execute("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr   ) " & _
+        DbHelper.ExecuteNonQuery("DELETE  Ap_balance_6_col ")
+        DbHelper.ExecuteNonQuery("DELETE FROM Ap_balance_6 ")
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr   ) " & _
         " select ac_code  ,  0 As open_amt_dr, 0 As open_amt_cr , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr  from gen_jn  WHERE  gen_jn.date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "' " & Ac_Code & " " & MULook2 & "  group BY ac_code ")
         Dim S As Date = MdStartDate : S = DateAdd("d", CDbl(-1), MdStartDate)
-        CNN.Execute("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr   ) " & _
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr   ) " & _
         " select ac_code , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr , 0 As amt_dr2 , 0 amt_cr2  from gen_jn  WHERE gen_jn.date_work   BETWEEN '" & "1-1-" & Format(MdStartDate, "yyyy") & "' AND '" & Format(S, "yyyy-MM-dd") & "' " & Ac_Code & " " & MULook2 & "   group BY ac_code")
-        CNN.Execute("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr   ) " & _
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr   ) " & _
         " select ac_code  , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr  , 0 As amt_dr2 , 0 amt_cr2 from Open_jn WHERE    date_work='" & "1-1-" & Format(MdStartDate, "yyyy") & "' " & Ac_Code & " " & MULook2 & "   group BY ac_code")
-        CNN.Execute("INSERT INTO Ap_balance_6_col ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr   ) " & _
+        DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6_col ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr   ) " & _
         " select ac_code , sum(open_amt_dr)as open_amt_dr , sum(open_amt_cr)as open_amt_cr , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr  from Ap_balance_6   group BY ac_code")
-        CNN.Execute("Update  Ap_balance_6_col set   open_amt_dr = open_amt_dr  - open_amt_cr , open_amt_cr=0  where open_amt_dr  >= open_amt_cr ")
-        CNN.Execute("Update  Ap_balance_6_col set   open_amt_cr = open_amt_cr  - open_amt_dr , open_amt_dr=0  where open_amt_cr  >= open_amt_dr ")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set   open_amt_dr = open_amt_dr  - open_amt_cr , open_amt_cr=0  where open_amt_dr  >= open_amt_cr ")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set   open_amt_cr = open_amt_cr  - open_amt_dr , open_amt_dr=0  where open_amt_cr  >= open_amt_dr ")
         Call Chang_Incom()
-        CNN.Execute("Update  Ap_balance_6_col set Rem_cr=0 , Rem_dr= (open_amt_dr + amt_dr) - (open_amt_cr + amt_cr) where (open_amt_dr + amt_dr) >= (open_amt_cr + amt_cr) ")
-        CNN.Execute("Update  Ap_balance_6_col set Rem_dr=0 , Rem_cr= (open_amt_cr + amt_cr) - (open_amt_dr + amt_dr) where (open_amt_cr + amt_cr) >= (open_amt_dr + amt_dr) ")
-        CNN.Execute("update Ap_balance_6_col set Ap_balance_6_col.ac_name=Acc_Code.Name_L from Ap_balance_6_col , Acc_Code where Ap_balance_6_col.Ac_Code = Acc_Code.Ac_Code")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set Rem_cr=0 , Rem_dr= (open_amt_dr + amt_dr) - (open_amt_cr + amt_cr) where (open_amt_dr + amt_dr) >= (open_amt_cr + amt_cr) ")
+        DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set Rem_dr=0 , Rem_cr= (open_amt_cr + amt_cr) - (open_amt_dr + amt_dr) where (open_amt_cr + amt_cr) >= (open_amt_dr + amt_dr) ")
+        DbHelper.ExecuteNonQuery("update Ap_balance_6_col set Ap_balance_6_col.ac_name=Acc_Code.Name_L from Ap_balance_6_col , Acc_Code where Ap_balance_6_col.Ac_Code = Acc_Code.Ac_Code")
 
     End Sub
 
@@ -66,7 +66,7 @@
   "Update  Ap_balance_6 set   amt_cr = amt_cr  - amt_dr , amt_dr=0  where amt_cr  >= amt_dr " & _
      "delete  Ap_balance_6_col  where left(Ac_Code,1) ='" & Code_Dr & "' Or left(Ac_Code,1)='" & Code_Cr & "'  or  Ac_Code =  '" & New_Code & "'  " & _
        "  insert Into Ap_balance_6_col (Ac_Code , open_amt_dr , open_amt_cr , amt_dr , amt_cr  ) select Ac_Code , open_amt_dr , open_amt_cr , amt_dr , amt_cr  from Ap_balance_6"
-        CNN.Execute(Insr)
+        DbHelper.ExecuteNonQuery(Insr)
     End Sub
 
 
@@ -80,9 +80,9 @@
         Call ChangBalance()
 
         Call ChangBalance()
-        CNN.Execute("update  Ap_Rpt_BLS_BOL_Item set Last_amt_dr  =  " & CDbl(0) & " , Last_amt_cr  = " & CDbl(0) & " ,amt_dr  =  " & CDbl(0) & " , amt_cr  = " & CDbl(0) & "  ")
-        CNN.Execute("update Ap_Rpt_BLS_BOL set Last_Amt = 0 , Amt  =  " & CDbl(0) & "  ")
-        CNN.Execute("DELETE FROM Ap_Rpt_BLS_BOL_Detail ")
+        DbHelper.ExecuteNonQuery("update  Ap_Rpt_BLS_BOL_Item set Last_amt_dr  =  " & CDbl(0) & " , Last_amt_cr  = " & CDbl(0) & " ,amt_dr  =  " & CDbl(0) & " , amt_cr  = " & CDbl(0) & "  ")
+        DbHelper.ExecuteNonQuery("update Ap_Rpt_BLS_BOL set Last_Amt = 0 , Amt  =  " & CDbl(0) & "  ")
+        DbHelper.ExecuteNonQuery("DELETE FROM Ap_Rpt_BLS_BOL_Detail ")
         SelcectIn()
         UpdateIIn()
         SelectOut()
@@ -130,113 +130,103 @@
         'MdStartDate = d1
         'MdToDate = d2
     End Sub
-    Private Sub LoadOpen_Jn16()
-        Dim RSC16 As New ADODB.Recordset
-        LoadSqlData("  select sum(rem_cr - rem_dr) as x  , count(rem_cr - rem_dr) as y  from Ap_balance_6_col  where Ac_Code Like '1%' or Ac_Code Like '2%' or Ac_Code Like '3%' ", RSC16)
+     Private Sub LoadOpen_Jn16()
+         'Dim RSC16 As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable("  select sum(rem_cr - rem_dr) as x  , count(rem_cr - rem_dr) as y  from Ap_balance_6_col  where Ac_Code Like '1%' or Ac_Code Like '2%' or Ac_Code Like '3%' ")
 
-        If CDbl(Trim(RSC16.Fields("y").Value)) > 0 Then
+         If dt.Rows.Count > 0 Then
+             Dim row As DataRow = dt.Rows(0)
+             If CDbl(Trim(DbHelper.GetStr(row("y")))) > 0 Then
 
-            If CDbl(Trim(RSC16.Fields("x").Value)) > 0 Then
-                Rem_Cr = CDbl(Trim(RSC16.Fields("x").Value))
-                Rem_Dr = 0
-            End If
-            If CDbl(Trim(RSC16.Fields("x").Value)) < 0 Then
-                Rem_Dr = CDbl(Trim(RSC16.Fields("x").Value)) * CDbl(-1)
-                Rem_Cr = 0
-            End If
-            If CDbl(Trim(RSC16.Fields("x").Value)) <> 0 Then
-                Call LoadOpen_Jn17()
-            End If
-        End If
+                 If CDbl(Trim(DbHelper.GetStr(row("x")))) > 0 Then
+                     Rem_Cr = CDbl(Trim(DbHelper.GetStr(row("x"))))
+                     Rem_Dr = 0
+                 End If
+                 If CDbl(Trim(DbHelper.GetStr(row("x")))) < 0 Then
+                     Rem_Dr = CDbl(Trim(DbHelper.GetStr(row("x")))) * CDbl(-1)
+                     Rem_Cr = 0
+                 End If
+                 If CDbl(Trim(DbHelper.GetStr(row("x")))) <> 0 Then
+                     Call LoadOpen_Jn17()
+                 End If
+             End If
+         End If
 
 
-    End Sub
-    Private Sub LoadOpen_Jn17()
-        Dim RSC17 As New ADODB.Recordset
-        LoadSqlData("   select Ac_Code from Ap_balance_6_col  where Ac_Code ='65'", RSC17)
-        If RSC17.RecordCount <> 0 Then
-            CNN.Execute(" Update Ap_balance_6_col set Amt_Dr = " & CDbl(Rem_Dr) & "  , Amt_Cr =" & CDbl(Rem_Cr) & " ")
-        Else
-            CNN.Execute("INSERT INTO Ap_balance_6_col ( ac_code ,ac_name , ac_namee , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
-             "Values('65', N'" & "***" & "', '" & "***" & "', " & _
-             " " & CDbl(0) & ", " & CDbl(0) & ", " & CDbl(Rem_Dr) & ", " & CDbl(Rem_Cr) & ",0 )")
-        End If
+     End Sub
+     Private Sub LoadOpen_Jn17()
+         'Dim RSC17 As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable("   select Ac_Code from Ap_balance_6_col  where Ac_Code ='65'")
+         If dt.Rows.Count <> 0 Then
+             DbHelper.ExecuteNonQuery(" Update Ap_balance_6_col set Amt_Dr = " & CDbl(Rem_Dr) & "  , Amt_Cr =" & CDbl(Rem_Cr) & " ")
+         Else
+             DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6_col ( ac_code ,ac_name , ac_namee , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
+              "Values('65', N'" & "***" & "', '" & "***" & "', " & _
+              " " & CDbl(0) & ", " & CDbl(0) & ", " & CDbl(Rem_Dr) & ", " & CDbl(Rem_Cr) & ",0 )")
+         End If
 
-        CNN.Execute(" Delete Ap_balance_6_col  where Ac_Code Like '1%' or Ac_Code Like '2%' or Ac_Code Like '3%'  ")
+         DbHelper.ExecuteNonQuery(" Delete Ap_balance_6_col  where Ac_Code Like '1%' or Ac_Code Like '2%' or Ac_Code Like '3%'  ")
 
-    End Sub
+     End Sub
     Private Sub SelcectIn()
 
-        CNN.Execute("Update Ap_Rpt_BLS_BOL_Item set Last_amt_dr= Ap_balance_6_col.open_amt_dr , Last_amt_cr= Ap_balance_6_col.open_amt_cr, amt_dr= Ap_balance_6_col.Rem_Dr , amt_cr= Ap_balance_6_col.Rem_cr from Ap_Rpt_BLS_BOL_Item , Ap_balance_6_col " & _
+        DbHelper.ExecuteNonQuery("Update Ap_Rpt_BLS_BOL_Item set Last_amt_dr= Ap_balance_6_col.open_amt_dr , Last_amt_cr= Ap_balance_6_col.open_amt_cr, amt_dr= Ap_balance_6_col.Rem_Dr , amt_cr= Ap_balance_6_col.Rem_cr from Ap_Rpt_BLS_BOL_Item , Ap_balance_6_col " & _
                 "where Ap_Rpt_BLS_BOL_Item.ac_code = Ap_balance_6_col.ac_code And  Rpt_Type = 'In'")
 
-        CNN.Execute("Insert into Ap_Rpt_BLS_BOL_Detail (  Rpt_Id , Ac_Code , Ac_Name , Last_Amt_Dr , Last_Amt_Cr , Amt_Dr , Amt_Cr , Rpt_Type )" & _
+        DbHelper.ExecuteNonQuery("Insert into Ap_Rpt_BLS_BOL_Detail (  Rpt_Id , Ac_Code , Ac_Name , Last_Amt_Dr , Last_Amt_Cr , Amt_Dr , Amt_Cr , Rpt_Type )" & _
          " select   Rpt_Id , Ac_Code , Ac_Name , Last_Amt_Dr , Last_Amt_Cr , Amt_Dr , Amt_Cr , Rpt_Type from Ap_Rpt_BLS_BOL_Item where Rpt_Type = 'In' And ( Amt_Dr <>0 or Amt_Cr <>0  or Last_Amt_Dr <>0 or Last_Amt_Cr <>0 )")
 
     End Sub
 
 
-    Private Sub SelcectInLast()
-        LoadSqlData("select * from Ap_Rpt_BLS_BOL_Item where  Rpt_Type = 'In'", RSCIn_M)
-        With RSCIn_M
-            Do Until .EOF = True
-                UpdateIIn_ItemLast()
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+     Private Sub SelcectInLast()
+         Dim dt As DataTable = DbHelper.GetDataTable("select * from Ap_Rpt_BLS_BOL_Item where  Rpt_Type = 'In'")
+         For Each row As DataRow In dt.Rows
+             UpdateIIn_ItemLast(row)
+         Next
+     End Sub
 
-    Private Sub UpdateIIn_Item()
-        Dim RSCkk As New ADODB.Recordset
-        LoadSqlData(" select * from Ap_balance_6_col   where ac_code =  '" & (RSCIn_M.Fields("Ac_Code").Value) & "' ", RSCkk)
-        With RSCkk
-            Do Until .EOF = True
-                CNN.Execute("Insert into Ap_Rpt_BLS_BOL_Detail (  Rpt_Id , Ac_Code , Ac_Name , Last_Amt_Dr , Last_Amt_Cr , Amt_Dr , Amt_Cr , Rpt_Type ) values ( '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'   , " & CDbl((.Fields("open_amt_dr").Value)) & " , " & CDbl((.Fields("open_amt_Cr").Value)) & "   , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & " , 'In')")
-                CNN.Execute("update  Ap_Rpt_BLS_BOL_Item set  Last_amt_dr  =  Last_amt_dr+" & CDbl((.Fields("open_amt_dr").Value)) & " , Last_amt_cr  = Last_amt_cr+" & CDbl((.Fields("open_amt_Cr").Value)) & " , Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'In' ")
-
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+     Private Sub UpdateIIn_Item(ByVal row As DataRow)
+         'Dim RSCkk As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable(" select * from Ap_balance_6_col   where ac_code =  '" & DbHelper.GetStr(row("Ac_Code")) & "' ")
+         For Each innerRow As DataRow In dt.Rows
+             DbHelper.ExecuteNonQuery("Insert into Ap_Rpt_BLS_BOL_Detail (  Rpt_Id , Ac_Code , Ac_Name , Last_Amt_Dr , Last_Amt_Cr , Amt_Dr , Amt_Cr , Rpt_Type ) values ( '" & DbHelper.GetStr(row("Rpt_Id")) & "' , '" & DbHelper.GetStr(innerRow("Ac_Code")) & "' , N'" & DbHelper.GetStr(innerRow("Ac_Name")) & "'   , " & CDbl(DbHelper.GetStr(innerRow("open_amt_dr"))) & " , " & CDbl(DbHelper.GetStr(innerRow("open_amt_Cr"))) & "   , " & CDbl(DbHelper.GetStr(innerRow("Rem_dr"))) & " , " & CDbl(DbHelper.GetStr(innerRow("Rem_cr"))) & " , 'In')")
+             DbHelper.ExecuteNonQuery("update  Ap_Rpt_BLS_BOL_Item set  Last_amt_dr  =  Last_amt_dr+" & CDbl(DbHelper.GetStr(innerRow("open_amt_dr"))) & " , Last_amt_cr  = Last_amt_cr+" & CDbl(DbHelper.GetStr(innerRow("open_amt_Cr"))) & " , Amt_Dr  =  Amt_Dr+" & CDbl(DbHelper.GetStr(innerRow("Rem_dr"))) & " , Amt_Cr  = Amt_Cr+" & CDbl(DbHelper.GetStr(innerRow("Rem_cr"))) & "   where ac_code = '" & DbHelper.GetStr(row("ac_code")) & "' And  Rpt_Type = 'In' ")
+         Next
+     End Sub
 
 
-    Private Sub UpdateIIn_ItemLast()
-        Dim RSCkk As New ADODB.Recordset
-        LoadSqlData(" select * from Ap_balance_6_col   where ac_code =  '" & (RSCIn_M.Fields("Ac_Code").Value) & "' ", RSCkk)
-        With RSCkk
-            Do Until .EOF = True
-                CNN.Execute("Insert into Ap_Rpt_BLS_BOL_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  , Last_Amt_Dr , Last_Amt_Cr , Rpt_Type) values (  '" & CStr((RSCIn_M.Fields("Ac_Code").Value)) & "' , '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'  , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & " , 'In' )")
-                CNN.Execute("update  Ap_Rpt_BLS_BOL_Item set Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'In' ")
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+     Private Sub UpdateIIn_ItemLast(ByVal row As DataRow)
+         'Dim RSCkk As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable(" select * from Ap_balance_6_col   where ac_code =  '" & DbHelper.GetStr(row("Ac_Code")) & "' ")
+         For Each innerRow As DataRow In dt.Rows
+             DbHelper.ExecuteNonQuery("Insert into Ap_Rpt_BLS_BOL_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  , Last_Amt_Dr , Last_Amt_Cr , Rpt_Type) values (  '" & DbHelper.GetStr(row("Ac_Code")) & "' , '" & DbHelper.GetStr(row("Rpt_Id")) & "' , '" & DbHelper.GetStr(innerRow("Ac_Code")) & "' , N'" & DbHelper.GetStr(innerRow("Ac_Name")) & "'  , " & CDbl(DbHelper.GetStr(innerRow("Rem_dr"))) & " , " & CDbl(DbHelper.GetStr(innerRow("Rem_cr"))) & ", 'In')")
+             DbHelper.ExecuteNonQuery("update  Ap_Rpt_BLS_BOL_Item set Amt_Dr  =  Amt_Dr+" & CDbl(DbHelper.GetStr(innerRow("Rem_dr"))) & " , Amt_Cr  = Amt_Cr+" & CDbl(DbHelper.GetStr(innerRow("Rem_cr"))) & "   where ac_code = '" & DbHelper.GetStr(row("ac_code")) & "' And  Rpt_Type = 'In' ")
+         Next
+     End Sub
 
     Private Sub UpdateIIn()
-        CNN.Execute("delete Ap_Rpt_BLS_BOL_Stock ")
-        CNN.Execute(" insert into Ap_Rpt_BLS_BOL_Stock ( Rpt_ID , Last_Amt_Dr , Last_Amt_Cr, Amt_Dr , Amt_Cr)" & _
+        DbHelper.ExecuteNonQuery("delete Ap_Rpt_BLS_BOL_Stock ")
+        DbHelper.ExecuteNonQuery(" insert into Ap_Rpt_BLS_BOL_Stock ( Rpt_ID , Last_Amt_Dr , Last_Amt_Cr, Amt_Dr , Amt_Cr)" & _
                      "  select Rpt_ID , sum(Last_Amt_Dr) As Last_Amt_Dr , sum(Last_Amt_Cr) As Last_Amt_Cr ,sum(Amt_Dr) As Amt_Dr , sum(Amt_Cr) As Amt_Cr   from Ap_Rpt_BLS_BOL_Item  where  Rpt_Type = 'In' group by Rpt_ID")
-        CNN.Execute("Update Ap_Rpt_BLS_BOL set Amt = Ap_Rpt_BLS_BOL_Stock.Amt_Dr-Ap_Rpt_BLS_BOL_Stock.Amt_cr ,Last_Amt =Ap_Rpt_BLS_BOL_Stock.Last_Amt_dr-Ap_Rpt_BLS_BOL_Stock.Last_Amt_Cr  from Ap_Rpt_BLS_BOL ,Ap_Rpt_BLS_BOL_Stock where  Ap_Rpt_BLS_BOL.Rpt_ID=Ap_Rpt_BLS_BOL_Stock.Rpt_ID")
+        DbHelper.ExecuteNonQuery("Update Ap_Rpt_BLS_BOL set Amt = Ap_Rpt_BLS_BOL_Stock.Amt_Dr-Ap_Rpt_BLS_BOL_Stock.Amt_cr ,Last_Amt =Ap_Rpt_BLS_BOL_Stock.Last_Amt_dr-Ap_Rpt_BLS_BOL_Stock.Last_Amt_Cr  from Ap_Rpt_BLS_BOL ,Ap_Rpt_BLS_BOL_Stock where  Ap_Rpt_BLS_BOL.Rpt_ID=Ap_Rpt_BLS_BOL_Stock.Rpt_ID")
     End Sub
-    Private Sub UpdateIInLast()
-        Dim RSC As New ADODB.Recordset
-        LoadSqlData("select Rpt_ID, sum(Amt_Dr) As Amt_Dr , sum(Amt_Cr) As Amt_Cr  from Ap_Rpt_BLS_BOL_Item  where  Rpt_Type = 'In' group by Rpt_ID ", RSC)
-        With RSC
-            Do Until .EOF = True
-                CNN.Execute("Update Ap_Rpt_BLS_BOL set " & _
-                            " Last_Amt ='" & CDbl(CDbl((.Fields("Amt_dr").Value)) - CDbl((.Fields("Amt_cr").Value))) & "' " & _
-                               " where Rpt_ID = '" & (.Fields("Rpt_ID").Value) & "' ")
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+     Private Sub UpdateIInLast()
+         'Dim RSC As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable("select Rpt_ID, sum(Amt_Dr) As Amt_Dr , sum(Amt_Cr) As Amt_Cr  from Ap_Rpt_BLS_BOL_Item  where  Rpt_Type = 'In' group by Rpt_ID ")
+         For Each row As DataRow In dt.Rows
+             DbHelper.ExecuteNonQuery("Update Ap_Rpt_BLS_BOL set " & _
+                         " Last_Amt ='" & CDbl(CDbl(DbHelper.GetStr(row("Amt_dr"))) - CDbl(DbHelper.GetStr(row("Amt_cr")))) & "' " & _
+                            " where Rpt_ID = '" & DbHelper.GetStr(row("Rpt_ID")) & "' ")
+         Next
+     End Sub
 
 
     Private Sub SelectOut()
-        CNN.Execute("Update Ap_Rpt_BLS_BOL_Item set Last_amt_dr= Ap_balance_6_col.open_amt_dr , Last_amt_cr= Ap_balance_6_col.open_amt_cr, amt_dr= Ap_balance_6_col.Rem_Dr , amt_cr= Ap_balance_6_col.Rem_cr from Ap_Rpt_BLS_BOL_Item , Ap_balance_6_col " & _
+        DbHelper.ExecuteNonQuery("Update Ap_Rpt_BLS_BOL_Item set Last_amt_dr= Ap_balance_6_col.open_amt_dr , Last_amt_cr= Ap_balance_6_col.open_amt_cr, amt_dr= Ap_balance_6_col.Rem_Dr , amt_cr= Ap_balance_6_col.Rem_cr from Ap_Rpt_BLS_BOL_Item , Ap_balance_6_col " & _
           "where Ap_Rpt_BLS_BOL_Item.ac_code = Ap_balance_6_col.ac_code And  Rpt_Type = 'Out'")
 
-        CNN.Execute("Insert into Ap_Rpt_BLS_BOL_Detail (  Rpt_Id , Ac_Code , Ac_Name , Last_Amt_Dr , Last_Amt_Cr , Amt_Dr , Amt_Cr , Rpt_Type )" & _
+        DbHelper.ExecuteNonQuery("Insert into Ap_Rpt_BLS_BOL_Detail (  Rpt_Id , Ac_Code , Ac_Name , Last_Amt_Dr , Last_Amt_Cr , Amt_Dr , Amt_Cr , Rpt_Type )" & _
          " select   Rpt_Id , Ac_Code , Ac_Name , Last_Amt_Dr , Last_Amt_Cr , Amt_Dr , Amt_Cr , Rpt_Type from Ap_Rpt_BLS_BOL_Item where Rpt_Type = 'Out' And ( Amt_Dr <>0 or Amt_Cr <>0  or Last_Amt_Dr <>0 or Last_Amt_Cr <>0 )")
 
         'LoadSqlData("select * from Ap_Rpt_BLS_BOL_Item where  Rpt_Type = 'Out' ", RSCIn_M)
@@ -248,44 +238,34 @@
         'End With
         'If RSCIn_M.State = ConnectionState.Open Then RSCIn_M.Close()
     End Sub
-    Private Sub SelectOutLast()
+     Private Sub SelectOutLast()
 
-        LoadSqlData("select * from Ap_Rpt_BLS_BOL_Item where  Rpt_Type = 'Out' ", RSCIn_M)
-        With RSCIn_M
-            Do Until .EOF = True
-                Call UpdateOut_ItemLast()
-                .MoveNext()
-            Loop
-        End With
-        'If RSCIn_M.State = ConnectionState.Open Then RSCIn_M.Close()
-    End Sub
+         Dim dt As DataTable = DbHelper.GetDataTable("select * from Ap_Rpt_BLS_BOL_Item where  Rpt_Type = 'Out' ")
+         For Each row As DataRow In dt.Rows
+             UpdateOut_ItemLast(row)
+         Next
+         'If RSCIn_M.State = ConnectionState.Open Then RSCIn_M.Close()
+     End Sub
 
-    Private Sub UpdateOut_Item()
-        Dim RSCkk As New ADODB.Recordset
-        LoadSqlData(" select * from Ap_balance_6_col   where ac_code =  '" & (RSCIn_M.Fields("Ac_Code").Value) & "' ", RSCkk)
-        With RSCkk
-            Do Until .EOF = True
-                CNN.Execute("Insert into Ap_Rpt_BLS_BOL_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  ,  Last_Amt_Dr , Last_Amt_Cr, Amt_Dr , Amt_Cr , Rpt_Type ) values (  '" & CStr((RSCIn_M.Fields("Ac_Code").Value)) & "' , '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'  ,   " & CDbl((.Fields("Open_Amt_dr").Value)) & " , " & CDbl((.Fields("Open_Amt_cr").Value)) & " , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & " , 'Out' )")
-                CNN.Execute("update  Ap_Rpt_BLS_BOL_Item set Last_Amt_Dr  =  Last_Amt_Dr+" & CDbl((.Fields("Open_Amt_dr").Value)) & " , Last_Amt_Cr  = Last_Amt_Cr+" & CDbl((.Fields("Open_Amt_cr").Value)) & "  , Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'Out' ")
+     Private Sub UpdateOut_Item(ByVal row As DataRow)
+         'Dim RSCkk As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable(" select * from Ap_balance_6_col   where ac_code =  '" & DbHelper.GetStr(row("Ac_Code")) & "' ")
+         For Each innerRow As DataRow In dt.Rows
+             DbHelper.ExecuteNonQuery("Insert into Ap_Rpt_BLS_BOL_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  ,  Last_Amt_Dr , Last_Amt_Cr, Amt_Dr , Amt_Cr , Rpt_Type ) values (  '" & DbHelper.GetStr(row("Ac_Code")) & "' , '" & DbHelper.GetStr(row("Rpt_Id")) & "' , '" & DbHelper.GetStr(innerRow("Ac_Code")) & "' , N'" & DbHelper.GetStr(innerRow("Ac_Name")) & "'  ,   " & CDbl(DbHelper.GetStr(innerRow("Open_Amt_dr"))) & " , " & CDbl(DbHelper.GetStr(innerRow("Open_Amt_cr"))) & " , " & CDbl(DbHelper.GetStr(innerRow("Rem_dr"))) & " , " & CDbl(DbHelper.GetStr(innerRow("Rem_cr"))) & " , 'Out' )")
+             DbHelper.ExecuteNonQuery("update  Ap_Rpt_BLS_BOL_Item set Last_Amt_Dr  =  Last_Amt_Dr+" & CDbl(DbHelper.GetStr(innerRow("Open_Amt_dr"))) & " , Last_Amt_Cr  = Last_Amt_Cr+" & CDbl(DbHelper.GetStr(innerRow("Open_Amt_cr"))) & "  , Amt_Dr  =  Amt_Dr+" & CDbl(DbHelper.GetStr(innerRow("Rem_dr"))) & " , Amt_Cr  = Amt_Cr+" & CDbl(DbHelper.GetStr(innerRow("Rem_cr"))) & "   where ac_code = '" & DbHelper.GetStr(row("ac_code")) & "' And  Rpt_Type = 'Out' ")
+         Next
 
-                .MoveNext()
-            Loop
-        End With
+     End Sub
 
-    End Sub
+     Private Sub UpdateOut_ItemLast(ByVal row As DataRow)
+         'Dim RSCkk As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable(" select * from Ap_balance_6_col   where ac_code =  '" & DbHelper.GetStr(row("Ac_Code")) & "' ")
+         For Each innerRow As DataRow In dt.Rows
+             DbHelper.ExecuteNonQuery("Insert into Ap_Rpt_BLS_BOL_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  , Last_Amt_Dr , Last_Amt_Cr , Rpt_Type) values (  '" & DbHelper.GetStr(row("Ac_Code")) & "' , '" & DbHelper.GetStr(row("Rpt_Id")) & "' , '" & DbHelper.GetStr(innerRow("Ac_Code")) & "' , N'" & DbHelper.GetStr(innerRow("Ac_Name")) & "'  , " & CDbl(DbHelper.GetStr(innerRow("Rem_dr"))) & " , " & CDbl(DbHelper.GetStr(innerRow("Rem_cr"))) & ", 'Out')")
+             DbHelper.ExecuteNonQuery("update  Ap_Rpt_BLS_BOL_Item set Amt_Dr  =  Amt_Dr+" & CDbl(DbHelper.GetStr(innerRow("Rem_dr"))) & " , Amt_Cr  = Amt_Cr+" & CDbl(DbHelper.GetStr(innerRow("Rem_cr"))) & "   where ac_code = '" & DbHelper.GetStr(row("ac_code")) & "' And  Rpt_Type = 'Out' ")
+         Next
 
-    Private Sub UpdateOut_ItemLast()
-        Dim RSCkk As New ADODB.Recordset
-        LoadSqlData(" select * from Ap_balance_6_col   where ac_code =  '" & (RSCIn_M.Fields("Ac_Code").Value) & "' ", RSCkk)
-        With RSCkk
-            Do Until .EOF = True
-                CNN.Execute("Insert into Ap_Rpt_BLS_BOL_Detail (Ac_Code_Parent , Rpt_Id , Ac_Code , Ac_Name  , Last_Amt_Dr , Last_Amt_Cr , Rpt_Type) values (  '" & CStr((RSCIn_M.Fields("Ac_Code").Value)) & "' , '" & CStr((RSCIn_M.Fields("Rpt_Id").Value)) & "' , '" & CStr((.Fields("Ac_Code").Value)) & "' , N'" & CStr((.Fields("Ac_Name").Value)) & "'  , " & CDbl((.Fields("Rem_dr").Value)) & " , " & CDbl((.Fields("Rem_cr").Value)) & ", 'Out')")
-                CNN.Execute("update  Ap_Rpt_BLS_BOL_Item set Amt_Dr  =  Amt_Dr+" & CDbl((.Fields("Rem_dr").Value)) & " , Amt_Cr  = Amt_Cr+" & CDbl((.Fields("Rem_cr").Value)) & "   where ac_code = '" & (RSCIn_M.Fields("ac_code").Value) & "' And  Rpt_Type = 'Out' ")
-                .MoveNext()
-            Loop
-        End With
-
-    End Sub
+     End Sub
 
 
 
@@ -294,7 +274,7 @@
     '    LoadSqlData("select Rpt_ID, sum(Last_Amt_Dr) As Last_Amt_Dr , sum(Last_Amt_Cr) As Last_Amt_Cr  from Ap_Rpt_BLS_BOL_Item  where  Rpt_Type = 'Out' group by Rpt_ID ", RSC)
     '    With RSC
     '        Do Until .EOF = True
-    '            CNN.Execute("Update Ap_Rpt_BLS_BOL set " & _
+    '            DbHelper.ExecuteNonQuery("Update Ap_Rpt_BLS_BOL set " & _
     '                     " Last_Amt ='" & CDbl(CDbl((.Fields("Last_Amt_cr").Value)) - CDbl((.Fields("Last_Amt_dr").Value))) & "' " & _
     '                        " where Rpt_ID = '" & (.Fields("Rpt_ID").Value) & "' ")
     '            .MoveNext()
@@ -303,16 +283,16 @@
     'End Sub
 
     Private Sub UpdateOut()
-        CNN.Execute("delete Ap_Rpt_BLS_BOL_Stock ")
-        CNN.Execute(" insert into Ap_Rpt_BLS_BOL_Stock ( Rpt_ID , Last_Amt_Dr , Last_Amt_Cr, Amt_Dr , Amt_Cr)" & _
+        DbHelper.ExecuteNonQuery("delete Ap_Rpt_BLS_BOL_Stock ")
+        DbHelper.ExecuteNonQuery(" insert into Ap_Rpt_BLS_BOL_Stock ( Rpt_ID , Last_Amt_Dr , Last_Amt_Cr, Amt_Dr , Amt_Cr)" & _
                      "  select Rpt_ID , sum(Last_Amt_Dr) As Last_Amt_Dr , sum(Last_Amt_Cr) As Last_Amt_Cr ,sum(Amt_Dr) As Amt_Dr , sum(Amt_Cr) As Amt_Cr   from Ap_Rpt_BLS_BOL_Item  where  Rpt_Type = 'Out' group by Rpt_ID")
-        CNN.Execute("Update Ap_Rpt_BLS_BOL set Amt = Ap_Rpt_BLS_BOL_Stock.Amt_Dr-Ap_Rpt_BLS_BOL_Stock.Amt_Dr ,Last_Amt =Ap_Rpt_BLS_BOL_Stock.Last_Amt_dr-Ap_Rpt_BLS_BOL_Stock.Last_Amt_Cr  from Ap_Rpt_BLS_BOL ,Ap_Rpt_BLS_BOL_Stock where  Ap_Rpt_BLS_BOL.Rpt_ID=Ap_Rpt_BLS_BOL_Stock.Rpt_ID")
-        CNN.Execute("Update Ap_Rpt_BLS_BOL set Amt = Ap_Rpt_BLS_BOL_Stock.Amt_Cr-Ap_Rpt_BLS_BOL_Stock.Amt_Dr ,Last_Amt =Ap_Rpt_BLS_BOL_Stock.Last_Amt_Cr-Ap_Rpt_BLS_BOL_Stock.Last_Amt_Dr  from Ap_Rpt_BLS_BOL ,Ap_Rpt_BLS_BOL_Stock where  Ap_Rpt_BLS_BOL.Rpt_ID=Ap_Rpt_BLS_BOL_Stock.Rpt_ID")
+        DbHelper.ExecuteNonQuery("Update Ap_Rpt_BLS_BOL set Amt = Ap_Rpt_BLS_BOL_Stock.Amt_Dr-Ap_Rpt_BLS_BOL_Stock.Amt_Dr ,Last_Amt =Ap_Rpt_BLS_BOL_Stock.Last_Amt_dr-Ap_Rpt_BLS_BOL_Stock.Last_Amt_Cr  from Ap_Rpt_BLS_BOL ,Ap_Rpt_BLS_BOL_Stock where  Ap_Rpt_BLS_BOL.Rpt_ID=Ap_Rpt_BLS_BOL_Stock.Rpt_ID")
+        DbHelper.ExecuteNonQuery("Update Ap_Rpt_BLS_BOL set Amt = Ap_Rpt_BLS_BOL_Stock.Amt_Cr-Ap_Rpt_BLS_BOL_Stock.Amt_Dr ,Last_Amt =Ap_Rpt_BLS_BOL_Stock.Last_Amt_Cr-Ap_Rpt_BLS_BOL_Stock.Last_Amt_Dr  from Ap_Rpt_BLS_BOL ,Ap_Rpt_BLS_BOL_Stock where  Ap_Rpt_BLS_BOL.Rpt_ID=Ap_Rpt_BLS_BOL_Stock.Rpt_ID")
         Dim RSC As New ADODB.Recordset
         'LoadSqlData("select Rpt_ID, sum(Last_Amt_dr) As Last_Amt_Dr , sum(Last_Amt_cr) As Last_Amt_cr , sum(Amt_Dr) As Amt_Dr , sum(Amt_Cr) As Amt_Cr  from Ap_Rpt_BLS_BOL_Item  where  Rpt_Type = 'Out' group by Rpt_ID ", RSC)
         'With RSC
         '    Do Until .EOF = True
-        '        CNN.Execute("Update Ap_Rpt_BLS_BOL set " & _
+        '        DbHelper.ExecuteNonQuery("Update Ap_Rpt_BLS_BOL set " & _
         '                 " Amt ='" & CDbl(CDbl((.Fields("Amt_cr").Value)) - CDbl((.Fields("Amt_dr").Value))) & "' " & _
         '                   " ,Last_Amt ='" & CDbl(CDbl((.Fields("Last_Amt_cr").Value)) - CDbl((.Fields("Last_Amt_dr").Value))) & "' " & _
         '                    " where Rpt_ID = '" & (.Fields("Rpt_ID").Value) & "' ")
@@ -322,77 +302,71 @@
     End Sub
 
 
-    Private Sub UpdateOutLast()
-        Dim RSC As New ADODB.Recordset
-        LoadSqlData("select Rpt_ID, sum(Amt_Dr) As Amt_Dr , sum(Amt_Cr) As Amt_Cr  from Ap_Rpt_BLS_BOL_Item  where  Rpt_Type = 'Out' group by Rpt_ID ", RSC)
-        With RSC
-            Do Until .EOF = True
-                CNN.Execute("Update Ap_Rpt_BLS_BOL set " & _
-                         " Last_Amt ='" & CDbl(CDbl((.Fields("Amt_cr").Value)) - CDbl((.Fields("Amt_dr").Value))) & "' " & _
-                            " where Rpt_ID = '" & (.Fields("Rpt_ID").Value) & "' ")
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+     Private Sub UpdateOutLast()
+         'Dim RSC As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable("select Rpt_ID, sum(Amt_Dr) As Amt_Dr , sum(Amt_Cr) As Amt_Cr  from Ap_Rpt_BLS_BOL_Item  where  Rpt_Type = 'Out' group by Rpt_ID ")
+         For Each row As DataRow In dt.Rows
+             DbHelper.ExecuteNonQuery("Update Ap_Rpt_BLS_BOL set " & _
+                      " Last_Amt ='" & CDbl(CDbl(DbHelper.GetStr(row("Amt_cr"))) - CDbl(DbHelper.GetStr(row("Amt_dr")))) & "' " & _
+                         " where Rpt_ID = '" & DbHelper.GetStr(row("Rpt_ID")) & "' ")
+         Next
+     End Sub
     Private Sub Update_Sum()
-        CNN.Execute("update Ap_Rpt_BLS_BOL_Detail set  Rpt_Name=Ap_Rpt_BLS_BOL.Description from   Ap_Rpt_BLS_BOL_Detail , Ap_Rpt_BLS_BOL  where Ap_Rpt_BLS_BOL_Detail.Rpt_Id = Ap_Rpt_BLS_BOL.Rpt_Id")
-        CNN.Execute(" Update Caculate_Rpt set  CLT_Amt  = CLT_Str ,  CLT_Last_Amt  = CLT_Str where CLT_Str = '+' or CLT_Str = '-' or CLT_Str = '*' or CLT_Str = '+' or CLT_Str = '/' or CLT_Str = '(' or CLT_Str=')' ")
-        CNN.Execute("delete Caculate_Lock")
-        CNN.Execute("delete Caculate_Start")
-        CNN.Execute(" Insert Into Caculate_Start (Rpt_Id , Rpt_Type , clt_Str , clt_Amt , Clt_Last_Amt ) select Rpt_Id , Rpt_Type , clt_Str , clt_Amt , Clt_Last_Amt from Caculate_Rpt where Rpt_Type = 'BLS_BOL'  Order by  Rpt_id ,cnt asc  ")
-        CNN.Execute("update Caculate_Start set lck =0")
-        CNN.Execute("Insert into Caculate_Lock (cnt_Mt)  SELECT  (SELECT     TOP 1 cnt FROM Caculate_Start AS B WHERE(Rpt_Id = A.Rpt_Id   ) ORDER BY cnt desc) AS cnt FROM Caculate_Start  AS A  GROUP BY Rpt_Id ORDER BY Rpt_Id")
-        CNN.Execute("update  Caculate_Start set lck=1 from Caculate_Start ,Caculate_Lock  where Caculate_Start.cnt=Caculate_Lock.cnt_MT")
-        CNN.Execute("  Update Caculate_Start set Caculate_Start.Amt = Ap_Rpt_BLS_BOL.Amt , Caculate_Start.Last_Amt = Ap_Rpt_BLS_BOL.Last_Amt   from Caculate_Start , Ap_Rpt_BLS_BOL  where  Caculate_Start.CLT_Str  = Ap_Rpt_BLS_BOL.Rpt_Id  ")
-        CNN.Execute("Update Caculate_Start set lck_Amt=0")
-        CNN.Execute("Update Caculate_Start set lck_Amt=1 where CLT_Str <> '+' And CLT_Str <> '-' And CLT_Str <> '*' And CLT_Str <> '+' And CLT_Str <> '/' And CLT_Str <> '(' And CLT_Str<>')'")
-        Dim RSC1 As New ADODB.Recordset
-        CLT_Str = ""
-        CLT_Last_Str = ""
-        With RSC1
-            Call LoadSqlData("select *  from Caculate_Start where Rpt_Type = 'BLS_BOL'  Order by  Rpt_id ,cnt asc", RSC1)
-            If .RecordCount > 0 Then
-                While Not .EOF()
-                    If (RSC1.Fields("lck_Amt").Value.ToString) = "1" Then
-                        CLT_Str = CLT_Str & CDbl(RSC1.Fields("Amt").Value)
-                        CLT_Last_Str = CLT_Last_Str & CDbl(RSC1.Fields("Last_Amt").Value)
-                    Else
-                        CLT_Str = CLT_Str & Trim(RSC1.Fields("CLT_Amt").Value)
-                        CLT_Last_Str = CLT_Last_Str & Trim(RSC1.Fields("CLT_Last_Amt").Value)
-                    End If
-                    If (RSC1.Fields("lck").Value.ToString) = "1" Then
-                        'Dim s As String = " Update  Ap_Rpt_BLS_BOL set Amt = " & (CLT_Str) & " , Last_Amt = " & (CLT_Last_Str) & " where  Rpt_ID =   '" & (RSC1.Fields("Rpt_ID").Value.ToString) & "'"
-                        'CNN.Execute(s)
-                        On Error GoTo hang
-hang:
-                        If Err.Number = 0 Then
-                            Dim s As String = " Update  Ap_Rpt_BLS_BOL set Amt = " & CLT_Str & " , Last_Amt = " & CLT_Last_Str & " where  Rpt_ID =   '" & (RSC1.Fields("Rpt_ID").Value.ToString) & "'"
-                            CNN.Execute(s)
-                        Else
-                            MessageBox.Show("ສູດຄິດໄລ່ຂອງ " & (RSC1.Fields("Rpt_ID").Value.ToString) & " = " & CLT_Last_Str & " ບໍ່ຖຶກຕ້ອງກະລຸນນາກວດສອບຄືນໃຫມ່")
-                            Exit Sub
-                        End If
-                        CLT_Str = ""
-                        CLT_Last_Str = ""
-                    End If
-                    .MoveNext()
-                End While
-            End If
-        End With
+        DbHelper.ExecuteNonQuery("update Ap_Rpt_BLS_BOL_Detail set  Rpt_Name=Ap_Rpt_BLS_BOL.Description from   Ap_Rpt_BLS_BOL_Detail , Ap_Rpt_BLS_BOL  where Ap_Rpt_BLS_BOL_Detail.Rpt_Id = Ap_Rpt_BLS_BOL.Rpt_Id")
+        DbHelper.ExecuteNonQuery(" Update Caculate_Rpt set  CLT_Amt  = CLT_Str ,  CLT_Last_Amt  = CLT_Str where CLT_Str = '+' or CLT_Str = '-' or CLT_Str = '*' or CLT_Str = '+' or CLT_Str = '/' or CLT_Str = '(' or CLT_Str=')' ")
+        DbHelper.ExecuteNonQuery("delete Caculate_Lock")
+        DbHelper.ExecuteNonQuery("delete Caculate_Start")
+        DbHelper.ExecuteNonQuery(" Insert Into Caculate_Start (Rpt_Id , Rpt_Type , clt_Str , clt_Amt , Clt_Last_Amt ) select Rpt_Id , Rpt_Type , clt_Str , clt_Amt , Clt_Last_Amt from Caculate_Rpt where Rpt_Type = 'BLS_BOL'  Order by  Rpt_id ,cnt asc  ")
+        DbHelper.ExecuteNonQuery("update Caculate_Start set lck =0")
+        DbHelper.ExecuteNonQuery("Insert into Caculate_Lock (cnt_Mt)  SELECT  (SELECT     TOP 1 cnt FROM Caculate_Start AS B WHERE(Rpt_Id = A.Rpt_Id   ) ORDER BY cnt desc) AS cnt FROM Caculate_Start  AS A  GROUP BY Rpt_Id ORDER BY Rpt_Id")
+        DbHelper.ExecuteNonQuery("update  Caculate_Start set lck=1 from Caculate_Start ,Caculate_Lock  where Caculate_Start.cnt=Caculate_Lock.cnt_MT")
+        DbHelper.ExecuteNonQuery("  Update Caculate_Start set Caculate_Start.Amt = Ap_Rpt_BLS_BOL.Amt , Caculate_Start.Last_Amt = Ap_Rpt_BLS_BOL.Last_Amt   from Caculate_Start , Ap_Rpt_BLS_BOL  where  Caculate_Start.CLT_Str  = Ap_Rpt_BLS_BOL.Rpt_Id  ")
+        DbHelper.ExecuteNonQuery("Update Caculate_Start set lck_Amt=0")
+        DbHelper.ExecuteNonQuery("Update Caculate_Start set lck_Amt=1 where CLT_Str <> '+' And CLT_Str <> '-' And CLT_Str <> '*' And CLT_Str <> '+' And CLT_Str <> '/' And CLT_Str <> '(' And CLT_Str<>')'")
+         'Dim RSC1 As New ADODB.Recordset
+         CLT_Str = ""
+         CLT_Last_Str = ""
+         Dim dt As DataTable = DbHelper.GetDataTable("select *  from Caculate_Start where Rpt_Type = 'BLS_BOL'  Order by  Rpt_id ,cnt asc")
+         If dt.Rows.Count > 0 Then
+             For Each row As DataRow In dt.Rows
+                 If DbHelper.GetStr(row("lck_Amt")) = "1" Then
+                     CLT_Str = CLT_Str & CDbl(DbHelper.GetStr(row("Amt")))
+                     CLT_Last_Str = CLT_Last_Str & CDbl(DbHelper.GetStr(row("Last_Amt")))
+                 Else
+                     CLT_Str = CLT_Str & Trim(DbHelper.GetStr(row("CLT_Amt")))
+                     CLT_Last_Str = CLT_Last_Str & Trim(DbHelper.GetStr(row("CLT_Last_Amt")))
+                 End If
+                 If DbHelper.GetStr(row("lck")) = "1" Then
+                     'Dim s As String = " Update  Ap_Rpt_BLS_BOL set Amt = " & (CLT_Str) & " , Last_Amt = " & (CLT_Last_Str) & " where  Rpt_ID =   '" & DbHelper.GetStr(row("Rpt_ID")) & "'"
+                     'DbHelper.ExecuteNonQuery(s)
+                     On Error GoTo hang
+ hang:
+                     If Err.Number = 0 Then
+                         Dim s As String = " Update  Ap_Rpt_BLS_BOL set Amt = " & CLT_Str & " , Last_Amt = " & CLT_Last_Str & " where  Rpt_ID =   '" & DbHelper.GetStr(row("Rpt_ID")) & "'"
+                         DbHelper.ExecuteNonQuery(s)
+                     Else
+                         MessageBox.Show("ສູດຄິດໄລ່ຂອງ " & DbHelper.GetStr(row("Rpt_ID")) & " = " & CLT_Last_Str & " ບໍ່ຖຶກຕ້ອງກະລຸນນາກວດສອບຄືນໃຫມ່")
+                         Exit Sub
+                     End If
+                     CLT_Str = ""
+                     CLT_Last_Str = ""
+                 End If
+             Next
+         End If
 
 
-        '        CNN.Execute("update Ap_Rpt_BLS_BOL_Detail set  Rpt_Name=Ap_Rpt_BLS_BOL.Description from   Ap_Rpt_BLS_BOL_Detail , Ap_Rpt_BLS_BOL  where Ap_Rpt_BLS_BOL_Detail.Rpt_Id = Ap_Rpt_BLS_BOL.Rpt_Id")
-        '        CNN.Execute(" Update Caculate_Rpt set  CLT_Amt  = CLT_Str ,  CLT_Last_Amt  = CLT_Str where CLT_Str = '+' or CLT_Str = '-' or CLT_Str = '*' or CLT_Str = '+' or CLT_Str = '/' or CLT_Str = '(' or CLT_Str=')' Or CLT_Str<>'Cast(('   Or CLT_Str<>')As Float)'")
-        '        CNN.Execute("delete Caculate_Lock")
-        '        CNN.Execute("delete Caculate_Start")
-        '        CNN.Execute(" Insert Into Caculate_Start (Rpt_Id , Rpt_Type , clt_Str , clt_Amt , Clt_Last_Amt ) " & _
+        '        DbHelper.ExecuteNonQuery("update Ap_Rpt_BLS_BOL_Detail set  Rpt_Name=Ap_Rpt_BLS_BOL.Description from   Ap_Rpt_BLS_BOL_Detail , Ap_Rpt_BLS_BOL  where Ap_Rpt_BLS_BOL_Detail.Rpt_Id = Ap_Rpt_BLS_BOL.Rpt_Id")
+        '        DbHelper.ExecuteNonQuery(" Update Caculate_Rpt set  CLT_Amt  = CLT_Str ,  CLT_Last_Amt  = CLT_Str where CLT_Str = '+' or CLT_Str = '-' or CLT_Str = '*' or CLT_Str = '+' or CLT_Str = '/' or CLT_Str = '(' or CLT_Str=')' Or CLT_Str<>'Cast(('   Or CLT_Str<>')As Float)'")
+        '        DbHelper.ExecuteNonQuery("delete Caculate_Lock")
+        '        DbHelper.ExecuteNonQuery("delete Caculate_Start")
+        '        DbHelper.ExecuteNonQuery(" Insert Into Caculate_Start (Rpt_Id , Rpt_Type , clt_Str , clt_Amt , Clt_Last_Amt ) " & _
         '                    " select Rpt_Id , Rpt_Type , clt_Str , clt_Amt , Clt_Last_Amt from Caculate_Rpt where Rpt_Type = 'BLS_BOL'  Order by  Rpt_id ,cnt asc  ")
-        '        CNN.Execute("update Caculate_Start set lck =0")
-        '        CNN.Execute("Insert into Caculate_Lock (cnt_Mt)  SELECT  (SELECT     TOP 1 cnt FROM Caculate_Start AS B WHERE(Rpt_Id = A.Rpt_Id   ) ORDER BY cnt desc) AS cnt FROM Caculate_Start  AS A  GROUP BY Rpt_Id ORDER BY Rpt_Id")
-        '        CNN.Execute("update  Caculate_Start set lck=1 from Caculate_Start ,Caculate_Lock  where Caculate_Start.cnt=Caculate_Lock.cnt_MT")
-        '        CNN.Execute("  Update Caculate_Start set Caculate_Start.Amt = Ap_Rpt_BLS_BOL.Amt , Caculate_Start.Last_Amt = Ap_Rpt_BLS_BOL.Last_Amt   from Caculate_Start , Ap_Rpt_BLS_BOL  where  Caculate_Start.CLT_Str  = Ap_Rpt_BLS_BOL.Rpt_Id  ")
-        '        CNN.Execute("Update Caculate_Start set lck_Amt=0")
-        '        CNN.Execute("Update Caculate_Start set lck_Amt=1 " & _
+        '        DbHelper.ExecuteNonQuery("update Caculate_Start set lck =0")
+        '        DbHelper.ExecuteNonQuery("Insert into Caculate_Lock (cnt_Mt)  SELECT  (SELECT     TOP 1 cnt FROM Caculate_Start AS B WHERE(Rpt_Id = A.Rpt_Id   ) ORDER BY cnt desc) AS cnt FROM Caculate_Start  AS A  GROUP BY Rpt_Id ORDER BY Rpt_Id")
+        '        DbHelper.ExecuteNonQuery("update  Caculate_Start set lck=1 from Caculate_Start ,Caculate_Lock  where Caculate_Start.cnt=Caculate_Lock.cnt_MT")
+        '        DbHelper.ExecuteNonQuery("  Update Caculate_Start set Caculate_Start.Amt = Ap_Rpt_BLS_BOL.Amt , Caculate_Start.Last_Amt = Ap_Rpt_BLS_BOL.Last_Amt   from Caculate_Start , Ap_Rpt_BLS_BOL  where  Caculate_Start.CLT_Str  = Ap_Rpt_BLS_BOL.Rpt_Id  ")
+        '        DbHelper.ExecuteNonQuery("Update Caculate_Start set lck_Amt=0")
+        '        DbHelper.ExecuteNonQuery("Update Caculate_Start set lck_Amt=1 " & _
         '                    " where CLT_Str <> '+' And CLT_Str <> '-' And CLT_Str <> '*' And CLT_Str <> '+' And CLT_Str <> '/' And " & _
         '                    " CLT_Str <> '(' And CLT_Str<>')' And CLT_Str<>'Cast(('   And CLT_Str<>')As Float)' ")
         '        Dim RSC1 As New ADODB.Recordset
@@ -417,7 +391,7 @@ hang:
         'hang:
         '                        If Err.Number = 0 Then
         '                            Dim s As String = " Update  Ap_Rpt_BLS_BOL set Amt = " & CLT_Str & " , Last_Amt = " & CLT_Last_Str & " where  Rpt_ID =   '" & (RSC1.Fields("Rpt_ID").Value.ToString) & "'"
-        '                            CNN.Execute(s)
+        '                            DbHelper.ExecuteNonQuery(s)
         '                        Else
         '                            Dim cnt As String
         '                            Dim lck As String
@@ -438,26 +412,22 @@ hang:
 
 
 
-    Private Sub LoadOpen_Jn1()
-        Dim RSC12 As New ADODB.Recordset
+     Private Sub LoadOpen_Jn1()
+         'Dim RSC12 As New ADODB.Recordset
 
 
-        Dim add As String = "select ac_code , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr from gen_jn  WHERE  gen_jn.date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "' " & MULook & " group BY ac_code "
+         Dim add As String = "select ac_code , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr from gen_jn  WHERE  gen_jn.date_work   BETWEEN '" & Format(MdStartDate, "yyyy-MM-dd") & "' AND '" & Format(MdToDate, "yyyy-MM-dd") & "' " & MULook & " group BY ac_code "
 
-        'MsgBox(add)
+         'MsgBox(add)
 
-        LoadSqlData(add, RSC12)
-        With RSC12
-            Do Until .EOF = True
-                VCode1 = CStr(Trim(.Fields("ac_Code").Value))
-                CNN.Execute("INSERT INTO Ap_balance_6_col( ac_code   , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
-                 "Values('" & CStr(Trim(.Fields("ac_Code").Value)) & "', " & _
-                 " " & CDbl(0) & ", " & CDbl(0) & ", " & CDbl(Trim(.Fields("amt_dr").Value)) & ", " & CDbl(Trim(.Fields("amt_cr").Value)) & ",0 )")
-
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+         Dim dt As DataTable = DbHelper.GetDataTable(add)
+         For Each row As DataRow In dt.Rows
+             VCode1 = CStr(Trim(DbHelper.GetStr(row("ac_Code"))))
+             DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6_col( ac_code   , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
+              "Values('" & CStr(Trim(DbHelper.GetStr(row("ac_Code")))) & "', " & _
+              " " & CDbl(0) & ", " & CDbl(0) & ", " & CDbl(Trim(DbHelper.GetStr(row("amt_dr")))) & ", " & CDbl(Trim(DbHelper.GetStr(row("amt_cr")))) & ",0 )")
+         Next
+     End Sub
 
 
 
@@ -468,7 +438,7 @@ hang:
 
 
     Private Sub LoadOpen_Jn12()
-        CNN.Execute("Update Ap_balance_6_col set Quarter_dr=0,Quarter_cr=0")
+        DbHelper.ExecuteNonQuery("Update Ap_balance_6_col set Quarter_dr=0,Quarter_cr=0")
 
         Dim DS, DT As Date
         If Format(MdStartDate, "dd/MM") = "01/01" Then
@@ -494,46 +464,40 @@ hang:
             DT = DateAdd(DateInterval.Day, -1, MdStartDate)
         End If
 
-        LoadSqlData("   select ac_code , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr from gen_jn  WHERE  gen_jn.date_work   BETWEEN '" & Format(DS, "yyyy-MM-dd") & "' AND '" & Format(DT, "yyyy-MM-dd") & "' " & MULook & " group BY ac_code ", RSC12)
+         Dim dt As DataTable = DbHelper.GetDataTable("   select ac_code , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr from gen_jn  WHERE  gen_jn.date_work   BETWEEN '" & Format(DS, "yyyy-MM-dd") & "' AND '" & Format(DT, "yyyy-MM-dd") & "' " & MULook & " group BY ac_code ")
 
 
-        With RSC12
-            Do Until .EOF = True
-                Call LoadOpen_Jn14()
-                .MoveNext()
-            Loop
-        End With
+         For Each row As DataRow In dt.Rows
+             LoadOpen_Jn14(row)
+         Next
 
     End Sub
 
-    Private Sub LoadOpen_Jn14()
-        Dim RSC14 As New ADODB.Recordset
-        LoadSqlData("   select * from Ap_balance_6  where ac_code = '" & CStr(Trim(RSC12.Fields("ac_code").Value)) & "'  ", RSC14)
+     Private Sub LoadOpen_Jn14(ByVal row As DataRow)
+         'Dim RSC14 As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable("   select * from Ap_balance_6  where ac_code = '" & CStr(Trim(DbHelper.GetStr(row("ac_code")))) & "'  ")
 
-        If RSC14.RecordCount <> 0 Then
-            CNN.Execute("Update Ap_balance_6_col set Quarter_dr= " & CDbl(Trim(RSC12.Fields("amt_dr").Value)) & "  , Quarter_cr= " & CDbl(Trim(RSC12.Fields("amt_cr").Value)) & "  where ac_code = '" & CStr(Trim(RSC12.Fields("ac_code").Value)) & "'  ")
-        Else
-            MsgBox("ggg")
-            CNN.Execute("INSERT INTO Ap_balance_6_col( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status, Quarter_dr , Quarter_cr  ) " & _
-              "Values('" & CStr(Trim(RSC12.Fields("ac_Code").Value)) & "', " & _
-              " 0 , 0 , 0 , 0,0, " & CDbl(Trim(RSC12.Fields("amt_dr").Value)) & " , " & CDbl(Trim(RSC12.Fields("amt_cr").Value)) & " )")
+         If dt.Rows.Count <> 0 Then
+             DbHelper.ExecuteNonQuery("Update Ap_balance_6_col set Quarter_dr= " & CDbl(Trim(DbHelper.GetStr(row("amt_dr")))) & "  , Quarter_cr= " & CDbl(Trim(DbHelper.GetStr(row("amt_cr")))) & "  where ac_code = '" & CStr(Trim(DbHelper.GetStr(row("ac_code")))) & "'  ")
+         Else
+             MsgBox("ggg")
+             DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6_col( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status, Quarter_dr , Quarter_cr  ) " & _
+               "Values('" & CStr(Trim(DbHelper.GetStr(row("ac_Code")))) & "', " & _
+               " 0 , 0 , 0 , 0,0, " & CDbl(Trim(DbHelper.GetStr(row("amt_dr")))) & " , " & CDbl(Trim(DbHelper.GetStr(row("amt_cr")))) & " )")
 
-        End If
-    End Sub
-    Private Sub LoadOpen_Jn14_1()
-        Dim RSC14_1 As New ADODB.Recordset
-        LoadSqlData("select * from Ap_balance_6_col  ", RSC14_1)
-        With RSC14_1
-            Do Until .EOF = True
-                If CDbl(CDbl((.Fields("open_amt_dr").Value)) + CDbl((.Fields("amt_dr").Value))) >= CDbl(CDbl((.Fields("open_amt_cr").Value)) + CDbl((.Fields("amt_cr").Value))) Then
-                    CNN.Execute("Update  Ap_balance_6_col set Rem_cr=0 , Rem_dr=" & CDbl(CDbl(CDbl((.Fields("open_amt_dr").Value)) + CDbl((.Fields("amt_dr").Value))) - CDbl(CDbl((.Fields("open_amt_cr").Value)) + CDbl((.Fields("amt_cr").Value)))) & " where Ac_Code = '" & (.Fields("Ac_Code").Value) & "'")
-                Else
-                    CNN.Execute("Update  Ap_balance_6_col set Rem_dr=0 , Rem_cr=" & CDbl(CDbl(CDbl((.Fields("open_amt_cr").Value)) + CDbl((.Fields("amt_cr").Value))) - CDbl(CDbl((.Fields("open_amt_dr").Value)) + CDbl((.Fields("amt_dr").Value)))) & " where Ac_Code = '" & (.Fields("Ac_Code").Value) & "'")
-                End If
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+         End If
+     End Sub
+     Private Sub LoadOpen_Jn14_1()
+         'Dim RSC14_1 As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable("select * from Ap_balance_6_col  ")
+         For Each row As DataRow In dt.Rows
+             If CDbl(CDbl(DbHelper.GetStr(row("open_amt_dr"))) + CDbl(DbHelper.GetStr(row("amt_dr")))) >= CDbl(CDbl(DbHelper.GetStr(row("open_amt_cr"))) + CDbl(DbHelper.GetStr(row("amt_cr")))) Then
+                 DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set Rem_cr=0 , Rem_dr=" & CDbl(CDbl(CDbl(DbHelper.GetStr(row("open_amt_dr"))) + CDbl(DbHelper.GetStr(row("amt_dr")))) - CDbl(CDbl(DbHelper.GetStr(row("open_amt_cr"))) + CDbl(DbHelper.GetStr(row("amt_cr"))))) & " where Ac_Code = '" & DbHelper.GetStr(row("Ac_Code")) & "'")
+             Else
+                 DbHelper.ExecuteNonQuery("Update  Ap_balance_6_col set Rem_dr=0 , Rem_cr=" & CDbl(CDbl(CDbl(DbHelper.GetStr(row("open_amt_cr"))) + CDbl(DbHelper.GetStr(row("amt_cr")))) - CDbl(CDbl(DbHelper.GetStr(row("open_amt_dr"))) + CDbl(DbHelper.GetStr(row("amt_dr"))))) & " where Ac_Code = '" & DbHelper.GetStr(row("Ac_Code")) & "'")
+             End If
+         Next
+     End Sub
     Private Sub LoadOpen_Jn2()
         Dim RSC12 As New ADODB.Recordset
 
@@ -542,151 +506,114 @@ hang:
         S = DateAdd("d", CDbl(-1), MdStartDate)
         'LoadSqlData("SELECT GIN.ac_code, ACC.Name_L, ACC.Name_E, SUM(GIN.amount_dr)AS amount_dr , SUM(GIN.amount_cr)AS amount_cr , SUM(GIN.amt_dr) AS amt_dr, SUM(GIN.amt_cr) AS amt_cr FROM Acc_Code ACC INNER JOIN gen_jn GIN ON ACC.AC_CODE = GIN.ac_code WHERE  GIN.date_work   BETWEEN '" & "1-1-" & Format(MdStartDate, "yyyy") & "' AND '" & Format(S, "yyyy-MM-dd") & "' GROUP BY GIN.ac_code, ACC.Name_L, ACC.Name_E  Order by GIN.AC_Code DESC  ", RSC12)
 
-        LoadSqlData("   select ac_code , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr from gen_jn  WHERE gen_jn.date_work   BETWEEN '" & "1-1-" & Format(MdStartDate, "yyyy") & "' AND '" & Format(S, "yyyy-MM-dd") & "'  " & MULook & " group BY ac_code ", RSC12)
+         Dim dt As DataTable = DbHelper.GetDataTable("   select ac_code , sum(amt_dr)as amt_dr , sum(amt_cr)as amt_cr from gen_jn  WHERE gen_jn.date_work   BETWEEN '" & "1-1-" & Format(MdStartDate, "yyyy") & "' AND '" & Format(S, "yyyy-MM-dd") & "'  " & MULook & " group BY ac_code ")
 
 
-        With RSC12
-            Do Until .EOF = True
-                'VCode2 = (.Fields("ac_Code").Value)
-                'MsgBox(VCode)
-                CNN.Execute("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
-               "Values('" & CStr(Trim(.Fields("ac_Code").Value)) & "', " & _
-               " " & CDbl(0) & ", " & CDbl(0) & ", " & CDbl(Trim(.Fields("amt_dr").Value)) & ", " & CDbl(Trim(.Fields("amt_cr").Value)) & ",0 )")
-
-                'LoadOpen_Jn2()
-                'LoadOpen_Jn3()
-                .MoveNext()
-            Loop
-        End With
+         For Each row As DataRow In dt.Rows
+             DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
+            "Values('" & CStr(Trim(DbHelper.GetStr(row("ac_Code")))) & "', " & _
+            " " & CDbl(0) & ", " & CDbl(0) & ", " & CDbl(Trim(DbHelper.GetStr(row("amt_dr")))) & ", " & CDbl(Trim(DbHelper.GetStr(row("amt_cr")))) & ",0 )")
+         Next
     End Sub
 
-    Private Sub LoadOpen_Jn3()
-        Dim RSC3 As New ADODB.Recordset
+     Private Sub LoadOpen_Jn3()
+         'Dim RSC3 As New ADODB.Recordset
 
-        LoadSqlData("select ac_code  , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr from Open_jn WHERE    date_work='" & "1-1-" & Format(MdStartDate, "yyyy") & "' " & MULook & " group BY ac_code", RSC3)
-
-
-        With RSC3
-            Do Until .EOF = True
-                VCode3 = (.Fields("ac_Code").Value)
-                'MsgBox((.Fields("amt_dr").Value) & "__" & (.Fields("amt_cr").Value))
-                CNN.Execute("Update Ap_balance_6 set  open_amt_dr='" & CDbl((.Fields("amt_dr").Value)) & "' , open_amt_cr='" & CDbl((.Fields("amt_cr").Value)) & "' where ac_code = '" & (.Fields("ac_Code").Value) & "'")
-                LoadOpen_Jn4()
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+         Dim dt As DataTable = DbHelper.GetDataTable("select ac_code  , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr from Open_jn WHERE    date_work='" & "1-1-" & Format(MdStartDate, "yyyy") & "' " & MULook & " group BY ac_code")
 
 
-    Private Sub LoadOpen_Jn4()
-        Dim RSC4 As New ADODB.Recordset
-        With RSC
-            LoadSqlData("select * from Ap_balance_6  WHERE     ac_code='" & VCode3 & "'  ", RSC4)
-            If RSC4.RecordCount > 0 Then
-                VCode4 = (RSC4.Fields("ac_Code").Value)
-                'MsgBox(VCode4)
-                'CNN.Execute("Update Ap_balance_6 set  open_amt_dr=" & CDbl((RSC4.Fields("amount_dr").Value)) & " , open_amt_cr=" & CDbl((RSC4.Fields("amount_dr").Value)) & " where ac_code = '" & (.Fields("ac_code").Value) & "'")
-            Else
-                'VCode4 = (RSC4.Fields("ac_Code").Value)
-                'MsgBox(VCode3 & "n")
-                LoadOpen_Jn5()
-            End If
-        End With
-    End Sub
+         For Each row As DataRow In dt.Rows
+             VCode3 = DbHelper.GetStr(row("ac_Code"))
+             DbHelper.ExecuteNonQuery("Update Ap_balance_6 set  open_amt_dr='" & CDbl(DbHelper.GetStr(row("amt_dr"))) & "' , open_amt_cr='" & CDbl(DbHelper.GetStr(row("amt_cr"))) & "' where ac_code = '" & DbHelper.GetStr(row("ac_Code")) & "'")
+             LoadOpen_Jn4()
+         Next
+     End Sub
 
-    Private Sub LoadOpen_Jn5()
-        Dim RSC5 As New ADODB.Recordset
-        With RSC
-            LoadSqlData("select ac_code  , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr from Open_jn  WHERE    ac_code='" & VCode3 & "' " & MULook & " group BY ac_code", RSC5)
-            If RSC5.RecordCount > 0 Then
-                'MsgBox(CStr(Trim(RSC5.Fields("amt_cr").Value)))
-                CNN.Execute("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
-             "Values('" & CStr(Trim(RSC5.Fields("ac_Code").Value)) & "',  " & _
-             " " & CDbl(RSC5.Fields("amt_dr").Value) & ", " & CDbl(RSC5.Fields("amt_cr").Value) & ", " & CDbl(0) & ", " & CDbl(0) & ",0 )")
-            Else
-                'VCode4 = CStr(Trim(.Fields("ac_Code").Value))
-                'MsgBox(VCode3 & "n")
-            End If
-        End With
-    End Sub
+
+     Private Sub LoadOpen_Jn4()
+         'Dim RSC4 As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable("select * from Ap_balance_6  WHERE     ac_code='" & VCode3 & "'  ")
+         If dt.Rows.Count > 0 Then
+             Dim row As DataRow = dt.Rows(0)
+             VCode4 = DbHelper.GetStr(row("ac_Code"))
+         Else
+             LoadOpen_Jn5()
+         End If
+     End Sub
+
+     Private Sub LoadOpen_Jn5()
+         'Dim RSC5 As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable("select ac_code  , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr from Open_jn  WHERE    ac_code='" & VCode3 & "' " & MULook & " group BY ac_code")
+         If dt.Rows.Count > 0 Then
+             Dim row As DataRow = dt.Rows(0)
+             DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6 ( ac_code  , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
+          "Values('" & CStr(Trim(DbHelper.GetStr(row("ac_Code")))) & "',  " & _
+          " " & CDbl(DbHelper.GetStr(row("amt_dr"))) & ", " & CDbl(DbHelper.GetStr(row("amt_cr"))) & ", " & CDbl(0) & ", " & CDbl(0) & ",0 )")
+         End If
+     End Sub
 
 
 
-    Private Sub LoadOpen_Jn6()
-        Dim RSC6 As New ADODB.Recordset
-        Dim op_dr, op_cr, amt_dr, amt_cr As Double
-        op_dr = 0
-        op_cr = 0
-        amt_dr = 0
-        amt_cr = 0
-        LoadSqlData("select Ac_Code , open_amt_dr , open_amt_cr , Amt_dr , Amt_cr from Ap_balance_6  ", RSC6)
-        With RSC6
-            Do Until .EOF = True
-                op_dr = CDbl((.Fields("open_amt_dr").Value))
-                op_cr = CDbl((.Fields("open_amt_cr").Value))
-                amt_dr = CDbl((.Fields("Amt_dr").Value))
-                amt_cr = CDbl((.Fields("Amt_cr").Value))
+     Private Sub LoadOpen_Jn6()
+         'Dim RSC6 As New ADODB.Recordset
+         Dim op_dr, op_cr, amt_dr, amt_cr As Double
+         op_dr = 0
+         op_cr = 0
+         amt_dr = 0
+         amt_cr = 0
+         Dim dt As DataTable = DbHelper.GetDataTable("select Ac_Code , open_amt_dr , open_amt_cr , Amt_dr , Amt_cr from Ap_balance_6  ")
+         For Each row As DataRow In dt.Rows
+             op_dr = CDbl(DbHelper.GetStr(row("open_amt_dr")))
+             op_cr = CDbl(DbHelper.GetStr(row("open_amt_cr")))
+             amt_dr = CDbl(DbHelper.GetStr(row("Amt_dr")))
+             amt_cr = CDbl(DbHelper.GetStr(row("Amt_cr")))
 
-                If CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) >= 0 Then
+             If CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) >= 0 Then
 
-                    'MsgBox((.Fields("open_amt_dr").Value) & "++++" & (.Fields("ac_code").Value))
-                    CNN.Execute("Update Ap_balance_6 set rem_dr='" & CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) & "' , rem_cr='" & CDbl(0) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
-                    'MsgBox(.Fields("open_amt_dr").Value)
-                End If
-                If CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) >= 0 Then
-                    CNN.Execute("Update Ap_balance_6 set rem_dr='" & CDbl(0) & "' , rem_cr='" & CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
-                End If
-                'If CDbl(op_cr + amt_cr) = CDbl(op_dr + amt_dr) Then
-                '    'CNN.Execute("Update Ap_balance_6 set rem_dr='" & CDbl(0) & "' , rem_cr='" & CDbl(0) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
-                '    CNN.Execute("delete Ap_balance_6_col  where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
-                'End If
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+                 DbHelper.ExecuteNonQuery("Update Ap_balance_6 set rem_dr='" & CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) & "' , rem_cr='" & CDbl(0) & "' where Ac_code='" & DbHelper.GetStr(row("Ac_Code")) & "'")
+             End If
+             If CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) >= 0 Then
+                 DbHelper.ExecuteNonQuery("Update Ap_balance_6 set rem_dr='" & CDbl(0) & "' , rem_cr='" & CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) & "' where Ac_code='" & DbHelper.GetStr(row("Ac_Code")) & "'")
+             End If
+         Next
+     End Sub
 
-    Private Sub LoadOpen_Jn7()
-        Dim RSC7 As New ADODB.Recordset
-        LoadSqlData("select ac_code , rem_dr  , rem_cr from Ap_balance_6   ", RSC7)
-        With RSC7
-            Do Until .EOF = True
-                VCode7 = (.Fields("ac_Code").Value)
+     Private Sub LoadOpen_Jn7()
+         'Dim RSC7 As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable("select ac_code , rem_dr  , rem_cr from Ap_balance_6   ")
+         For Each row As DataRow In dt.Rows
+             VCode7 = DbHelper.GetStr(row("ac_Code"))
 
-                CNN.Execute("Update Ap_balance_6_col set  open_amt_dr='" & CDbl((.Fields("rem_dr").Value)) & "' , open_amt_cr='" & CDbl((.Fields("rem_cr").Value)) & "' where ac_code = '" & (.Fields("ac_Code").Value) & "'")
-                LoadOpen_Jn8()
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+             DbHelper.ExecuteNonQuery("Update Ap_balance_6_col set  open_amt_dr='" & CDbl(DbHelper.GetStr(row("rem_dr"))) & "' , open_amt_cr='" & CDbl(DbHelper.GetStr(row("rem_cr"))) & "' where ac_code = '" & DbHelper.GetStr(row("ac_Code")) & "'")
+             LoadOpen_Jn8()
+         Next
+     End Sub
 
 
-    Private Sub LoadOpen_Jn8()
-        Dim RSC8 As New ADODB.Recordset
-        With RSC
-            LoadSqlData("select * from Ap_balance_6_col  WHERE     ac_code='" & VCode7 & "' ", RSC8)
-            If RSC8.RecordCount > 0 Then
-                VCode8 = (RSC8.Fields("ac_Code").Value)
-            Else
-                LoadOpen_Jn9()
-            End If
-        End With
-    End Sub
+     Private Sub LoadOpen_Jn8()
+         'Dim RSC8 As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable("select * from Ap_balance_6_col  WHERE     ac_code='" & VCode7 & "' ")
+         If dt.Rows.Count > 0 Then
+             Dim row As DataRow = dt.Rows(0)
+             VCode8 = DbHelper.GetStr(row("ac_Code"))
+         Else
+             LoadOpen_Jn9()
+         End If
+     End Sub
 
 
-    Private Sub LoadOpen_Jn9()
-        Dim RSC9 As New ADODB.Recordset
-        With RSC9
-            LoadSqlData("select ac_code , Rem_dr , Rem_cr from Ap_balance_6  WHERE    ac_code='" & VCode7 & "' ", RSC9)
-            If RSC9.RecordCount > 0 Then
-                CNN.Execute("INSERT INTO Ap_balance_6_col ( ac_code ,ac_name , ac_namee , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
-                "Values('" & CStr(Trim(RSC9.Fields("ac_Code").Value)) & "', N'" & "***" & "', '" & "***" & "', " & _
-                " " & CDbl(RSC9.Fields("rem_dr").Value) & ", " & CDbl(RSC9.Fields("rem_cr").Value) & ", " & CDbl(0) & ", " & CDbl(0) & ",0 )")
-            Else
-            End If
-        End With
-    End Sub
+     Private Sub LoadOpen_Jn9()
+         'Dim RSC9 As New ADODB.Recordset
+         Dim dt As DataTable = DbHelper.GetDataTable("select ac_code , Rem_dr , Rem_cr from Ap_balance_6  WHERE    ac_code='" & VCode7 & "' ")
+         If dt.Rows.Count > 0 Then
+             Dim row As DataRow = dt.Rows(0)
+             DbHelper.ExecuteNonQuery("INSERT INTO Ap_balance_6_col ( ac_code ,ac_name , ac_namee , open_amt_dr, open_amt_cr , amt_dr , amt_cr , Status  ) " & _
+             "Values('" & CStr(Trim(DbHelper.GetStr(row("ac_Code")))) & "', N'" & "***" & "', '" & "***" & "', " & _
+             " " & CDbl(DbHelper.GetStr(row("rem_dr"))) & ", " & CDbl(DbHelper.GetStr(row("rem_cr"))) & ", " & CDbl(0) & ", " & CDbl(0) & ",0 )")
+         End If
+     End Sub
     Private Sub LoadOpen_Jn15()
-        CNN.Execute("update Ap_balance_6_col set Ap_balance_6_col.ac_name=Acc_Code.Name_L from Ap_balance_6_col , Acc_Code where Ap_balance_6_col.Ac_Code = Acc_Code.Ac_Code")
+        DbHelper.ExecuteNonQuery("update Ap_balance_6_col set Ap_balance_6_col.ac_name=Acc_Code.Name_L from Ap_balance_6_col , Acc_Code where Ap_balance_6_col.Ac_Code = Acc_Code.Ac_Code")
 
         'Dim RSC10 As New ADODB.Recordset
         'AmtOpenDR = 0
@@ -694,36 +621,33 @@ hang:
         'LoadSqlData("select Ac_Code , Name_L , Name_E , Acc_TypeE from Acc_Code  ", RSC10)
         'With RSC10
         '    Do Until .EOF = True
-        '        CNN.Execute("Update Ap_balance_6_col set ac_name = N'" & (.Fields("Name_L").Value) & "'   where ac_code='" & (.Fields("ac_code").Value) & "'")
+        '        DbHelper.ExecuteNonQuery("Update Ap_balance_6_col set ac_name = N'" & (.Fields("Name_L").Value) & "'   where ac_code='" & (.Fields("ac_code").Value) & "'")
         '        .MoveNext()
         '    Loop
         'End With
     End Sub
 
-    Private Sub LoadOpen_Jn11()
-        Dim RSC11 As New ADODB.Recordset
-        Dim op_dr11, op_cr11, amt_dr11, amt_cr11 As Double
-        op_dr11 = 0
-        op_cr11 = 0
-        amt_dr11 = 0
-        amt_cr11 = 0
-        LoadSqlData("select Ac_Code , open_amt_dr , open_amt_cr , Amt_dr , Amt_cr from Ap_balance_6_col  ", RSC11)
-        With RSC11
-            Do Until .EOF = True
-                op_dr11 = CDbl((.Fields("open_amt_dr").Value))
-                op_cr11 = CDbl((.Fields("open_amt_cr").Value))
-                amt_dr11 = CDbl((.Fields("Amt_dr").Value))
-                amt_cr11 = CDbl((.Fields("Amt_cr").Value))
-                If CDbl(op_dr11 + op_cr11) = 0 Then
-                    If CDbl(amt_dr11 + amt_cr11) = 0 Then
-                        CNN.Execute("delete Ap_balance_6_col  where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
-                    End If
+     Private Sub LoadOpen_Jn11()
+         'Dim RSC11 As New ADODB.Recordset
+         Dim op_dr11, op_cr11, amt_dr11, amt_cr11 As Double
+         op_dr11 = 0
+         op_cr11 = 0
+         amt_dr11 = 0
+         amt_cr11 = 0
+         Dim dt As DataTable = DbHelper.GetDataTable("select Ac_Code , open_amt_dr , open_amt_cr , Amt_dr , Amt_cr from Ap_balance_6_col  ")
+         For Each row As DataRow In dt.Rows
+             op_dr11 = CDbl(DbHelper.GetStr(row("open_amt_dr")))
+             op_cr11 = CDbl(DbHelper.GetStr(row("open_amt_cr")))
+             amt_dr11 = CDbl(DbHelper.GetStr(row("Amt_dr")))
+             amt_cr11 = CDbl(DbHelper.GetStr(row("Amt_cr")))
+             If CDbl(op_dr11 + op_cr11) = 0 Then
+                 If CDbl(amt_dr11 + amt_cr11) = 0 Then
+                     DbHelper.ExecuteNonQuery("delete Ap_balance_6_col  where Ac_code='" & DbHelper.GetStr(row("Ac_Code")) & "'")
+                 End If
 
-                End If
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+             End If
+         Next
+     End Sub
 
     Private Sub selectLoad()
         DMonth.Enabled = False
@@ -897,32 +821,27 @@ hang:
         L5.Text = MdStartDate & " => " & MdToDate
     End Sub
 
-    Private Sub UpdateData2()
-        Dim RSC2 As New ADODB.Recordset
-        Dim op_dr, op_cr, amt_dr, amt_cr As Double
-        op_dr = 0
-        op_cr = 0
-        amt_dr = 0
-        amt_cr = 0
-        LoadSqlData("select ac_code , sum(open_amt_dr) as open_amt_dr , sum(open_amt_cr) as open_amt_cr  , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr  from Ap_balance_6_col where ac_code ='" & bls1 & "'   group by  ac_code ", RSC2)
-        With RSC2
-            Do Until .EOF = True
-                op_dr = CDbl((.Fields("open_amt_dr").Value))
-                op_cr = CDbl((.Fields("open_amt_cr").Value))
-                amt_dr = CDbl((.Fields("Amt_dr").Value))
-                amt_cr = CDbl((.Fields("Amt_cr").Value))
-                'MsgBox(amt_cr)
-                If CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) >= 0 Then
-                    CNN.Execute("Update Ap_Rpt_BLS_BOL_Item set amt_dr='" & CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) & "' , amt_cr='" & CDbl(0) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
-                End If
-                If CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) >= 0 Then
-                    CNN.Execute("Update Ap_Rpt_BLS_BOL_Item set amt_dr='" & CDbl(0) & "' , amt_cr='" & CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) & "' where Ac_code='" & (.Fields("Ac_Code").Value) & "'")
-                End If
-                'CNN.Execute("update Ap_Rpt_BLS_BOL_Item set amt_dr  =  " & CDbl((.Fields("amt_dr").Value)) & " , amt_cr  = " & CDbl((.Fields("amt_cr").Value)) & "   where Ac_code=  '" & (.Fields("Ac_code").Value) & "' ")
-                .MoveNext()
-            Loop
-        End With
-    End Sub
+     Private Sub UpdateData2()
+         'Dim RSC2 As New ADODB.Recordset
+         Dim op_dr, op_cr, amt_dr, amt_cr As Double
+         op_dr = 0
+         op_cr = 0
+         amt_dr = 0
+         amt_cr = 0
+         Dim dt As DataTable = DbHelper.GetDataTable("select ac_code , sum(open_amt_dr) as open_amt_dr , sum(open_amt_cr) as open_amt_cr  , sum(amt_dr) as amt_dr , sum(amt_cr) as amt_cr  from Ap_balance_6_col where ac_code ='" & bls1 & "'   group by  ac_code ")
+         For Each row As DataRow In dt.Rows
+             op_dr = CDbl(DbHelper.GetStr(row("open_amt_dr")))
+             op_cr = CDbl(DbHelper.GetStr(row("open_amt_cr")))
+             amt_dr = CDbl(DbHelper.GetStr(row("Amt_dr")))
+             amt_cr = CDbl(DbHelper.GetStr(row("Amt_cr")))
+             If CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) >= 0 Then
+                 DbHelper.ExecuteNonQuery("Update Ap_Rpt_BLS_BOL_Item set amt_dr='" & CDbl(op_dr + amt_dr) - CDbl(op_cr + amt_cr) & "' , amt_cr='" & CDbl(0) & "' where Ac_code='" & DbHelper.GetStr(row("Ac_Code")) & "'")
+             End If
+             If CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) >= 0 Then
+                 DbHelper.ExecuteNonQuery("Update Ap_Rpt_BLS_BOL_Item set amt_dr='" & CDbl(0) & "' , amt_cr='" & CDbl(op_cr + amt_cr) - CDbl(op_dr + amt_dr) & "' where Ac_code='" & DbHelper.GetStr(row("Ac_Code")) & "'")
+             End If
+         Next
+     End Sub
 
 
     Private Sub LoadReport()
@@ -995,44 +914,37 @@ hang:
 
         Call LoadLoGO()
 
-        Dim Rs As New ADODB.Recordset
-        With Rs
-            If .State = ConnectionState.Open Then .Close()
-            If r2.Checked = True Then
-                .Open(" " & SLF & " where  BL_Type='1'  " & RPT_ID & "  order by Rpt_ID asc  ", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            ElseIf r3.Checked = True Then
-                .Open(" " & SLF & " where BL_Type='2' " & RPT_ID & "  order by Rpt_ID asc  ", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            Else
-                .Open(" " & SLF & " where grp<>'' " & RPT_ID & " " & r & "order by Rpt_ID asc  ", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            End If
+         Dim dt As DataTable
+         If r2.Checked = True Then
+             dt = DbHelper.GetDataTable(" " & SLF & " where  BL_Type='1'  " & RPT_ID & "  order by Rpt_ID asc  ")
+         ElseIf r3.Checked = True Then
+             dt = DbHelper.GetDataTable(" " & SLF & " where BL_Type='2' " & RPT_ID & "  order by Rpt_ID asc  ")
+         Else
+             dt = DbHelper.GetDataTable(" " & SLF & " where grp<>'' " & RPT_ID & " " & r & "order by Rpt_ID asc  ")
+         End If
 
-            If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
-            If .EOF Then Exit Sub
-        End With
+         If dt.Rows.Count = 0 Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
         Dim FrmPreview As New FmPreview : FrmClosing()
 
-        Dim Rpt As New CryRpt_BLS_BOL
-        If MdShowLOGO = 1 Then
-            Rpt.Subreports(0).SetDataSource(RsLOGO)
-        End If
-        Rpt.SetDataSource(Rs)
+         Dim Rpt As New CryRpt_BLS_BOL
+         If MdShowLOGO = 1 Then
+             Rpt.Subreports(0).SetDataSource(RsLOGO)
+         End If
+         Rpt.SetDataSource(dt)
         FrmPreview.ReportViewer.ReportSource = Rpt
         FrmPreview.ReportViewer.DisplayGroupTree = False
         FrmPreview.WindowState = FormWindowState.Maximized
         FrmPreview.Show()
         FrmPreview.Focus()
     End Sub
-    Private Sub loadOffice_User()
-        Off_Usr.Items.Clear()
-        LoadSqlData("select sub_id , off_add2  from  Ap_office  Order by sub_id", RSC)
-        With RSC
-            Do Until .EOF = True
-                Off_Usr.Items.Add((.Fields("sub_id").Value) & " " & (.Fields("off_add2").Value))
-                .MoveNext()
-            Loop
-        End With
-        Off_Usr.Text = FmLogin.Sub_Company.Text
-    End Sub
+     Private Sub loadOffice_User()
+         Off_Usr.Items.Clear()
+         Dim dt As DataTable = DbHelper.GetDataTable("select sub_id , off_add2  from  Ap_office  Order by sub_id")
+         For Each row As DataRow In dt.Rows
+             Off_Usr.Items.Add(DbHelper.GetStr(row("sub_id")) & " " & DbHelper.GetStr(row("off_add2")))
+         Next
+         Off_Usr.Text = FmLogin.Sub_Company.Text
+     End Sub
 
 
     Private Sub LoadReportItem()
@@ -1087,21 +999,15 @@ hang:
         End If
         SLF = "SELECT  " & MuLngRpt & "  *   FROM Ap_Rpt_BLS_BOL_Detail  "
         Call LoadLoGO()
-        Dim Rs As New ADODB.Recordset
-        With Rs
-            If .State = ConnectionState.Open Then .Close()
-            .Open(SLF, CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
+         Dim dt As DataTable = DbHelper.GetDataTable(SLF)
 
-            '.Open("SELECT *  ,N'" & txtReport_name & "' as txtReport_name  FROM Ap_Rpt_BLS_BOL where Amount_in_million_Kip <>0  ", CNN, ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            If .EOF Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
-            If .EOF Then Exit Sub
-        End With
+         If dt.Rows.Count = 0 Then MsgBox("ບໍ່ມີຂໍ້ມູນ") : Exit Sub
         Dim FrmPreview As New FmPreview : FrmClosing()
-        Dim Rpt As New CryRpt_BLS_BOL_Item
-        If MdShowLOGO = 1 Then
-            Rpt.Subreports(0).SetDataSource(RsLOGO)
-        End If
-        Rpt.SetDataSource(Rs)
+         Dim Rpt As New CryRpt_BLS_BOL_Item
+         If MdShowLOGO = 1 Then
+             Rpt.Subreports(0).SetDataSource(RsLOGO)
+         End If
+         Rpt.SetDataSource(dt)
         FrmPreview.ReportViewer.ReportSource = Rpt
         FrmPreview.ReportViewer.DisplayGroupTree = False
 

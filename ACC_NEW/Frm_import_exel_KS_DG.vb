@@ -1,7 +1,8 @@
-﻿Imports System.Data.OleDb
+Imports System.Data.OleDb
 Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Text
+Imports ApPBank10.Module
 
 Public Class Frm_import_exel_KS_DG
     Dim amt1 As Double
@@ -28,41 +29,80 @@ Public Class Frm_import_exel_KS_DG
     Dim A14 As String = ""
     Dim A15 As String = ""
     Dim A16 As String = ""
-    'Dim percentOfGamesWon As Double = (gamesWon + gamesLost) * gamesWon / 100%
     Dim DtSet As System.Data.DataSet
+    Dim DataGridViewMain As New DataGridView
 
-    Private Sub Frm_import_exel_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-
-        FG.FormatString = "^ລ/ດ |<ວັນທີ        |<ເລກທີ່ບິນ    |<ເລກທີໂອໂຕ  |<ແຊັກ             |<ປື້ມ     |<ເນື້ອໃນພາສາລາວ     |<ເນື້ອໃນພາສາ ອັງກິດ  |<ໜີ້     |<ມີ       |<ຈຳນວນເງີນໜີ້     |<ຈຳນວນເງີນມີ    |<ສະກຸນເງິນ    |<ອັດຕາແລກປ່ຽນ |<ຈຳນວນເງີນກີບ   |<ຈຳນວນເງີນໂດລາ    |<ເລກບັນຊີທະນາຄານ|<ແຫຼງທຶນ   |<ອົງປະກອບ|<ລະຫັດກິດຈະກຳ |<ປະເພດລາຍຈ່າຍ|<ລະຫັດ |<ສຳນັກງານ         "
-
+Private Sub Frm_import_exel_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        InitializeDataGridView()
         dff()
         CheckBox2.Text = "V.S"
     End Sub
-    Private Sub dff()
-        LoadSqlData("select * from Ap_RateSeting where Curr='LAK' ", RSC)
-        If RSC.RecordCount <> 0 Then
-            MLAK = Trim(RSC.Fields("Rate").Value)
+
+    Private Sub InitializeDataGridView()
+        ' Replace FG with DataGridViewMain
+        DataGridViewMain.Dock = DockStyle.Fill
+        DataGridViewMain.AllowUserToAddRows = False
+        DataGridViewMain.AllowUserToDeleteRows = False
+        DataGridViewMain.ReadOnly = False
+        DataGridViewMain.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        DataGridViewMain.MultiSelect = False
+        
+        ' Add columns based on DataGridView configuration
+        DataGridViewMain.Columns.Clear()
+        DataGridViewMain.Columns.Add("Col0", "ລ/ດ")
+        DataGridViewMain.Columns.Add("Col1", "ວັນທີ")
+        DataGridViewMain.Columns.Add("Col2", "ເລກທີ່ບິນ")
+        DataGridViewMain.Columns.Add("Col3", "ເລກທີໂອໂຕ")
+        DataGridViewMain.Columns.Add("Col4", "ແຊັກ")
+        DataGridViewMain.Columns.Add("Col5", "ປື້ມ")
+        DataGridViewMain.Columns.Add("Col6", "ເນື້ອໃນພາສາລາວ")
+        DataGridViewMain.Columns.Add("Col7", "ເນື້ອໃນພາສາອັງກິດ")
+        DataGridViewMain.Columns.Add("Col8", "ຜີ້")
+        DataGridViewMain.Columns.Add("Col9", "ມີ")
+        DataGridViewMain.Columns.Add("Col10", "ຈຳນວນເງີນຜີ້")
+        DataGridViewMain.Columns.Add("Col11", "ຈຳນວນເງີນມີ")
+        DataGridViewMain.Columns.Add("Col12", "ສະກຸນເງິນ")
+        DataGridViewMain.Columns.Add("Col13", "ອັດຕາແລກປ່ຽນ")
+        DataGridViewMain.Columns.Add("Col14", "ຈຳນວນເງີນກີບ")
+        DataGridViewMain.Columns.Add("Col15", "ຈຳນວນເງີນໂດລາ")
+        DataGridViewMain.Columns.Add("Col16", "ເລກບັນຊີທະນາຄານ")
+        DataGridViewMain.Columns.Add("Col17", "ແຫຼງທຶນ")
+        DataGridViewMain.Columns.Add("Col18", "ອົງປະກອບ")
+        DataGridViewMain.Columns.Add("Col19", "ລະຫັດກິດຈະກຳ")
+        DataGridViewMain.Columns.Add("Col20", "ປະເພດລາຍຈ່າຍ")
+        DataGridViewMain.Columns.Add("Col21", "ລະຫັດ")
+        DataGridViewMain.Columns.Add("Col22", "ສຳນັກງານ")
+        
+        ' Set column widths
+        For i As Integer = 0 To DataGridViewMain.Columns.Count - 1
+            DataGridViewMain.Columns(i).AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Next
+        
+        Panel1.Controls.Add(DataGridViewMain)
+    End Sub
+Private Sub dff()
+        ' Migrate LoadSqlData calls to DbHelper
+        Dim dt As DataTable
+        
+        dt = DbHelper.GetDataTable("select * from Ap_RateSeting where Curr='LAK'")
+        If dt.Rows.Count > 0 Then
+            MLAK = Trim(GetStr(dt.Rows(0)("Rate")))
         End If
-        LoadSqlData("select * from Ap_RateSeting where Curr='USD' ", RSC)
-        If RSC.RecordCount <> 0 Then
-            MUSD = Trim(RSC.Fields("Rate").Value)
+        
+        dt = DbHelper.GetDataTable("select * from Ap_RateSeting where Curr='USD'")
+        If dt.Rows.Count > 0 Then
+            MUSD = Trim(GetStr(dt.Rows(0)("Rate")))
         End If
-        LoadSqlData("select * from Ap_RateSeting where Curr='THB' ", RSC)
-        If RSC.RecordCount <> 0 Then
-            MTHB = Trim(RSC.Fields("Rate").Value)
+        
+        dt = DbHelper.GetDataTable("select * from Ap_RateSeting where Curr='THB'")
+        If dt.Rows.Count > 0 Then
+            MTHB = Trim(GetStr(dt.Rows(0)("Rate")))
         End If
-        LoadSqlData("select * from Ap_RateSeting where Curr='EUR' ", RSC)
-        If RSC.RecordCount <> 0 Then
-            MEUR = Trim(RSC.Fields("Rate").Value)
+        
+        dt = DbHelper.GetDataTable("select * from Ap_RateSeting where Curr='EUR'")
+        If dt.Rows.Count > 0 Then
+            MEUR = Trim(GetStr(dt.Rows(0)("Rate")))
         End If
-        'With RSC
-        '    Do Until .EOF = True
-        '        txtRate.Text = Trim(.Fields("Rate").Value)
-        '        Curr_Last.Text = Trim(.Fields("curr_Last").Value)
-        '        .MoveNext()
-        '    Loop
-        'End With
     End Sub
 
     Private Sub load_exel()
@@ -77,91 +117,109 @@ Public Class Frm_import_exel_KS_DG
         txtFNm.Text = OpenFileDialog1.FileName
     End Sub
 
-    Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
-
+Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
         Dim i As Integer
         Dim no As Integer = 0
 
-        FG.Rows = 1
+        ' Clear DataGridViewMain
+        DataGridViewMain.Rows.Clear()
         Dim CU As String
         Try
-
-
             For i = 0 To DataGridView1.RowCount - 2
-                If DataGridView1.Item(2, i).Value.ToString <> "" Then
-
-                    'FG.AddItem(DataGridView1.Item(0, i).Value.ToString & Chr(9) & DataGridView1.Item(1, i).Value.ToString)
-                    CNN.CommandTimeout = 0
-                    FG.AddItem(DataGridView1.Item(0, i).Value.ToString & Chr(9) & Microsoft.VisualBasic.Left(DataGridView1.Item(2, i).Value.ToString, 10) & Chr(9) & DataGridView1.Item(0, i).Value.ToString & _
-                 Chr(9) & DataGridView1.Item(0, i).Value.ToString & Chr(9) & Chr(9) & "GL" & Chr(9) & DataGridView1.Item(5, i).Value.ToString & Chr(9) & "" & Chr(9) & DataGridView1.Item(9, i).Value.ToString & Chr(9) & DataGridView1.Item(10, i).Value.ToString & _
-                  Chr(9) & DataGridView1.Item(11, i).Value.ToString & _
-                    Chr(9) & DataGridView1.Item(12, i).Value.ToString & _
-                      Chr(9) & Microsoft.VisualBasic.Right(DataGridView1.Item(8, i).Value.ToString, 4) & _
-                    Chr(9) & "1" & _
-                     Chr(9) & 0 & _
-                               Chr(9) & 0 & _
-                                         Chr(9) & "" & _
-                             Chr(9) & "01" & _
-                                    Chr(9) & "01" & _
-                                         Chr(9) & "" & _
-                                              Chr(9) & "" & _
-                                                Chr(9) & "01-02" & _
-                                                    Chr(9) & "")
-
-                    'FG.set_TextMatrix(FG.Row, no, no)
+                If DataGridView1.Item(2, i).Value IsNot Nothing AndAlso DataGridView1.Item(2, i).Value.ToString <> "" Then
+                    ' Add row to DataGridViewMain
+                    Dim rowIndex As Integer = DataGridViewMain.Rows.Add()
+                    
+                    ' Populate columns with data from DataGridView1
+                    DataGridViewMain.Rows(rowIndex).Cells(0).Value = rowIndex + 1  ' ລ/ດ
+                    DataGridViewMain.Rows(rowIndex).Cells(1).Value = DataGridView1.Item(0, i).Value  ' ວັນທີ
+                    DataGridViewMain.Rows(rowIndex).Cells(2).Value = Microsoft.VisualBasic.Left(DataGridView1.Item(2, i).Value.ToString, 10)  ' ເລກທີ່ບິນ
+                    DataGridViewMain.Rows(rowIndex).Cells(3).Value = DataGridView1.Item(0, i).Value  ' ເລກທີໂອໂຕ
+                    DataGridViewMain.Rows(rowIndex).Cells(4).Value = ""  ' ແຊັກ
+                    DataGridViewMain.Rows(rowIndex).Cells(5).Value = "GL"  ' ປື້ມ
+                    DataGridViewMain.Rows(rowIndex).Cells(6).Value = DataGridView1.Item(5, i).Value  ' ເນື້ອໃນພາສາລາວ
+                    DataGridViewMain.Rows(rowIndex).Cells(7).Value = ""  ' ເນື້ອໃນພາສາອັງກິດ
+                    DataGridViewMain.Rows(rowIndex).Cells(8).Value = DataGridView1.Item(9, i).Value  ' ຜີ້
+                    DataGridViewMain.Rows(rowIndex).Cells(9).Value = DataGridView1.Item(10, i).Value  ' ມີ
+                    DataGridViewMain.Rows(rowIndex).Cells(10).Value = DataGridView1.Item(11, i).Value  ' ຈຳນວນເງີນຜີ້
+                    DataGridViewMain.Rows(rowIndex).Cells(11).Value = DataGridView1.Item(12, i).Value  ' ຈຳນວນເງີນມີ
+                    DataGridViewMain.Rows(rowIndex).Cells(12).Value = DataGridView1.Item(12, i).Value  ' ສະກຸນເງິນ
+                    DataGridViewMain.Rows(rowIndex).Cells(13).Value = Microsoft.VisualBasic.Right(If(DataGridView1.Item(8, i).Value, ""), 4)  ' ອັດຕາແລກປ່ຽນ
+                    DataGridViewMain.Rows(rowIndex).Cells(14).Value = "1"  ' ຈຳນວນເງີນກີບ
+                    DataGridViewMain.Rows(rowIndex).Cells(15).Value = 0  ' ຈຳນວນເງີນໂດລາ
+                    DataGridViewMain.Rows(rowIndex).Cells(16).Value = ""  ' ເລກບັນຊີທະນາຄານ
+                    DataGridViewMain.Rows(rowIndex).Cells(17).Value = "01"  ' ແຫຼງທຶນ
+                    DataGridViewMain.Rows(rowIndex).Cells(18).Value = "01"  ' ອົງປະກອບ
+                    DataGridViewMain.Rows(rowIndex).Cells(19).Value = ""  ' ລະຫັດກິດຈະກຳ
+                    DataGridViewMain.Rows(rowIndex).Cells(20).Value = ""  ' ປະເພດລາຍຈ່າຍ
+                    DataGridViewMain.Rows(rowIndex).Cells(21).Value = "01-02"  ' ລະຫັດ
+                    DataGridViewMain.Rows(rowIndex).Cells(22).Value = ""  ' ສຳນັກງານ
                 End If
-                'CU = Chr(9) & Microsoft.VisualBasic.Right(DataGridView1.Item(8, i).Value.ToString, 4)
-
             Next i
+            
+            ' Process the imported data
+            For i = 0 To DataGridViewMain.Rows.Count - 1
+                If DataGridViewMain.Rows(i).Cells(12).Value IsNot Nothing Then
+                    Dim currency As String = Microsoft.VisualBasic.Left(GetStr(DataGridViewMain.Rows(i).Cells(12).Value), 3)
+                    DataGridViewMain.Rows(i).Cells(12).Value = currency
+                    
+                    Select Case Trim(currency)
+                        Case "LAK"
+                            DataGridViewMain.Rows(i).Cells(13).Value = 1
+                        Case "USD"
+                            DataGridViewMain.Rows(i).Cells(13).Value = MUSD
+                        Case "THB"
+                            DataGridViewMain.Rows(i).Cells(13).Value = MTHB
+                        Case "EUR"
+                            DataGridViewMain.Rows(i).Cells(13).Value = MEUR
+                    End Select
+                    
+                    ' Format rate and calculate amounts
+                    If DataGridViewMain.Rows(i).Cells(13).Value IsNot Nothing Then
+                        DataGridViewMain.Rows(i).Cells(13).Value = Format(CDbl(DataGridViewMain.Rows(i).Cells(13).Value), "#,##0.00")
+                    End If
+                    
+                    Dim amountDr As Double = 0
+                    Dim amountCr As Double = 0
+                    If DataGridViewMain.Rows(i).Cells(10).Value IsNot Nothing Then
+                        Double.TryParse(GetStr(DataGridViewMain.Rows(i).Cells(10).Value), amountDr)
+                    End If
+                    If DataGridViewMain.Rows(i).Cells(11).Value IsNot Nothing Then
+                        Double.TryParse(GetStr(DataGridViewMain.Rows(i).Cells(11).Value), amountCr)
+                    End If
+                    
+                    DataGridViewMain.Rows(i).Cells(14).Value = Format(amountDr + amountCr, "#,##0.00")
+                End If
+            Next
+            
         Catch ex As Exception
-
+            MessageBox.Show("Error importing data: " & ex.Message)
         End Try
 
-        For i = 1 To FG.Rows - 1
-            no = no + 1
-            FG.set_TextMatrix(i, 0, no)
-
-            'If FG.get_TextMatrix(i, 3) = "" Then
-            '    FG.set_TextMatrix(i, 3, FG.get_TextMatrix(i, 2) & "/" & FG.get_TextMatrix(i, 5))
-            'End If
-            FG.set_TextMatrix(i, 12, Microsoft.VisualBasic.Left(FG.get_TextMatrix(i, 12), 3))
-            If Trim(FG.get_TextMatrix(i, 12)) = "LAK" Then
-                FG.set_TextMatrix(i, 13, 1)
-
-            ElseIf Trim(FG.get_TextMatrix(i, 12)) = "USD" Then
-                FG.set_TextMatrix(i, 13, MUSD)
-            ElseIf Trim(FG.get_TextMatrix(i, 12)) = "THB" Then
-                FG.set_TextMatrix(i, 13, MTHB)
-            ElseIf Trim(FG.get_TextMatrix(i, 12)) = "EUR" Then
-                FG.set_TextMatrix(i, 13, MEUR)
-            End If
-
-            FG.set_TextMatrix(i, 13, Format(CDbl(FG.get_TextMatrix(i, 13)), "#,##0.00"))
-            FG.set_TextMatrix(i, 14, Format(CDbl(FG.get_TextMatrix(i, 10)) + CDbl(FG.get_TextMatrix(i, 11)), "#,##0.00"))
-            'FG.set_TextMatrix(i, 15, Format(CDbl(FG.get_TextMatrix(i, 10)) + CDbl(FG.get_TextMatrix(i, 11)), "#,##0.00"))
-            'FG.set_TextMatrix(i, 11, Format(CDbl(FG.get_TextMatrix(i, 11)), "#,##0.00"))
-            'FG.set_TextMatrix(i, 13, Format(CDbl(FG.get_TextMatrix(i, 13)), "#,##0.00"))
-            'FG.set_TextMatrix(i, 14, Format(CDbl(FG.get_TextMatrix(i, 14)), "#,##0.00"))
-            'FG.set_TextMatrix(i, 15, Format(CDbl(FG.get_TextMatrix(i, 15)), "#,##0.00"))
-
-            'FG.set_TextMatrix(i, no)
-
-        Next
-        'Call Calc()
         GroupBox1.Visible = False
-        'Call amt()
+        amt()
     End Sub
-    Private Sub amt()
+Private Sub amt()
         amt1 = 0
         amt2 = 0
         Dim i As Integer
-        For i = 1 To FG.Rows - 1
-            amt1 = amt1 + CDbl(FG.get_TextMatrix(i, 10))
-            amt2 = amt2 + CDbl(FG.get_TextMatrix(i, 11))
+        For i = 0 To DataGridViewMain.Rows.Count - 1
+            Dim amountDr As Double = 0
+            Dim amountCr As Double = 0
+            
+            If DataGridViewMain.Rows(i).Cells(10).Value IsNot Nothing Then
+                Double.TryParse(GetStr(DataGridViewMain.Rows(i).Cells(10).Value), amountDr)
+            End If
+            If DataGridViewMain.Rows(i).Cells(11).Value IsNot Nothing Then
+                Double.TryParse(GetStr(DataGridViewMain.Rows(i).Cells(11).Value), amountCr)
+            End If
+            
+            amt1 += amountDr
+            amt2 += amountCr
         Next i
 
-        txtSumAmountDr.Text = Format(CDbl(amt1), "##,##0.00")
-        txtSumAmountCr.Text = Format(CDbl(amt1), "##,##0.00")
+        txtSumAmountDr.Text = Format(amt1, "##,##0.00")
+        txtSumAmountCr.Text = Format(amt2, "##,##0.00")
     End Sub
 
     Private Sub btnExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExcel.Click
@@ -294,18 +352,20 @@ Public Class Frm_import_exel_KS_DG
         DataGridView1.RefreshEdit()
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        FG.Editable = VSFlex8U.EditableSettings.flexEDKbd
+Private Sub DataGridView1_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DataGridView1.SelectionChanged
+        ' DataGridView equivalent of FG_SelChange
+        If DataGridView1.CurrentCell IsNot Nothing Then
+            DataGridView1.BeginEdit(False)
+        End If
     End Sub
-    Private Sub KKK()
+Private Sub KKK()
         Dim KK As String = "  insert into gen_jn ( date_work, Referno, certify, cheque_no, book, descrip, descripe, code_dr, code_cr, ac_code, amount, amount_dr, amount_cr, curr, rate, net_amt, bank_no,  Com_id,  " & _
                      " Activity_id, Cat_ID, office_id,company, lock, my_lock, del ,AG ,  last_update, last_user, pc_nm,amt_USD_dr,amt_USD_cr) " & _
                       " select date_work, Referno, certify, cheque_no, book, descrip, descripe, code_dr, code_cr, ac_code,  (amount_dr + amount_cr), amount_dr, amount_cr, curr, rate, amount_LAK,  bank_no,   Com_id,  " & _
                      " Activity_id, Cat_ID, office_id,office_id,  0, 0, 1,0,   Getdate()," & _
                     " N'" & Apostrophe(MUserName) & "'," & _
                      " N'" & Apostrophe(MDServerName) & "',amount_dr / rate ,amount_Cr / rate    from Tmp_Import  "
-        CNN.Execute(KK)
-
+        DbHelper.ExecuteNonQuery(KK)
 
         Dim aa As String
         aa = "       update gen_jn set amount_dr=0 where amount_dr is null     " & _
@@ -314,28 +374,27 @@ Public Class Frm_import_exel_KS_DG
   "   update  gen_jn set amt_cr=0 where amt_cr is null   " & _
   "  update gen_jn set amt_USD_dr=0 where amt_USD_dr is null   " & _
   "   update  gen_jn set amt_USD_cr=0 where amt_USD_cr is null     "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         aa = "   update AP_ACC_Gen set net_usd  =net_amt / rate   where curr='LAK'  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "   update AP_ACC_Gen set net_usd  =net_amt   where curr='USD'  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         aa = "   update AP_ACC_Gen set cheque_no  = gen_jn.cheque_no from gen_jn where  AP_ACC_Gen.certify=gen_jn.certify  and AP_ACC_Gen.cheque_no is null "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         aa = "   update AP_ACC_Gen set Com_id =office_id " & _
           "    update gen_jn set Com_id =office_id  " & _
             " update gen_jn set don_id  ='01'  " & _
                 "  update AP_ACC_Gen set don_id  ='01' "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "   update gen_jn set amt_dr  =  amount_dr * Rate where  amount_dr >0 "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "   update gen_jn set amt_cr  =  amount_Cr * Rate where  amount_Cr >0   "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
-        CNN.Execute("update gen_jn set gen_jn.ac_name=Acc_Code.name_L,gen_jn.ac_namee=Acc_Code.name_E from Acc_Code,gen_jn where gen_jn.Ac_Code=Acc_Code.Ac_Code and  gen_jn.ac_name is null ")
-
+        DbHelper.ExecuteNonQuery("update gen_jn set gen_jn.ac_name=Acc_Code.name_L,gen_jn.ac_namee=Acc_Code.name_E from Acc_Code,gen_jn where gen_jn.Ac_Code=Acc_Code.Ac_Code and  gen_jn.ac_name is null ")
     End Sub
     Private Sub BtnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSave.Click
         Call amt()
@@ -349,73 +408,69 @@ Public Class Frm_import_exel_KS_DG
 
         MsgBox("ບັນທຶກສຳເລັດ")
     End Sub
-    Private Sub SaveItems()
+Private Sub SaveItems()
         Dim aa As String
         aa = " delete Tmp_Import  "
-        CNN.Execute(aa)
-        Dim Rschk As New ADODB.Recordset
-        Dim i As Integer
-        With Rschk
-            Dim sk As String = "Select * FROM Tmp_Import  "
-            Call LoadSqlData(sk, Rschk)
-
-            For i = 1 To FG.Rows - 1
-
-                If Rschk.RecordCount = 0 Then
+        DbHelper.ExecuteNonQuery(aa)
+        
+        Dim dt As DataTable
+        dt = DbHelper.GetDataTable("Select * FROM Tmp_Import")
+        
+        For i = 0 To DataGridViewMain.Rows.Count - 1
+            If dt.Rows.Count = 0 Then
+                Dim dateValue As Date
+                If Date.TryParse(GetStr(DataGridViewMain.Rows(i).Cells(1).Value), dateValue) Then
                     Dim sa As String = " INSERT INTO Tmp_Import (date_work,Referno,certify, cheque_no,book, descrip, descripe, code_dr, code_cr,ac_code,  " & _
                        " amount_dr,amount_cr,Curr,Rate, amount_LAK, amount_USD,bank_no, doner, Com_id, Activity_id,Cat_ID, office_id,office_nm,last_update, last_user,pc_nm) " & _
-                    " VALUES (  N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'," & _
-                        " N'" & Apostrophe(FG.get_TextMatrix(i, 2)) & "'," & _
-                        " N'" & Apostrophe(FG.get_TextMatrix(i, 3)) & "'," & _
-                         " N'" & Apostrophe(FG.get_TextMatrix(i, 4)) & "'," & _
-                          " N'" & Trim(Apostrophe(FG.get_TextMatrix(i, 5))) & "'," & _
-                           " N'" & Apostrophe(FG.get_TextMatrix(i, 6)) & "'," & _
-                            " N'" & Apostrophe(FG.get_TextMatrix(i, 7)) & "'," & _
-                             " N'" & Apostrophe(FG.get_TextMatrix(i, 8)) & "'," & _
-                              " N'" & Apostrophe(FG.get_TextMatrix(i, 9)) & "'," & _
-                      " N'" & Apostrophe(FG.get_TextMatrix(i, 8)) + Apostrophe(FG.get_TextMatrix(i, 9)) & "'," & _
-                      " " & CDbl(FG.get_TextMatrix(i, 10)) & ", " & _
-                    " " & CDbl(FG.get_TextMatrix(i, 11)) & ", " & _
-                     " N'" & Apostrophe(FG.get_TextMatrix(i, 12)) & "'," & _
-                     " " & CDbl(FG.get_TextMatrix(i, 13)) & ", " & _
-                     " " & CDbl(FG.get_TextMatrix(i, 14)) & ", " & _
-                     " " & CDbl(FG.get_TextMatrix(i, 15)) & ", " & _
-                       " N'" & Apostrophe(FG.get_TextMatrix(i, 16)) & "'," & _
-                      " N'" & Apostrophe(FG.get_TextMatrix(i, 17)) & "'," & _
-                       " N'" & Apostrophe(FG.get_TextMatrix(i, 18)) & "'," & _
-                        " N'" & Apostrophe(FG.get_TextMatrix(i, 19)) & "'," & _
-                         " N'" & Apostrophe(FG.get_TextMatrix(i, 20)) & "'," & _
-                          " N'" & Apostrophe(FG.get_TextMatrix(i, 21)) & "'," & _
-                           " N'" & Apostrophe(FG.get_TextMatrix(i, 22)) & "'," & _
-                               " Getdate()," & _
+                    " VALUES (  '" & Format(dateValue, "yyyy-MM-dd") & "'," & _
+                        " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(2).Value)) & "'," & _
+                        " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(3).Value)) & "'," & _
+                         " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(4).Value)) & "'," & _
+                          " N'" & Trim(Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(5).Value))) & "'," & _
+                           " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(6).Value)) & "'," & _
+                            " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(7).Value)) & "'," & _
+                             " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(8).Value)) & "'," & _
+                              " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(9).Value)) & "'," & _
+                      " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(8).Value) + GetStr(DataGridViewMain.Rows(i).Cells(9).Value)) & "'," & _
+                      " " & CDbl(GetStr(DataGridViewMain.Rows(i).Cells(10).Value)) & ", " & _
+                    " " & CDbl(GetStr(DataGridViewMain.Rows(i).Cells(11).Value)) & ", " & _
+                     " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(12).Value)) & "'," & _
+                     " " & CDbl(GetStr(DataGridViewMain.Rows(i).Cells(13).Value)) & ", " & _
+                     " " & CDbl(GetStr(DataGridViewMain.Rows(i).Cells(14).Value)) & ", " & _
+                     " " & CDbl(GetStr(DataGridViewMain.Rows(i).Cells(15).Value)) & ", " & _
+                       " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(16).Value)) & "'," & _
+                      " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(17).Value)) & "'," & _
+                       " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(18).Value)) & "'," & _
+                        " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(19).Value)) & "'," & _
+                         " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(20).Value)) & "'," & _
+                          " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(21).Value)) & "'," & _
+                           " N'" & Apostrophe(GetStr(DataGridViewMain.Rows(i).Cells(22).Value)) & "'," & _
+                                " Getdate()," & _
                     " N'" & Apostrophe(MUserName) & "'," & _
                      " N'" & Apostrophe(MDServerName) & "') "
-                    CNN.Execute(sa)
-                Else
-
-                    'Dim sa As String = "DELETE FROM gen_jn WHERE 1=1 AND certify='" & txtBill_no.Text & "' "
-                    'CNN.Execute(sa)
-
+                    DbHelper.ExecuteNonQuery(sa)
                 End If
-            Next i
-        End With
-        'CNN.Execute("delete gen_jn WHERE ac_code='' ")
-        CNN.Execute("update Tmp_Import set Tmp_Import.ac_code=Acc_Code.ac_code from Acc_Code,Tmp_Import where Acc_Code.ac_original=Tmp_Import.ac_code ")
-        CNN.Execute("update Tmp_Import set Tmp_Import.code_dr=Acc_Code.ac_code from Acc_Code,Tmp_Import where Acc_Code.ac_original=Tmp_Import.code_dr and Tmp_Import.code_dr<>''  ")
-        CNN.Execute("update Tmp_Import set Tmp_Import.code_cr=Acc_Code.ac_code from Acc_Code,Tmp_Import where Acc_Code.ac_original=Tmp_Import.code_cr and Tmp_Import.code_Cr<>'' ")
+            End If
+        Next i
+        
+        ' Update account codes
+        DbHelper.ExecuteNonQuery("update Tmp_Import set Tmp_Import.ac_code=Acc_Code.ac_code from Acc_Code,Tmp_Import where Acc_Code.ac_original=Tmp_Import.ac_code ")
+        DbHelper.ExecuteNonQuery("update Tmp_Import set Tmp_Import.code_dr=Acc_Code.ac_code from Acc_Code,Tmp_Import where Acc_Code.ac_original=Tmp_Import.code_dr and Tmp_Import.code_dr<>''  ")
+        DbHelper.ExecuteNonQuery("update Tmp_Import set Tmp_Import.code_cr=Acc_Code.ac_code from Acc_Code,Tmp_Import where Acc_Code.ac_original=Tmp_Import.code_cr and Tmp_Import.code_Cr<>'' ")
     End Sub
 
-    Private Sub Insert_Gen_jn()
+Private Sub Insert_Gen_jn()
         Frm_import_progress.Show()
         Dim aa As String
-        Dim RSC As New ADODB.Recordset
-        Dim Rschk As New ADODB.Recordset
-        Dim i As Integer
-        With Rschk
-            For i = 1 To FG.Rows - 1
-                Dim sk As String = "Select * FROM gen_jn where  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'  "
-                Call LoadSqlData(sk, Rschk)
-                If Rschk.RecordCount = 0 Then
+        Dim dt As DataTable
+        
+        For i = 0 To DataGridViewMain.Rows.Count - 1
+            Dim dateValue As Date
+            If Date.TryParse(GetStr(DataGridViewMain.Rows(i).Cells(1).Value), dateValue) Then
+                Dim sk As String = "Select * FROM gen_jn where  certify=N'" & GetStr(DataGridViewMain.Rows(i).Cells(3).Value) & "'  and date_work='" & Format(dateValue, "yyyy-MM-dd") & "'  "
+                dt = DbHelper.GetDataTable(sk)
+                
+                If dt.Rows.Count = 0 Then
                     aa = "   insert into gen_jn (date_work, Referno, certify, cheque_no, book, descrip, descripe, code_dr, " & _
           "  code_cr,ac_code,ac_name, amount_dr, amount_cr, curr,Curr_i, rate, Rate_i,  bank_no, " & _
           "    don_id, Com_id, Activity_id, Cat_ID,  company, office_id,lock, my_lock, del ,AG  ,last_update, last_user,pc_nm,amount,amt_dr,amt_Cr,amt_USD_dr,amt_USD_cr) " & _
@@ -424,50 +479,13 @@ Public Class Frm_import_exel_KS_DG
          " doner, Com_id, Activity_id, Cat_id, office_id  ,office_id  ,0, 0, 1,0, Getdate()," & _
               " N'" & Apostrophe(MUserName) & "'," & _
               " N'" & Apostrophe(MDServerName) & "', (amount_dr + amount_cr),amount_dr,amount_Cr,amount_dr / rate ,amount_Cr / rate  " & _
-       "    from   Tmp_Import    where  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    order by certify  "
-                    CNN.Execute(aa)
-
-
-                    ' ''aa = "  update gen_jn set Curr_i = curr where   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    ' '' " update gen_jn set Rate_i  = Rate where   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    "
-                    ' ''CNN.Execute(aa)
-
-                    ''aa = "   update gen_jn set amount =amount_dr + amount_cr where   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'   " & _
-                    ''"  update gen_jn set amt_dr  =amount_dr where   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'   " & _
-                    ''" update gen_jn set amt_cr  =amount_cr  where   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'     "
-                    ''CNN.Execute(aa)
-
-                    ' ''aa = "  update gen_jn set  rate =1 where  rate =0 and   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    "
-                    ' ''CNN.Execute(aa)
-
-                    '' aa = "   update gen_jn set amt_USD_dr  =amount_dr / rate  where   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    ''"  update gen_jn set amt_USD_cr  =amount_cr  /rate   where   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'      "
-                    '' CNN.Execute(aa)
-
-                    'aa = "       update gen_jn set amount_dr=0 where amount_dr is null and   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    '"   update gen_jn set amount_cr=0 where amount_cr is null and   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'     " & _
-                    ' "  update gen_jn set amt_dr=0 where amt_dr is null and   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    '"   update  gen_jn set amt_cr=0 where amt_cr is null and   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    '"  update gen_jn set amt_USD_dr=0 where amt_USD_dr is null and   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    '"   update  gen_jn set amt_USD_cr=0 where amt_USD_cr is null and   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'     "
-                    'CNN.Execute(aa)
-                    '   aa = ""
-                    '   aa = "       insert into AP_ACC_Gen ( date_work, Referno, certify,Book ,   descrip, descripe,amount,net_amt , " & _
-                    ' "  AmountDr, AmountCr,TotalAmountDr,TotalAmountCr,curr,rate,Rate_USD,bank_no,don_id,Com_id,office_id)    " & _
-                    '"  select     date_work, Referno, certify,Book,    '', '', " & _
-                    '  "  sum(amount_dr) as amount , sum(amount_dr) as net_amt , sum(amount_dr) as amount_dr , " & _
-                    '  "   sum(amount_cr) as amount_cr , sum(amount_dr) as TotalAmountDr , sum(amount_cr) as TotalAmountCr , " & _
-                    ' "   curr,rate,rate,bank_no,don_id,Com_id,  office_id from gen_jn where  1=1    and    certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    '  "    group by    date_work, Referno, certify,Book,curr,rate,bank_no, " & _
-                    '  "    don_id, Com_id,  office_id    "
-                    '   CNN.Execute(aa)
+       "    from   Tmp_Import    where  certify=N'" & GetStr(DataGridViewMain.Rows(i).Cells(3).Value) & "'  and date_work='" & Format(dateValue, "yyyy-MM-dd") & "'    order by certify  "
+                    DbHelper.ExecuteNonQuery(aa)
                 Else
-                    'Dim sk As String = "Select * FROM gen_jn where  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'  "
-                    'Call LoadSqlData(sk, Rschk)
-                    aa = "delete gen_jn WHERE certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work='" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'  "
-                    CNN.Execute(aa)
-                    aa = "delete AP_ACC_Gen WHERE certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work='" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'  "
-                    CNN.Execute(aa)
+                    aa = "delete gen_jn WHERE certify=N'" & GetStr(DataGridViewMain.Rows(i).Cells(3).Value) & "'  and date_work='" & Format(dateValue, "yyyy-MM-dd") & "'  "
+                    DbHelper.ExecuteNonQuery(aa)
+                    aa = "delete AP_ACC_Gen WHERE certify=N'" & GetStr(DataGridViewMain.Rows(i).Cells(3).Value) & "'  and date_work='" & Format(dateValue, "yyyy-MM-dd") & "'  "
+                    DbHelper.ExecuteNonQuery(aa)
                     aa = "   insert into gen_jn (date_work, Referno, certify, cheque_no, book, descrip, descripe, code_dr, " & _
                             "  code_cr,ac_code,ac_name, amount_dr, amount_cr, curr,Curr_i, rate, Rate_i,  bank_no, " & _
                             "    don_id, Com_id, Activity_id, Cat_ID,  company,office_id,lock, my_lock, del ,AG  ,last_update, last_user,pc_nm,amount,amt_dr,amt_Cr,amt_USD_dr,amt_USD_cr) " & _
@@ -476,102 +494,43 @@ Public Class Frm_import_exel_KS_DG
                            " doner, Com_id, Activity_id, Cat_id, office_id, office_id  ,0, 0, 1,0, Getdate()," & _
                                 " N'" & Apostrophe(MUserName) & "'," & _
                                 " N'" & Apostrophe(MDServerName) & "', (amount_dr + amount_cr),amount_dr,amount_Cr,amount_dr / rate ,amount_Cr / rate  " & _
-                         "    from   Tmp_Import    where  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    order by certify  "
-                    CNN.Execute(aa)
-
-                    'aa = " update gen_jn set don_id= AP_Donnor.Don_ID  from AP_Donnor where  gen_jn.don_id= AP_Donnor.Don_Sym   "
-                    'CNN.Execute(aa)
-                    'aa = "  update gen_jn set office_id= AP_Office.off_id  from AP_Office  where  gen_jn.office_id= AP_Office.office_id   "
-                    'CNN.Execute(aa)
-
-                    '' aa = "  update gen_jn set Curr_i = curr where   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    ''  " update gen_jn set Rate_i  = Rate where   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    "
-                    '' CNN.Execute(aa)
-
-
-                    '' aa = "   update gen_jn set amount =amount_dr + amount_cr where  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'   " & _
-                    '' "  update gen_jn set amt_dr  =amount_dr where  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    '' " update gen_jn set amt_cr  =amount_cr  where  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    "
-                    '' CNN.Execute(aa)
-
-                    '' aa = "  update gen_jn set  rate =1 where  rate =0 and  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    "
-                    '' CNN.Execute(aa)
-
-                    '' aa = "   update gen_jn set amt_USD_dr  =amount_dr / rate where  certify=N'" & FG.get_TextMatrix(i, 3) & "'   and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'     " & _
-                    ''"  update gen_jn set amt_USD_cr  =amount_cr  /rate   where  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'     "
-                    '' CNN.Execute(aa)
-
-                    'aa = "       update gen_jn set amount_dr=0 where amount_dr is null and  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    '"   update gen_jn set amount_cr=0 where amount_cr is null and  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'     " & _
-                    ' "  update gen_jn set amt_dr=0 where amt_dr is null and  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    '"   update  gen_jn set amt_cr=0 where amt_cr is null and  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    '"  update gen_jn set amt_USD_dr=0 where amt_USD_dr is null and  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    '"   update  gen_jn set amt_USD_cr=0 where amt_USD_cr is null  and  certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    "
-                    'CNN.Execute(aa)
-
-                    '   aa = "       insert into AP_ACC_Gen ( date_work, Referno, certify,Book ,   descrip, descripe,amount,net_amt , " & _
-                    ' "  AmountDr, AmountCr,TotalAmountDr,TotalAmountCr,curr,rate,Rate_USD,bank_no,don_id,Com_id,office_id)    " & _
-                    '"  select     date_work, Referno, certify,Book,    '', '', " & _
-                    '  "  sum(amount_dr) as amount , sum(amount_dr) as net_amt , sum(amount_dr) as amount_dr , " & _
-                    '  "   sum(amount_cr) as amount_cr , sum(amount_dr) as TotalAmountDr , sum(amount_cr) as TotalAmountCr , " & _
-                    ' "   curr,rate,rate,bank_no,don_id,Com_id,  office_id from gen_jn where  1=1    and   certify=N'" & FG.get_TextMatrix(i, 3) & "'  and date_work=N'" & Format(CDate(FG.get_TextMatrix(i, 1)), "yyyy-MM-dd") & "'    " & _
-                    '  "    group by    date_work, Referno, certify,Book,curr,rate,bank_no, " & _
-                    '  "    don_id, Com_id,  office_id    "
-                    '   CNN.Execute(aa)
-
+                         "    from   Tmp_Import    where  certify=N'" & GetStr(DataGridViewMain.Rows(i).Cells(3).Value) & "'  and date_work='" & Format(dateValue, "yyyy-MM-dd") & "'    order by certify  "
+                    DbHelper.ExecuteNonQuery(aa)
                 End If
                 Frm_import_progress.Refresh()
 
-                Frm_import_progress.Label2.Text = FG.Rows
-
-                Frm_import_progress.Label4.Text = FG.get_TextMatrix(i, 0)
-
-                Frm_import_progress.Label1.Text = FG.get_TextMatrix(i, 2)
-
-            Next
-            Frm_import_progress.Close()
-        End With
-        'Fg1.get_TextMatrix(Fg1.Row, 1)
-        'With RSC
-        '    aa = "Select * FROM Tmp_Import  "
-        '    Call LoadRs(aa, RSC)
-        '    If .RecordCount <> 0 Then
-        '        While Not .EOF()
-
-        '        End While
-        '        .MoveNext()
-        '    End If
-
-        'End With
-        'aa = "  delete  Tmp_Import  "
-        'CNN.Execute(aa)
+                Frm_import_progress.Label2.Text = DataGridViewMain.Rows.Count
+                Frm_import_progress.Label4.Text = GetStr(DataGridViewMain.Rows(i).Cells(0).Value)
+                Frm_import_progress.Label1.Text = GetStr(DataGridViewMain.Rows(i).Cells(2).Value)
+            End If
+        Next
+        Frm_import_progress.Close()
+        
         aa = "       update gen_jn set amount_dr=0 where amount_dr is null     " & _
               "   update gen_jn set amount_cr=0 where amount_cr is null     " & _
                "  update gen_jn set amt_dr=0 where amt_dr is null      " & _
               "   update  gen_jn set amt_cr=0 where amt_cr is null   " & _
               "  update gen_jn set amt_USD_dr=0 where amt_USD_dr is null   " & _
               "   update  gen_jn set amt_USD_cr=0 where amt_USD_cr is null     "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         aa = "   update AP_ACC_Gen set net_usd  =net_amt / rate   where curr='LAK'  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "   update AP_ACC_Gen set net_usd  =net_amt   where curr='USD'  "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         aa = "   update AP_ACC_Gen set cheque_no  = gen_jn.cheque_no from gen_jn where  AP_ACC_Gen.certify=gen_jn.certify  and AP_ACC_Gen.cheque_no is null "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
 
         aa = "   update AP_ACC_Gen set Com_id =office_id " & _
           "    update gen_jn set Com_id =office_id  " & _
             " update gen_jn set don_id  ='01'  " & _
                 "  update AP_ACC_Gen set don_id  ='01' "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "   update gen_jn set amt_dr  =  amt_dr * Rate where  amt_dr >0 "
-        CNN.Execute(aa)
+        DbHelper.ExecuteNonQuery(aa)
         aa = "   update gen_jn set amt_cr  =  amt_cr * Rate where  amt_cr >0   "
-        CNN.Execute(aa)
-
-
+        DbHelper.ExecuteNonQuery(aa)
     End Sub
 
     Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click

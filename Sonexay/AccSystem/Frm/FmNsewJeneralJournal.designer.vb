@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmNsewJeneralJournal
     Inherits System.Windows.Forms.Form
 
@@ -41,7 +41,7 @@ Partial Class FmNsewJeneralJournal
         Me.Label9 = New System.Windows.Forms.Label
         Me.Label10 = New System.Windows.Forms.Label
         Me.Panel1 = New System.Windows.Forms.Panel
-        Me.Bee = New AxVSFlex8U.AxVSFlexGrid
+        Me.Bee = New System.Windows.Forms.DataGridView
         Me.txtSumTotalAmountDr = New System.Windows.Forms.TextBox
         Me.txtSumAmountCr = New System.Windows.Forms.TextBox
         Me.CCR = New System.Windows.Forms.TextBox
@@ -95,7 +95,7 @@ Partial Class FmNsewJeneralJournal
         Me.Label24 = New System.Windows.Forms.Label
         Me.BtnEdit = New System.Windows.Forms.Button
         Me.BtnAddNew2 = New System.Windows.Forms.Button
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.txtcurr_name2 = New System.Windows.Forms.TextBox
         Me.CheckBox4 = New System.Windows.Forms.CheckBox
         Me.Panel4 = New System.Windows.Forms.Panel
@@ -308,9 +308,14 @@ Partial Class FmNsewJeneralJournal
         Me.Bee.DataSource = Nothing
         Me.Bee.Location = New System.Drawing.Point(-16, -16)
         Me.Bee.Name = "Bee"
-        Me.Bee.OcxState = CType(resources.GetObject("Bee.OcxState"), System.Windows.Forms.AxHost.State)
         Me.Bee.Size = New System.Drawing.Size(233, 200)
         Me.Bee.TabIndex = 157
+        Me.Bee.AllowUserToAddRows = False
+        Me.Bee.AllowUserToDeleteRows = False
+        Me.Bee.ReadOnly = True
+        Me.Bee.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.Bee.MultiSelect = False
+        Me.Bee.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         '
         'txtSumTotalAmountDr
         '
@@ -990,10 +995,15 @@ Partial Class FmNsewJeneralJournal
         Me.FG.DataSource = Nothing
         Me.FG.Location = New System.Drawing.Point(5, 220)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(1338, 360)
         Me.FG.TabIndex = 131
         Me.FG.Tag = "8002"
+        Me.FG.AllowUserToAddRows = False
+        Me.FG.AllowUserToDeleteRows = False
+        Me.FG.ReadOnly = True
+        Me.FG.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.FG.MultiSelect = False
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         '
         'txtcurr_name2
         '
@@ -1193,9 +1203,9 @@ Partial Class FmNsewJeneralJournal
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Label10 As System.Windows.Forms.Label
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents Bee As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents Bee As System.Windows.Forms.DataGridView
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents txtSumTotalAmountDr As System.Windows.Forms.TextBox
     Friend WithEvents txtSumAmountCr As System.Windows.Forms.TextBox

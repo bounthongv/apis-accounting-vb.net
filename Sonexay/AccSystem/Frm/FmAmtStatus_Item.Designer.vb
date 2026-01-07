@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmAmtStatus_Item
     Inherits System.Windows.Forms.Form
 
@@ -23,8 +23,8 @@ Partial Class FmAmtStatus_Item
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FmAmtStatus_Item))
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
-        Me.FG2 = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
+        Me.FG2 = New System.Windows.Forms.DataGridView
         Me.CRem = New System.Windows.Forms.CheckBox
         Me.CAmt = New System.Windows.Forms.CheckBox
         Me.COP = New System.Windows.Forms.CheckBox
@@ -283,8 +283,8 @@ Partial Class FmAmtStatus_Item
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
-    Friend WithEvents FG2 As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
+    Friend WithEvents FG2 As System.Windows.Forms.DataGridView
     Friend WithEvents CRem As System.Windows.Forms.CheckBox
     Friend WithEvents CAmt As System.Windows.Forms.CheckBox
     Friend WithEvents COP As System.Windows.Forms.CheckBox

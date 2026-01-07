@@ -1,29 +1,33 @@
-﻿Public Class FrmRpt_F01
+Imports System.Data.SqlClient
+
+Public Class FrmRpt_F01
     Dim Biz_Type, Loan_Type, sqlNew, Rpt_ID As String
 
     Dim RelationShip, Relation As String
     Private Sub INSERTHEADER()
-        Call LoadSqlData("SELECT * FROM Header where ID='F01'", RSC)
-        If RSC.RecordCount = 0 Then
+        'Call LoadSqlData("SELECT * FROM Header where ID='F01'", RSC)
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Header where ID='F01'")
+        If dt.Rows.Count = 0 Then
             Dim k As String = "INSERT INTO Header(ID,Nm,S1,S2,S3,S4,S5,S6,PP) " & _
                           " values(N'F01',N'" & txtHeader.Text & "',N'" & txtSig1.Text & "',N'" & txtSig2.Text & "',N'" & txtSig3.Text & "',N'" & txtSig4.Text & "',N'" & txtSig5.Text & "',N'" & txtSig6.Text & "',N'" & (TxtPP.Text) & "') "
-            CNN.Execute(k)
+            DbHelper.ExecuteNonQuery(k)
         Else
-            CNN.Execute("UPDATE Header set Nm=N'" & txtHeader.Text & "',S1=N'" & txtSig1.Text & "',S2=N'" & txtSig2.Text & "',S3=N'" & txtSig3.Text & "',S4=N'" & txtSig4.Text & "',S5=N'" & txtSig5.Text & "',S6=N'" & txtSig6.Text & "',PP=N'" & (TxtPP.Text) & "' where ID='F01' ")
+            DbHelper.ExecuteNonQuery("UPDATE Header set Nm=N'" & txtHeader.Text & "',S1=N'" & txtSig1.Text & "',S2=N'" & txtSig2.Text & "',S3=N'" & txtSig3.Text & "',S4=N'" & txtSig4.Text & "',S5=N'" & txtSig5.Text & "',S6=N'" & txtSig6.Text & "',PP=N'" & (TxtPP.Text) & "' where ID='F01' ")
         End If
     End Sub
 
     Private Sub LoadHeader()
-        Call LoadSqlData("SELECT * FROM Header where ID='F01' ", RSC)
-        If RSC.RecordCount <> 0 Then
-            txtHeader.Text = RSC.Fields("Nm").Value.ToString
-            txtSig1.Text = RSC.Fields("S1").Value.ToString
-            txtSig2.Text = RSC.Fields("S2").Value.ToString
-            txtSig3.Text = RSC.Fields("S3").Value.ToString
-            txtSig4.Text = RSC.Fields("S4").Value.ToString
-            txtSig5.Text = RSC.Fields("S5").Value.ToString 
-            txtSig6.Text = RSC.Fields("S6").Value.ToString 
-            TxtPP.Text = RSC.Fields("PP").Value.ToString
+        'Call LoadSqlData("SELECT * FROM Header where ID='F01' ", RSC)
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM Header where ID='F01' ")
+        If dt.Rows.Count <> 0 Then
+            txtHeader.Text = dt.Rows(0)("Nm").ToString
+            txtSig1.Text = dt.Rows(0)("S1").ToString
+            txtSig2.Text = dt.Rows(0)("S2").ToString
+            txtSig3.Text = dt.Rows(0)("S3").ToString
+            txtSig4.Text = dt.Rows(0)("S4").ToString
+            txtSig5.Text = dt.Rows(0)("S5").ToString 
+            txtSig6.Text = dt.Rows(0)("S6").ToString 
+            TxtPP.Text = dt.Rows(0)("PP").ToString
         End If
 
     End Sub
@@ -185,18 +189,20 @@
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         INSERTHEADER()
-        CNN.Execute(" UPDATE RPT_F01 set No2=N'" & CFromMonth.Text & "/" & DtYearFormonth.Text & "' WHERE ItemID=N'F01' ")
-        CNN.Execute(" UPDATE RPT_F01 set No3=N'" & MdToDate & "' WHERE ItemID=N'F01' ")
+        DbHelper.ExecuteNonQuery(" UPDATE RPT_F01 set No2=N'" & CFromMonth.Text & "/" & DtYearFormonth.Text & "' WHERE ItemID=N'F01' ")
+        DbHelper.ExecuteNonQuery(" UPDATE RPT_F01 set No3=N'" & MdToDate & "' WHERE ItemID=N'F01' ")
 
-        Call LoadSqlData(" select * from RPT_F01 where ItemID='F01' ", RSC)
-        If RSC.RecordCount = 0 Then
-            CNN.Execute("INSERT INTO RPT_F01(ItemID) values (N'F01') ")
+        'Call LoadSqlData(" select * from RPT_F01 where ItemID='F01' ", RSC)
+        Dim dt As DataTable = DbHelper.GetDataTable(" select * from RPT_F01 where ItemID='F01' ")
+        If dt.Rows.Count = 0 Then
+            DbHelper.ExecuteNonQuery("INSERT INTO RPT_F01(ItemID) values (N'F01') ")
         End If
-        Dim RsKK As New ADODB.Recordset
-        With RsKK
+        'Dim RsKK As New ADODB.Recordset
+        'With RsKK
             Dim PPP As String = "SELECT N'" & RmFrdate.Text & "' as DD,N'" & txtSig1.Text & "' as S1,N'" & txtSig2.Text & "' as S2,N'" & txtSig3.Text & "' as S3,  N'" & txtSig4.Text & "' as S4,  N'" & txtSig5.Text & "' as S5,  N'" & txtSig6.Text & "' as S6, N'" & TxtPP.Text & "' as pp, * from RPT_F01 where ItemID=N'F01' "
-            Call LoadSqlData(PPP, RsKK)
-            If .RecordCount = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
+            'Call LoadSqlData(PPP, RsKK)
+            Dim dt2 As DataTable = DbHelper.GetDataTable(PPP)
+            If dt2.Rows.Count = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
             Dim Frm As New FmPreview
 
             Dim Rpt As New F01
@@ -213,13 +219,13 @@
             'myTextObjectOnReport.Text = txtSig3.Text
             'myTextObjectOnReport = CType(Rpt.ReportDefinition.ReportObjects.Item("PP"), CrystalDecisions.CrystalReports.Engine.TextObject)
             'myTextObjectOnReport.Text = TxtPP.Text
-            Rpt.SetDataSource(RsKK)
+            Rpt.SetDataSource(dt2)
             Frm.ReportViewer.ReportSource = Rpt
             Frm.ReportViewer.DisplayGroupTree = False
             Frm.WindowState = FormWindowState.Maximized
             Frm.Show()
             Rpt = Nothing
-        End With
+        'End With
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
@@ -277,18 +283,20 @@
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
         INSERTHEADER()
-        CNN.Execute(" UPDATE RPT_F01 set No2=N'" & CFromMonth.Text & "/" & DtYearFormonth.Text & "' WHERE ItemID=N'F01' ")
-        CNN.Execute(" UPDATE RPT_F01 set No3=N'" & MdToDate & "' WHERE ItemID=N'F01' ")
+        DbHelper.ExecuteNonQuery(" UPDATE RPT_F01 set No2=N'" & CFromMonth.Text & "/" & DtYearFormonth.Text & "' WHERE ItemID=N'F01' ")
+        DbHelper.ExecuteNonQuery(" UPDATE RPT_F01 set No3=N'" & MdToDate & "' WHERE ItemID=N'F01' ")
 
-        Call LoadSqlData(" select * from RPT_F01 where ItemID='F01' ", RSC)
-        If RSC.RecordCount = 0 Then
-            CNN.Execute("INSERT INTO RPT_F01(ItemID) values (N'F01') ")
+        'Call LoadSqlData(" select * from RPT_F01 where ItemID='F01' ", RSC)
+        Dim dt As DataTable = DbHelper.GetDataTable(" select * from RPT_F01 where ItemID='F01' ")
+        If dt.Rows.Count = 0 Then
+            DbHelper.ExecuteNonQuery("INSERT INTO RPT_F01(ItemID) values (N'F01') ")
         End If
-        Dim RsKK As New ADODB.Recordset
-        With RsKK
+        'Dim RsKK As New ADODB.Recordset
+        'With RsKK
             Dim PPP As String = "SELECT N'" & RmFrdate.Text & "' as DD,N'" & txtSig1.Text & "' as S1,N'" & txtSig2.Text & "' as S2,N'" & txtSig3.Text & "' as S3,  N'" & txtSig4.Text & "' as S4,  N'" & txtSig5.Text & "' as S5,  N'" & txtSig6.Text & "' as S6, N'" & TxtPP.Text & "' as pp, * from RPT_F01 where ItemID=N'F01' "
-            Call LoadSqlData(PPP, RsKK)
-            If .RecordCount = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
+            'Call LoadSqlData(PPP, RsKK)
+            Dim dt2 As DataTable = DbHelper.GetDataTable(PPP)
+            If dt2.Rows.Count = 0 Then MsgBox("Data empty", vbInformation, "Check") : Exit Sub
             Dim Frm As New FmPreview
 
             Dim Rpt As New F01
@@ -305,7 +313,7 @@
             'myTextObjectOnReport.Text = txtSig3.Text
             'myTextObjectOnReport = CType(Rpt.ReportDefinition.ReportObjects.Item("PP"), CrystalDecisions.CrystalReports.Engine.TextObject)
             'myTextObjectOnReport.Text = TxtPP.Text
-            Rpt.SetDataSource(RsKK)
+            Rpt.SetDataSource(dt2)
             Rpt.Refresh()
             Frm.ReportViewer.ReportSource = Rpt
             Frm.ReportViewer.ExportReport()
@@ -317,6 +325,6 @@
             'Frm.WindowState = FormWindowState.Maximized
             'Frm.Show()
             'Rpt = Nothing
-        End With
+        'End With
     End Sub
 End Class

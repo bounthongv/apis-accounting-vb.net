@@ -1,8 +1,11 @@
-﻿Imports MySql.Data.MySqlClient
+Imports MySql.Data.MySqlClient
+Imports System.Data.SqlClient
 Module MDSQLConnection
     Public CNN As New ADODB.Connection
     Public RSC As New ADODB.Recordset
     Public Comm As ADODB.Command
+    ' LEGACY SUPPORT - DO NOT REMOVE UNTIL PHASE 4
+    Public sqlCNN As New SqlConnection
     Public Sub ConnectSQL()
         With CNN
             On Error GoTo hang
@@ -18,10 +21,28 @@ hang:
             Else
                 VSysError = True
                 FmLogin.Visible = False
-                MessageBox.Show("ຕິດຕໍ່ຖານຂໍ້ມູນບໍ່ໄດ້")
+                MessageBox.Show("ຕິດຕໍ່ຖານຂໍ້ມູນບໍ່ຄດ້")
                 Conection_To_Servee.ShowDialog()
             End If
         End With
+        
+        ' Initialize modern ADO.NET connection
+        ConnectSQLNET()
+    End Sub
+    
+    Public Sub ConnectSQLNET()
+        Try
+            With sqlCNN
+                If .State = ConnectionState.Open Then .Close()
+                .ConnectionString = "Server=" & MDServerName & ";Database=" & MDDatabaName & ";User Id=" & MDServerUser & ";Password=" & MDServerPassword & ";"
+                .Open()
+            End With
+        Catch ex As Exception
+            VSysError = True
+            FmLogin.Visible = False
+            MessageBox.Show("Modern SQL Connection Error: " & ex.Message, "Connection Error")
+            Conection_To_Servee.ShowDialog()
+        End Try
     End Sub
 
     Public Sub LoadSqlData(ByVal StrSql As String, ByVal Rs As ADODB.Recordset)
@@ -31,11 +52,40 @@ hang:
             .CursorLocation = ADODB.CursorLocationEnum.adUseClient
             .CursorType = ADODB.CursorTypeEnum.adOpenForwardOnly
             .LockType = ADODB.LockTypeEnum.adLockReadOnly
- 
+  
             .Open(StrSql)
             .Requery()
         End With
     End Sub
+    
+    ' Modern ADO.NET helper methods
+    Public Function GetDataTable(ByVal sql As String) As DataTable
+        Try
+            Using command As New SqlCommand(sql, sqlCNN)
+                Using adapter As New SqlDataAdapter(command)
+                    Dim dt As New DataTable()
+                    adapter.Fill(dt)
+                    Return dt
+                End Using
+            End Using
+        Catch ex As Exception
+            VSysError = True
+            MessageBox.Show("Database Error: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return New DataTable()
+        End Try
+    End Function
+    
+    Public Function ExecuteNonQuery(ByVal sql As String) As Integer
+        Try
+            Using command As New SqlCommand(sql, sqlCNN)
+                Return command.ExecuteNonQuery()
+            End Using
+        Catch ex As Exception
+            VSysError = True
+            MessageBox.Show("Database Error: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return -1
+        End Try
+    End Function
 
     Public CNNMY As New MySqlConnection
     Public Sub ConnectMYSQL()

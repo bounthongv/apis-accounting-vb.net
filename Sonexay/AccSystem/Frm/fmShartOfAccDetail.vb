@@ -1,5 +1,21 @@
-﻿Public Class fmShartOfAccDetail
+Public Class fmShartOfAccDetail
     Dim SQL As String
+    
+    Private Sub SetupGrid()
+        FG.Columns.Clear()
+        FG.Columns.Add("Col0", "ລ/ດ")
+        FG.Columns.Add("Col1", "ເລກລະຫັດ")
+        FG.Columns.Add("Col2", "ຊື່ພາສາລາວ")
+        FG.Columns.Add("Col3", "ຊື່ພາສາອັງກິງ")
+        FG.Columns.Add("Col4", "AC Original")
+        
+        ' Set column widths
+        FG.Columns("Col0").Width = 50
+        FG.Columns("Col1").Width = 120
+        FG.Columns("Col2").Width = 300
+        FG.Columns("Col3").Width = 200
+        FG.Columns("Col4").Width = 150
+    End Sub
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         Panel1.Visible = True
     End Sub
@@ -32,10 +48,11 @@
         End If
     End Sub
 
-    Private Sub fmShartOfAccDetail_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
+Private Sub fmShartOfAccDetail_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
         FG.Focus()
-        FG.Row = 1
-        FG.Col = 1
+        If FG.Rows.Count > 0 Then
+            FG.CurrentCell = FG.Rows(0).Cells(0)
+        End If
     End Sub
 
     'Private Sub fmShartOfAccDetail_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
@@ -71,15 +88,14 @@
 
         'MsgBox(MDSearchAcccode)
 
-        HidBTClose()
-        FG.FormatString = "^ລ/ດ|< ເລກລະຫັດ              |< ຊື່ພາສາລາວ                           |< ຊື່ພາສາອັງກິງ                        |< AC Original     "
+HidBTClose()
+        SetupGrid()
        
         StartLoadDataList()
         Timer1.Enabled = True
-        FG.Row = 1
-        FG.Col = 2
-        If FG.get_TextMatrix(1, 1) = "" Then
-            FG.Rows = 2
+        If FG.Rows.Count > 1 Then
+            FG.CurrentCell = FG.Rows(0).Cells(1)
+        Else
             Exit Sub
         End If
         BtnExit.Enabled = True
@@ -189,32 +205,31 @@
         ''End If
     End Sub
 
-    Private Sub FG_DblClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.DblClick
-        If FG.get_TextMatrix(1, 1) = "" Then
+Private Sub FG_CellDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles FG.CellDoubleClick
+        If e.RowIndex < 0 Then Exit Sub
+        If FG.Rows.Count = 0 OrElse FG.Rows(0).Cells(1).Value Is Nothing OrElse FG.Rows(0).Cells(1).Value.ToString() = "" Then
             MessageBox.Show("ບໍ່ມີລະຫັດໃຫ້ເລືອກ")
             SQL = ""
             StartLoadDataList()
-            FG.Row = 1
-            FG.Col = 1
+            If FG.Rows.Count > 0 Then
+                FG.CurrentCell = FG.Rows(0).Cells(0)
+            End If
             Exit Sub
         End If
 
-        If txtSty.Text = "NsewJeneralJournal" Then
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, L, FG.get_TextMatrix(FG.Row, 1))
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, 3, FG.get_TextMatrix(FG.Row, 2))
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, 4, FG.get_TextMatrix(FG.Row, 3))
+If txtSty.Text = "NsewJeneralJournal" Then
+            FmNsewJeneralJournal.FG.set_TextMatrix(R, L, FG.Rows(e.RowIndex).Cells(1).Value.ToString())
+            FmNsewJeneralJournal.FG.set_TextMatrix(R, 3, FG.Rows(e.RowIndex).Cells(2).Value.ToString())
+            FmNsewJeneralJournal.FG.set_TextMatrix(R, 4, FG.Rows(e.RowIndex).Cells(3).Value.ToString())
             FmNsewJeneralJournal.LoadDesc()
             FmNsewJeneralJournal.AddAcc()
-            'If FmNsewJeneralJournal.FG.get_TextMatrix(FmNsewJeneralJournal.FG.Row, 1) = "" Then
-
-            'End If
             Close()
         End If
-        If txtSty.Text = "NsewJeneralJournal_DR" Then
+If txtSty.Text = "NsewJeneralJournal_DR" Then
             Close()
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, L, FG.get_TextMatrix(FG.Row, 1))
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, 3, FG.get_TextMatrix(FG.Row, 2))
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, 4, FG.get_TextMatrix(FG.Row, 2))
+            FmNsewJeneralJournal.FG.set_TextMatrix(R, L, FG.Rows(e.RowIndex).Cells(1).Value.ToString())
+            FmNsewJeneralJournal.FG.set_TextMatrix(R, 3, FG.Rows(e.RowIndex).Cells(2).Value.ToString())
+            FmNsewJeneralJournal.FG.set_TextMatrix(R, 4, FG.Rows(e.RowIndex).Cells(2).Value.ToString())
             FmNsewJeneralJournal.LoadDesc()
             FmNsewJeneralJournal.AddAcc2()
 
@@ -223,22 +238,19 @@
 
 
 
-        If txtSty.Text = "NsewJeneralJournal_Adjust" Then
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.get_TextMatrix(FG.Row, 1)
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.get_TextMatrix(FG.Row, 2)
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.get_TextMatrix(FG.Row, 3)
+If txtSty.Text = "NsewJeneralJournal_Adjust" Then
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.Rows(e.RowIndex).Cells(3).Value.ToString()
             FmNsewJeneralJournal_Adjust.LoadDesc()
             FmNsewJeneralJournal_Adjust.AddAcc()
-            'If FmNsewJeneralJournal.FG.get_TextMatrix(FmNsewJeneralJournal.FG.Row, 1) = "" Then
-
-            'End If
             Close()
         End If
-        If txtSty.Text = "NsewJeneralJournal_Adjust_DR" Then
+If txtSty.Text = "NsewJeneralJournal_Adjust_DR" Then
             Close()
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.get_TextMatrix(FG.Row, 1)
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.get_TextMatrix(FG.Row, 2)
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.get_TextMatrix(FG.Row, 2)
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
+            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             FmNsewJeneralJournal_Adjust.LoadDesc()
             FmNsewJeneralJournal_Adjust.AddAcc2()
 
@@ -275,20 +287,20 @@
 
 
         '*****************For open_jn************
-        If txtSty.Text = "NewOpen_jn_dr" Then
-            FmNewOpen_jn.txtCode_dr.Text = FG.get_TextMatrix(FG.Row, 1)
+If txtSty.Text = "NewOpen_jn_dr" Then
+            FmNewOpen_jn.txtCode_dr.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
             Close()
         End If
         If txtSty.Text = "NewOpen_jn_cr" Then
-            FmNewOpen_jn.txtCode_cr.Text = FG.get_TextMatrix(FG.Row, 1)
+            FmNewOpen_jn.txtCode_cr.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
             Close()
         End If
 
-        If txtSty.Text = "FmBLS" Then
-            FmLBS_Item.FG2.set_TextMatrix(FmLBS_Item.FG2.Row, 2, FG.get_TextMatrix(FG.Row, 1))
-            FmLBS_Item.FG2.set_TextMatrix(FmLBS_Item.FG2.Row, 3, FG.get_TextMatrix(FG.Row, 2))
+If txtSty.Text = "FmBLS" Then
+            FmLBS_Item.FG2.set_TextMatrix(FmLBS_Item.FG2.Row, 2, FG.Rows(e.RowIndex).Cells(1).Value.ToString())
+            FmLBS_Item.FG2.set_TextMatrix(FmLBS_Item.FG2.Row, 3, FG.Rows(e.RowIndex).Cells(2).Value.ToString())
             FmLBS_Item.FG2.set_TextMatrix(FmLBS_Item.FG2.Row, 1, FmLBS_Item.TextBox1.Text)
-            FmLBS_Item.FG2.set_TextMatrix(FmLBS_Item.FG2.Row, 4, FG.get_TextMatrix(FG.Row, 3))
+            FmLBS_Item.FG2.set_TextMatrix(FmLBS_Item.FG2.Row, 4, FG.Rows(e.RowIndex).Cells(3).Value.ToString())
             FmLBS_Item.FG2.set_TextMatrix(FmLBS_Item.FG2.Row, 0, CDbl(CDbl(FmLBS_Item.FG2.Row) - 1) + 1)
             'MsgBox(FmBankReportId.FG2.Rows)
             If FmLBS_Item.FG2.Row = FmLBS_Item.FG2.Rows - 1 Then
@@ -297,11 +309,11 @@
             FmLBS_Item.Button2.Enabled = True
             Close()
         End If
-        If txtSty.Text = "FmInCome" Then
-            FmIncome_Old.FG2.set_TextMatrix(FmIncome_Old.FG2.Row, 2, FG.get_TextMatrix(FG.Row, 1))
-            FmIncome_Old.FG2.set_TextMatrix(FmIncome_Old.FG2.Row, 3, FG.get_TextMatrix(FG.Row, 2))
+If txtSty.Text = "FmInCome" Then
+            FmIncome_Old.FG2.set_TextMatrix(FmIncome_Old.FG2.Row, 2, FG.Rows(e.RowIndex).Cells(1).Value.ToString())
+            FmIncome_Old.FG2.set_TextMatrix(FmIncome_Old.FG2.Row, 3, FG.Rows(e.RowIndex).Cells(2).Value.ToString())
             FmIncome_Old.FG2.set_TextMatrix(FmIncome_Old.FG2.Row, 1, FmIncome_Old.TextBox1.Text)
-            FmIncome_Old.FG2.set_TextMatrix(FmIncome_Old.FG2.Row, 4, FG.get_TextMatrix(FG.Row, 3))
+            FmIncome_Old.FG2.set_TextMatrix(FmIncome_Old.FG2.Row, 4, FG.Rows(e.RowIndex).Cells(3).Value.ToString())
             FmIncome_Old.FG2.set_TextMatrix(FmIncome_Old.FG2.Row, 0, CDbl(CDbl(FmIncome_Old.FG2.Row) - 1) + 1)
             'MsgBox(FmBankReportId.FG2.Rows)
             If FmIncome_Old.FG2.Row = FmIncome_Old.FG2.Rows - 1 Then
@@ -314,157 +326,163 @@
 
         End If
         '*****************For open_jn************
-        If txtSty.Text = "Acc_Statement" Then
-            Frm_Statement.TxtAccCode.Text = FG.get_TextMatrix(FG.Row, 1)
-            Frm_Statement.TxtAccName.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "Acc_Statement" Then
+            Frm_Statement.TxtAccCode.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            Frm_Statement.TxtAccName.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
         '*****************FrmRpt_Group DR************
-        If txtSty.Text = "FrmRpt_Group_DR" Then
-            FrmRpt_Group.txtAcc.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmRpt_Group.TxtDrNm.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmRpt_Group_DR" Then
+            FrmRpt_Group.txtAcc.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmRpt_Group.TxtDrNm.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
         '****************FrmRpt_Group CR***********
-        If txtSty.Text = "FrmRpt_Group_CR" Then
-            FrmRpt_Group.TxtLH.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmRpt_Group.TxtCrNm.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmRpt_Group_CR" Then
+            FrmRpt_Group.TxtLH.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmRpt_Group.TxtCrNm.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
         '****************FrmRpt_Group CR***********
-        If txtSty.Text = "FrmAssetNew" Then
-            FrmAssetNew.txtAcc.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmAssetNew.TxtCrNm.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmAssetNew" Then
+            FrmAssetNew.txtAcc.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmAssetNew.TxtCrNm.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
 
         '****************FrmAdjustment_List_Dr_Curr  ***********
-        If txtSty.Text = "FrmAdjustment_List_Dr_Curr" Then
-            FrmAdjustment_List.TxtDr_Curr.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmAdjustment_List.TxtDrNm_Curr.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmAdjustment_List_Dr_Curr" Then
+            FrmAdjustment_List.TxtDr_Curr.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmAdjustment_List.TxtDrNm_Curr.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
         '****************FrmAdjustment_List_Cr _Curr ***********
-        If txtSty.Text = "FrmAdjustment_List_Cr_Curr" Then
-            FrmAdjustment_List.TxtCr_Curr.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmAdjustment_List.TxtCrNm_Curr.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmAdjustment_List_Cr_Curr" Then
+            FrmAdjustment_List.TxtCr_Curr.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmAdjustment_List.TxtCrNm_Curr.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
 
         '****************FrmAdjustment_List_Dr ***********
-        If txtSty.Text = "FrmAdjustment_List_Dr" Then
-            FrmAdjustment_List.TxtDr.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmAdjustment_List.TxtDrNm.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmAdjustment_List_Dr" Then
+            FrmAdjustment_List.TxtDr.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmAdjustment_List.TxtDrNm.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
         '****************FrmAdjustment_List_Cr ***********
-        If txtSty.Text = "FrmAdjustment_List_Cr" Then
-            FrmAdjustment_List.TxtCr.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmAdjustment_List.TxtCrNm.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmAdjustment_List_Cr" Then
+            FrmAdjustment_List.TxtCr.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmAdjustment_List.TxtCrNm.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
 
 
 
-        If txtSty.Text = "FrmRpt_Fixed_Assets_DR" Then
+If txtSty.Text = "FrmRpt_Fixed_Assets_DR" Then
             'Dim DDDR, DDDRN As String
-            DDDR = FG.get_TextMatrix(FG.Row, 1)
-            DDDRN = FG.get_TextMatrix(FG.Row, 2)
-            FrmRpt_Fixed_Assets.TxtDr.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmRpt_Fixed_Assets.TxtDrNm.Text = FG.get_TextMatrix(FG.Row, 2)
+            DDDR = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            DDDRN = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
+            FrmRpt_Fixed_Assets.TxtDr.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmRpt_Fixed_Assets.TxtDrNm.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Me.Close()
         End If
 
-        If txtSty.Text = "FrmRpt_Fixed_Assets_CR" Then
-            DDDR = FG.get_TextMatrix(FG.Row, 1)
-            DDDRN = FG.get_TextMatrix(FG.Row, 2)
-            FrmRpt_Fixed_Assets.TxtCr.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmRpt_Fixed_Assets.TxtCrNm.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmRpt_Fixed_Assets_CR" Then
+            DDDR = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            DDDRN = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
+            FrmRpt_Fixed_Assets.TxtCr.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmRpt_Fixed_Assets.TxtCrNm.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Me.Close()
         End If
         '=======Grp Asset=======
-        If txtSty.Text = "FrmGrpNew_LS_DR" Then
-            FrmGrpNew_LS.TxtCodeAsDR.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmGrpNew_LS.TxtDrNm.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmGrpNew_LS_DR" Then
+            FrmGrpNew_LS.TxtCodeAsDR.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmGrpNew_LS.TxtDrNm.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
 
-        If txtSty.Text = "FrmGrpNew_LS_CR" Then
-            FrmGrpNew_LS.TxtCodeAsCR.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmGrpNew_LS.TxtCrNm.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmGrpNew_LS_CR" Then
+            FrmGrpNew_LS.TxtCodeAsCR.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmGrpNew_LS.TxtCrNm.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
         '=======ສະສາງ======= 
-        If txtSty.Text = "FrmBrokeNew_DR" Then
-            FrmBrokeNew.TxtDr.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmBrokeNew.TxtDrNm.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmBrokeNew_DR" Then
+            FrmBrokeNew.TxtDr.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmBrokeNew.TxtDrNm.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
-        If txtSty.Text = "FrmBrokeNew_CR" Then
-            FrmBrokeNew.TxtCr.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmBrokeNew.TxtCrNm.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmBrokeNew_CR" Then
+            FrmBrokeNew.TxtCr.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmBrokeNew.TxtCrNm.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
-        If txtSty.Text = "FrmBrokeNew_DR22" Then
-            FrmBrokeNew.TxtDr22.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmBrokeNew.TxtDrNm22.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmBrokeNew_DR22" Then
+            FrmBrokeNew.TxtDr22.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmBrokeNew.TxtDrNm22.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
-        If txtSty.Text = "FrmBrokeNew_DR33" Then
-            FrmBrokeNew.TxtDr33.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmBrokeNew.TxtDrNm33.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmBrokeNew_DR33" Then
+            FrmBrokeNew.TxtDr33.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmBrokeNew.TxtDrNm33.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
-        If txtSty.Text = "FrmBrokeNew_CR22" Then
-            FrmBrokeNew.TxtCr22.Text = FG.get_TextMatrix(FG.Row, 1)
-            FrmBrokeNew.TxtCrNm22.Text = FG.get_TextMatrix(FG.Row, 2)
+If txtSty.Text = "FrmBrokeNew_CR22" Then
+            FrmBrokeNew.TxtCr22.Text = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+            FrmBrokeNew.TxtCrNm22.Text = FG.Rows(e.RowIndex).Cells(2).Value.ToString()
             Close()
         End If
     End Sub
 
-    Private Sub FG_EndAutoSearch(ByVal sender As Object, ByVal e As System.EventArgs) Handles FG.EndAutoSearch
 
-    End Sub
-
-    Private Sub FG_KeyPressEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_KeyPressEvent) Handles FG.KeyPressEvent
-        If FG.get_TextMatrix(1, 1) = "" Then
+Private Sub FG_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles FG.KeyPress
+        If FG.Rows.Count = 0 OrElse FG.Rows(0).Cells(1).Value Is Nothing OrElse FG.Rows(0).Cells(1).Value.ToString() = "" Then
             MessageBox.Show("ບໍ່ມີລະຫັດໃຫ້ເລືອກ")
             SQL = ""
             MDSearchAcccode = ""
             StartLoadDataList()
-            FG.Row = 1
-            FG.Col = 1
+            If FG.Rows.Count > 0 Then
+                FG.CurrentCell = FG.Rows(0).Cells(0)
+            End If
             Exit Sub
         End If
-        If txtSty.Text = "NsewJeneralJournal" Then
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, L, FG.get_TextMatrix(FG.Row, 1))
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, 3, FG.get_TextMatrix(FG.Row, 2))
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, 4, FG.get_TextMatrix(FG.Row, 3))
-            FmNsewJeneralJournal.AddAcc()
+If txtSty.Text = "NsewJeneralJournal" Then
+            If FG.CurrentRow IsNot Nothing Then
+                FmNsewJeneralJournal.FG.set_TextMatrix(R, L, FG.CurrentRow.Cells(1).Value.ToString())
+                FmNsewJeneralJournal.FG.set_TextMatrix(R, 3, FG.CurrentRow.Cells(2).Value.ToString())
+                FmNsewJeneralJournal.FG.set_TextMatrix(R, 4, FG.CurrentRow.Cells(3).Value.ToString())
+                FmNsewJeneralJournal.AddAcc()
+            End If
             Close()
         End If
-        If txtSty.Text = "NsewJeneralJournal_DR" Then
+If txtSty.Text = "NsewJeneralJournal_DR" Then
             Close()
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, L, FG.get_TextMatrix(FG.Row, 1))
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, 3, FG.get_TextMatrix(FG.Row, 2))
-            FmNsewJeneralJournal.FG.set_TextMatrix(R, 4, FG.get_TextMatrix(FG.Row, 3))
-            FmNsewJeneralJournal.AddAcc2()
+            If FG.CurrentRow IsNot Nothing Then
+                FmNsewJeneralJournal.FG.set_TextMatrix(R, L, FG.CurrentRow.Cells(1).Value.ToString())
+                FmNsewJeneralJournal.FG.set_TextMatrix(R, 3, FG.CurrentRow.Cells(2).Value.ToString())
+                FmNsewJeneralJournal.FG.set_TextMatrix(R, 4, FG.CurrentRow.Cells(3).Value.ToString())
+                FmNsewJeneralJournal.AddAcc2()
+            End If
 
         End If
         '=====================Adj====
-        If txtSty.Text = "NsewJeneralJournal" Then
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.get_TextMatrix(FG.Row, 1)
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.get_TextMatrix(FG.Row, 2)
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.get_TextMatrix(FG.Row, 3)
-            FmNsewJeneralJournal_Adjust.AddAcc()
+If txtSty.Text = "NsewJeneralJournal" Then
+            If FG.CurrentRow IsNot Nothing Then
+                FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.CurrentRow.Cells(1).Value.ToString()
+                FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.CurrentRow.Cells(2).Value.ToString()
+                FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.CurrentRow.Cells(3).Value.ToString()
+                FmNsewJeneralJournal_Adjust.AddAcc()
+            End If
             Close()
         End If
-        If txtSty.Text = "NsewJeneralJournal_DR" Then
+If txtSty.Text = "NsewJeneralJournal_DR" Then
             Close()
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.get_TextMatrix(FG.Row, 1)
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.get_TextMatrix(FG.Row, 2)
-            FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.get_TextMatrix(FG.Row, 3)
-            FmNsewJeneralJournal_Adjust.AddAcc2()
+            If FG.CurrentRow IsNot Nothing Then
+                FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(L).Value = FG.CurrentRow.Cells(1).Value.ToString()
+                FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(3).Value = FG.CurrentRow.Cells(2).Value.ToString()
+                FmNsewJeneralJournal_Adjust.FG.Rows(R).Cells(4).Value = FG.CurrentRow.Cells(3).Value.ToString()
+                FmNsewJeneralJournal_Adjust.AddAcc2()
+            End If
 
         End If
 
@@ -477,11 +495,13 @@
         StartLoadDataList()
     End Sub
 
-    Private Sub FG_MouseUpEvent(ByVal sender As Object, ByVal e As AxVSFlex8U._IVSFlexGridEvents_MouseUpEvent) Handles FG.MouseUpEvent
-        Acc_Code = FG.get_TextMatrix(FG.Row, 1)
+Private Sub FG_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles FG.CellClick
+        If e.RowIndex >= 0 AndAlso FG.Rows(e.RowIndex).Cells(1).Value IsNot Nothing Then
+            Acc_Code = FG.Rows(e.RowIndex).Cells(1).Value.ToString()
+        End If
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
+    Private Sub FG_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
 
     End Sub
 
@@ -531,50 +551,50 @@
             CmbPage.SelectedIndex = 0
         End If
     End Sub
-    Public Sub PageCnt(ByVal StrSQL As String, ByVal ConStr As String, ByVal PageNum As Long, ByVal RowPerPage As Integer)
+Public Sub PageCnt(ByVal StrSQL As String, ByVal ConStr As String, ByVal PageNum As Long, ByVal RowPerPage As Integer)
         'Me.Enabled = False
-        Dim RsLoad As New ADODB.Recordset
-        Dim rssum As New ADODB.Recordset
         Dim i As Integer
-        FG.Rows = 1
+        FG.Rows.Clear()
         Dim x As String
         x = " AC_CODE,AC_Original , Name_L , Name_E , code_dr "
 
         PageNum = PageNum - 1
         Dim PK As String = "select " & x & "  from Acc_Code WHERE cnt<>''  " & SQL & " and Ac_code like '%.%' order by Ac_Code ASC "
-        LoadSqlData(PK, RSC)
-        With RSC
-            If .RecordCount <> 0 Then
-                .MoveFirst()
-                .Move(RowPerPage * PageNum)
-                LbPage.Text = Int(.RecordCount)
-                If Int(.RecordCount Mod RowPerPage) = 0 Then
-                    Last_page = Int(.RecordCount / DividePage)
+        
+        Try
+            Dim dt As DataTable = DbHelper.GetDataTable(PK)
+            If dt.Rows.Count <> 0 Then
+                LbPage.Text = dt.Rows.Count
+                If dt.Rows.Count Mod RowPerPage = 0 Then
+                    Last_page = dt.Rows.Count / DividePage
                 Else
-                    Last_page = Int(.RecordCount / DividePage) + 1
-                    If P = Last_page Then RowPerPage = (.RecordCount Mod RowPerPage)
+                    Last_page = dt.Rows.Count / DividePage + 1
+                    If P = Last_page Then RowPerPage = dt.Rows.Count Mod RowPerPage
                 End If
-                FG.Redraw = False
-                FG.Rows = 1
-
-                For i = 0 To RowPerPage - 1
-
-
-                    FG.AddItem(.AbsolutePosition & vbTab & Trim(CStr(.Fields("AC_CODE").Value)) & _
-                                "" & vbTab & Trim(CStr(.Fields("Name_L").Value.ToString)) & _
-                                     "" & vbTab & Trim(CStr(.Fields("Name_E").Value.ToString)) & _
-                                            "" & vbTab & ((.Fields("AC_Original").Value.ToString)))
-                    .MoveNext()
+                
+                Dim startIndex As Integer = RowPerPage * PageNum
+                Dim endIndex As Integer = Math.Min(startIndex + RowPerPage - 1, dt.Rows.Count - 1)
+                
+                For i = startIndex To endIndex
+                    Dim row As DataRow = dt.Rows(i)
+                    FG.Rows.Add(i + 1, Trim(row("AC_CODE").ToString()), _
+                                Trim(row("Name_L").ToString()), _
+                                Trim(row("Name_E").ToString()), _
+                                row("AC_Original").ToString())
                 Next i
-                FG.Row = FG.Rows - 1
-                FG.Redraw = True
+                
+                If FG.Rows.Count > 0 Then
+                    FG.CurrentCell = FG.Rows(FG.Rows.Count - 1).Cells(0)
+                End If
                 lblpage_total.Text = P & "/" & Int(Last_page)
             Else
-                FG.Rows = 1
-                FG.Rows = 2
+                FG.Rows.Clear()
                 lblpage_total.Text = "0/0"
             End If
-        End With
+        Catch ex As Exception
+            VSysError = True
+            MessageBox.Show("Database Error: " & ex.Message, "SQL Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
         FirstPage.Enabled = True
         BackPage.Enabled = True
@@ -591,8 +611,8 @@
             NextPage.Enabled = False
             LasthPage.Enabled = False
         End If
-        If FG.get_TextMatrix(1, 1) <> "" Then
-            LbPage.Text = "Total = (" & LbPage.Text & "), " & " From (" & FG.get_TextMatrix(1, 0) & ") To (" & FG.get_TextMatrix(FG.Rows - 1, 0) & ")"
+If FG.Rows.Count > 0 AndAlso FG.Rows(0).Cells(1).Value IsNot Nothing AndAlso FG.Rows(0).Cells(1).Value.ToString() <> "" Then
+            LbPage.Text = "Total = (" & LbPage.Text & "), " & " From (" & FG.Rows(0).Cells(0).Value.ToString() & ") To (" & FG.Rows(FG.Rows.Count - 1).Cells(0).Value.ToString() & ")"
         Else
             LbPage.Text = "RecordTotal"
         End If
@@ -608,11 +628,11 @@
         p500.ForeColor = Color.Black
         p1000.ForeColor = Color.Black
         p100.ForeColor = Color.Black
-        If P15.Checked = True Then
+If P15.Checked = True Then
             DividePage = txtSC15.Text
             txtSC15.Enabled = True
             P15.ForeColor = Color.Red : txtSC15.Focus() : txtSC15.SelectAll()
-            FG.FormatString = "^ລ/ດ|< ເລກລະຫັດ   |< ຊື່ພາສາລາວ                                              |< ຊື່ພາສາອັງກິງ                "
+            SetupGrid()
         ElseIf p25.Checked = True Then
             DividePage = 25
             p25.ForeColor = Color.Red

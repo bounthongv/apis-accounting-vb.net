@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class Frm_import_exel_KS_BL
     Inherits System.Windows.Forms.Form
 
@@ -36,7 +36,7 @@ Partial Class Frm_import_exel_KS_BL
         Me.DataGridView1 = New System.Windows.Forms.DataGridView
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.Panel1 = New System.Windows.Forms.Panel
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Label12 = New System.Windows.Forms.Label
         Me.txtSumAmountDr = New System.Windows.Forms.TextBox
         Me.txtSumAmountCr = New System.Windows.Forms.TextBox
@@ -215,12 +215,17 @@ Partial Class Frm_import_exel_KS_BL
         '
         'FG
         '
-        Me.FG.DataSource = Nothing
+        Me.FG.AllowUserToAddRows = True
+        Me.FG.AllowUserToDeleteRows = True
+        Me.FG.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.FG.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FG.Location = New System.Drawing.Point(0, 0)
         Me.FG.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(1230, 335)
         Me.FG.TabIndex = 0
         '
@@ -522,7 +527,7 @@ Partial Class Frm_import_exel_KS_BL
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents btnExcel As System.Windows.Forms.Button
     Friend WithEvents BtnSave As System.Windows.Forms.Button
     Friend WithEvents Button6 As System.Windows.Forms.Button

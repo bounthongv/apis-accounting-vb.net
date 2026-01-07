@@ -1,5 +1,6 @@
-﻿Imports System.Data.OleDb
+Imports System.Data.OleDb
 Imports System.Data.SqlClient
+Imports System.Data
 
 Public Class Frm_import_exel_AR
     Dim amt1 As Double
@@ -8,26 +9,46 @@ Public Class Frm_import_exel_AR
     Private Sub Frm_import_exel_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
 
-        FG.FormatString = "^ລ/ດ |<LOAN ACCOUNT   |<CONTRACT NAME  |<LOAN OPEN DATE   |<CURRENCY    |<FIX RATE  |<AR OS TG PRINCIPLE |< AR OS TG ARCURED INTEREST |<GENDER   |<BUSINESSTYPEDESC  |<LOAN GRADE  |<Provision  |<Provision Amt |<FOR AR WRITEOFF |< AR INT|<Customer ID  "
+        FG.Columns.Clear()
+        FG.Columns.Add("No", "ລ/ດ")
+        FG.Columns.Add("LoanNO", "LOAN ACCOUNT")
+        FG.Columns.Add("LoanName", "CONTRACT NAME")
+        FG.Columns.Add("LoanDate", "LOAN OPEN DATE")
+        FG.Columns.Add("Curr", "CURRENCY")
+        FG.Columns.Add("FIX_RATE", "FIX RATE")
+        FG.Columns.Add("PRINCIPLE", "AR OS TG PRINCIPLE")
+        FG.Columns.Add("INTEREST", "AR OS TG ARCURED INTEREST")
+        FG.Columns.Add("GENDER", "GENDER")
+        FG.Columns.Add("BUSINESSTYPEDESC", "BUSINESSTYPEDESC")
+        FG.Columns.Add("LOAN_GRADE", "LOAN GRADE")
+        FG.Columns.Add("Provision", "Provision")
+        FG.Columns.Add("Provision_Amt", "Provision Amt")
+        FG.Columns.Add("WRITEOFF", "FOR AR WRITEOFF")
+        FG.Columns.Add("Int_Call", "AR INT")
+        FG.Columns.Add("Cust_ID", "Customer ID")
+        
+        For Each col As DataGridViewColumn In FG.Columns
+            col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+        Next
         dff()
 
     End Sub
     Private Sub dff()
-        LoadSqlData("select * from Ap_RateSeting where Curr='LAK' ", RSC)
-        If RSC.RecordCount <> 0 Then
-            MLAK = Trim(RSC.Fields("Rate").Value)
+        Dim dt As DataTable = DbHelper.GetDataTable("select * from Ap_RateSeting where Curr='LAK'")
+        If dt.Rows.Count > 0 Then
+            MLAK = Trim(dt.Rows(0)("Rate").ToString())
         End If
-        LoadSqlData("select * from Ap_RateSeting where Curr='USD' ", RSC)
-        If RSC.RecordCount <> 0 Then
-            MUSD = Trim(RSC.Fields("Rate").Value)
+        dt = DbHelper.GetDataTable("select * from Ap_RateSeting where Curr='USD'")
+        If dt.Rows.Count > 0 Then
+            MUSD = Trim(dt.Rows(0)("Rate").ToString())
         End If
-        LoadSqlData("select * from Ap_RateSeting where Curr='THB' ", RSC)
-        If RSC.RecordCount <> 0 Then
-            MTHB = Trim(RSC.Fields("Rate").Value)
+        dt = DbHelper.GetDataTable("select * from Ap_RateSeting where Curr='THB'")
+        If dt.Rows.Count > 0 Then
+            MTHB = Trim(dt.Rows(0)("Rate").ToString())
         End If
-        LoadSqlData("select * from Ap_RateSeting where Curr='EUR' ", RSC)
-        If RSC.RecordCount <> 0 Then
-            MEUR = Trim(RSC.Fields("Rate").Value)
+        dt = DbHelper.GetDataTable("select * from Ap_RateSeting where Curr='EUR'")
+        If dt.Rows.Count > 0 Then
+            MEUR = Trim(dt.Rows(0)("Rate").ToString())
         End If
         'With RSC
         '    Do Until .EOF = True
@@ -53,53 +74,35 @@ Public Class Frm_import_exel_AR
         Dim i As Integer
         Dim no As Integer = 0
         MM.Value = Microsoft.VisualBasic.Right(DataGridView1.Item(0, 0).Value.ToString, 10)
-        FG.Rows = 1
+        FG.Rows.Clear()
+        
         For i = 0 To DataGridView1.RowCount - 2
-            If DataGridView1.Item(1, i).Value.ToString <> "" Then
-
-                'FG.AddItem(DataGridView1.Item(0, i).Value.ToString & Chr(9) & DataGridView1.Item(1, i).Value.ToString)
-
-                FG.AddItem(DataGridView1.Item(0, i).Value.ToString & _
-                  Chr(9) & DataGridView1.Item(0, i).Value.ToString & _
-                  Chr(9) & DataGridView1.Item(1, i).Value.ToString & _
-                  Chr(9) & DataGridView1.Item(7, i).Value.ToString & _
-                 Chr(9) & DataGridView1.Item(10, i).Value.ToString & _
-                Chr(9) & DataGridView1.Item(14, i).Value.ToString & _
-               Chr(9) & DataGridView1.Item(22, i).Value.ToString & _
-                Chr(9) & DataGridView1.Item(24, i).Value.ToString & _
-                Chr(9) & DataGridView1.Item(31, i).Value.ToString & _
-                  Chr(9) & DataGridView1.Item(32, i).Value.ToString & _
-                 Chr(9) & DataGridView1.Item(41, i).Value.ToString & _
-                              Chr(9) & DataGridView1.Item(42, i).Value.ToString & _
-                          Chr(9) & DataGridView1.Item(43, i).Value.ToString & _
-                           Chr(9) & DataGridView1.Item(45, i).Value.ToString & _
-                          Chr(9) & DataGridView1.Item(26, i).Value.ToString & _
-                       Chr(9) & DataGridView1.Item(2, i).Value.ToString)
-
-                'FG.set_TextMatrix(FG.Row, no, no)
+            If DataGridView1.Item(1, i).Value IsNot Nothing AndAlso DataGridView1.Item(1, i).Value.ToString <> "" Then
+                FG.Rows.Add()
+                Dim rowIndex As Integer = FG.Rows.Count - 1
+                
+                FG.Rows(rowIndex).Cells("No").Value = no + 1
+                FG.Rows(rowIndex).Cells("LoanNO").Value = DataGridView1.Item(0, i).Value.ToString
+                FG.Rows(rowIndex).Cells("LoanName").Value = DataGridView1.Item(1, i).Value.ToString
+                FG.Rows(rowIndex).Cells("LoanDate").Value = DataGridView1.Item(7, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("Curr").Value = DataGridView1.Item(10, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("FIX_RATE").Value = DataGridView1.Item(14, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("PRINCIPLE").Value = DataGridView1.Item(22, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("INTEREST").Value = DataGridView1.Item(24, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("GENDER").Value = DataGridView1.Item(31, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("BUSINESSTYPEDESC").Value = DataGridView1.Item(32, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("LOAN_GRADE").Value = DataGridView1.Item(41, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("Provision").Value = DataGridView1.Item(42, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("Provision_Amt").Value = DataGridView1.Item(43, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("WRITEOFF").Value = DataGridView1.Item(45, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("Int_Call").Value = DataGridView1.Item(26, i).Value?.ToString
+                FG.Rows(rowIndex).Cells("Cust_ID").Value = DataGridView1.Item(2, i).Value?.ToString
+                
+                If DataGridView1.Item(22, i).Value?.ToString <> "" Then
+                    FG.Rows(rowIndex).Cells("WRITEOFF").Value = 0
+                End If
             End If
-
         Next i
-
-        For i = 1 To FG.Rows - 1
-            no = no + 1
-            FG.set_TextMatrix(i, 0, no)
-            If DataGridView1.Item(22, i).Value.ToString <> "" Then
-                FG.set_TextMatrix(i, 22, 0)
-            End If
-            'If FG.get_TextMatrix(i, 3) = "" Then
-            '    FG.set_TextMatrix(i, 3, FG.get_TextMatrix(i, 2) & "/" & FG.get_TextMatrix(i, 5))
-            'End If
-
-            'FG.set_TextMatrix(i, 10, Format(CDbl(FG.get_TextMatrix(i, 10)), "#,##0.00"))
-            'FG.set_TextMatrix(i, 11, Format(CDbl(FG.get_TextMatrix(i, 11)), "#,##0.00"))
-            'FG.set_TextMatrix(i, 13, Format(CDbl(FG.get_TextMatrix(i, 13)), "#,##0.00"))
-            'FG.set_TextMatrix(i, 14, Format(CDbl(FG.get_TextMatrix(i, 14)), "#,##0.00"))
-            'FG.set_TextMatrix(i, 15, Format(CDbl(FG.get_TextMatrix(i, 15)), "#,##0.00"))
-
-            'FG.set_TextMatrix(i, no)
-
-        Next
         'Call Calc()
         GroupBox1.Visible = False
         'Call amt()
@@ -108,9 +111,13 @@ Public Class Frm_import_exel_AR
         amt1 = 0
         amt2 = 0
         Dim i As Integer
-        For i = 1 To FG.Rows - 1
-            amt1 = amt1 + CDbl(FG.get_TextMatrix(i, 10))
-            amt2 = amt2 + CDbl(FG.get_TextMatrix(i, 11))
+        For i = 0 To FG.Rows.Count - 1
+            If FG.Rows(i).Cells("Provision").Value IsNot Nothing AndAlso FG.Rows(i).Cells("Provision").Value.ToString <> "" Then
+                amt1 = amt1 + CDbl(FG.Rows(i).Cells("Provision").Value.ToString)
+            End If
+            If FG.Rows(i).Cells("Provision_Amt").Value IsNot Nothing AndAlso FG.Rows(i).Cells("Provision_Amt").Value.ToString <> "" Then
+                amt2 = amt2 + CDbl(FG.Rows(i).Cells("Provision_Amt").Value.ToString)
+            End If
         Next i
 
         txtSumAmountDr.Text = Format(CDbl(amt1), "##,##0.00")
@@ -168,8 +175,8 @@ Public Class Frm_import_exel_AR
         DataGridView1.RefreshEdit()
     End Sub
 
-    Private Sub FG_SelChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelChange
-        FG.Editable = VSFlex8U.EditableSettings.flexEDKbd
+    Private Sub FG_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FG.SelectionChanged
+        ' DataGridView is read-only by default
     End Sub
 
     Private Sub BtnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSave.Click
@@ -180,113 +187,81 @@ Public Class Frm_import_exel_AR
         MsgBox("ບັນທຶກສຳເລັດ")
     End Sub
     Private Sub SaveItems()
-        Dim aa As String
-        aa = " delete TEM_AR  "
-        CNN.Execute(aa)
-        Dim Rschk As New ADODB.Recordset
+        DbHelper.ExecuteNonQuery(" delete TEM_AR  ")
         Dim i As Integer
-        With Rschk
-            Dim sk As String = "Select * FROM TEM_AR  "
-            Call LoadSqlData(sk, Rschk)
 
-            For i = 3 To FG.Rows - 1
+        For i = 0 To FG.Rows.Count - 1
+            If FG.Rows(i).Cells("LoanNO").Value IsNot Nothing AndAlso FG.Rows(i).Cells("LoanNO").Value.ToString <> "" Then
+                Dim sa As String = " INSERT INTO TEM_AR (LoanNO, LoanName, LaonDate, Curr, FIX_RATE, PRINCIPLE, INTEREST, GENDER, BUSINESSTYPEDESC, LOAN_GRADE, Provision, Provision_Amt, WRITEOFF,Int_Call,Cust_ID, last_update, last_user,pc_nm) " & _
+                " VALUES ( N'" & Apostrophe(FG.Rows(i).Cells("LoanNO").Value.ToString) & "'," & _
+                    " N'" & Apostrophe(FG.Rows(i).Cells("LoanName").Value.ToString) & "'," & _
+                     " N'" & Format(CDate(MM.Value), "yyyy-MM-dd") & "'," & _
+                      " N'" & Trim(Apostrophe(FG.Rows(i).Cells("Curr").Value.ToString)) & "'," & _
+                         " " & CDbl(If(FG.Rows(i).Cells("FIX_RATE").Value Is Nothing OrElse FG.Rows(i).Cells("FIX_RATE").Value.ToString = "", "0", FG.Rows(i).Cells("FIX_RATE").Value.ToString)) & ", " & _
+                            " " & CDbl(If(FG.Rows(i).Cells("PRINCIPLE").Value Is Nothing OrElse FG.Rows(i).Cells("PRINCIPLE").Value.ToString = "", "0", FG.Rows(i).Cells("PRINCIPLE").Value.ToString)) & ", " & _
+                                   " " & CDbl(If(FG.Rows(i).Cells("INTEREST").Value Is Nothing OrElse FG.Rows(i).Cells("INTEREST").Value.ToString = "", "0", FG.Rows(i).Cells("INTEREST").Value.ToString)) & ", " & _
+                         " N'" & Apostrophe(FG.Rows(i).Cells("GENDER").Value.ToString) & "'," & _
+                          " N'" & Apostrophe(FG.Rows(i).Cells("BUSINESSTYPEDESC").Value.ToString) & "'," & _
+                              " N'" & Apostrophe(FG.Rows(i).Cells("LOAN_GRADE").Value.ToString) & "'," & _
+                       " " & CDbl(If(FG.Rows(i).Cells("Provision").Value Is Nothing OrElse FG.Rows(i).Cells("Provision").Value.ToString = "", "0", FG.Rows(i).Cells("Provision").Value.ToString)) & ", " & _
+                              " " & CDbl(If(FG.Rows(i).Cells("Provision_Amt").Value Is Nothing OrElse FG.Rows(i).Cells("Provision_Amt").Value.ToString = "", "0", FG.Rows(i).Cells("Provision_Amt").Value.ToString)) & ", " & _
+                  " N'" & Apostrophe(FG.Rows(i).Cells("WRITEOFF").Value.ToString) & "'," & _
+                      " " & CDbl(If(FG.Rows(i).Cells("Int_Call").Value Is Nothing OrElse FG.Rows(i).Cells("Int_Call").Value.ToString = "", "0", FG.Rows(i).Cells("Int_Call").Value.ToString)) & ", " & _
+                        " N'" & Apostrophe(FG.Rows(i).Cells("Cust_ID").Value.ToString) & "'," & _
+                           " Getdate()," & _
+                " N'" & Apostrophe(MUserName) & "'," & _
+                 " N'" & Apostrophe(MDServerName) & "') "
+                DbHelper.ExecuteNonQuery(sa)
+            End If
+        Next i
+        
+        DbHelper.ExecuteNonQuery("update TEM_AR set rate=1 where curr='LAK' ")
+        DbHelper.ExecuteNonQuery("update TEM_AR set rate=" & MUSD & " where curr='USD' ")
+        DbHelper.ExecuteNonQuery("update TEM_AR set rate =" & MTHB & "  where curr='THB' ")
 
-                If Rschk.RecordCount = 0 Then
+        DbHelper.ExecuteNonQuery("update TEM_AR set Int_Call=0 where Int_Call is null")
+        DbHelper.ExecuteNonQuery("update AP_Loan set Int_Call=0 where Int_Call is null")
+        DbHelper.ExecuteNonQuery("update TEM_AR set Provision=0 where Provision is null")
+        DbHelper.ExecuteNonQuery("update AP_Loan set Provision_Amt=0 where Provision_Amt is null")
 
-                    Dim sa As String = " INSERT INTO TEM_AR (LoanNO, LoanName, LaonDate, Curr, FIX_RATE, PRINCIPLE, INTEREST, GENDER, BUSINESSTYPEDESC, LOAN_GRADE, Provision, Provision_Amt, WRITEOFF,Int_Call,Cust_ID, last_update, last_user,pc_nm) " & _
-                    " VALUES ( N'" & Apostrophe(FG.get_TextMatrix(i, 1)) & "'," & _
-                        " N'" & Apostrophe(FG.get_TextMatrix(i, 2)) & "'," & _
-                         " N'" & Format(CDate(MM.Value), "yyyy-MM-dd") & "'," & _
-                          " N'" & Trim(Apostrophe(FG.get_TextMatrix(i, 4))) & "'," & _
-                             " " & CDbl(FG.get_TextMatrix(i, 5)) & ", " & _
-                                " " & CDbl(FG.get_TextMatrix(i, 6)) & ", " & _
-                                       " " & CDbl(FG.get_TextMatrix(i, 7)) & ", " & _
-                             " N'" & Apostrophe(FG.get_TextMatrix(i, 8)) & "'," & _
-                              " N'" & Apostrophe(FG.get_TextMatrix(i, 9)) & "'," & _
-                                  " N'" & Apostrophe(FG.get_TextMatrix(i, 10)) & "'," & _
-                           " " & CDbl(FG.get_TextMatrix(i, 11)) & ", " & _
-                                  " " & CDbl(FG.get_TextMatrix(i, 12)) & ", " & _
-                      " N'" & Apostrophe(FG.get_TextMatrix(i, 13)) & "'," & _
-                          " " & CDbl(FG.get_TextMatrix(i, 14)) & ", " & _
-                            " N'" & Apostrophe(FG.get_TextMatrix(i, 15)) & "'," & _
-                               " Getdate()," & _
-                    " N'" & Apostrophe(MUserName) & "'," & _
-                     " N'" & Apostrophe(MDServerName) & "') "
-                    CNN.Execute(sa)
-
-                Else
-
-                    'Dim sa As String = "DELETE FROM gen_jn WHERE 1=1 AND certify='" & txtBill_no.Text & "' "
-                    'CNN.Execute(sa)
-
-                End If
-            Next i
-        End With
-        CNN.Execute("update TEM_AR set rate=1 where curr='LAK' ")
-        CNN.Execute("update TEM_AR set rate=" & MUSD & " where curr='USD' ")
-        CNN.Execute("update TEM_AR set rate =" & MTHB & "  where curr='THB' ")
-
-        CNN.Execute("update TEM_AR set Int_Call=0 where Int_Call is null")
-        CNN.Execute("update AP_Loan set Int_Call=0 where Int_Call is null")
-        CNN.Execute("update TEM_AR set Provision=0 where Provision is null")
-        CNN.Execute("update AP_Loan set Provision_Amt=0 where Provision_Amt is null")
-
-        CNN.Execute(" update TEM_AR set principle_LAK=principle*rate  ")
-        CNN.Execute(" update TEM_AR set  Int_LAK=interest*rate  ")
-        'CNN.Execute(" update TEM_AR set  Int_LAK=interest*rate where Int_Call<>0 ")
+        DbHelper.ExecuteNonQuery(" update TEM_AR set principle_LAK=principle*rate  ")
+        DbHelper.ExecuteNonQuery(" update TEM_AR set  Int_LAK=interest*rate  ")
         If CheckBox1.Checked = True Then
-            CNN.Execute("update TEM_AR set BUSINESSTYPEDESC=N'1.3 ປະກອບວັດຖຸເຕັກນິກ'  ")
+            DbHelper.ExecuteNonQuery("update TEM_AR set BUSINESSTYPEDESC=N'1.3 ປະກອບວັດຖຸເຕັກນິກ'  ")
         End If
-
-
-        'CNN.Execute("delete gen_jn WHERE ac_code='' ")
-        'CNN.Execute("update Tmp_Import set Tmp_Import.ac_code=Acc_Code.ac_code from Acc_Code,Tmp_Import where Acc_Code.ac_original=Tmp_Import.ac_code ")
-        'CNN.Execute("update Tmp_Import set Tmp_Import.code_dr=Acc_Code.ac_code from Acc_Code,Tmp_Import where Acc_Code.ac_original=Tmp_Import.code_dr and Tmp_Import.code_dr<>''  ")
-        'CNN.Execute("update Tmp_Import set Tmp_Import.code_cr=Acc_Code.ac_code from Acc_Code,Tmp_Import where Acc_Code.ac_original=Tmp_Import.code_cr and Tmp_Import.code_Cr<>'' ")
     End Sub
 
     Private Sub Insert_Gen_jn()
         Frm_import_progress.Show()
         Dim aa As String
-        Dim RSC As New ADODB.Recordset
-        Dim Rschk As New ADODB.Recordset
         Dim i As Integer
-        With Rschk
-            For i = 2 To FG.Rows - 1
-                Dim sk As String = "Select * FROM AP_Loan where  LoanNO=N'" & FG.get_TextMatrix(i, 1) & "' and month(LaonDate)='" & Month(MM.Value) & "' and year(LaonDate)='" & Year(MM.Value) & "' "
-                Call LoadSqlData(sk, Rschk)
-                If Rschk.RecordCount = 0 Then
-                    aa = "   insert into AP_Loan (LoanNO, LoanName, LaonDate, Curr, FIX_RATE, PRINCIPLE, INTEREST, GENDER, BUSINESSTYPEDESC, LOAN_GRADE, Provision, Provision_Amt, WRITEOFF,rate,PRINCIPLE_lak, Int_LAK,Int_Call, Cust_ID, last_update, last_user,pc_nm) " & _
-         "   select  LoanNO, LoanName, LaonDate, Curr, FIX_RATE, PRINCIPLE, INTEREST, GENDER, BUSINESSTYPEDESC, LOAN_GRADE,  Provision, Provision_Amt, WRITEOFF,rate, PRINCIPLE_lak, Int_LAK,Int_Call, Cust_ID,  Getdate(),N'" & Apostrophe(MUserName) & "'," & _
-              " N'" & Apostrophe(MDServerName) & "'" & _
-       "    from   TEM_AR  where  LoanNO=N'" & FG.get_TextMatrix(i, 1) & "' order by LoanNO  "
-                    CNN.Execute(aa)
-
+        
+        For i = 0 To FG.Rows.Count - 1
+            If FG.Rows(i).Cells("LoanNO").Value IsNot Nothing AndAlso FG.Rows(i).Cells("LoanNO").Value.ToString <> "" Then
+                Dim sk As String = "Select * FROM AP_Loan where  LoanNO=N'" & FG.Rows(i).Cells("LoanNO").Value.ToString & "' and month(LaonDate)='" & Month(MM.Value) & "' and year(LaonDate)='" & Year(MM.Value) & "' "
+                Dim dt As DataTable = DbHelper.GetDataTable(sk)
+                If dt.Rows.Count = 0 Then
+                    aa = "   insert into AP_Loan (LoanNO, LoanName, LaonDate, Curr, FIX_RATE, PRINCIPLE, INTEREST, GENDER, BUSINESSTYPEDESC, LOAN_GRADE,  Provision, Provision_Amt, WRITEOFF,rate,PRINCIPLE_lak, Int_LAK,Int_Call, Cust_ID,  last_update, last_user,pc_nm) " & _
+     "   select  LoanNO, LoanName, LaonDate, Curr, FIX_RATE, PRINCIPLE, INTEREST, GENDER, BUSINESSTYPEDESC, LOAN_GRADE,  Provision, Provision_Amt, WRITEOFF,rate, PRINCIPLE_lak, Int_LAK,Int_Call, Cust_ID,  Getdate(),N'" & Apostrophe(MUserName) & "'," & _
+          " N'" & Apostrophe(MDServerName) & "'" & _
+   "    from   TEM_AR  where  LoanNO=N'" & FG.Rows(i).Cells("LoanNO").Value.ToString & "' order by LoanNO  "
+                    DbHelper.ExecuteNonQuery(aa)
                 Else
-
-                    aa = "delete AP_Loan WHERE   LoanNO=N'" & FG.get_TextMatrix(i, 1) & "' and month(LaonDate)='" & Month(MM.Value) & "' and year(LaonDate)='" & Year(MM.Value) & "' "
-                    CNN.Execute(aa)
+                    aa = "delete AP_Loan WHERE   LoanNO=N'" & FG.Rows(i).Cells("LoanNO").Value.ToString & "' and month(LaonDate)='" & Month(MM.Value) & "' and year(LaonDate)='" & Year(MM.Value) & "' "
+                    DbHelper.ExecuteNonQuery(aa)
                     aa = "   insert into AP_Loan (LoanNO, LoanName, LaonDate, Curr, FIX_RATE, PRINCIPLE, INTEREST, GENDER, BUSINESSTYPEDESC, LOAN_GRADE,  Provision, Provision_Amt, WRITEOFF,rate,PRINCIPLE_lak, Int_LAK,Int_Call, Cust_ID,  last_update, last_user,pc_nm) " & _
 "   select  LoanNO, LoanName, LaonDate, Curr, FIX_RATE, PRINCIPLE, INTEREST, GENDER, BUSINESSTYPEDESC, LOAN_GRADE,  Provision, Provision_Amt, WRITEOFF,rate, PRINCIPLE_lak, Int_LAK,Int_Call, Cust_ID,  Getdate(),N'" & Apostrophe(MUserName) & "'," & _
-     " N'" & Apostrophe(MDServerName) & "'" & _
-"    from   TEM_AR  where  LoanNO=N'" & FG.get_TextMatrix(i, 1) & "' order by LoanNO  "
-                    CNN.Execute(aa)
-
-
+ " N'" & Apostrophe(MDServerName) & "'" & _
+"    from   TEM_AR  where  LoanNO=N'" & FG.Rows(i).Cells("LoanNO").Value.ToString & "' order by LoanNO  "
+                    DbHelper.ExecuteNonQuery(aa)
                 End If
                 Frm_import_progress.Refresh()
-
-                Frm_import_progress.Label2.Text = FG.Rows
-
-                Frm_import_progress.Label4.Text = FG.get_TextMatrix(i, 0)
-
-                Frm_import_progress.Label1.Text = FG.get_TextMatrix(i, 2)
-
-            Next
-            Frm_import_progress.Close()
-        End With
-
-
+                Frm_import_progress.Label2.Text = FG.Rows.Count
+                Frm_import_progress.Label4.Text = FG.Rows(i).Cells("No").Value?.ToString
+                Frm_import_progress.Label1.Text = FG.Rows(i).Cells("LoanName").Value?.ToString
+            End If
+        Next
+        Frm_import_progress.Close()
     End Sub
 
     Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
@@ -294,17 +269,15 @@ Public Class Frm_import_exel_AR
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
-       
         Dim sk As String = "Select * FROM AP_Loan   where   month(LaonDate)='" & Month(MM.Value) & "' and year(LaonDate)='" & Year(MM.Value) & "'  "
-        Call LoadSqlData(sk, RSC)
-        If RSC.RecordCount = 0 Then
+        Dim dt As DataTable = DbHelper.GetDataTable(sk)
+        If dt.Rows.Count = 0 Then
             MsgBox("ຂໍ້ມູນເດືອນ " & Format(CDate(MM.Value), "MM/yyyy") & " ບໍ່ທັນມີ!", MsgBoxStyle.Exclamation) : Exit Sub
         End If
 
         If MessageBox.Show("ທ່ານຕ້ອງລຶບຂໍ້ມູນ  " & Format(CDate(MM.Value), "MM/yyyy") & " ແທ້ຫລືບໍ່", "ຄຳຢືນຢັນ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            CNN.Execute("DELETE FROM AP_Loan   where   month(LaonDate)='" & Month(MM.Value) & "' and year(LaonDate)='" & Year(MM.Value) & "' ")
+            DbHelper.ExecuteNonQuery("DELETE FROM AP_Loan   where   month(LaonDate)='" & Month(MM.Value) & "' and year(LaonDate)='" & Year(MM.Value) & "' ")
             MsgBox("Finish")
         End If
-
     End Sub
 End Class

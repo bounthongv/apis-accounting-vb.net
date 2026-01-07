@@ -1,4 +1,4 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class FmPostedLedgers
     Inherits System.Windows.Forms.Form
 
@@ -46,7 +46,7 @@ Partial Class FmPostedLedgers
         Me.Pyy = New System.Windows.Forms.DateTimePicker
         Me.RP = New System.Windows.Forms.RadioButton
         Me.Label3 = New System.Windows.Forms.Label
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.BtnExit = New System.Windows.Forms.Button
         Me.Cx = New System.Windows.Forms.ComboBox
         Me.Label13 = New System.Windows.Forms.Label
@@ -321,10 +321,11 @@ Partial Class FmPostedLedgers
         Me.FG.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG.DataSource = Nothing
+        Me.FG.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.FG.BackgroundColor = System.Drawing.Color.White
+        Me.FG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG.Location = New System.Drawing.Point(585, 309)
         Me.FG.Name = "FG"
-        Me.FG.OcxState = CType(resources.GetObject("FG.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG.Size = New System.Drawing.Size(1462, 721)
         Me.FG.TabIndex = 45557
         Me.FG.Visible = False
@@ -720,7 +721,7 @@ Partial Class FmPostedLedgers
     Friend WithEvents RP As System.Windows.Forms.RadioButton
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
     Friend WithEvents Cfrom As System.Windows.Forms.TextBox
     Friend WithEvents BtnExit As System.Windows.Forms.Button

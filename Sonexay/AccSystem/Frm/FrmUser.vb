@@ -1,8 +1,8 @@
 Public Class FrmUser
-    Public RSC As New ADODB.Recordset
-    Public EditActive As Boolean
-    Dim itemfgacc As Boolean
-    Dim rs As New ADODB.Recordset
+    'Public RSC As New ADODB.Recordset ' REMOVED - ADODB migration
+    'Public EditActive As Boolean
+    'Dim itemfgacc As Boolean
+    'Dim rs As New ADODB.Recordset ' REMOVED - ADODB migration
     Dim Sql As String
     Dim MDSection As Integer = 0
     Dim MDCheckWrite, MDCheckEdit, MDCheckDelete, MDCheckForstaff As Integer
@@ -88,13 +88,10 @@ Public Class FrmUser
 
     Private Sub loadCompany()
         cmbCompany.Items.Clear()
-        LoadSqlData("select off_add1 , off_id  from  Ap_office group BY off_id , off_add1", RSC)
-        With RSC
-            Do Until .EOF = True
-                cmbCompany.Items.Add((.Fields("off_id").Value) & " " & (.Fields("off_add1").Value))
-                .MoveNext()
-            Loop
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("select off_add1 , off_id  from  Ap_office group BY off_id , off_add1")
+        For Each row As DataRow In dt.Rows
+            cmbCompany.Items.Add(DbHelper.GetStr(row("off_id")) & " " & DbHelper.GetStr(row("off_add1")))
+        Next
         'cmbCompany.Text = "08 ໄຊຍະບູລີ"
         SUPD = 0
     End Sub
@@ -105,37 +102,30 @@ Public Class FrmUser
             Sql = "AND Company='" & MuSubOff & "'"
         End If
         Fg.Rows.Clear()
-        With rs
-            Call LoadSqlData("select AP_Users.Usr_id,AP_Users.Usr_nm,AP_Users.permision,Ap_Section.Sec_Nm,AP_Users.Company from AP_Users" & _
-                        " INNER JOIN Ap_Section ON AP_Users.Sec_ID=Ap_Section.Sec_ID " & _
-                        " WHERE 1=1 " & Sql & "  order by Usr_id", rs)
-            If .RecordCount > 0 Then
-                While Not .EOF()
-                    Fg.Rows.Add(.AbsolutePosition, _
-                    .Fields("Usr_id").Value.ToString, _
-                    .Fields("Usr_nm").Value.ToString, _
-                    .Fields("permision").Value.ToString, _
-                    .Fields("Sec_Nm").Value.ToString, _
-                    .Fields("Company").Value.ToString)
-                    .MoveNext()
-                End While
-            End If
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("select AP_Users.Usr_id,AP_Users.Usr_nm,AP_Users.permision,Ap_Section.Sec_Nm,AP_Users.Company from AP_Users" & _
+                    " INNER JOIN Ap_Section ON AP_Users.Sec_ID=Ap_Section.Sec_ID " & _
+                    " WHERE 1=1 " & Sql & "  order by Usr_id")
+        
+        For i As Integer = 0 To dt.Rows.Count - 1
+            Dim row As DataRow = dt.Rows(i)
+            Fg.Rows.Add(i + 1, _
+                DbHelper.GetStr(row("Usr_id")), _
+                DbHelper.GetStr(row("Usr_nm")), _
+                DbHelper.GetStr(row("permision")), _
+                DbHelper.GetStr(row("Sec_Nm")), _
+                DbHelper.GetStr(row("Company")))
+        Next
     End Sub
     Private Sub LoadSection()
         FgSec.Rows.Clear()
-        With rs
-            Call LoadSqlData("select * from Ap_Section" & _
-                        " WHERE Sec_ID > 0  order by Sec_ID", rs)
-            If .RecordCount > 0 Then
-                While Not .EOF()
-                    FgSec.Rows.Add(.AbsolutePosition, _
-                    .Fields("Sec_ID").Value.ToString, _
-                    .Fields("Sec_Nm").Value.ToString)
-                    .MoveNext()
-                End While
-            End If
-        End With
+        Dim dt As DataTable = DbHelper.GetDataTable("select * from Ap_Section" & _
+                    " WHERE Sec_ID > 0  order by Sec_ID")
+        For i As Integer = 0 To dt.Rows.Count - 1
+            Dim row As DataRow = dt.Rows(i)
+            FgSec.Rows.Add(i + 1, _
+                DbHelper.GetStr(row("Sec_ID")), _
+                DbHelper.GetStr(row("Sec_Nm")))
+        Next
     End Sub
     Private Sub ClearText()
         txtUsr_id.Text = ""
@@ -215,14 +205,12 @@ Public Class FrmUser
         If txtUsr_id.Text = "" Then MsgBox("ກະລຸນາປ້ອນລະຫັດ , ກ່ອນ!", MsgBoxStyle.OkOnly) : txtUsr_id.Focus() : Exit Sub
         If txtDep_ID.Text = "" Then MsgBox("ກະລຸນາປ້ອນລາຍການພາກສ່ວນ , ກ່ອນ!", MsgBoxStyle.OkOnly) : txtDep_ID.Focus() : Exit Sub
         If txtUsr_id.Enabled = True Then
-            Call LoadSqlData("SELECT Usr_id FROM AP_Users WHERE Usr_id = '" & Trim(txtUsr_id.Text) & "' AND Company='" & MuSubOff & "' ", RSC)
-            If RSC.RecordCount > 0 Then
+            Dim dt As DataTable = DbHelper.GetDataTable("SELECT Usr_id FROM AP_Users WHERE Usr_id = '" & Trim(txtUsr_id.Text) & "' AND Company='" & MuSubOff & "' ")
+            If dt.Rows.Count > 0 Then
                 MsgBox("ລະຫັດຜູ້ໃຊ້ : " & Trim(txtUsr_id.Text) & " ມີແລ້ວ, ກະລຸນາປ່ຽນ!", MsgBoxStyle.OkOnly)
                 txtUsr_id.Focus()
-                If RSC.State = ConnectionState.Open Then RSC.Close()
                 Exit Sub
             End If
-            If RSC.State = ConnectionState.Open Then RSC.Close()
         End If
         Call Save()
         MsgBox("ບັນທຶກສໍາເລັດຜົນ!", MsgBoxStyle.OkOnly)
@@ -230,77 +218,44 @@ Public Class FrmUser
         SUPD = 0
     End Sub
     Private Sub Save()
-        Call LoadSqlData("SELECT * FROM AP_Users WHERE Usr_id = '" & txtUsr_id.Text & "'  ", rs)
-        With rs
-            If .RecordCount = 0 Then
-                CNN.Execute("INSERT INTO AP_Users (Usr_id,Sec_ID,Usr_nm,permision,UsrPermit, " & _
-                "PWD,Company ,Sub_Company,lst_updt,lst_usr,pc_nm) " & _
-                   " VALUES('" & (txtUsr_id.Text) & "'," & _
-                   " N'" & (txtDep_ID.Text) & "'," & _
-                   " N'" & (txtUsr_nm.Text) & "'," & _
-                   " N'" & (cmbpermision.Text) & "'," & _
-                   " N'" & (cmbUsrPermit.Text) & "'," & _
-                   " N'" & (txtPWD.Text) & "'," & _
-                   " N'" & cmbCompany.Text & "'," & _
-                      " N'" & Sub_Company.Text & "'," & _
-                              " Getdate()," & _
-                   " N'" & MUserName & "'," & _
-                   " N'" & MDServerName & "')")
+        Dim dt As DataTable = DbHelper.GetDataTable("SELECT * FROM AP_Users WHERE Usr_id = '" & txtUsr_id.Text & "'  ")
+        If dt.Rows.Count = 0 Then
+            DbHelper.ExecuteNonQuery("INSERT INTO AP_Users (Usr_id,Sec_ID,Usr_nm,permision,UsrPermit, " & _
+            "PWD,Company ,Sub_Company,lst_updt,lst_usr,pc_nm) " & _
+               " VALUES('" & (txtUsr_id.Text) & "'," & _
+               " N'" & (txtDep_ID.Text) & "'," & _
+               " N'" & (txtUsr_nm.Text) & "'," & _
+               " N'" & (cmbpermision.Text) & "'," & _
+               " N'" & (cmbUsrPermit.Text) & "'," & _
+               " N'" & (txtPWD.Text) & "'," & _
+               " N'" & cmbCompany.Text & "'," & _
+                  " N'" & Sub_Company.Text & "'," & _
+                          " Getdate()," & _
+               " N'" & MUserName & "'," & _
+               " N'" & MDServerName & "')")
 
-                '=======insertImage
-
-                CNN.Execute("insert into Ap_Image (Img_Id,ImgType ,Img)  select  N'" & txtUsr_id.Text & "',ImgType ,Img  from Ap_Image2 where Img_Id = 'a' And ImgType = 'User'")
-                CNN.Execute("insert into Ap_Image (Img_Id,ImgType ,Img)  select  N'" & txtUsr_id.Text & "',ImgType ,Img  from Ap_Image2 where Img_Id = 'a' And ImgType = 'Back'")
-                'If SUPD = 1 Then
-                '    Fm_Image.Img_ID.Text = txtUsr_id.Text
-                '    Fm_Image.ImgType.Text = "User"
-                '    Insert_Image()
-                '    Fm_Image.Img_ID.Text = txtUsr_id.Text
-                '    Fm_Image.ImgType.Text = "Back"
-                '    Insert_Image()
-                'End If
-
-                '================
-
-            Else
-                'Conn.Execute("INSERT INTO AP_Users_ED ( Usr_id, Usr_nm, permision, Sec_id, UsrPermit, Write_bit, Edit_bit, Delete_bit, PWD, lst_usr, lst_updt, pc_nm) " & _
-                '" Select Usr_id, Usr_nm, permision, Sec_id, UsrPermit, Write_bit, Edit_bit, Delete_bit, PWD, lst_usr, lst_updt, pc_nm From AP_Users WHERE Usr_id='" & Trim(Me.txtUsr_id.Text) & "'")
-                CNN.Execute("UPDATE AP_Users SET " & _
-                   " Usr_nm=N'" & txtUsr_nm.Text & "'," & _
-                   " Sec_ID=N'" & (txtDep_ID.Text) & "'," & _
-                   " permision=N'" & (cmbpermision.Text) & "'," & _
-                   " UsrPermit=N'" & (cmbUsrPermit.Text) & "'," & _
-                   " PWD=N'" & txtPWD.Text & "'," & _
-                   " lst_updt=Getdate()," & _
-                   " lst_usr=N'" & MUserName & "'," & _
-                   " Company=N'" & cmbCompany.Text & "'," & _
-                     " Sub_Company=N'" & Sub_Company.Text & "'," & _
-                   " pc_nm=N'" & MDServerName & "' " & _
-                   "WHERE Usr_id=N'" & (txtUsr_id.Text) & "' ")
-
-                '=======updateImage
-                'If SUPD = 1 Then
-                '    Fm_Image.Img_ID.Text = txtUsr_id.Text
-                '    Fm_Image.ImgType.Text = "User"
-                '    deleteImage()
-                '    Insert_Image()
-                'End If
-
-                '=======
-            End If
-        End With
-
-   
-
-
-
+            '=======insertImage
+            DbHelper.ExecuteNonQuery("insert into Ap_Image (Img_Id,ImgType ,Img)  select  N'" & txtUsr_id.Text & "',ImgType ,Img  from Ap_Image2 where Img_Id = 'a' And ImgType = 'User'")
+            DbHelper.ExecuteNonQuery("insert into Ap_Image (Img_Id,ImgType ,Img)  select  N'" & txtUsr_id.Text & "',ImgType ,Img  from Ap_Image2 where Img_Id = 'a' And ImgType = 'Back'")
+        Else
+            DbHelper.ExecuteNonQuery("UPDATE AP_Users SET " & _
+               " Usr_nm=N'" & txtUsr_nm.Text & "'," & _
+               " Sec_ID=N'" & (txtDep_ID.Text) & "'," & _
+               " permision=N'" & (cmbpermision.Text) & "'," & _
+               " UsrPermit=N'" & (cmbUsrPermit.Text) & "'," & _
+               " PWD=N'" & txtPWD.Text & "'," & _
+               " lst_updt=Getdate()," & _
+               " lst_usr=N'" & MUserName & "'," & _
+               " Company=N'" & cmbCompany.Text & "'," & _
+                 " Sub_Company=N'" & Sub_Company.Text & "'," & _
+               " pc_nm=N'" & MDServerName & "' " & _
+               "WHERE Usr_id=N'" & (txtUsr_id.Text) & "' ")
+        End If
     End Sub
     Private Sub Button7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDel.Click
         If Fg.Rows.Count = 0 Then MsgBox("ທ່ານບໍ່ສາມາດລຶບລາຍການນີ້ໄດ້, ເພາະແມ່ນລາຍການສຸດທ້າຍແລ້ວ ", MsgBoxStyle.OkOnly) : Exit Sub
-        Dim Rsch As New ADODB.Recordset
         If MessageBox.Show("ທ່ານຕ້ອງການລຶບລາຍການ '" & (txtUsr_id.Text) & "' ແມ່ນ ຫຼື ບໍ່ ?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-            CNN.BeginTrans()
-            CNN.Execute("delete from AP_Users where Usr_id='" & Trim(txtUsr_id.Text) & "'  ")
+            DbHelper.ExecuteNonQuery("delete from AP_Users where Usr_id='" & Trim(txtUsr_id.Text) & "'  ")
             '========deleteImage======
             'Fm_Image.Img_ID.Text = txtUsr_id.Text
             'Fm_Image.ImgType.Text = "User"
@@ -311,7 +266,6 @@ Public Class FrmUser
             '===============
             Call ClearText()
             Call LoadData()
-            CNN.CommitTrans()
         End If
         SUPD = 0
     End Sub
@@ -334,32 +288,29 @@ Public Class FrmUser
         End If
 
         txtUsr_id.Enabled = False
-        Dim FGSel As New ADODB.Recordset
-        With FGSel
-            .CursorLocation = ADODB.CursorLocationEnum.adUseClient
-            .Open("Select AP_Users.*,Ap_Section.Sec_Nm From AP_Users" & _
+        Dim dt As DataTable = DbHelper.GetDataTable("Select AP_Users.*,Ap_Section.Sec_Nm From AP_Users" & _
                   " INNER JOIN Ap_Section ON AP_Users.Sec_id=Ap_Section.Sec_id Where(AP_Users.Usr_id='" & _
-             usrId & "' AND Company='" & MuSubOff & "' )", CNN, _
-             ADODB.CursorTypeEnum.adOpenForwardOnly, ADODB.LockTypeEnum.adLockReadOnly)
-            If .RecordCount <> 0 Then
-                cmbCompany.Text = (.Fields("Company").Value.ToString)
-                Sub_Company.Text = (.Fields("Sub_Company").Value.ToString)
-                txtOldPass.Text = (.Fields("PWD").Value.ToString)
-                txtNewPass.Text = (.Fields("PWD").Value.ToString)
-                cmbpermision.Text = (.Fields("permision").Value.ToString)
-                txtUsr_id.Text = (.Fields("Usr_id").Value.ToString)
-                txtUsr_nm.Text = (.Fields("Usr_nm").Value.ToString)
-                txtDep_ID.Text = (.Fields("Sec_id").Value)
-                txtDep_Nm.Text = (.Fields("Sec_Nm").Value.ToString)
-                cmbUsrPermit.Text = (.Fields("UsrPermit").Value.ToString)
-                txtPWD.Text = (.Fields("PWD").Value.ToString)
-                txtConfrim.Text = (.Fields("PWD").Value.ToString)
-                MDCheckForstaff = (.Fields("ForStaff").Value)
-                MDCheckWrite = (.Fields("Write_bit").Value)
-                MDCheckEdit = (.Fields("Edit_bit").Value)
-                MDCheckDelete = (.Fields("Delete_bit").Value)
-            End If
-        End With
+             usrId & "' AND Company='" & MuSubOff & "' )")
+
+        If dt.Rows.Count <> 0 Then
+            Dim row As DataRow = dt.Rows(0)
+            cmbCompany.Text = DbHelper.GetStr(row("Company"))
+            Sub_Company.Text = DbHelper.GetStr(row("Sub_Company"))
+            txtOldPass.Text = DbHelper.GetStr(row("PWD"))
+            txtNewPass.Text = DbHelper.GetStr(row("PWD"))
+            cmbpermision.Text = DbHelper.GetStr(row("permision"))
+            txtUsr_id.Text = DbHelper.GetStr(row("Usr_id"))
+            txtUsr_nm.Text = DbHelper.GetStr(row("Usr_nm"))
+            txtDep_ID.Text = DbHelper.GetStr(row("Sec_id"))
+            txtDep_Nm.Text = DbHelper.GetStr(row("Sec_Nm"))
+            cmbUsrPermit.Text = DbHelper.GetStr(row("UsrPermit"))
+            txtPWD.Text = DbHelper.GetStr(row("PWD"))
+            txtConfrim.Text = DbHelper.GetStr(row("PWD"))
+            MDCheckForstaff = CInt(DbHelper.GetDbl(row("ForStaff")))
+            MDCheckWrite = CInt(DbHelper.GetDbl(row("Write_bit")))
+            MDCheckEdit = CInt(DbHelper.GetDbl(row("Edit_bit")))
+            MDCheckDelete = CInt(DbHelper.GetDbl(row("Delete_bit")))
+        End If
 
         If cmbpermision.Text = "Admin" Then
             Panel1.Visible = False
@@ -388,11 +339,11 @@ Public Class FrmUser
 
     Private Sub txtDep_ID_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtDep_ID.KeyPress
         If e.KeyChar = Chr(13) Then
-            Call LoadSqlData("select *  from AP_Section WHERE Sec_ID='" & txtDep_ID.Text & "' ", rs)
-            If rs.RecordCount = 0 Then
+            Dim dt As DataTable = DbHelper.GetDataTable("select *  from AP_Section WHERE Sec_ID='" & txtDep_ID.Text & "' ")
+            If dt.Rows.Count = 0 Then
                 Button1_Click(sender, e)
             Else
-                txtDep_Nm.Text = rs.Fields("Sec_Nm").Value.ToString
+                txtDep_Nm.Text = DbHelper.GetStr(dt.Rows(0)("Sec_Nm"))
             End If
         End If
     End Sub
@@ -454,7 +405,7 @@ Public Class FrmUser
         SUPD = 0
     End Sub
 
-    Private Sub FgSec_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FgSec.SelectionChanged
+    Private Sub FgSec_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles FgSec.SelectionChanged
         If FgSec.CurrentRow Is Nothing Then Exit Sub
         If FgSec.CurrentRow.Index < 0 Then Exit Sub
         
@@ -471,28 +422,23 @@ Public Class FrmUser
         End If
 
         FgItem.Rows.Clear()
-        With rs
-            Call LoadSqlData("select * from Ap_Section_Item" & _
-                        " WHERE Sec_ID='" & secId & "'  order by Sec_ID", rs)
-            If .RecordCount > 0 Then
-                While Not .EOF()
-                    Dim checkVal As Boolean = False
-                    Try
-                        If Not IsDBNull(.Fields("Ints").Value) Then
-                             checkVal = CBool(.Fields("Ints").Value)
-                        End If
-                    Catch ex As Exception
-                        checkVal = False
-                    End Try
+        Dim dt As DataTable = DbHelper.GetDataTable("select * from Ap_Section_Item" & _
+                    " WHERE Sec_ID='" & secId & "'  order by Sec_ID")
+        
+        For i As Integer = 0 To dt.Rows.Count - 1
+            Dim row As DataRow = dt.Rows(i)
+            Dim checkVal As Boolean = False
+            Try
+                checkVal = CBool(DbHelper.GetDbl(row("Ints")))
+            Catch ex As Exception
+                checkVal = False
+            End Try
 
-                    FgItem.Rows.Add(.AbsolutePosition, _
-                    checkVal, _
-                    .Fields("Sec_ID").Value.ToString, _
-                    .Fields("Sec_Nm").Value.ToString)
-                    .MoveNext()
-                End While
-            End If
-        End With
+            FgItem.Rows.Add(i + 1, _
+                checkVal, _
+                DbHelper.GetStr(row("Sec_ID")), _
+                DbHelper.GetStr(row("Sec_Nm")))
+        Next
         Panel4.Visible = True
     End Sub
 
@@ -504,7 +450,7 @@ Public Class FrmUser
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
         If txtConfrimPass.Text = "" Then MsgBox("ກະລຸນາຢືນຢັນລະຫັດຜ່ານຂອງທ່ານ", MsgBoxStyle.OkOnly) : txtConfrimPass.Focus() : Exit Sub
         If txtConfrimPass.Text <> txtNewPass.Text Then MsgBox("ລະຫັດຜ່ານຂອງທ່ານບໍ່ຖືກຕ້ອງມກະລຸນາປ່ຽນ", MsgBoxStyle.OkOnly) : txtConfrimPass.Text = "" : Exit Sub
-        CNN.Execute("UPDATE AP_Users SET " & _
+        DbHelper.ExecuteNonQuery("UPDATE AP_Users SET " & _
                 " PWD=N'" & txtNewPass.Text & "'," & _
                 " lst_updt=Getdate()," & _
                 " lst_usr=N'" & MDServerUser & "'," & _
@@ -537,7 +483,7 @@ Public Class FrmUser
             Dim ints As Integer = 0
             If checkVal Then ints = 1
             
-            CNN.Execute("UPDATE Ap_Section_Item SET Ints=" & ints & " WHERE Sec_ID='" & secID & "' AND Sec_Nm=N'" & secName & "' ")
+            DbHelper.ExecuteNonQuery("UPDATE Ap_Section_Item SET Ints=" & ints & " WHERE Sec_ID='" & secID & "' AND Sec_Nm=N'" & secName & "' ")
         Next i
         MsgBox("ສໍາເລັດຜົນ!", MsgBoxStyle.OkOnly)
     End Sub
@@ -563,7 +509,7 @@ Public Class FrmUser
             Dim ints As Integer = 0
             If checkVal Then ints = 1
              
-             CNN.Execute("UPDATE Ap_Section_Item SET Ints=" & ints & " WHERE Sec_ID='" & secID & "' AND Sec_Nm=N'" & secName & "' ")
+             DbHelper.ExecuteNonQuery("UPDATE Ap_Section_Item SET Ints=" & ints & " WHERE Sec_ID='" & secID & "' AND Sec_Nm=N'" & secName & "' ")
          End If
     End Sub
 

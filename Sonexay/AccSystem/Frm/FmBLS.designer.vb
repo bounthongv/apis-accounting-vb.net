@@ -1,5 +1,5 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class FmLBS_Item
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class FmBLS_Item
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -23,11 +23,11 @@ Partial Class FmLBS_Item
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FmLBS_Item))
-        Me.FG2 = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG2 = New System.Windows.Forms.DataGridView
         Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.BtnMove = New System.Windows.Forms.Button
         Me.BtnSearch = New System.Windows.Forms.Button
-        Me.FG = New AxVSFlex8U.AxVSFlexGrid
+        Me.FG = New System.Windows.Forms.DataGridView
         Me.Button1 = New System.Windows.Forms.Button
         Me.AC_Code = New System.Windows.Forms.TextBox
         Me.Rpt_Type = New System.Windows.Forms.ComboBox
@@ -46,16 +46,18 @@ Partial Class FmLBS_Item
         CType(Me.FG2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FG, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
+'
         'FG2
         '
         Me.FG2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FG2.DataSource = Nothing
+        Me.FG2.AllowUserToAddRows = True
+        Me.FG2.AllowUserToDeleteRows = True
+        Me.FG2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.FG2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.FG2.Location = New System.Drawing.Point(530, 40)
         Me.FG2.Name = "FG2"
-        Me.FG2.OcxState = CType(resources.GetObject("FG2.OcxState"), System.Windows.Forms.AxHost.State)
         Me.FG2.Size = New System.Drawing.Size(687, 378)
         Me.FG2.TabIndex = 12
         '
@@ -272,7 +274,7 @@ Partial Class FmLBS_Item
         Me.Controls.Add(Me.FG2)
         Me.Font = New System.Drawing.Font("Saysettha OT", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.Name = "FmLBS_Item"
+        Me.Name = "FmBLS_Item"
         Me.Text = "FmBLS"
         CType(Me.FG2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FG, System.ComponentModel.ISupportInitialize).EndInit()
@@ -280,11 +282,11 @@ Partial Class FmLBS_Item
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents FG2 As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG2 As System.Windows.Forms.DataGridView
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents BtnMove As System.Windows.Forms.Button
     Friend WithEvents BtnSearch As System.Windows.Forms.Button
-    Friend WithEvents FG As AxVSFlex8U.AxVSFlexGrid
+    Friend WithEvents FG As System.Windows.Forms.DataGridView
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents BtnExit As System.Windows.Forms.Button
     Friend WithEvents BtnEdit As System.Windows.Forms.Button
